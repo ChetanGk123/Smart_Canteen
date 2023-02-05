@@ -1,0 +1,44 @@
+<div class="card">
+    <form [formGroup]="commonForm" autocomplete="off">
+        <div class="grid">
+            <div class="field p-fluid col-12">
+                <label for="name">Name <span class="p-error">*</span></label>
+                <input
+                    type="text"
+                    pInputText
+                    id="name"
+                    formControlName="account_name"
+                    autofocus
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.account_name.touched &&
+                        commonForm.controls.account_name.errors?.required
+                    "
+                    >Name is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12">
+                <label for="opening_balance">Opening Balance</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="opening_balance"
+                    mask="separator.2"
+                    thousandSeparator=","
+                    maxlength="8"
+                    [validation]="false"
+                    formControlName="opening_balance"
+                />
+            </div>
+        </div>
+        <button
+            pButton
+            type="submit"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="this.config?.data?.data ? 'Update' : 'Submit'"
+        ></button>
+    </form>
+</div>

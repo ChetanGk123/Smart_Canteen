@@ -4,6 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import * as XLSX from 'xlsx';
+import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MembersData } from './members-details.model';
 
 @Component({
@@ -65,5 +66,30 @@ export class MembersComponent implements OnInit {
         };
 
         //this.loadComponents();
+    }
+
+    addNewCounter() {
+        const ref = this.dialogService.open(ManageMemberComponent, {
+            header: `Add New Counter`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.loadData();
+            }
+        });
+    }
+
+    updateCounter(data:any){
+        const ref = this.dialogService.open(ManageMemberComponent, {
+            header: `Update Counter`,
+            data:data,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.loadData();
+            }
+        });
     }
 }

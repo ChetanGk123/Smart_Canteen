@@ -1,0 +1,248 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template class="align-content-center" pTemplate="left">
+                    <h4>Account Transactions</h4>
+                </ng-template>
+            </p-toolbar>
+            <div class="grid">
+                <div class="col-12">
+                    <p-toolbar styleClass="mb-4" class="align-content-center">
+                        <form [formGroup]="commonForm" autocomplete="off">
+                            <div class="grid mb-0">
+                                <div class="field p-fluid col">
+                                    <label for="account_id">Account</label>
+                                    <p-dropdown
+                                        id="account_head_id"
+                                        [options]="accountList"
+                                        optionLabel="account_name"
+                                        optionValue="account_head_id"
+                                        formControlName="account_head_id"
+                                        placeholder="Select a Account"
+                                        [showClear]="true"
+                                        [group]="true"
+                                    >
+                                        <ng-template
+                                            let-group
+                                            pTemplate="group"
+                                        >
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                <span>{{ group.label }}</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-group pTemplate="item">
+                                            <div
+                                                class="flex align-items-center"
+                                            >
+                                                <span>{{
+                                                    group.account_name
+                                                }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                    <small
+                                        class="p-error"
+                                        *ngIf="
+                                            commonForm.controls.account_head_id
+                                                .touched &&
+                                            commonForm.controls.account_head_id
+                                                .errors?.required
+                                        "
+                                        >Account is required.</small
+                                    >
+                                </div>
+                                <div
+                                    class="field p-fluid col"
+                                    style="margin-bottom: -1rem"
+                                >
+                                    <label for="dob">Start Date </label>
+                                    <input
+                                        id="dob"
+                                        type="date"
+                                        pInputText
+                                        formControlName="start_date"
+                                    />
+                                    <small
+                                        class="p-error"
+                                        *ngIf="
+                                            commonForm.controls.start_date
+                                                .touched &&
+                                            commonForm.controls.start_date
+                                                .errors?.required
+                                        "
+                                        >Date is required.</small
+                                    >
+                                </div>
+                                <div
+                                    class="field p-fluid col"
+                                    style="margin-bottom: -1rem"
+                                >
+                                    <label for="dob">End Date </label>
+                                    <input
+                                        id="dob"
+                                        type="date"
+                                        pInputText
+                                        formControlName="end_date"
+                                    />
+                                    <small
+                                        class="p-error"
+                                        *ngIf="
+                                            commonForm.controls.end_date
+                                                .touched &&
+                                            commonForm.controls.end_date.errors
+                                                ?.required
+                                        "
+                                        >Date is required.</small
+                                    >
+                                </div>
+                                <div class="field p-fluid flex col align-items-center">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        [disabled]="!commonForm.valid"
+                                        type="button"
+                                        icon="pi pi-search"
+                                        class="mt-5 p-button-rounded p-action-button"
+                                        (click)="loadData()"
+                                    ></button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-toolbar>
+                    <!-- <p-contextMenu #cm [model]="items"></p-contextMenu>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu> -->
+                    <p-table
+                        #dt
+                        [(contextMenuSelection)]="selectedProduct"
+                        dataKey="code"
+                        [value]="Data"
+                        [paginator]="true"
+                        [rows]="10"
+                        [loading]="loading"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [filterDelay]="0"
+                        [globalFilterFields]="[
+                            'full_name',
+                            'card_number',
+                            'component_name',
+                            'phone_number'
+                        ]"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div
+                                class="table-header align-content-center justify-content-end grid flex"
+                            >
+                                <div
+                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <!--
+                            {
+  "id": 111,
+  "receipt_no": "AH-00064",
+  "account_id": 7,
+  "transaction_type": "CREDIT",
+  "transaction_category": "ACCOUNT_HEAD_UPDATE_FOR_POS_SALES",
+  "previous_balance": "24336.84",
+  "discount": "0.00",
+  "transaction_amount": "109.20",
+  "current_balance": "24446.04",
+  "payment_mode": "",
+  "payment_ref": "0",
+  "transaction_date": "29-09-2022",
+  "transaction_description": "Cr. For account head update for pos sales",
+  "user_comments": "Cr. For account head update for pos sales",
+  "transaction_amount_in_words": "One Hundred Nine And 2/10 only."
+}
+                         -->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="min-width: 4rem">Slno</th>
+                                <th style="min-width: 8rem">Date</th>
+                                <th pSortableColumn="receipt_no" style="min-width: 10rem">
+                                    Receipt No
+                                    <p-sortIcon field="receipt_no"></p-sortIcon>
+                                </th>
+                                <th style="min-width: 8rem">Amount</th>
+                                <th style="min-width: 8rem">Type</th>
+                                <th style="min-width: 14rem">Description</th>
+                                <!-- <th>Grand Total</th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>
+                                    {{ product.transaction_date }}
+                                </td>
+                                <td>
+                                    {{ product.receipt_no }}
+                                </td>
+                                <td>
+                                    {{ product.transaction_amount }}
+                                </td>
+                                <td>
+                                    <span
+                                        [class]="
+                                            product.transaction_type == 'CREDIT'
+                                                ? 'p-success'
+                                                : 'p-error'
+                                        "
+                                    >
+                                        {{ product.transaction_type }}</span
+                                    >
+                                </td>
+                                <td>
+                                    {{ product.transaction_description }}
+                                </td>
+                                <!-- <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-ellipsis-v"
+                                        (click)="
+                                            selectedProduct = product;
+                                            menu.toggle($event)
+                                        "
+                                        class="p-button-rounded p-button-text p-action-button"
+                                    ></button>
+                                </td> -->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -50,6 +50,14 @@ import { LandingComponent } from './features/landing/landing.component';
                                     './features/members/members.module'
                                 ).then((m) => m.MembersModule),
                         },
+                        {
+                            path: 'accounts',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/accounts/accounts.module'
+                                ).then((m) => m.AccountsModule),
+                        },
                     ],
                 },
                 { path: 'pages/landing', component: LandingComponent },

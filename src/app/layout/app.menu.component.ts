@@ -67,6 +67,26 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
+            {
+                label: 'Accounts',
+                items: [
+                    {
+                        label: 'Income Accounts',
+                        icon: 'pi pi-money-bill',
+                        routerLink: ['/accounts/incomeAccount'],
+                    },
+                    {
+                        label: 'Expense Accounts',
+                        icon: 'pi pi-dollar',
+                        routerLink: ['/accounts/expenseAccount'],
+                    },
+                    {
+                        label: 'Account Transactions',
+                        icon: 'pi pi-arrow-right-arrow-left',
+                        routerLink: ['/accounts/accountTransactions'],
+                    },
+                ],
+            },
         ];
         var owner = [
             {
