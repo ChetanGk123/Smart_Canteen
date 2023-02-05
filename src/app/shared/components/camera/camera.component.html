@@ -1,0 +1,214 @@
+<div class="card">
+    hello
+    <div class="grid flex">
+        <div
+            *ngIf="isCameraExist"
+            class="col-12 justify-content-center align-items-center"
+        >
+            <div
+                [class]="
+                    showWebcam ? 'flex col-10 col-offset-1' : 'flex col-12'
+                "
+            >
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Click"
+                    icon="pi pi-camera"
+                    iconPos="right"
+                    (click)="takeSnapshot()"
+                    class="p-button-rounded"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Toggle"
+                    icon="pi pi-undo"
+                    iconPos="right"
+                    (click)="changeWebCame(true)"
+                    class="p-button-rounded"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-power-off"
+                    iconPos="right"
+                    label="Switch"
+                    class="p-button-rounded"
+                    (click)="onOffWebCame()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-upload"
+                    iconPos="right"
+                    label="Browse"
+                    class="p-button-rounded"
+                    (click)="print_logo.click()"
+                ></button>
+                <input
+                    #print_logo
+                    type="file"
+                    pInputText
+                    (input)="selectFile($event)"
+                    style="display: none"
+                    id="print_logo"
+                />
+            </div>
+            <br />
+        </div>
+        <div
+            class="col-12 flex justify-content-center"
+            *ngIf="isCameraExist && showWebcam"
+        >
+            <webcam
+                [height]="400"
+                [width]="400"
+                [trigger]="triggerObservable"
+                (imageCapture)="handleImage($event)"
+                [switchCamera]="nextWebcamObservable"
+            ></webcam>
+        </div>
+        <div *ngIf="errors.length > 0">
+            <h4>Error Messages:</h4>
+            <ul *ngFor="let error of errors">
+                <li>{{ error | json }}</li>
+            </ul>
+        </div>
+        <div *ngIf="cropImage" class="col-12 justify-content-center">
+            <div class="col-8 col-offset-2">
+                <image-cropper
+                    [imageFile]="cropImage"
+                    [maintainAspectRatio]="true"
+                    [resizeToWidth]="200"
+                    [cropperMinWidth]="200"
+                    [onlyScaleDown]="true"
+                    [roundCropper]="false"
+                    [canvasRotation]="canvasRotation"
+                    [containWithinAspectRatio]="containWithinAspectRatio"
+                    [transform]="transform"
+                    format="jpeg"
+                    [imageQuality]="99"
+                    outputType="base64"
+                    (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (cropperReady)="cropperReady()"
+                    (loadImageFailed)="loadImageFailed()"
+                    [style.display]="showCropper ? null : 'none'"
+                ></image-cropper>
+            </div>
+            <div class="text-center">
+                <img [src]="croppedImage" />
+            </div>
+            <!-- <button pButton pRipple type="button" icon="pi pi-link" class="p-button-rounded" style="height: 35px; width: 35px;" awNextStep (click)="assignFees(product)"></button> -->
+            <div class="flex col-12 justify-content-center">
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-undo"
+                    (click)="rotateLeft()"
+                    class="p-button-rounded p-action-button mr-5"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-refresh"
+                    (click)="rotateRight()"
+                    class="p-button-rounded p-action-button mr-5"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-arrows-h"
+                    (click)="flipHorizontal()"
+                    class="p-button-rounded p-action-button mr-5"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-arrows-v"
+                    (click)="flipVertical()"
+                    class="p-button-rounded p-action-button mr-5"
+                ></button>
+            </div>
+            <br />
+            <br />
+            <div class="col-12 flex justify-content-center">
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    iconPos="right"
+                    [icon]="
+                        !containWithinAspectRatio
+                            ? 'pi pi-window-minimize'
+                            : 'pi pi-window-maximize'
+                    "
+                    class="p-button-rounded"
+                    (click)="toggleContainWithinAspectRatio()"
+                    [label]="
+                        containWithinAspectRatio
+                            ? 'Fill Aspect Ratio'
+                            : 'Contain Within Aspect Ratio'
+                    "
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    iconPos="right"
+                    icon="pi pi-history"
+                    label="Reset image"
+                    class="p-button-rounded"
+                    (click)="resetImage()"
+                ></button>
+            </div>
+            <br />
+            <br />
+            <div class="col-12 flex justify-content-center align-items-center">
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-minus"
+                    class="p-button-rounded p-action-button"
+                    (click)="zoomOut()"
+                ></button>
+                <input
+                    pInputText
+                    [(ngModel)]="rotation"
+                    placeholder="Rotation"
+                    style="height: 30px; width: 80px"
+                    type="number"
+                    (keyup)="updateRotation()"
+                    (input)="updateRotation()"
+                />
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-plus"
+                    class="p-button-rounded p-action-button"
+                    (click)="zoomIn()"
+                ></button>
+            </div>
+            <button
+                pButton
+                pRipple
+                type="button"
+                label="Upload Picture"
+                class="p-button-rounded"
+                (click)="uploadImage()"
+            ></button>
+        </div>
+        <ng-template #noCameraExist> Camera device not available </ng-template>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+<div class="card">
+    <div class="grid justify-content-between p-3">
+        <div class="font-medium text-3xl text-900">Counter Profile</div>
+        <button
+            *ngIf="user_role == 'su_user'"
+            (document:keydown.shift.e)="editCounterData()"
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            (click)="editCounterData()"
+            class="p-button-rounded p-button-outlined p-action-button"
+        ></button>
+    </div>
+    <div class="grid flex">
+        <div
+            class="static col-12 xl:col-3 lg:col-4 md:col-4 sm:col-12 xs:col-12"
+        >
+            <!-- <img
+                [src]="counterData.logo_url"
+                alt=""
+                class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
+                style="border-radius: 50%; margin-right: -4rem"
+            /> -->
+            <div class="" *ngIf="counterData.logo_url; else customAvatar">
+                <img
+                    [src]="counterData.logo_url"
+                    alt=""
+                    class="h-14rem xl:h-14rem md:h-14rem sm:h-11rem xs:h-2rem"
+                    style="border-radius: 50%; margin-right: -4rem"
+                />
+            </div>
+            <ng-template #customAvatar>
+                <div class="avatar mr-1 ml-0 bg-light-success ng-star-inserted">
+                    <div
+                        class="custom-avatar-content h-16rem md:h-16rem sm:h-16rem xs:h-2rem w-16rem md:w-16rem sm:w-16rem xs:w-2rem"
+                    >
+                        {{ counterData?.full_name ?? "" | initials }}
+                    </div>
+                    <button
+                        (document:keydown.shift.e)="edit()"
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-camera"
+                        class="absolute avatar-button p-button-rounded p-action-button"
+                        (click)="cameraDialog = true"
+                    ></button>
+                </div>
+            </ng-template>
+        </div>
+        <div class="col-12 lg:col-8 md:col-7 sm:col-12 xs:col-12">
+            <div class="surface-section">
+                <ul class="list-none p-0 m-0">
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">Name</div>
+                        <div
+                            class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                        >
+                            {{ counterData.counter_name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            School Name
+                        </div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ counterData.school_name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Contact Person
+                        </div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ counterData.contact_person }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Contact Number
+                        </div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ counterData.contact_number }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">Email</div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ counterData.email }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="grid justify-content-between p-3">
+        <div class="font-medium text-3xl text-900">License</div>
+        <button
+            *ngIf="user_role == 'su_user'"
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            (click)="licenseDialog = true"
+            class="p-button-rounded p-button-outlined p-action-button"
+        ></button>
+    </div>
+    <div class="grid flex">
+        <div class="col-12 surface-section">
+            <ul class="list-none p-0 m-0">
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                        License Plan
+                    </div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        {{ licenceData?.license_plan }}
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                        License Number
+                    </div>
+                    <div
+                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                    >
+                        {{ licenceData?.license_number }}
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-6 md:w-3 font-medium">
+                        Start Date
+                    </div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        {{ licenceData?.start_date }}
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-6 md:w-3 font-medium">End Date</div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        {{ licenceData?.end_date }}
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-6 md:w-3 font-medium">Email</div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        {{ licenceData?.status == "1" ? "Active" : "InActive" }}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<p-dialog
+    [(visible)]="licenseDialog"
+    [breakpoints]="{ '960px': '75vw', '640px': '95vw' }"
+    [style]="{ width: '50vw' }"
+    header="License Details"
+    [modal]="true"
+    styleClass="p-fluid"
+>
+    <ng-template pTemplate="content"> </ng-template>
+</p-dialog>

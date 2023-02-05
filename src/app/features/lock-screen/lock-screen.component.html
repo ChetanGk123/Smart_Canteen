@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="field p-fluid">
+        <label htmlFor="username">Password</label>
+        <p-password
+            id="password1"
+            [(ngModel)]="authService.loginData.password"
+            placeholder="Password"
+            [toggleMask]="true"
+            [feedback]="false"
+            styleClass="w-full mb-3"
+        ></p-password>
+        <small>Enter your password to continue session.</small>
+    </div>
+</div>
+<div class="flex flex-wrap justify-content-center card-container gap-3">
+    <button
+        type="button"
+        pButton
+        icon="pi pi-lock-open"
+        iconPos="right"
+        label="Unlock"
+        [loading]="isLoading"
+        (click)="unlockScreen()"
+    ></button>
+    <button
+        type="button"
+        pButton
+        icon="pi pi-sign-out"
+        label="Logout"
+        iconPos="right"
+        (click)="authService.logout()"
+    ></button>
+</div>

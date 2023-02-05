@@ -1,0 +1,46 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template class="align-content-center" pTemplate="left">
+                    <h4>Canteens</h4>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button
+                        (document:keydown.Alt.n)="add()"
+                        pButton
+                        pRipple
+                        label="Add"
+                        icon="pi pi-plus"
+                        class="mr-2 inline-block p-button p-button-rounded"
+                        (click)="addNewCanteen()"
+                    ></button>
+                </ng-template>
+            </p-toolbar>
+            <div class="grid">
+                <div class="col-12">
+                    <p-table
+                        #dt
+                        dataKey="code"
+                        [value]="tableData"
+                        [paginator]="true"
+                        [rows]="10"
+                        [loading]="loading"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [filterDelay]="0"
+                        [globalFilterFields]="[
+                            'full_name',
+                            'card_number',
+                            'phone_number'
+                        ]"
+                    >
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
