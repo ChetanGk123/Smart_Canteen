@@ -2,7 +2,30 @@
     <form [formGroup]="commonForm" autocomplete="off">
         <div class="grid">
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="full_name">Name <span class="p-error">*</span></label>
+                <label for="card_number"
+                    >Card Number <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    autofocus
+                    id="card_number"
+                    placeholder="987654321"
+                    formControlName="card_number"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.card_number.touched &&
+                        commonForm.controls.card_number.errors?.required
+                    "
+                    >Card Number is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="full_name"
+                    >Name <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -19,7 +42,7 @@
                     >Name is required.</small
                 >
             </div>
-            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
                 <label for="email">Email</label>
                 <input
                     type="email"
@@ -30,8 +53,16 @@
                 />
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                <label for="gender">Gender <span class="p-error">*</span></label>
-                <p-dropdown id="gender" [options]="genders" placeholder="Select a Gender" formControlName="gender"></p-dropdown>
+                <label for="gender"
+                    >Gender <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="gender"
+                    placeholder="Male"
+                    formControlName="gender"
+                />
                 <small
                     class="p-error"
                     *ngIf="
@@ -60,7 +91,9 @@
                 >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                <label for="parents_ph">Parents Phone Number <span class="p-error">*</span></label>
+                <label for="parents_ph"
+                    >Parents Phone Number <span class="p-error">*</span></label
+                >
                 <input
                     type="tel"
                     pInputText
@@ -78,7 +111,9 @@
                 >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                <label for="dob">Date Of Birth <span class="p-error">*</span></label>
+                <label for="dob"
+                    >Date Of Birth <span class="p-error">*</span></label
+                >
                 <input
                     type="date"
                     pInputText
@@ -96,7 +131,9 @@
                 >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                <label for="class_name">Class Name <span class="p-error">*</span></label>
+                <label for="class_name"
+                    >Class Name <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -106,7 +143,9 @@
                 />
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                <label for="division_name">Division Name <span class="p-error">*</span></label>
+                <label for="division_name"
+                    >Division Name <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -115,8 +154,10 @@
                     formControlName="division_name"
                 />
             </div>
-            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="hostel_details">Hostel Details <span class="p-error">*</span></label>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="hostel_details"
+                    >Hostel Details <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -125,13 +166,47 @@
                     formControlName="hostel_details"
                 />
             </div>
-            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="member_type_id">Member Type <span class="p-error">*</span></label>
-                <p-dropdown id="member_type_id" [options]="member_types" placeholder="Select a Member Type" formControlName="member_type_id" optionLabel="name" optionValue="id"></p-dropdown>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="member_type_id"
+                    >Member Type <span class="p-error">*</span></label
+                >
+                <p-dropdown
+                    id="member_type_id"
+                    [options]="member_types"
+                    placeholder="Select a Member Type"
+                    formControlName="member_type_id"
+                    optionLabel="member_type_name"
+                    optionValue="member_type_id"
+                ></p-dropdown>
             </div>
-            <div class="field p-fluid col-12 sm:col-12 md:col-12 lg:col-12">
-                <label for="address">Hostel Details <span class="p-error">*</span></label>
-                <textarea id="address" pInputTextarea formControlName="address"></textarea>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="opening_balance">Opening Balance</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="opening_balance"
+                    mask="separator" thousandSeparator=","
+                    placeholder="1000"
+                    formControlName="opening_balance"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.opening_balance.touched &&
+                        commonForm.controls.opening_balance.errors?.required
+                    "
+                    >Opening Balance is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-12 lg:col-8">
+                <label for="address"
+                    >Hostel Details <span class="p-error">*</span></label
+                >
+                <textarea
+                    id="address"
+                    pInputTextarea
+                    formControlName="address"
+                ></textarea>
                 <small
                     class="p-error"
                     *ngIf="
@@ -143,13 +218,12 @@
             </div>
         </div>
         <button
-        pButton
-        type="submit"
-        class=" p-button-rounded"
-        (click)="submitClick()"
-        [loading]="loading"
-        [label]="this.config?.data ? 'Update' : 'Submit'"
-    ></button>
+            pButton
+            type="submit"
+            class="p-button-rounded"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="this.config?.data ? 'Update' : 'Submit'"
+        ></button>
     </form>
 </div>
-

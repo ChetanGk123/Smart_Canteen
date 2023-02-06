@@ -2,7 +2,7 @@ Smart Canteen Updates:
 
 For our internal use only works only on Super User Login:
 
-1. API to operate on Canteen Data
+<!-- 1. API to operate on Canteen Data
     Note: Register only one Canteen into the system
     a. To register new Canteen
         post: /api/v1/canteen_ops/insert
@@ -27,15 +27,15 @@ For our internal use only works only on Super User Login:
             "contact_number":"contacta_sumber",
             "email": "emaisla",
             "gst_no":"gst_no" //non-mandatory
-        }
+        } -->
 
-2. To fetch registered canteen
-    get: /api/v1/table_data/CANTEEN
+<!-- 2. To fetch registered canteen
+    get: /api/v1/table_data/CANTEEN -->
 
 3. To fetch the role
     get: /api/v1/table_data/ROLE
 
-4. API to operate on Counter Data //Done
+<!-- 4. API to operate on Counter Data //Done
     a. To register a new Counter
         post: /api/v1/counter_ops/insert
         payload: {
@@ -59,9 +59,9 @@ For our internal use only works only on Super User Login:
             "email": "new_newraamaaeailss@gmail.com",
             "role_id": 1,
             "counter_id":1
-        }
+        } -->
 
-5. To fetch the counters //Done
+<!-- 5. To fetch the counters //Done
     get: /api/v1/table_data/COUNTER
 
 6. To fetch specific counter //Done
@@ -76,7 +76,7 @@ For our internal use only works only on Super User Login:
     }
 
 8. To fetch the assigned license to a specific counter //Done
-    get: /api/v1/specific_data/COUNTER_LICENSE/counter_id
+    get: /api/v1/specific_data/COUNTER_LICENSE/counter_id -->
 
 9. To fetch all the licenses across the system
     get: /api/v1/table_data/COUNTER_LICENSE
@@ -84,17 +84,17 @@ For our internal use only works only on Super User Login:
 
 To be implemented on GUI:
 
-10. To login
+<!-- 10. To login
     post: /api/v1/user_login
     payload: {
         "username":"counter1@canteen.com",
         "password":"counter1@canteen.com"
-    }
+    } -->
 
-11. To fetch Member type
-    get: /api/v1/table_data/MEMBER_TYPE
+<!-- 11. To fetch Member type
+    get: /api/v1/table_data/MEMBER_TYPE -->
 
-12. Member Operations: To operate on Member Data
+<!-- 12. Member Operations: To operate on Member Data
     a. To insert new Member:
         post: /api/v1/member_ops/insert
         payload: {
@@ -148,33 +148,33 @@ To be implemented on GUI:
             "hostel_details" :"new_hostel_details", //non-madatory
             "member_type_id" :1,
             "address" :"new address" //non-madatory
-        }
-
+        } -->
+<!-- 
     c. To update the card number
         post: /card_update
         payload : {
             "member_id":1,
             "card_number":"New Card Number",
             "reason": "Card Lost"
-        }
-
-    d. To delete Member:
+        } 
+        
+         d. To delete Member:
         post: /api/v1/member_ops/delete
         payload:{
             "member_id":4
         }
-
-13. API to fetch Specific Member data:
+ -->
+<!-- 13. API to fetch Specific Member data:
     get: /api/v1/specific_data/MEMBER/member_id
 
 14. API to fetch Card Update details of specific member
-    get: /api/v1/table_data/CARD_UPDATE_DETAILS/member_id
+    get: /api/v1/table_data/CARD_UPDATE_DETAILS/member_id -->
 
 15. API to fetch Card Update details of logged in counter
     get: /api/v1/table_data/CARD_UPDATE_DETAILS
 
-16. API to fetch all the members in the Counter:
-        get: /api/v1/table_data/MEMBER
+<!-- 16. API to fetch all the members in the Counter:
+        get: /api/v1/table_data/MEMBER -->
 
 17. API to fetch Self Counter's details:
     get: /api/v1/specific_data/COUNTER/MY_COUNTER
@@ -185,7 +185,7 @@ To be implemented on GUI:
 Smart Canteen Updates:
 
 19. API to Operate on Income/Expense Account Head
-    a. To create new Account Head
+   <!--  a. To create new Account Head
         post: /account_head_ops/insert
         payload:{
                     "account_name":"SBAAI BANK",
@@ -198,23 +198,23 @@ Smart Canteen Updates:
         payload:{
                     "account_head_id" : 1,
                     "account_name":"SBAAI BANK"
-                }
+                } -->
     
-    c. To delete account head
+   <!--  c. To delete account head
         post: /account_head_ops/delete
         payload:{
             "account_head_id" : 1,
-        }
+        } -->
 
 20. API to fetch Account head details
-    a. API to fetch all account heads
+    <!-- a. API to fetch all account heads
         get: /table_data/ACCOUNT_HEAD
 
     b. API to fetch only Income account head
         get: /table_data/INCOME_ACCOUNT_HEAD
     
     c. API to fetch only Expense account head
-        get: /table_data/EXPENSE_ACCOUNT_HEAD
+        get: /table_data/EXPENSE_ACCOUNT_HEAD -->
     
     d. API to fetch sepcific account head
         get: /specific_data/ACCOUNT_HEAD/account_head_id

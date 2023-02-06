@@ -3,25 +3,48 @@
         <div class="card">
             <p-toolbar styleClass="mb-4" class="align-content-center">
                 <ng-template class="align-content-center" pTemplate="left">
-                    <h4>Counters</h4>
+                    <h4>Members</h4>
                 </ng-template>
 
                 <ng-template pTemplate="right">
                     <button
-                        (document:keydown.Alt.n)="add()"
+                        (document:keydown.Alt.n)="addNewMember()"
                         pButton
                         pRipple
                         label="Add"
                         icon="pi pi-plus"
                         class="mr-2 inline-block p-button p-button-rounded"
-                        (click)="addNewCounter()"
+                        (click)="addNewMember()"
                     ></button>
+                    <button
+                        (document:keydown.Alt.m)="excelFile.click()"
+                        pButton
+                        pRipple
+                        label="Add Multiple"
+                        class="mr-2 inline-block p-button p-button-rounded"
+                        (click)="excelFile.click()"
+                    ></button>
+                    <input
+                        #excelFile
+                        hidden="true"
+                        type="file"
+                        (change)="excelFileInputChange($event)"
+                        accept=".xls,.xlsx"
+                    />
                 </ng-template>
             </p-toolbar>
             <div class="grid">
                 <div class="col-12">
+                    <p-contextMenu
+                        #cm
+                        appendTo="body"
+                        [model]="items"
+                    ></p-contextMenu>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
                     <p-table
                         #dt
+                        [(contextMenuSelection)]="selectedProduct"
+                        [contextMenu]="cm"
                         dataKey="code"
                         [value]="tableData"
                         [paginator]="true"
@@ -33,173 +56,364 @@
                         [rowsPerPageOptions]="[10, 25, 50]"
                         [filterDelay]="0"
                         [globalFilterFields]="[
+                            'full_name',
+                            'card_number',
                             'school_name',
-                            'counter_name',
-                            'counter_address',
-                            'email',
-                            'contact_number'
+                            'member_type',
+                            'parents_ph',
+                            'phone_number'
                         ]"
                     >
-                    <ng-template pTemplate="caption">
-                        <div
-                            class="table-header align-content-center justify-content-end grid flex"
-                        >
+                        <ng-template pTemplate="caption">
                             <div
-                                class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                style="text-align: end"
+                                class="table-header align-content-center justify-content-end grid flex"
                             >
-                                <span class="p-input-icon-left">
-                                    <i class="pi pi-search"></i>
-                                    <input
-                                        type="search"
-                                        pInputText
-                                        #filter
-                                        (input)="
-                                            dt.filterGlobal(
-                                                $event.target.value,
-                                                'contains'
-                                            )
-                                        "
-                                        placeholder="Global Search"
-                                    />
-                                </span>
-                            </div>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th style="min-width: 6rem">
-                                Slno
-                                <span
-                                    ><i
-                                        class="pi pi-info-circle p-error"
-                                        pTooltip="Right click on row for options"
-                                    ></i
-                                ></span>
-                            </th>
-                            <th pSortableColumn="full_name" style="min-width: 14rem">
-                                Name
-                                <p-sortIcon field="full_name"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="school_name" style="min-width: 11rem">
-                                School Name
-                                <p-sortIcon
-                                    field="school_name"
-                                ></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="contact_person" style="min-width: 9rem">
-                                Contact Person
-                                <p-sortIcon field="contact_person"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="contact_number" style="min-width: 11rem">
-                                Phone No
-                                <p-sortIcon
-                                    field="contact_number"
-                                ></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="email" style="min-width: 8rem">
-                                Email
-                                <p-sortIcon field="email"></p-sortIcon>
-                            </th>
-                            <th>Actions</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template
-                        pTemplate="body"
-                        let-product
-                        let-rowIndex="rowIndex"
-                    >
-                        <tr [pContextMenuRow]="product">
-                            <td>
-                                {{ rowIndex + 1 }}
-                            </td>
-                            <td>
-                                <div class="flex align-items-center">
-                                    <div
-                                        class=""
-                                        *ngIf="
-                                            product.logo_url;
-                                            else customAvatar
-                                        "
-                                    >
-                                        <img
-                                            class="rounded-circle mr-1"
-                                            [src]="product.logo_url"
-                                            height="32"
-                                            width="32"
-                                            alt="datatable-avatar"
-                                        />
-                                    </div>
-                                    <ng-template #customAvatar>
-                                        <div
-                                            class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
-                                        >
-                                            <div class="avatar-content">
-                                                {{
-                                                    product.counter_name
-                                                        | initials
-                                                }}
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                    <a
-                                    (click)="openCounterFrofile(product)"
-                                    class="text-800 font-bold cursor-pointer no-underline hover:underline"
-                                    >{{ product?.counter_name ?? "" }}</a
+                                <div
+                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    style="text-align: end"
                                 >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
                                 </div>
-                            </td>
-                            <td>
-                                {{ product.school_name }}
-                            </td>
-                            <td>
-                                {{ product.contact_person }}
-                            </td>
-                            <td>
-                                {{ product.contact_number }}
-                            </td>
-                            <td>
-                                {{ product.email}}
-                            </td>
-                            <td >
-                                <button
-                                    pButton
-                                    pRipple
-                                    type="button"
-                                    icon="pi pi-pencil"
-                                    (click)="updateCounter(product)"
-                                    class="p-button-rounded p-action-button"
-                                ></button>
-                            </td>
-                        </tr>
-                    </ng-template>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="min-width: 1rem">
+                                    Slno
+                                    <!-- <span
+                                        ><i
+                                            class="pi pi-info-circle p-error"
+                                            pTooltip="Right click on row for options"
+                                        ></i
+                                    ></span> -->
+                                </th>
+                                <th
+                                    pSortableColumn="full_name"
+                                    style="min-width: 14rem"
+                                >
+                                    Name
+                                    <p-sortIcon field="full_name"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="card_number"
+                                    style="min-width: 11rem"
+                                >
+                                    Card Number
+                                    <p-sortIcon
+                                        field="card_number"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="balance"
+                                    style="min-width: 9rem"
+                                >
+                                    Balance
+                                    <p-sortIcon field="balance"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="school_name"
+                                    style="min-width: 11rem"
+                                >
+                                    School Name
+                                    <p-sortIcon
+                                        field="school_name"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="member_type"
+                                    style="min-width: 11rem"
+                                >
+                                    Member Type
+                                    <p-sortIcon
+                                        field="member_type"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="phone_number"
+                                    style="min-width: 11rem"
+                                >
+                                    Phone No
+                                    <p-sortIcon
+                                        field="phone_number"
+                                    ></p-sortIcon>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>
+                                    <div class="flex align-items-center">
+                                        <div
+                                            class=""
+                                            *ngIf="
+                                                product.photo_url;
+                                                else customAvatar
+                                            "
+                                        >
+                                            <img
+                                                class="rounded-circle mr-1"
+                                                [src]="product.photo_url"
+                                                height="32"
+                                                width="32"
+                                                alt="datatable-avatar"
+                                                (error)="product.photo_url = ''"
+                                            />
+                                        </div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                            >
+                                                <div class="avatar-content">
+                                                    {{
+                                                        product.full_name
+                                                            | initials
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <a
+                                            (click)="
+                                                selectedProduct = product;
+                                                openMemberProfile()
+                                            "
+                                            class="text-800 font-bold cursor-pointer no-underline hover:underline"
+                                            >{{ product?.full_name ?? "" }}</a
+                                        >
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ product.card_number }}
+                                </td>
+                                <td>
+                                    {{ product.balance | currency : "INR" }}
+                                </td>
+                                <td>
+                                    {{ product.school_name }}
+                                </td>
+                                <td>
+                                    {{ product.member_type }}
+                                </td>
+                                <td>
+                                    {{ product.phone_number }}
+                                </td>
+                                <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-ellipsis-v"
+                                        (click)="
+                                            selectedProduct = product;
+                                            menu.toggle($event)
+                                        "
+                                        class="p-button-rounded p-button-text p-action-button"
+                                    ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
                     </p-table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<div class="card">
-    <input #excelFile
-    hidden="true"
-    type="file"
-    (change)="excelFileInputChange($event)"
-    accept=".xls,.xlsx"
-/>
-</div>
-<div
-                class="d-flex justify-content-start"
-
-
-               (click)="excelFile.click()"
-
-              >
-                <div class="col-10 p-2 text-truncate">
-                  Upload
+<p-dialog header="Add Multiple Students" [modal]="true" [(visible)]="bulkAdd">
+    <div class="card">
+        <p-table
+            #dt1
+            dataKey="code"
+            [value]="bulkAddData"
+            [paginator]="true"
+            [rows]="10"
+            [loading]="loading"
+            [showCurrentPageReport]="true"
+            responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [filterDelay]="0"
+            [globalFilterFields]="[
+                'full_name',
+                'card_number',
+                'school_name',
+                'member_type',
+                'parents_ph',
+                'phone_number'
+            ]"
+        >
+            <ng-template pTemplate="caption">
+                <div
+                    class="table-header align-content-center justify-content-end grid flex"
+                >
+                    <div
+                        class="col-12 md:col-8 lg:6 grid justify-content-end"
+                        style="text-align: end"
+                    >
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                                type="search"
+                                pInputText
+                                #filter
+                                (input)="
+                                    dt1.filterGlobal(
+                                        $event.target.value,
+                                        'contains'
+                                    )
+                                "
+                                placeholder="Global Search"
+                            />
+                        </span>
+                    </div>
                 </div>
-                <div class="col-2 p-2" matTooltip="Upload Excel File" >
-                  dfg
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: 6rem">Slno</th>
+                    <th pSortableColumn="full_name" style="min-width: 14rem">
+                        Name
+                        <p-sortIcon field="full_name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="card_number" style="min-width: 11rem">
+                        Card Number
+                        <p-sortIcon field="card_number"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="school_name" style="min-width: 11rem">
+                        School Name
+                        <p-sortIcon field="school_name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="member_type" style="min-width: 6rem">
+                        Member Type
+                        <p-sortIcon field="member_type"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="phone_number" style="min-width: 11rem">
+                        Phone No
+                        <p-sortIcon field="phone_number"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="email" style="min-width: 8rem">
+                        Email
+                        <p-sortIcon field="email"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+                <tr [pContextMenuRow]="product">
+                    <td>
+                        {{ rowIndex + 1 }}
+                    </td>
+                    <td>
+                        {{ product.full_name }}
+                    </td>
+                    <td>
+                        {{ product.card_number }}
+                    </td>
+                    <td>
+                        {{ product.school_name }}
+                    </td>
+                    <td>
+                        {{ product.member_type }}
+                    </td>
+                    <td>
+                        {{ product.phone_number }}
+                    </td>
+                    <td>
+                        {{ product.email }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div class="flex justify-content-center mt-3">
+            <button
+                *ngIf="bulkAddData.length > 0"
+                pButton
+                pRipple
+                [loading]="bulkAddloading"
+                label="Add"
+                class="mr-2 inline-block p-button p-button-rounded"
+                (click)="bulkUpload()"
+            ></button>
+        </div>
+    </div>
+</p-dialog>
+<p-dialog
+    header="Update Card Details"
+    [modal]="true"
+    [breakpoints]="{ '960px': '75vw', '640px': '100vw' }"
+    [style]="{ width: '50vw' }"
+    [(visible)]="cardUpdate"
+>
+    <div class="card">
+        <form [formGroup]="commonForm" autocomplete="off">
+            <div class="grid">
+                <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-12">
+                    <label for="card_number"
+                        >Card Number <span class="p-error">*</span></label
+                    >
+                    <input
+                        type="text"
+                        pInputText
+                        autofocus
+                        id="card_number"
+                        placeholder="987654321"
+                        formControlName="card_number"
+                    />
+                    <small
+                        class="p-error"
+                        *ngIf="
+                            commonForm.controls.card_number.touched &&
+                            commonForm.controls.card_number.errors?.required
+                        "
+                        >Card Number is required.</small
+                    >
                 </div>
-              </div>
+                <div class="field p-fluid col-12 sm:col-12 md:col-12 lg:col-12">
+                    <label for="reason"
+                        >Reason <span class="p-error">*</span></label
+                    >
+                    <textarea
+                        id="reason"
+                        pInputTextarea
+                        formControlName="reason"
+                    ></textarea>
+                    <small
+                        class="p-error"
+                        *ngIf="
+                            commonForm.controls.reason.touched &&
+                            commonForm.controls.reason.errors?.required
+                        "
+                        >Reason is required.</small
+                    >
+                </div>
+            </div>
+            <button
+                pButton
+                type="submit"
+                class="p-button-rounded"
+                (click)="updateCardDetails()"
+                [loading]="CardDetailsSubmitLoading"
+                label="Submit"
+            ></button>
+        </form>
+    </div>
+</p-dialog>

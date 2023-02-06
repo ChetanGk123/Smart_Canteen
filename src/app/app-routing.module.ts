@@ -43,6 +43,14 @@ import { LandingComponent } from './features/landing/landing.component';
                                 ).then((m) => m.CountersModule),
                         },
                         {
+                            path: 'cards',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import('./features/cards/cards.module').then(
+                                    (m) => m.CardsModule
+                                ),
+                        },
+                        {
                             path: 'members',
                             canActivate: [AuthGuard],
                             loadChildren: () =>

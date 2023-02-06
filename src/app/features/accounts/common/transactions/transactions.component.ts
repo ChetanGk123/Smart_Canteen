@@ -26,13 +26,13 @@ export class TransactionsComponent implements OnInit {
     transaction_range: any;
     commonForm: FormGroup = new FormGroup({
         account_head_id: new FormControl('', [Validators.required]),
-        start_date: new FormControl(
+        /* start_date: new FormControl(
             '',
             [Validators.required]
         ),
         end_date: new FormControl(new Date().toISOString().substring(0, 10), [
             Validators.required,
-        ]),
+        ]), */
     });
     constructor(
         public apiService: ApiService,
@@ -43,7 +43,7 @@ export class TransactionsComponent implements OnInit {
 
     ngOnInit(): void {
         this.accountList = [];
-        this.User = this.memberService.getUserData().user_role
+        /* this.User = this.memberService.getUserData().user_role
         this.transaction_range = this.User == "OWNER"? this.memberService.getSettings().transaction_range:0
         this.commonForm.get('start_date').setValue(
             this.datePipe.transform(
@@ -53,7 +53,7 @@ export class TransactionsComponent implements OnInit {
                 ),
                 'yyyy-MM-dd'
             )
-        );
+        ); */
         this.apiService
             .getTypeRequest(`table_data/EXPENSE_ACCOUNT_HEAD`)
             .toPromise()
@@ -97,9 +97,9 @@ export class TransactionsComponent implements OnInit {
         if (this.commonForm.valid) {
             this.loading = true;
             this.apiService
-                .postTypeRequest(
-                    `table_data/ACCOUNT_HEAD`,
-                    this.commonForm.value
+                .getTypeRequest(
+                    `specific_data/ACCOUNT_HEAD/${this.commonForm.controls.account_head_id.value}`
+
                 )
                 .toPromise()
                 .then((result: any) => {

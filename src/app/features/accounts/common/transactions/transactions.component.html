@@ -54,7 +54,7 @@
                                         >Account is required.</small
                                     >
                                 </div>
-                                <div
+                                <!-- <div
                                     class="field p-fluid col"
                                     style="margin-bottom: -1rem"
                                 >
@@ -97,7 +97,7 @@
                                         "
                                         >Date is required.</small
                                     >
-                                </div>
+                                </div> -->
                                 <div class="field p-fluid flex col align-items-center">
                                     <button
                                         pButton
@@ -105,7 +105,7 @@
                                         [disabled]="!commonForm.valid"
                                         type="button"
                                         icon="pi pi-search"
-                                        class="mt-5 p-button-rounded p-action-button"
+                                        class="mt-4 p-button-rounded p-action-button"
                                         (click)="loadData()"
                                     ></button>
                                 </div>
@@ -160,25 +160,6 @@
                                 </div>
                             </div>
                         </ng-template>
-                        <!--
-                            {
-  "id": 111,
-  "receipt_no": "AH-00064",
-  "account_id": 7,
-  "transaction_type": "CREDIT",
-  "transaction_category": "ACCOUNT_HEAD_UPDATE_FOR_POS_SALES",
-  "previous_balance": "24336.84",
-  "discount": "0.00",
-  "transaction_amount": "109.20",
-  "current_balance": "24446.04",
-  "payment_mode": "",
-  "payment_ref": "0",
-  "transaction_date": "29-09-2022",
-  "transaction_description": "Cr. For account head update for pos sales",
-  "user_comments": "Cr. For account head update for pos sales",
-  "transaction_amount_in_words": "One Hundred Nine And 2/10 only."
-}
-                         -->
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width: 4rem">Slno</th>

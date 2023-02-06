@@ -68,6 +68,17 @@ export class AppMenuComponent implements OnInit {
                 ],
             },
             {
+                label: 'Cards',
+                icon: 'pi pi-credit-card',
+                items: [
+                    {
+                        label: 'Card Histrory',
+                        icon: 'pi pi-credit-card',
+                        routerLink: ['/cards/cardHistory'],
+                    },
+                ],
+            },
+            {
                 label: 'Accounts',
                 items: [
                     {

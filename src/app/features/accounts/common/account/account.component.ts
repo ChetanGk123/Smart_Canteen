@@ -33,6 +33,11 @@ export class AccountComponent implements OnInit {
                 icon: 'pi pi-fw pi-pencil',
                 command: () => this.editData(this.selectedProduct),
             },
+            {
+                label: 'Delete',
+                icon: 'pi pi-fw pi-trash',
+                command: () => this.confirm(this.selectedProduct),
+            },
             /* {
                 label: 'Direct Entry',
                 icon: 'pi pi-fw pi-dollar',
@@ -115,7 +120,7 @@ export class AccountComponent implements OnInit {
     delete(product: any) {
         this.loading = true;
         var Data = {
-            account_id: product.account_id,
+            account_head_id: product.account_head_id,
         };
         this.apiService
             .postTypeRequest(`account_head_ops/delete`, Data)

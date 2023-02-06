@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -26,12 +27,14 @@ export class ManageMemberComponent implements OnInit {
     } */
 
     loading: boolean = false;
-    member_types: any = [{ id: 1, name: 'Student' }];
-    genders: any = ['Male', 'Female'];
+    member_types: any = [];
     commonForm: FormGroup = new FormGroup({
         member_id: new FormControl(
             this.config?.data?.member_id ?? this.config?.data?.id ?? ''
         ),
+        card_number: new FormControl(this.config?.data?.card_number ?? '', [
+            Validators.required,
+        ]),
         full_name: new FormControl(this.config?.data?.full_name ?? '', [
             Validators.required,
         ]),
@@ -63,6 +66,10 @@ export class ManageMemberComponent implements OnInit {
         address: new FormControl(this.config?.data?.address ?? '', [
             Validators.required,
         ]),
+        opening_balance: new FormControl(
+            this.config?.data?.opening_balance ?? '',
+            [Validators.required]
+        ),
     });
     constructor(
         public ref: DynamicDialogRef,
@@ -78,17 +85,43 @@ export class ManageMemberComponent implements OnInit {
             .then((result: any) => {
                 this.loading = false;
                 this.member_types = result?.data;
+                if (this.config?.data) {
+                    this.commonForm.controls.card_number.disable()
+                    this.commonForm.controls.opening_balance.disable()
+                } /* else {
+                    this.commonForm.patchValue({
+                        card_number: '744755373a90123',
+                        full_name: 'Chetan',
+                        gender: 'Male',
+                        phone_number: 9988776655,
+                        parents_ph: 9988776655,
+                        dob: '2020-12-12',
+                        email: 'ccc@ccc',
+                        class_name: '10',
+                        division_name: 'A',
+                        hostel_details: 'sdrg',
+                        member_type_id: 3,
+                        address: 'sdfsdfsfsdf',
+                        opening_balance: 2,
+                    });
+                } */
             });
     }
 
     submitClick() {
         if (this.commonForm.valid) {
-            var data = {
-                counter_id: this.authService.getUser()?.counter_id,
-                member_data: [this.commonForm.value],
-            };
+            var data;
             this.loading = true;
             var operation = this.config?.data ? 'update' : 'insert';
+            if(operation == "insert"){
+                data = {
+                    counter_id: this.authService.getUser()?.counter_id,
+                    member_data: [this.commonForm.value],
+                };
+            }
+            else{
+                data = this.commonForm.value;
+            }
             this.apiService
                 .postTypeRequest(`member_ops/${operation}`, data)
                 .toPromise()

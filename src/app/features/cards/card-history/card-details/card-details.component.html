@@ -1,0 +1,75 @@
+<div class="card">
+    <div class="mb-2">
+        <label for="card_number"
+            >Card Number <span class="p-error">*</span></label
+        >
+    </div>
+    <div class="field p-fluid p-input-icon-right">
+        <input
+            type="text"
+            pInputText
+            id="card_number"
+            [formControl]="cardNumber"
+            (input)="getCardDetails()"
+            autocomplete="off"
+            required
+            autofocus
+        />
+        <i class="pi pi-spin pi-spinner mr-2" *ngIf="loading"></i>
+    </div>
+    <p-table
+        #dt
+        dataKey="code"
+        [value]="Data"
+        [paginator]="true"
+        [rows]="10"
+        [loading]="loading"
+        [showCurrentPageReport]="true"
+        responsiveLayout="scroll"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [filterDelay]="0"
+        [globalFilterFields]="['full_name', 'card_number', 'phone_number']"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Slno</th>
+                <th pSortableColumn="full_name">
+                    Name
+                    <p-sortIcon field="full_name"></p-sortIcon>
+                </th>
+                <th>Reason</th>
+                <th>Balance</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+            <tr [pContextMenuRow]="product">
+                <td>
+                    {{ rowIndex + 1 }}
+                </td>
+                <td>
+                    {{ product.full_name }}
+                </td>
+                <td>
+                    {{ product.reason }}
+                </td>
+                <td>
+                    {{ product.updated_date }}
+                </td>
+                <!-- <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-ellipsis-v"
+                                        (click)="
+                                            selectedProduct = product;
+                                            menu.toggle($event)
+                                        "
+                                        class="p-button-rounded p-button-text p-action-button"
+                                    ></button>
+                                </td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
