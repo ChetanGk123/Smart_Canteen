@@ -1,12 +1,12 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "cli": {
-      "analytics": false
+        "analytics": false
     },
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "happy_plates": {
+        "smart_canteen": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -20,7 +20,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/happy_plates",
+                        "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -31,14 +31,16 @@
                             "src/assets",
                             "src/manifest.webmanifest"
                         ],
-                        "styles": [
-                            "src/styles.scss"
-                        ],
+                        "styles": ["src/styles.scss"],
                         "scripts": [
                             "node_modules/prismjs/prism.js",
                             "node_modules/prismjs/components/prism-typescript.js"
                         ],
-                        "allowedCommonJsDependencies": ["chart.js","crypto-js","pdfmake/build/pdfmake"],
+                        "allowedCommonJsDependencies": [
+                            "chart.js",
+                            "crypto-js",
+                            "pdfmake/build/pdfmake"
+                        ],
                         "serviceWorker": true,
                         "ngswConfigPath": "ngsw-config.json"
                     },
@@ -79,10 +81,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "happy_plates:build:production"
+                            "browserTarget": "smart_canteen:build:production"
                         },
                         "development": {
-                            "browserTarget": "happy_plates:build:development"
+                            "browserTarget": "smart_canteen:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -90,7 +92,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "happy_plates:build"
+                        "browserTarget": "smart_canteen:build"
                     }
                 },
                 "test": {
@@ -106,14 +108,12 @@
                             "src/assets",
                             "src/manifest.webmanifest"
                         ],
-                        "styles": [
-                            "src/styles.scss"
-                        ],
+                        "styles": ["src/styles.scss"],
                         "scripts": []
                     }
                 }
             }
         }
     },
-    "defaultProject": "happy_plates"
+    "defaultProject": "smart_canteen"
 }
