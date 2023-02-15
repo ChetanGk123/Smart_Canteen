@@ -178,88 +178,436 @@
     </div>
 </div>
 <div class="card">
-    <div class="font-medium text-3xl text-900 m-3">Card Update History</div>
-    <p-table
-                        dataKey="code"
-                        [value]="cardHistory | async"
-                        [paginator]="true"
-                        [rows]="10"
-                        [loading]="cardHistoryLoading"
-                        [showCurrentPageReport]="true"
-                        responsiveLayout="scroll"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                        [rowsPerPageOptions]="[10, 25, 50]"
-                        [filterDelay]="0"
-                        [globalFilterFields]="['new_card_number','old_card_number']"
+    <!-- <div class="center" *ngIf="loading">
+        <p-progressSpinner></p-progressSpinner>
+    </div> -->
+    <p-tabView [scrollable]="true">
+        <p-tabPanel
+            cache="true"
+            header="Transaction History"
+            leftIcon="pi pi-list"
+        >
+            <div class="card">
+                <p-toolbar
+                    styleClass="mb-4"
+                    class="align-content-center"
+                >
+                    <ng-template
+                        class="align-content-center"
+                        pTemplate="left"
                     >
-                        <ng-template pTemplate="caption">
+                        <div class="grid mb-0">
                             <div
-                                class="table-header align-content-center justify-content-end grid flex"
+                                class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                style="margin-bottom: -1rem"
                             >
-                                <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                    style="text-align: end"
-                                >
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input
-                                            pInputText
-                                            type="text"
-                                            #filter
-                                            autofocus
-                                            (input)="
-                                                dt.filterGlobal(
-                                                    $event.target.value,
-                                                    'contains'
-                                                )
-                                            "
-                                            placeholder="Global Search"
-                                        />
-                                    </span>
-                                    <button
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        icon="pi pi-filter-slash"
-                                        (click)="clear(dt); filter.value = ''"
-                                        class="p-button-rounded p-button-outlined p-action-button ml-3 m-1 mr-3"
-                                    ></button>
-                                </div>
+                                <label for="dob">Start Date </label>
+                                <input
+                                    id="dob"
+                                    type="date"
+                                    pInputText
+                                    [(ngModel)]="start_date"
+                                />
                             </div>
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>
-                                    Slno
-                                </th>
-                                <th>Old Card Number</th>
-                                <th>New Card Number</th>
-                                <th>Reason</th>
-                                <th>Date</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template
-                            pTemplate="body"
-                            let-product
-                            let-rowIndex="rowIndex"
+                            <div
+                                class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                style="margin-bottom: -1rem"
+                            >
+                                <label for="dob">End Date </label>
+                                <input
+                                    id="dob"
+                                    type="date"
+                                    pInputText
+                                    [(ngModel)]="end_date"
+                                />
+                            </div>
+                            <div class="flex col-2 align-items-center">
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-search"
+                                    style="margin-bottom: -2rem"
+                                    class="mt-2 p-button-rounded p-action-button"
+                                    (click)="loadData()"
+                                ></button>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <button
+                            pButton
+                            pRipple
+                            style="margin-bottom: -2rem"
+                            label="Add"
+                            icon="pi pi-plus"
+                            class="mr-2 inline-block p-button"
+                            (click)="add()"
+                        ></button>
+                    </ng-template>
+                </p-toolbar>
+                <p-contextMenu
+                    #cm
+                    appendTo="body"
+                    [model]="transactionMenu"
+                ></p-contextMenu>
+                <p-menu
+                    #menu
+                    [popup]="true"
+                    [model]="transactionMenu"
+                ></p-menu>
+                <p-table
+                    #dt
+                    dataKey="code"
+                    [(contextMenuSelection)]="selectedProduct"
+                    [contextMenu]="cm"
+                    [value]="transactionData | async"
+                    [paginator]="true"
+                    [rows]="10"
+                    [loading]="transactionLoading"
+                    [showCurrentPageReport]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]"
+                    [filterDelay]="0"
+                    [globalFilterFields]="['membership_name']"
+                >
+                    <ng-template pTemplate="caption">
+                        <div
+                            class="table-header align-content-center justify-content-end grid flex"
                         >
-                            <tr>
-                                <td>
-                                    {{ rowIndex + 1 }}
-                                </td>
-                                <td>
-                                    {{ product.new_card_number }}
-                                </td>
-                                <td>
-                                    {{ product.old_card_number }}
-                                </td>
-                                <td>
-                                    {{ product?.reason }}
-                                </td>
-                                <td>
-                                    {{ product?.updated_date }}
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+                            <div
+                                class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                style="text-align: end"
+                            >
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        pInputText
+                                        type="search"
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>
+                                Slno
+                                <span
+                                    ><i
+                                        class="pi pi-info-circle p-error"
+                                        pTooltip="Right click on row for options"
+                                    ></i
+                                ></span>
+                            </th>
+                            <th pSortableColumn="receipt_no">
+                                Receipt No
+                                <p-sortIcon
+                                    field="receipt_no"
+                                ></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="transaction_date">
+                                Date
+                                <p-sortIcon
+                                    field="transaction_date"
+                                ></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="previous_balance">
+                                Previous Balance
+                                <p-sortIcon
+                                    field="previous_balance"
+                                ></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="transaction_amount">
+                                Amount
+                                <p-sortIcon
+                                    field="transaction_amount"
+                                ></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="current_balance">
+                                Balance
+                                <p-sortIcon
+                                    field="current_balance"
+                                ></p-sortIcon>
+                            </th>
+                            <th>Status</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template
+                        pTemplate="body"
+                        let-product
+                        let-rowIndex="rowIndex"
+                    >
+                        <tr [pContextMenuRow]="product">
+                            <td>
+                                {{ rowIndex + 1 }}
+                            </td>
+                            <td>
+                                {{ product.receipt_no }}
+                            </td>
+                            <td>
+                                {{ product.transaction_date }}
+                            </td>
+                            <td>
+                                {{
+                                    product.previous_balance
+                                        | currency : "INR"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                    product.transaction_amount
+                                        | currency : "INR"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                    product.current_balance
+                                        | currency : "INR"
+                                }}
+                            </td>
+                            <td>
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-ellipsis-v"
+                                    (click)="
+                                        selectedProduct = product;
+                                        menu.toggle($event)
+                                    "
+                                    class="p-button-rounded p-button-text p-action-button"
+                                ></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <p-dialog
+                header="Transaction Details"
+                [(visible)]="displayTransaction"
+                [breakpoints]="{ '960px': '50vw', '640px': '85vw' }"
+                [style]="{ width: '40vw' }"
+                modal="true"
+            >
+                <div class="card">
+                    <div class="">
+                        <div class="surface-section">
+                            <ul class="list-none p-0 m-0">
+                                <li
+                                    class="flex justify-content-end align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div class="text-500 font-medium">
+                                        Date:&nbsp;
+                                    </div>
+                                    <div class="text-900 font-bold">
+                                        {{
+                                            selectedProduct?.transaction_date
+                                        }}
+                                    </div>
+                                </li>
+
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Membership Name
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{ memberData.full_name ?? "" }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Payment Mode
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{
+                                            selectedProduct?.payment_mode
+                                        }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Payment Reference
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{
+                                            selectedProduct?.payment_ref
+                                        }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Transaction Type
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{
+                                            selectedProduct?.transaction_type
+                                        }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Transaction Amount
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{
+                                            selectedProduct?.transaction_amount
+                                                | currency : "INR"
+                                        }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Comments
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{
+                                            selectedProduct?.user_comments
+                                        }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </p-dialog>
+        </p-tabPanel>
+        <p-tabPanel header="Card History" leftIcon="pi pi-credit-card">
+            <p-table
+                dataKey="code"
+                [value]="cardHistory | async"
+                [paginator]="true"
+                [rows]="10"
+                [loading]="transactionLoading"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [filterDelay]="0"
+                [globalFilterFields]="['membership_name']"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="table-header align-content-center justify-content-end grid flex"
+                    >
+                        <div
+                            class="col-12 md:col-8 lg:6 grid justify-content-end"
+                            style="text-align: end"
+                        >
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    pInputText
+                                    type="text"
+                                    #filter
+                                    autofocus
+                                    (input)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                    placeholder="Global Search"
+                                />
+                            </span>
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-filter-slash"
+                                (click)="clear(dt); filter.value = ''"
+                                class="p-button-rounded p-button-outlined p-action-button ml-3 m-1 mr-3"
+                            ></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            Slno
+                            <span
+                                ><i
+                                    class="pi pi-info-circle p-error"
+                                    pTooltip="Right click on row for options"
+                                ></i
+                            ></span>
+                        </th>
+                        <th>Old Card Number</th>
+                        <th>New Card Number</th>
+                        <th>Reason</th>
+                        <th>Date</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-product
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>
+                            {{ product.new_card_number }}
+                        </td>
+                        <td>
+                            {{ product.old_card_number }}
+                        </td>
+                        <td>
+                            {{ product.reason }}
+                        </td>
+                        <td>
+                            {{ product.updated_date }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+    </p-tabView>
 </div>

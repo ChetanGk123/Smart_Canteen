@@ -1,0 +1,590 @@
+<p-dialog
+    header="User Details "
+    [(visible)]="UserConfigDialog"
+    [modal]="true"
+    [closable]="false"
+    [style]="{ width: '50vw' }"
+>
+    <div class="card">
+        <form [formGroup]="commonForm" autocomplete="off">
+            <div class="grid">
+                <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                    <label for="card_no">Card Number </label>
+                    <input
+                        type="text"
+                        pInputText
+                        [autofocus]="true"
+                        (input)="fetchCustomer()"
+                        id="card_no"
+                        placeholder="9876543210"
+                        formControlName="card_no"
+                        autofocus
+                    />
+                    <!-- <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.name.touched &&
+                        commonForm.controls.name.errors?.required
+                    "
+                    >Name is required.</small
+                > -->
+                </div>
+                <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                    <label for="customer_name">Name</label>
+                    <input
+                        type="text"
+                        pInputText
+                        id="customer_name"
+                        placeholder="Raj"
+                        formControlName="customer_name"
+                    />
+                </div>
+                <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                    <label for="customer_ph">Phone Number</label>
+                    <input
+                        type="tel"
+                        pInputText
+                        id="customer_ph"
+                        placeholder="9988776655"
+                        formControlName="customer_ph"
+                    />
+                </div>
+                <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                    <label for="account_head_id">Account <span class="p-error">*</span></label>
+                    <p-dropdown
+                    id="account_head_id"
+                    [options]="incomeAccounts"
+                    optionLabel="account_name"
+                    optionValue="account_head_id"
+                    formControlName="account_head_id"
+                    placeholder="Select a Account"
+                    (onChange)="updateAccountStatus()"
+                ></p-dropdown>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.account_head_id.touched &&
+                        commonForm.controls.account_head_id.errors?.required
+                    "
+                    >Account is required.</small
+                >
+                </div>
+            </div>
+            <button
+                pButton
+                type="submit"
+                (click)="CloseUserConfigDialog()"
+                [label]="'Submit'"
+            ></button>
+            <button
+                pButton
+                type="reset"
+                (click)="commonForm.controls.account_head_id.enable()"
+                [label]="'Clear'"
+                class="ml-3"
+            ></button>
+        </form>
+    </div>
+</p-dialog>
+<div class="grid">
+    <div class="col-12 sm:col-12 md:col-9 lg:8">
+        <div class="card mb-0">
+            <div class="flex justify-content-between flex-wrap">
+                <p-dropdown
+                    [options]="mainCategories"
+                    [(ngModel)]="mainCategoryFilter"
+                    optionLabel="name"
+                    [filter]="true"
+                    filterBy="name"
+                    (onChange)="ChangeMainCategoryFilter()"
+                    [showClear]="true"
+                    placeholder="Select a Category"
+                >
+                    <ng-template pTemplate="selectedItem">
+                        <div
+                            class="flex country-item align-content-center country-item-value"
+                            *ngIf="mainCategoryFilter"
+                        >
+                            <img
+                                *ngIf="
+                                    mainCategoryFilter?.img_loc;
+                                    else selectedSubCategorycustomAvatar1
+                                "
+                                [src]="mainCategoryFilter.img_loc"
+                                height="17"
+                                width="17"
+                                alt=""
+                            />
+                            <ng-template #selectedSubCategorycustomAvatar1>
+                                <div
+                                    class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                >
+                                    <div
+                                        class="avatar-content-sm"
+                                        style="height: 17px; width: 17px"
+                                    >
+                                        {{ mainCategoryFilter.name | initials }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <span class="mt-0">{{
+                                mainCategoryFilter.name
+                            }}</span>
+                        </div>
+                    </ng-template>
+                    <ng-template let-Category pTemplate="item">
+                        <div class="flex align-content-center country-item">
+                            <img
+                                *ngIf="
+                                    Category?.img_loc;
+                                    else CategorycustomAvatar1
+                                "
+                                [src]="Category.img_loc"
+                                height="20"
+                                alt=""
+                            />
+                            <ng-template #CategorycustomAvatar1>
+                                <div
+                                    class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                >
+                                    <div
+                                        class="avatar-content-sm"
+                                        style="height: 20px; width: 20px"
+                                    >
+                                        {{ Category.name | initials }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <div style="margin-top: 0.1rem">
+                                {{ Category.name }}
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <span class="mb-2 md:mb-0">
+                    <input
+                        type="search"
+                        pInputText
+                        [(ngModel)]="itemFilter"
+                        (input)="ChangeFilter()"
+                        placeholder="Search by Name"
+                    />
+                </span>
+            </div>
+            <div>
+                <div
+                    class="flex justify-content-center mt-5"
+                    style="height: 69vh; overflow-y: scroll"
+                >
+                    <div class="flex flex-wrap gap-5">
+                        <div
+                            *ngFor="let item of Items"
+                            class="card cursor-pointer flex flex-column align-items-center w-12rem"
+                            style="max-height: 12rem"
+                            (click)="
+                                OpenPOSDialog = false; AddToOrderList(item)
+                            "
+                        >
+                            <div
+                                class="flex w-full text-left justify-content-between"
+                                style="margin-top: -10px"
+                            >
+                                <img
+                                    *ngIf="
+                                        item?.main_cat_img_loc;
+                                        else customAvatar1
+                                    "
+                                    [src]="item.main_cat_img_loc"
+                                    height="25"
+                                    alt=""
+                                />
+                                <ng-template #customAvatar1>
+                                    <div
+                                        class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                    >
+                                        <div
+                                            class="avatar-content-sm"
+                                            style="height: 25px; width: 25px"
+                                        >
+                                            {{
+                                                item.main_category_name
+                                                    | initials
+                                            }}
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <p></p>
+                            </div>
+                            <img
+                                *ngIf="item.img_loc != null; else altImage"
+                                [src]="item.img_loc"
+                                height="55"
+                                alt=""
+                            />
+                            <ng-template #altImage>
+                                <div
+                                    class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                >
+                                    <div
+                                        class="avatar-content"
+                                        style="height: 55px; width: 55px"
+                                    >
+                                        {{ item.name | initials }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <h5 class="text-overflow-ellipsis">
+                                {{ item.name }}
+                            </h5>
+                            <div
+                                class="child align-self-baseline flex w-full text-left justify-content-between mt-3"
+                            >
+                                <h5>
+                                    {{ item.rate | currency : "INR" }}
+                                </h5>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 sm:col-12 md:col-3 lg:4">
+        <div class="card">
+            <div class="flex w-full justify-content-between">
+                <h5>Customer Details</h5>
+                <button
+                                pButton
+                                pRipple
+                                type="button"
+                                style="
+                                    height: 25px;
+                                    width: 25px;
+                                    margin: 0px;
+                                    padding: 0px;
+                                "
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-text "
+                                (click)="UserConfigDialog = true"
+                            ></button>
+            </div>
+            <div class="flex w-full justify-content-between">
+                <p>Name</p>
+                <p>{{ commonForm.controls.customer_name.value }}</p>
+            </div>
+            <div class="flex w-full justify-content-between">
+                <p>Phone No</p>
+                <p>{{ commonForm.controls.customer_ph.value }}</p>
+            </div>
+            <div class="flex w-full justify-content-between" *ngIf="commonForm.controls.member_id.value;else account">
+                <p>Balance</p>
+                <p>{{ commonForm.controls.account_balance.value | currency:"INR" }}</p>
+            </div>
+            <ng-template #account>
+                <div class="flex w-full justify-content-between">
+                    <p>Account</p>
+                    <p>{{ commonForm.controls.account_head_name.value }}</p>
+                </div>
+            </ng-template>
+        </div>
+        <div class="card">
+            <div class="flex w-full justify-content-between">
+                <p style="margin-top: 0rem !important">Totla items: 4</p>
+                <p class="text-l font-bold cursor-pointer mr-2" (click)="currentOrder = [];calculateBill()">Clear All</p>
+            </div>
+            <div style="height: 34vh; overflow-y: scroll;">
+                <div *ngFor="let item of currentOrder; index as i;" class="card" style="padding: 0.5rem">
+                    <div
+                        class="flex w-full justify-content-between align-content-center"
+                    >
+                        <div class="flex align-items-center">
+                            <div
+                                class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                            >
+                                <div
+                                    class="avatar-content-sm"
+                                    style="height: 45px; width: 45px"
+                                >
+                                    {{
+                                        item.name
+                                            | initials
+                                    }}
+                                </div>
+                            </div>
+                            <p  class="cursor-pointer no-underline hover:underline" (click)="currentOrderItem = item;ItemConfig = true">{{item.name}} &nbsp; ${{item.sale_rate}}</p>
+                        </div>
+                        <div
+                            class="flex align-items-center"
+                            style="max-width: 6rem"
+                        >
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                style="
+                                    height: 25px;
+                                    width: 25px;
+                                    margin: 0px;
+                                    padding: 0px;
+                                "
+                                icon="pi pi-minus"
+                                (click)="decreaseSaleQty(i)"
+                                class="p-button-rounded p-button-warning"
+                            ></button>
+
+                            <p
+                                class="flex justify-content-center align-items-center"
+                                style="width: 35px; margin-top: 1rem !important;"
+                            >
+                                <b>{{item.sale_qty}}</b>
+                            </p>
+
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                style="
+                                    height: 25px;
+                                    width: 25px;
+                                    margin: 0px;
+                                    padding: 0px;
+                                "
+                                icon="pi pi-plus"
+                                (click)="increaseSaleQty(i)"
+                                class="p-button-rounded p-button-warning"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-divider class="m-0 p-0"></p-divider>
+
+            <div class="flex w-full justify-content-between font-bold">
+                <h4 class="m-0 p-0">Total</h4>
+                <h4 class="m-0 p-0">
+                    {{ OrderDetails.total_amount | currency: "INR" }}
+                </h4>
+            </div>
+        </div>
+        <div class="flex justify-content-around">
+            <button
+                pButton
+                pRipple
+                label="Save"
+                icon="pi pi-save"
+                [disabled]="this.OrderDetails.total_amount <= 0"
+                (click)="submit()"
+                class="mr-2 inline-block p-button"
+            ></button>
+            <button
+                pButton
+                pRipple
+                label="Reset"
+                (click)="reset()"
+                icon="pi pi-times"
+                class="mr-2 inline-block p-button"
+            ></button>
+        </div>
+    </div>
+</div>
+<p-dialog
+        header="Item Config "
+        [(visible)]="ItemConfig"
+        [modal]="true"
+        [style]="{ width: '50vw' }"
+    >
+        <div class="surface-section" *ngIf="currentOrderItem">
+            <ul class="list-none p-0 m-0">
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-8 md:w-5 font-medium">Name</div>
+                    <div
+                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                    >
+                        {{ this.currentOrderItem?.name }}
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-8 md:w-5 font-medium">Category</div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        <div
+                            class="flex country-item align-content-center country-item-value"
+                            *ngIf="currentOrderItem"
+                        >
+                            <img
+                                *ngIf="
+                                    currentOrderItem?.main_cat_img_loc;
+                                    else currentOrderItemcustomAvatar1
+                                "
+                                [src]="currentOrderItem.main_cat_img_loc"
+                                height="17"
+                                width="17"
+                                alt=""
+                            />
+                            <ng-template #currentOrderItemcustomAvatar1>
+                                <div
+                                    class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                >
+                                    <div
+                                        class="avatar-content-sm"
+                                        style="height: 17px; width: 17px"
+                                    >
+                                        {{
+                                            currentOrderItem?.main_category_name
+                                                | initials
+                                        }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <span class="mt-0">{{
+                                currentOrderItem?.sub_category_name
+                            }}</span>
+                        </div>
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-8 md:w-5 font-medium">Price</div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1 underline"
+                    >
+                        <p-inplace closable="closable" closeIcon="pi pi-check">
+                            <ng-template
+                                pTemplate="display"
+                                pTooltip="Click to edit value"
+                                tooltipPosition="top"
+                                class="text-900 font-bold"
+                            >
+                                {{
+                                    currentOrderItem?.sale_rate
+                                        | currency: "INR"
+                                }}
+                            </ng-template>
+                            <ng-template pTemplate="content">
+                                <input
+                                    onfocus="this.select();"
+                                    type="text"
+                                    style="width: 70px"
+                                    [(ngModel)]="currentOrderItem.sale_rate"
+                                    pInputText
+                                />
+                            </ng-template>
+                        </p-inplace>
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-8 md:w-5 font-medium">Quantity</div>
+                    <div
+                        class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="flex">
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    style="height: 25px; width: 25px"
+                                    icon="pi pi-plus"
+                                    (click)="
+                                        currentOrderItem.sale_qty =
+                                            currentOrderItem.sale_qty + 1
+                                    "
+                                    class="p-button-rounded p-button-warning"
+                                ></button>
+
+                                <p
+                                    class="flex mt-1 justify-content-center"
+                                    style="width: 35px; max-height: 0px"
+                                >
+                                    <b>{{ currentOrderItem?.sale_qty }}</b>
+                                </p>
+
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    style="height: 25px; width: 25px"
+                                    icon="pi pi-minus"
+                                    [disabled]="currentOrderItem?.sale_qty == 0"
+                                    (click)="
+                                        currentOrderItem.sale_qty =
+                                            currentOrderItem.sale_qty - 1
+                                    "
+                                    class="p-button-rounded p-button-warning"
+                                ></button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-8 md:w-5 font-medium">
+                        Discount Type
+                    </div>
+                    <div
+                        class="flex text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        <div class="">
+                            <p-radioButton
+                                name="groupname"
+                                value="Amount"
+                                label="Amount"
+                                class="mb-0"
+                                [(ngModel)]="currentOrderItem.DiscountType"
+                            ></p-radioButton>
+                            <p-radioButton
+                                name="groupname"
+                                value="Percentage"
+                                class="ml-3 mb-0"
+                                label="Percentage"
+                                [(ngModel)]="currentOrderItem.DiscountType"
+                            ></p-radioButton>
+                        </div>
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                >
+                    <div class="text-500 w-8 md:w-5 font-medium">
+                        Discount Value
+                    </div>
+                    <div
+                        class="flex text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                    >
+                        <p-inputNumber
+                            class="discountWidth"
+                            inputId="integeronly"
+                            [(ngModel)]="currentOrderItem.DiscountValue"
+                        >
+                        </p-inputNumber>
+                    </div>
+                </li>
+                <li
+                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                ></li>
+            </ul>
+            <div class="flex justify-content-center">
+                <button
+                    pButton
+                    type="button"
+                    label="Add"
+                    [disabled]="currentOrderItem?.sale_qty == 0"
+                    (click)="
+                        AddToOrderList(currentOrderItem); ItemConfig = false
+                    "
+                ></button>
+            </div>
+        </div>
+    </p-dialog>

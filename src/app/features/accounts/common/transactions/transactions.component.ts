@@ -17,7 +17,7 @@ export class TransactionsComponent implements OnInit {
     loading: boolean = false;
     loadAccountList: boolean = false;
     selectedProduct: any;
-    account_head_id: any;
+    account_id: any;
     datePipe: DatePipe = new DatePipe('en-US');
     accountList: any = [];
     start_date: any;
@@ -25,14 +25,14 @@ export class TransactionsComponent implements OnInit {
     User : any;
     transaction_range: any;
     commonForm: FormGroup = new FormGroup({
-        account_head_id: new FormControl('', [Validators.required]),
-        /* start_date: new FormControl(
+        account_head_id: new FormControl(''),
+        start_date: new FormControl(
             '',
             [Validators.required]
         ),
         end_date: new FormControl(new Date().toISOString().substring(0, 10), [
             Validators.required,
-        ]), */
+        ]),
     });
     constructor(
         public apiService: ApiService,
@@ -43,7 +43,7 @@ export class TransactionsComponent implements OnInit {
 
     ngOnInit(): void {
         this.accountList = [];
-        /* this.User = this.memberService.getUserData().user_role
+        this.User = this.memberService.getUserData().user_role
         this.transaction_range = this.User == "OWNER"? this.memberService.getSettings().transaction_range:0
         this.commonForm.get('start_date').setValue(
             this.datePipe.transform(
@@ -53,7 +53,7 @@ export class TransactionsComponent implements OnInit {
                 ),
                 'yyyy-MM-dd'
             )
-        ); */
+        );
         this.apiService
             .getTypeRequest(`table_data/EXPENSE_ACCOUNT_HEAD`)
             .toPromise()
@@ -88,40 +88,41 @@ export class TransactionsComponent implements OnInit {
             })
             .finally(() => {
                 this.loading = false;
+                this.loadData()
             });
     }
 
     loadData() {
         this.loadAccountList = true;
 
-        if (this.commonForm.valid) {
+        // if (this.commonForm.valid) {
             this.loading = true;
             this.apiService
-                .getTypeRequest(
-                    `specific_data/ACCOUNT_HEAD/${this.commonForm.controls.account_head_id.value}`
-
+                .postTypeRequest(
+                    `transaction_data/ACCOUNT_HEAD_TRANSACTIONS`,
+                    this.commonForm.value
                 )
                 .toPromise()
                 .then((result: any) => {
                     this.loading = false;
                     if (result.result) {
-                        this.Data = result.data.transactions;
+                        this.Data = result.data;
                     }
                 })
                 .finally(() => {
                     this.loading = false;
                 });
-        } else {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Incomplete Details',
-                detail: 'Enter all required details.',
-            });
-            var controls = this.commonForm.controls;
-            for (const name in controls) {
-                controls[name].markAsDirty();
-                controls[name].markAllAsTouched();
-            }
-        }
+        // } else {
+        //     this.messageService.add({
+        //         severity: 'warn',
+        //         summary: 'Incomplete Details',
+        //         detail: 'Enter all required details.',
+        //     });
+        //     var controls = this.commonForm.controls;
+        //     for (const name in controls) {
+        //         controls[name].markAsDirty();
+        //         controls[name].markAllAsTouched();
+        //     }
+        // }
     }
 }

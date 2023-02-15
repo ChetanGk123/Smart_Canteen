@@ -124,8 +124,9 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
     }
 
     toggleMenu(event: Event) {
-        this.menuClick = true;
+        console.log(event);
 
+        this.menuClick = true;
         if (this.isDesktop()) {
             if (this.app.menuMode === 'overlay') {
                 // //
@@ -145,6 +146,15 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
         }
 
         event.preventDefault();
+    }
+
+    hideMenu(){
+        if (this.isDesktop()) {
+                this.staticMenuInactive = !this.staticMenuInactive;
+        } else {
+            this.menuActiveMobile = false;
+            this.topMenuActive = false;
+        }
     }
 
     toggleProfile(event: Event) {

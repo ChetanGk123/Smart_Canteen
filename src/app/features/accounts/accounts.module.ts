@@ -10,12 +10,14 @@ import { IncomeAccountComponent } from './income-account/income-account.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
+import { AccountTransferComponent } from './account-transfer/account-transfer.component';
 
 
 @NgModule({
   declarations: [
     IncomeAccountComponent,
     ExpenseAccountComponent,
+    AccountTransferComponent,
     AccountComponent,
     AddEditAccountComponent,
     TransactionsComponent,

@@ -1,0 +1,203 @@
+<div class="card">
+    <form [formGroup]="commonForm" autocomplete="off">
+        <div class="grid">
+            <div
+                class="field p-fluid col-12 sm:col-12 p-input-icon-right md:col-6 lg:col-6"
+                *ngIf="!this.config.data.wildCardEntry"
+            >
+                <label for="source_head_id"
+                    >Source Account <span class="p-error">*</span></label
+                >
+                <p-dropdown
+                    id="source_head_id"
+                    [options]="sourceAccounts"
+                    optionLabel="account_name"
+                    optionValue="account_head_id"
+                    formControlName="source_head_id"
+                    placeholder="Select a Account"
+                    (onChange)="updateBalance()"
+                ></p-dropdown>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.source_head_id.touched &&
+                        commonForm.controls.source_head_id.errors?.required
+                    "
+                    >Source Account is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="destination_head_id"
+                    >Destination Account <span class="p-error">*</span></label
+                >
+                <p-dropdown
+                    id="destination_head_id"
+                    [options]="destinationAccounts"
+                    optionLabel="account_name"
+                    optionValue="account_head_id"
+                    formControlName="destination_head_id"
+                    placeholder="Select a Account"
+                    (onChange)="updateBalance()"
+                ></p-dropdown>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.destination_head_id.touched &&
+                        commonForm.controls.destination_head_id.errors?.required
+                    "
+                    >Destination Account is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="source_balance"
+                    >Source Balance <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="source_balance"
+                    placeholder="0"
+                    formControlName="source_balance"
+                    readonly
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.source_balance.touched &&
+                        commonForm.controls.source_balance.errors?.required
+                    "
+                    >Balance is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="destination_balance">Destination Balance</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="destination_balance"
+                    placeholder="0"
+                    formControlName="destination_balance"
+                    readonly
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.destination_balance.touched &&
+                        commonForm.controls.destination_balance.errors?.required
+                    "
+                    >Balance is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="txn_amount"
+                    >Amount <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="txn_amount"
+                    mask="separator.2"
+                    thousandSeparator=","
+                    maxlength="8"
+                    [validation]="false"
+                    placeholder="100.00"
+                    formControlName="txn_amount"
+                    autofocus
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.txn_amount.touched &&
+                        commonForm.controls.txn_amount.errors?.required
+                    "
+                    >Amount is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="txn_date"
+                    >Date <span class="p-error">*</span></label
+                >
+                <input
+                    type="date"
+                    pInputText
+                    id="txn_date"
+                    placeholder="100.00"
+                    formControlName="txn_date"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.txn_date.touched &&
+                        commonForm.controls.txn_date.errors?.required
+                    "
+                    >Date is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="payment_mode"
+                    >Payment Mode <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_mode"
+                    placeholder="Cash"
+                    formControlName="payment_mode"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_mode.touched &&
+                        commonForm.controls.payment_mode.errors?.required
+                    "
+                    >Payment Mode is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="payment_ref"
+                    >Payment Reference <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_ref"
+                    placeholder="UTR123"
+                    formControlName="payment_ref"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_ref.touched &&
+                        commonForm.controls.payment_ref.errors?.required
+                    "
+                    >Payment Reference is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12">
+                <label for="user_comments"
+                    >Payment Reference <span class="p-error">*</span></label
+                >
+                <textarea
+                    pInputTextarea
+                    id="user_comments"
+                    formControlName="user_comments"
+                ></textarea>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.user_comments.touched &&
+                        commonForm.controls.user_comments.errors?.required
+                    "
+                    >Payment Reference is required.</small
+                >
+            </div>
+        </div>
+        <button
+            pButton
+            type="submit"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="'Submit'"
+        ></button>
+    </form>
+</div>

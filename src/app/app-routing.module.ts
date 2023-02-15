@@ -66,6 +66,46 @@ import { LandingComponent } from './features/landing/landing.component';
                                     './features/accounts/accounts.module'
                                 ).then((m) => m.AccountsModule),
                         },
+                        {
+                            path: 'receipt',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/receipt/receipt.module'
+                                ).then((m) => m.ReceiptModule),
+                        },
+                        {
+                            path: 'utils',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import('./features/utils/utils.module').then(
+                                    (m) => m.UtilsModule
+                                ),
+                        },
+                        {
+                            path: 'pos',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import('./features/pos/pos.module').then(
+                                    (m) => m.PosModule
+                                ),
+                        },
+                        {
+                            path: 'posSale',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/posSale/posSale.module'
+                                ).then((m) => m.PosSaleModule),
+                        },
+                        {
+                            path: 'transactions',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/transactions/transactions.module'
+                                ).then((m) => m.TransactionsModule),
+                        },
                     ],
                 },
                 { path: 'pages/landing', component: LandingComponent },

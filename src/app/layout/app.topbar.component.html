@@ -29,7 +29,7 @@
         <a
             routerLink="/settings"
             class="p-link layout-topbar-button"
-            *ngIf="memberService.getUserData().user_role == 'OWNER'"
+            *ngIf="memberService.getUserData()?.user_role == 'OWNER'"
         >
             <i class="pi pi-cog"></i>
             <span>Settings</span>

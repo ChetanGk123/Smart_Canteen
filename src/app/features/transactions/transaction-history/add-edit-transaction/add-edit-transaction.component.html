@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="grid">
+        <p for="card_number">Card Number <span class="p-error">*</span></p>
+        <div class="field col-12 p-fluid p-input-icon-right">
+            <input
+                type="text"
+                pInputText
+                id="card_number"
+                [(ngModel)]="cardNumber"
+                (input)="loadData()"
+                autocomplete="off"
+                required
+                autofocus
+            />
+            <i class="pi pi-spin pi-spinner mr-2" *ngIf="loading"></i>
+        </div>
+    </div>
+</div>

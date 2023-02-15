@@ -12,11 +12,13 @@ import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberProfileComponent } from './member-profile/member-profile.component';
+import { AddMemberTransactionComponent } from './add-member-transaction/add-member-transaction.component';
 
 @NgModule({
   declarations: [
     MembersComponent,
     ManageMemberComponent,
+    AddMemberTransactionComponent,
     MemberProfileComponent
   ],
   imports: [

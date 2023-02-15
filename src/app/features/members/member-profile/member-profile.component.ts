@@ -1,11 +1,13 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { map, Observable } from 'rxjs';
+import { forkJoin, map, Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { AddMemberTransactionComponent } from '../add-member-transaction/add-member-transaction.component';
 import { ManageMemberComponent } from '../manage-member/manage-member.component';
 import { MemberService } from '../member.service';
 
@@ -18,12 +20,34 @@ export class MemberProfileComponent implements OnInit {
     cardHistoryLoading: boolean = false;
     loading: boolean = false;
     cameraDialog: boolean = false;
+    transactionLoading: boolean = false;
+    displayTransaction: boolean = false;
     cardHistory: Observable<Object>;
     memberData: any;
+    datePipe: DatePipe = new DatePipe('en-US');
+    start_date: any;
+    end_date: any;
     file_data: FormData;
+    transactionData: Observable<Object>;
     form: FormGroup = new FormGroup({
         file: new FormControl(),
     });
+    selectedProduct: any;
+    transactionMenu: MenuItem[] = [
+        // {
+        //     label: 'View',
+        //     icon: 'pi pi-fw pi-eye',
+        //     command: () => this.viewDetails(),
+        // },
+        // {
+        //     separator: true,
+        // },
+        // {
+        //     label: 'Print',
+        //     icon: 'pi pi-fw pi-print',
+        //     command: () => this.printDetails(this.selectedProduct),
+        // },
+    ];
     constructor(
         public apiService: ApiService,
         public authService: AuthService,
@@ -37,6 +61,11 @@ export class MemberProfileComponent implements OnInit {
     ngOnInit(): void {
         this.memberData = this.memberService.getMemberData();
         this.cardHistoryLoading = true;
+        this.end_date = new Date().toISOString().substring(0, 10);
+        this.start_date = this.datePipe.transform(
+            new Date().setDate(new Date().getDate() - 0),
+            'yyyy-MM-dd'
+        );
         if (this.memberData) {
             /* {
             "member_id": "1",
@@ -60,6 +89,10 @@ export class MemberProfileComponent implements OnInit {
             "status": "1",
             "balance": "2.00"
         } */
+            if (this.memberData?.gender) {
+            } else {
+                this.loadData();
+            }
             this.cardHistory = this.apiService
                 .getTypeRequest(
                     `table_data/CARD_UPDATE_DETAILS/${this.memberData.member_id}`
@@ -77,6 +110,13 @@ export class MemberProfileComponent implements OnInit {
 
     loadData() {
         this.loading = true;
+        var Data = {
+            member_id: this.memberData.member_id,
+            txn_id: '',
+            account_id: '',
+            start_date: this.start_date,
+            end_date: this.end_date,
+        };
         this.apiService
             .getTypeRequest(`specific_data/MEMBER/${this.memberData.member_id}`)
             .toPromise()
@@ -87,6 +127,16 @@ export class MemberProfileComponent implements OnInit {
                 }
                 this.loading = false;
             });
+        forkJoin([
+            (this.transactionData = this.apiService
+                .postTypeRequest(`transaction_data/MEMBER_TRANSACTIONS`, Data)
+                .pipe(
+                    map((res: any) => {
+                        this.transactionLoading = false;
+                        return res.data;
+                    })
+                )),
+        ]);
     }
 
     editMemberData() {
@@ -97,6 +147,20 @@ export class MemberProfileComponent implements OnInit {
         });
         ref.onClose.subscribe((result: any) => {
             if (result) {
+                this.loadData();
+            }
+        });
+    }
+
+    add() {
+        const ref = this.dialogService.open(AddMemberTransactionComponent, {
+            data: this.memberData,
+            header: `Add Transaction`,
+            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
                 this.loadData();
             }
         });

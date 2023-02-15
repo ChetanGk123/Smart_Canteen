@@ -1,0 +1,220 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Update History</h4>
+            <!-- <div class="col-12">
+                <div class="card">
+                    <div class="grid justify-content-between">
+                        <div class="font-medium text-3xl text-900 mb-3">
+                            Member Profile
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div
+                            class="static col-12 xl:col-3 lg:col-4 md:col-5 sm:col-12 xs:col-12"
+                        >
+                            <img
+                                [src]="
+                                    'https://spng.pinpng.com/pngs/s/74-740774_veg-icon-png-circle-transparent-png.png'
+                                "
+                                alt=""
+                                class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
+                                style="border-radius: 50%; margin-right: -4rem"
+                            />
+                            <p-dialog
+                                [(visible)]="cameraDialog"
+                                [breakpoints]="{
+                                    '960px': '75vw',
+                                    '640px': '95vw'
+                                }"
+                                [style]="{ width: '50vw' }"
+                                header="Camera"
+                                [modal]="true"
+                                styleClass="p-fluid"
+                            >
+                                <ng-template pTemplate="content">
+                                    <app-camera
+                                        (getPicture)="handleImage($event)"
+                                    ></app-camera>
+                                </ng-template>
+                            </p-dialog>
+                        </div>
+                        <div
+                            class="col-12 lg:col-8 md:col-7 sm:col-12 xs:col-12"
+                        >
+                            <div class="surface-section">
+                                <ul class="list-none p-0 m-0">
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Title
+                                        </div>
+                                        <div
+                                            class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Card Number
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Balance
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" | currency: "INR" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Gender
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Phone No
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Date Of Birth
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 w-6 md:w-3 font-medium"
+                                        >
+                                            Email
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ "" }}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-12">
+                <p-table
+                    dataKey="card_number"
+                    [value]="History"
+                    [paginator]="true"
+                    [loading]="loading"
+                    [rows]="10"
+                    [showCurrentPageReport]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10, 25, 50]"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Slno</th>
+                            <th pSortableColumn="stock_update_date">
+                                Date
+                                <p-sortIcon
+                                    field="stock_update_date"
+                                ></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="qty_txn_type">
+                                Txn Type
+                                <p-sortIcon field="qty_txn_type"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="qty_txn_cat">
+                                Category
+                                <p-sortIcon field="qty_txn_cat"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="qty">
+                                Quantity
+                                <p-sortIcon field="qty"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="reason">
+                                Reason
+                                <p-sortIcon field="reason"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template
+                        pTemplate="body"
+                        let-product
+                        let-rowIndex="rowIndex"
+                    >
+                        <tr>
+                            <td>
+                                {{ rowIndex + 1 }}
+                            </td>
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ product.stock_update_date }}
+                            </td>
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ product.qty_txn_type }}
+                            </td>
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ product.qty_txn_cat }}
+                            </td>
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ product.qty }}
+                            </td>
+                            <td style="width: 14%; min-width: 10rem">
+                                {{ product.reason }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="card">
+    <form [formGroup]="form">
+        <div class="grid">
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label htmlFor="username"
+                    >Image <span class="p-error">*</span></label
+                >
+                <input
+                    type="file"
+                    pInputText
+                    id="name"
+                    (input)="handleImage($event)"
+                    required
+                    autofocus
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <img
+                    *ngIf="url"
+                    [src]="url"
+                    class="h-5rem md:h-5rem sm:h-5rem xs:h-2rem"
+                    style="
+                        border-radius: 50%;
+                        margin-right: -4rem;
+                        margin-left: 3rem;
+                    "
+                />
+            </div>
+        </div>
+        <button
+            pButton
+            type="submit"
+            [loading]="loading"
+            (click)="submitClick()"
+            label="Upload"
+        ></button>
+    </form>
+</div>

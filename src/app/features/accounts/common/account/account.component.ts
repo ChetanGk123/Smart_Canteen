@@ -4,6 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { map, Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { AccountTransferComponent } from '../../account-transfer/account-transfer.component';
 import { AddEditAccountComponent } from './add-edit-account/add-edit-account.component';
 
 @Component({
@@ -38,11 +39,11 @@ export class AccountComponent implements OnInit {
                 icon: 'pi pi-fw pi-trash',
                 command: () => this.confirm(this.selectedProduct),
             },
-            /* {
+            {
                 label: 'Direct Entry',
                 icon: 'pi pi-fw pi-dollar',
                 command: () => this.wildCardEntry(this.selectedProduct),
-            }, */
+            },
             // {
             //     label: 'Transactions',
             //     icon: 'pi pi-fw pi-dollar',
@@ -138,6 +139,28 @@ export class AccountComponent implements OnInit {
             .finally(() => {
                 this.loading = false;
             });
+    }
+
+    wildCardEntry(product: any) {
+        var destinationUrl = this.Url;
+        const ref = this.dialogService.open(AccountTransferComponent, {
+            data: {
+                data: product,
+                destinationUrl: destinationUrl,
+                wildCardEntry: true,
+                url:
+                    this.Url == 'INCOME_ACCOUNT_HEAD'
+                        ? 'transaction_ops/ACC_HEAD_INCOME_CREDIT'
+                        : 'transaction_ops/ACC_HEAD_EXPENSE_CREDIT',
+            },
+            header: `Edit Account Balance`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
+            }
+        });
     }
 
     /* accountTransfer() {

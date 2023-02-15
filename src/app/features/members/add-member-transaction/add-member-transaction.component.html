@@ -1,0 +1,191 @@
+<div class="card">
+    <form [formGroup]="commonForm" autocomplete="off">
+        <div class="grid">
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="card_number"
+                    >Card Number <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="card_number"
+                    placeholder="XXXXXXXXXX"
+                    formControlName="card_number"
+                    autocomplete="off"
+                    readonly
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.card_number.touched &&
+                        commonForm.controls.card_number.errors?.required
+                    "
+                    >Card Number is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="name">Name <span class="p-error">*</span></label>
+                <input
+                    type="text"
+                    pInputText
+                    id="name"
+                    placeholder="Happy"
+                    formControlName="full_name"
+                    readonly
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.full_name.touched &&
+                        commonForm.controls.full_name.errors?.required
+                    "
+                    >Name is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="name">Balance <span class="p-error">*</span></label>
+                <input
+                    type="text"
+                    pInputText
+                    id="name"
+                    placeholder="Happy"
+                    formControlName="balance"
+                    readonly
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.balance.touched &&
+                        commonForm.controls.balance.errors?.required
+                    "
+                    >Balance is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="txn_date"
+                    >Date <span class="p-error">*</span></label
+                >
+                <input
+                    id="txn_date"
+                    type="date"
+                    pInputText
+                    formControlName="txn_date"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.txn_date.touched &&
+                        commonForm.controls.txn_date.errors?.required
+                    "
+                    >Date is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="account_head_id"
+                    >Account <span class="p-error">*</span></label
+                >
+                <p-dropdown
+                    id="account_head_id"
+                    [options]="accountList"
+                    optionLabel="account_name"
+                    optionValue="account_head_id"
+                    formControlName="account_head_id"
+                    placeholder="Select a Account"
+                    autofocus
+                ></p-dropdown>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.account_head_id.touched &&
+                        commonForm.controls.account_head_id.errors?.required
+                    "
+                    >Account is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="txn_amount"
+                    >Amount <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="txn_amount"
+                    placeholder="100.00"
+                    mask="separator.2"
+                    thousandSeparator=","
+                    maxlength="8"
+                    [validation]="false"
+                    formControlName="txn_amount"
+                /><small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.txn_amount.touched &&
+                        commonForm.controls.txn_amount.errors?.required
+                    "
+                    >Amount is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="payment_mode">Payment Mode <span class="p-error">*</span></label>
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_mode"
+                    placeholder="Cash"
+                    formControlName="payment_mode"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_mode.touched &&
+                        commonForm.controls.payment_mode.errors?.required
+                    "
+                    >Payment Mode is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="payment_ref">Payment Ref</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_ref"
+                    placeholder="UTR123"
+                    formControlName="payment_ref"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_ref.touched &&
+                        commonForm.controls.payment_ref.errors?.required
+                    "
+                    >Payment Ref is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12">
+                <label for="user_comments">Comments</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="user_comments"
+                    placeholder="For Debit"
+                    formControlName="user_comments"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.user_comments.touched &&
+                        commonForm.controls.user_comments.errors?.required
+                    "
+                    >Comments is required.</small
+                >
+            </div>
+        </div>
+        <button
+            pButton
+            type="submit"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="'Submit'"
+        ></button>
+    </form>
+</div>
