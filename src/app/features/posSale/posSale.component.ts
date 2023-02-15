@@ -79,7 +79,7 @@ export class PosSaleComponent implements OnInit {
     };
 
     commonForm: FormGroup = new FormGroup({
-        card_no: new FormControl('90111633330001'),
+        card_no: new FormControl(''),
         member_id: new FormControl(''),
         customer_name: new FormControl(''),
         customer_ph: new FormControl(''),
@@ -128,7 +128,6 @@ export class PosSaleComponent implements OnInit {
                     }
                 }),
         ]);
-        this.fetchCustomer();
     }
 
     updateAccountStatus() {
@@ -154,6 +153,7 @@ export class PosSaleComponent implements OnInit {
                     this.commonForm.controls.customer_name.value;
                 this.OrderDetails.customer_ph =
                     this.commonForm.controls.customer_ph.value;
+                    this.OrderDetails.account_head_id = null
             } else {
                 this.OrderDetails.account_head_id =
                     this.commonForm.controls.account_head_id.value;

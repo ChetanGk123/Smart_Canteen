@@ -82,8 +82,12 @@
                                         ></i
                                     ></span>
                                 </th>
+                                <th pSortableColumn="id" style="min-width: 8rem">
+                                    Item Code
+                                    <p-sortIcon field="id"></p-sortIcon>
+                                </th>
                                 <th pSortableColumn="hsn_code" style="min-width: 8rem">
-                                    Code
+                                    HSN Code
                                     <p-sortIcon field="hsn_code"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="name" style="min-width: 10rem">
@@ -113,6 +117,9 @@
                             <tr [pContextMenuRow]="product">
                                 <td>
                                     {{ rowIndex + 1 }}
+                                </td>
+                                <td>
+                                    {{ product.id }}
                                 </td>
                                 <td>
                                     {{ product.hsn_code }}
