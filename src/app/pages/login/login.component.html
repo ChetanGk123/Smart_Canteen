@@ -40,6 +40,21 @@
                         >Sign in to continue</span
                     >
                 </div>
+                <div class="text-center">
+                    <a
+                            class="font-medium no-underline hover:underline ml-2 text-right cursor-pointer"
+                            style="color: var(--primary-color)" (click)="otherSignIn('canteen_super_user','canteen_super_user')"
+                            >Sign in as SU</a
+                        >,<a
+                        class="font-medium no-underline hover:underline ml-2 text-right cursor-pointer"
+                        style="color: var(--primary-color)" (click)="otherSignIn('owner@canteen.com','owner@canteen.com')"
+                        >Sign in as Owner</a
+                    >,<a
+                    class="font-medium no-underline ml-2 text-right cursor-pointer"
+                    style="color: var(--primary-color)" (click)="otherSignIn('kolhapur@canteen.com','kolhapur@canteen.com')"
+                    >Sign in as Counter</a
+                >
+                </div>
                 <div class="w-full md:w-10 mx-auto">
                     <label
                         for="email1"

@@ -210,23 +210,21 @@ export class PosSaleComponent implements OnInit {
                         this.commonForm.controls.account_balance.setValue(
                             resopnse.data.balance
                         );
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: resopnse.message,
-                            detail: 'Found Card Details.',
-                        });
+                        this.UserConfigDialog = false;
 
                         this.commonForm.patchValue({
                             member_id: resopnse.data.member_id,
                             customer_name: resopnse.data.full_name,
                             customer_ph: resopnse.data.phone_number,
                         });
+                        this.OrderDetails.member_id = resopnse.data.member_id;
                     } else {
                         this.messageService.add({
                             severity: 'error',
                             summary: resopnse.message,
                             detail: 'Card Details Not Found.',
                         });
+                        this.OrderDetails.member_id = null
                     }
                 })
                 .finally(() => (this.fetchCustomerLoading = false));
@@ -370,12 +368,6 @@ export class PosSaleComponent implements OnInit {
                         detail: resopnse.message,
                     });
                     this.reset();
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: resopnse.message,
-                        detail: 'Error.',
-                    });
                 }
             });
     }

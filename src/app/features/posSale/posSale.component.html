@@ -174,7 +174,7 @@
             <div>
                 <div
                     class="flex justify-content-center mt-5"
-                    style="height: 69vh; overflow-y: scroll"
+                    style="height: 64vh; overflow-y: scroll"
                 >
                     <div class="flex flex-wrap gap-5">
                         <div
@@ -278,8 +278,8 @@
                 <p>{{ commonForm.controls.customer_ph.value }}</p>
             </div>
             <div class="flex w-full justify-content-between" *ngIf="commonForm.controls.member_id.value;else account">
-                <p>Balance</p>
-                <p>{{ commonForm.controls.account_balance.value | currency:"INR" }}</p>
+                <p class="mb-0">Balance</p>
+                <p class="mb-0">{{ commonForm.controls.account_balance.value | currency:"INR" }}</p>
             </div>
             <ng-template #account>
                 <div class="flex w-full justify-content-between">
