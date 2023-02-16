@@ -33,14 +33,14 @@ export class AppConfigComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.config = this.configService.config;
-        this.subscription = this.configService.configUpdate$.subscribe(
-            (config) => {
-                this.config = config;
-                this.scale = 13;
+        // this.subscription = this.configService.configUpdate$.subscribe(
+        //     (config) => {
+        //         this.config = config;
+        //         this.scale = 13;
 
-                this.applyScale();
-            }
-        );
+        //         this.applyScale();
+        //     }
+        // );
         this.apiService
             .getTypeRequest(`table_data/COUNTER`)
             .toPromise()
