@@ -342,7 +342,8 @@ export class PosSaleComponent implements OnInit {
     }
 
     submit() {
-        console.log(this.OrderDetails);
+        this.OrderDetails.customer_name = this.commonForm.controls.customer_name.value
+        this.OrderDetails.customer_ph = this.commonForm.controls.customer_ph.value
         if (this.OrderDetails.member_id) {
             if (
                 Number(this.commonForm.controls.account_balance.value) <

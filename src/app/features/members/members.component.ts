@@ -78,14 +78,12 @@ export class MembersComponent implements OnInit {
 
     loadData() {
         this.loading = true;
-        var url
+        var url = ""
         if(this.commonForm.controls.counter_id.value != ''){
-            url = `table_data/MEMBER/BY_COUNTER/${this.commonForm.controls.counter_id.value}`
-        } else {
-            url = "table_data/MEMBER"
+            url = `/BY_COUNTER/${this.commonForm.controls.counter_id.value}`
         }
         this.apiService
-            .getTypeRequest(`${url}`)
+            .getTypeRequest(`table_data/MEMBER${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;

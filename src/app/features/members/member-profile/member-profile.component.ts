@@ -103,6 +103,21 @@ export class MemberProfileComponent implements OnInit {
                         return res.data;
                     })
                 );
+                var Data = {
+                    member_id: this.memberData.member_id,
+                    txn_id: '',
+                    account_id: '',
+                    start_date: this.start_date,
+                    end_date: this.end_date,
+                };
+                this.transactionData = this.apiService
+                .postTypeRequest(`transaction_data/MEMBER_TRANSACTIONS`, Data)
+                .pipe(
+                    map((res: any) => {
+                        this.transactionLoading = false;
+                        return res.data;
+                    })
+                )
         } else {
             this.router.navigate(['../'], { relativeTo: this.route });
         }
@@ -127,16 +142,6 @@ export class MemberProfileComponent implements OnInit {
                 }
                 this.loading = false;
             });
-        forkJoin([
-            (this.transactionData = this.apiService
-                .postTypeRequest(`transaction_data/MEMBER_TRANSACTIONS`, Data)
-                .pipe(
-                    map((res: any) => {
-                        this.transactionLoading = false;
-                        return res.data;
-                    })
-                )),
-        ]);
     }
 
     editMemberData() {

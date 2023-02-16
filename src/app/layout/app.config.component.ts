@@ -7,6 +7,7 @@ import { ConfigService } from '../core/services/app.config.service';
 import { AppMainComponent } from './app.main.component';
 import { ApiService } from '../core/services/api/api.service';
 import { CounterService } from '../features/counters/counter.service';
+import { MemberService } from '../features/members/member.service';
 
 @Component({
     selector: 'app-config',
@@ -28,7 +29,8 @@ export class AppConfigComponent implements OnInit, OnDestroy {
         public appMain: AppMainComponent,
         public configService: ConfigService,
         public primengConfig: PrimeNGConfig,
-        public counterService: CounterService
+        public counterService: CounterService,
+        public memberService: MemberService
     ) {}
 
     ngOnInit() {
@@ -41,28 +43,30 @@ export class AppConfigComponent implements OnInit, OnDestroy {
         //         this.applyScale();
         //     }
         // );
-        this.apiService
-            .getTypeRequest(`table_data/COUNTER`)
-            .toPromise()
-            .then((result: any) => {
-                var data = {
-                    contact_number: '',
-                    contact_person: '',
-                    counter_address: '',
-                    counter_name: 'All',
-                    email: '',
-                    id: '',
-                    logo_location: '',
-                    logo_url: '',
-                    status: '',
-                };
-                this.selectedCounter = data
-                this.updateCounter()
-                this.counters.push(data)
-                result?.data.forEach(element => {
-                    this.counters.push(element)
+        if(this.memberService.getUserData().user_role =='OWNER'){
+            this.apiService
+                .getTypeRequest(`table_data/COUNTER`)
+                .toPromise()
+                .then((result: any) => {
+                    var data = {
+                        contact_number: '',
+                        contact_person: '',
+                        counter_address: '',
+                        counter_name: 'All',
+                        email: '',
+                        id: '',
+                        logo_location: '',
+                        logo_url: '',
+                        status: '',
+                    };
+                    this.selectedCounter = data
+                    this.updateCounter()
+                    this.counters.push(data)
+                    result?.data.forEach(element => {
+                        this.counters.push(element)
+                    });
                 });
-            });
+        }
     }
 
     onConfigButtonClick(event) {
