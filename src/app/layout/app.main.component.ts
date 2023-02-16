@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 import { AppConfig } from '../core/interfaces/appconfig';
 import { AppComponent } from '../app.component';
 import { ConfigService } from '../core/services/app.config.service';
+import { MemberService } from '../features/members/member.service';
 
 @Component({
     selector: 'app-main',
@@ -79,7 +80,8 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
     constructor(
         public renderer: Renderer2,
         public app: AppComponent,
-        public configService: ConfigService
+        public configService: ConfigService,
+        public memberService: MemberService
     ) {}
 
     ngOnInit() {

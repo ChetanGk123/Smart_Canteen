@@ -6,6 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import * as XLSX from 'xlsx';
+import { CounterService } from '../counters/counter.service';
 import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberService } from './member.service';
 import { MembersData } from './members-details.model';
@@ -21,11 +22,13 @@ export class MembersComponent implements OnInit {
     loading: boolean = false;
     CardDetailsSubmitLoading: boolean = false;
     cardUpdate: boolean = false;
+    dataLoaded: boolean = false;
     bulkAddloading: boolean = false;
     bulkAdd: boolean = false;
     selectedProduct: any;
     items: MenuItem[];
     commonForm: FormGroup = new FormGroup({
+        counter_id: new FormControl(''),
         member_id: new FormControl('', [Validators.required]),
         card_number: new FormControl('', [Validators.required]),
         reason: new FormControl('', [Validators.required]),
@@ -37,10 +40,15 @@ export class MembersComponent implements OnInit {
         public route: ActivatedRoute,
         public dialogService: DialogService,
         public memberService: MemberService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        public counterService: CounterService
     ) {}
 
     ngOnInit(): void {
+            this.counterService.counterDate$.subscribe((data:any)=>{
+                this.commonForm.controls.counter_id.setValue(data?.id??'')
+                this.loadData();
+            })
         this.items = [
             {
                 label: 'View',
@@ -66,39 +74,22 @@ export class MembersComponent implements OnInit {
                 command: () => this.confirm(),
             },
         ];
-        this.loadData();
     }
 
     loadData() {
         this.loading = true;
+        var url
+        if(this.commonForm.controls.counter_id.value != ''){
+            url = `table_data/MEMBER/BY_COUNTER/${this.commonForm.controls.counter_id.value}`
+        } else {
+            url = "table_data/MEMBER"
+        }
         this.apiService
-            .getTypeRequest(`table_data/MEMBER`)
+            .getTypeRequest(`${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
                 this.tableData = result?.data;
-                /* {
-                    "member_id": "1",
-                    "card_number": "744755373a90123",
-                    "counter_id": "3",
-                    "full_name": "Chetan",
-                    "gender": "Male",
-                    "phone_number": "9988776655",
-                    "parents_ph": "9988776655",
-                    "dob": "2020-12-12",
-                    "email": "ccc@ccc",
-                    "school_name": "dfgsf",
-                    "class_name": "10",
-                    "division_name": "A",
-                    "hostel_details": "sdrg",
-                    "photo_url": "https://thetechvaidya.com/smart_canteen/uploads/default_logo.png",
-                    "profile_photo": "default_logo.png",
-                    "member_type_id": "3",
-                    "member_type": "STUDENT",
-                    "address": "sdfsdfsfsdf",
-                    "status": "1",
-                    "balance": "2.00"
-                } */
             });
     }
 

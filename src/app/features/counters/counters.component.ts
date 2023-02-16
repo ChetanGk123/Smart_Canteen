@@ -27,6 +27,10 @@ export class CountersComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadData();
+        this.counterService.counterDate$.subscribe((data:any)=>{
+            console.log(data);
+
+        })
     }
 
     loadData() {

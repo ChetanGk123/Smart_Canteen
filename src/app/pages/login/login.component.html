@@ -40,7 +40,7 @@
                         >Sign in to continue</span
                     >
                 </div>
-                <div class="text-center">
+                <div class="text-center" *ngIf="displayLogins">
                     <a
                             class="font-medium no-underline hover:underline ml-2 text-right cursor-pointer"
                             style="color: var(--primary-color)" (click)="otherSignIn('canteen_super_user','canteen_super_user')"

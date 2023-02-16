@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Login } from 'src/app/core/models/Login';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { EnvService } from 'src/app/env.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-login',
@@ -33,6 +34,7 @@ import { EnvService } from 'src/app/env.service';
     ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+    displayLogins:boolean
     username: string;
     password: string;
     rememberme: boolean = true;
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.displayLogins = !environment.production
         this.loading = false;
         this.config = this.configService.config;
         this.subscription = this.configService.configUpdate$.subscribe(
