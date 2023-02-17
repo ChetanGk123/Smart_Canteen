@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { CounterService } from '../../counters/counter.service';
 import { PosSaleComponent } from '../../receipt/pos-sale/pos-sale.component';
 
 @Component({
@@ -11,7 +13,7 @@ import { PosSaleComponent } from '../../receipt/pos-sale/pos-sale.component';
     templateUrl: './pos-history.component.html',
     styleUrls: ['./pos-history.component.scss'],
 })
-export class PosHistoryComponent implements OnInit {
+export class PosHistoryComponent implements OnInit, OnDestroy {
     Data: any[] = [];
     loading: boolean = false;
     displayTransaction: boolean = false;
@@ -22,16 +24,29 @@ export class PosHistoryComponent implements OnInit {
     end_date: any;
     User:any;
     transaction_range:any;
+    counter_id: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         public apiService: ApiService,
         public dialogService: DialogService,
         public messageService: MessageService,
-        public memberService: MemberService
+        public counterService: CounterService
     ) {}
 
     ngOnInit(): void {
-        this.User = this.memberService.getUserData().user_role
-        this.transaction_range = this.User == "OWNER"? this.memberService.getSettings().transaction_range:0
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+                this.loading = true;
+                this.Data = [];
+                this.loadData();
+            });
+        // this.User = this.memberService.getUserData()?.user_role
+        // this.transaction_range = this.User == "OWNER"? this.memberService.getSettings()?.transaction_range:0
+        this.transaction_range = 0
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(
             new Date().setDate(
@@ -52,7 +67,15 @@ export class PosHistoryComponent implements OnInit {
                 command: () => this.printMembership2Inc(),
             },
         ];
-        this.loadData();
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 
     loadData() {
@@ -61,8 +84,12 @@ export class PosHistoryComponent implements OnInit {
             start_date: this.start_date,
             end_date: this.end_date,
         };
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
         this.apiService
-            .getTypeRequest(`table_data/POS_SALES`)
+            .getTypeRequest(`table_data/POS_SALES${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
@@ -88,3 +115,4 @@ export class PosHistoryComponent implements OnInit {
         });
     }
 }
+

@@ -339,7 +339,7 @@ Smart Canteen Updates:
     b. API to fetch specific particular data
         API: get /specific_data/POS_PARTICULAR/particular_id -->
 
-Smart Canteen Updates:
+<!-- Smart Canteen Updates:
 
 1. API to mark the POS Sales
     Note: POS Sales can be made for both Registered & Non-Registered Members
@@ -391,7 +391,7 @@ Smart Canteen Updates:
                     }
 
 2. API to fetch the POS Sales List
-    API: get /table_data/POS_SALES
+    API: get /table_data/POS_SALES -->
 
 3. API to get all the information related to Specific POS Sales
     API: get /pos_sale_data/pos_sale_id

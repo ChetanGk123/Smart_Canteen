@@ -126,7 +126,6 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
     }
 
     toggleMenu(event: Event) {
-        console.log(event);
 
         this.menuClick = true;
         if (this.isDesktop()) {
@@ -156,6 +155,16 @@ export class AppMainComponent implements AfterViewInit, OnDestroy, OnInit {
         } else {
             this.menuActiveMobile = false;
             this.topMenuActive = false;
+        }
+    }
+
+
+    showMenu(){
+        if (this.isDesktop()) {
+                this.staticMenuInactive = !this.staticMenuInactive;
+        } else {
+            this.menuActiveMobile = true;
+            this.topMenuActive = true;
         }
     }
 

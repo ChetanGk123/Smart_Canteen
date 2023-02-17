@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 // import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { CounterService } from '../../counters/counter.service';
 import { AddPosComponent } from '../add-pos/add-pos.component';
 import { UpdateImageComponent } from '../update-image/update-image.component';
 import { UpdatePosComponent } from '../update-pos/update-pos.component';
@@ -15,20 +16,30 @@ import { PosDetailsComponent } from './pos-details/pos-details.component';
     templateUrl: './pos-items.component.html',
     styleUrls: ['./pos-items.component.scss'],
 })
-export class PosItemsComponent implements OnInit {
-    Data: Observable<Object>;
+export class PosItemsComponent implements OnInit, OnDestroy {
+    Data: any;
     loading: boolean = false;
     selectedProduct: any;
     items: MenuItem[];
+    counter_id: any;
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     constructor(
         public apiService: ApiService,
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
-        public dialogService: DialogService
+        public dialogService: DialogService,
+        public counterService: CounterService,
     ) {}
 
     ngOnInit(): void {
-        this.loading = true;
+        this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
+            this.counter_id= data?.id??'';
+            this.loading = true;
+            this.Data = []
+            this.loadData();
+        })
         this.items = [
             {
                 label: 'Update Image',
@@ -56,14 +67,35 @@ export class PosItemsComponent implements OnInit {
                 command: () => this.updateStock(),
             },
         ];
-        this.Data = this.apiService
-            .getTypeRequest(`table_data/POS_PARTICULAR`)
-            .pipe(
-                map((res: any) => {
-                    this.loading = false;
-                    return res.data;
-                })
-            );
+
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    loadData(){
+        var url = ""
+        if(this.counter_id != ''){
+            url = `/BY_COUNTER/${this.counter_id}`
+        }
+        this.apiService
+            .getTypeRequest(`table_data/POS_PARTICULAR${url}`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    this.Data = result.data;
+                } else {
+                    this.Data = []
+                }
+            });
     }
 
     clear(table: Table) {

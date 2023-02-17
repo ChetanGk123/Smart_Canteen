@@ -1,13 +1,15 @@
 
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
 import { AccountTransferComponent } from '../../accounts/account-transfer/account-transfer.component';
+import { CounterService } from '../../counters/counter.service';
 // import { AccountTransferComponent } from '../../account/account-transfer/account-transfer.component';
 import { ExpenseReceiptComponent } from '../../receipt/expense-receipt/expense-receipt.component';
 import { TransactionReceiptComponent } from '../../receipt/transaction-receipt/transaction-receipt.component';
@@ -18,7 +20,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
     templateUrl: './transaction-history.component.html',
     styleUrls: ['./transaction-history.component.scss']
   })
-  export class TransactionHistoryComponent implements OnInit {
+  export class TransactionHistoryComponent implements OnInit, OnDestroy {
     //     @ViewChild("myinput") myInputField: ElementRef;
     // ngAfterViewInit() {
     // this.myInputField.nativeElement.focus();
@@ -33,6 +35,10 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
     end_date: any;
     User:any
     transaction_range:any
+    counter_id: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         public apiService: ApiService,
@@ -40,10 +46,18 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
         public dialogService: DialogService,
         public memberService: MemberService,
         public router: Router,
+        public counterService: CounterService
     ) {}
 
     ngOnInit() {
-
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+                this.loading = true;
+                this.Data = [];
+                this.loadData();
+            });
         //this.User = this.memberService.getUserData().user_role
         this.transaction_range = 0
         // this.transaction_range = this.memberService.getSettings()?.transaction_range??0
@@ -68,8 +82,15 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
                 command: () => this.print(),
             },
         ];
+    }
 
-        this.loadData();
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 
     ConvertStringToNumber(input: string) {
@@ -78,13 +99,17 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
     }
 
     loadData() {
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
         this.loading = true;
         var Data = {
             start_date: this.start_date,
             end_date: this.end_date,
         };
         this.apiService
-            .postTypeRequest(`transaction_data/ALL_TRANSACTIONS`, Data)
+            .postTypeRequest(`transaction_data/ALL_TRANSACTIONS${url}`, Data)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;

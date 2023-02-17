@@ -23,6 +23,6 @@
         </div>
         <!-- <app-footer></app-footer> -->
     </div>
-    <app-config *ngIf="this.memberService.getUserData().user_role =='OWNER'"></app-config>
+    <app-config *ngIf="this.memberService.getUserData()?.user_role =='OWNER'"></app-config>
         <!-- <div *ngIf="menuActiveMobile" class="layout-mask p-component-overlay"></div> -->
 </div>

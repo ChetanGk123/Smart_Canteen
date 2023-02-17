@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { forkJoin } from 'rxjs';
@@ -92,6 +93,7 @@ export class PosSaleComponent implements OnInit {
     constructor(
         public appMain: AppMainComponent,
         public apiService: ApiService,
+        public router: Router,
         // public coreConfig: CoreConfig,
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
@@ -130,6 +132,17 @@ export class PosSaleComponent implements OnInit {
         ]);
     }
 
+    closeDialog() {
+        if (this.OrderDetails.account_head_id || this.OrderDetails.member_id) {
+            this.UserConfigDialog = false;
+        } else {
+            console.log('account_head_id', this.OrderDetails.account_head_id);
+            console.log('member_id', this.OrderDetails.member_id);
+            this.appMain.showMenu();
+            this.router.navigate(['/dashboard']);
+        }
+    }
+
     updateAccountStatus() {
         this.incomeAccounts.forEach((element) => {
             if (
@@ -139,6 +152,8 @@ export class PosSaleComponent implements OnInit {
                 this.commonForm.controls.account_head_name.setValue(
                     element.account_name
                 );
+                this.OrderDetails.account_head_id =
+                    this.commonForm.controls.account_head_id.value;
             }
         });
     }
@@ -153,7 +168,7 @@ export class PosSaleComponent implements OnInit {
                     this.commonForm.controls.customer_name.value;
                 this.OrderDetails.customer_ph =
                     this.commonForm.controls.customer_ph.value;
-                    this.OrderDetails.account_head_id = null
+                this.OrderDetails.account_head_id = null;
             } else {
                 this.OrderDetails.account_head_id =
                     this.commonForm.controls.account_head_id.value;
@@ -169,7 +184,7 @@ export class PosSaleComponent implements OnInit {
     }
 
     ChangeMainCategoryFilter() {
-        if(this.mainCategoryFilter != null){
+        if (this.mainCategoryFilter != null) {
             var TempItems = this.posItems.filter((item: any) => {
                 if (item.main_category_id == this.mainCategoryFilter.id) {
                     return item;
@@ -184,7 +199,11 @@ export class PosSaleComponent implements OnInit {
     ChangeFilter() {
         if (this.itemFilter.length > 0) {
             var TempItems = this.posItems.filter((item: any) => {
-                if (item.name.toLowerCase().includes(this.itemFilter.toLowerCase())) {
+                if (
+                    item.name
+                        .toLowerCase()
+                        .includes(this.itemFilter.toLowerCase())
+                ) {
                     return item;
                 }
             });
@@ -224,7 +243,7 @@ export class PosSaleComponent implements OnInit {
                             summary: resopnse.message,
                             detail: 'Card Details Not Found.',
                         });
-                        this.OrderDetails.member_id = null
+                        this.OrderDetails.member_id = null;
                     }
                 })
                 .finally(() => (this.fetchCustomerLoading = false));
@@ -342,8 +361,10 @@ export class PosSaleComponent implements OnInit {
     }
 
     submit() {
-        this.OrderDetails.customer_name = this.commonForm.controls.customer_name.value
-        this.OrderDetails.customer_ph = this.commonForm.controls.customer_ph.value
+        this.OrderDetails.customer_name =
+            this.commonForm.controls.customer_name.value;
+        this.OrderDetails.customer_ph =
+            this.commonForm.controls.customer_ph.value;
         if (this.OrderDetails.member_id) {
             if (
                 Number(this.commonForm.controls.account_balance.value) <

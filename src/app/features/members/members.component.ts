@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import * as XLSX from 'xlsx';
@@ -16,7 +17,7 @@ import { MembersData } from './members-details.model';
     templateUrl: './members.component.html',
     styleUrls: ['./members.component.scss'],
 })
-export class MembersComponent implements OnInit {
+export class MembersComponent implements OnInit, OnDestroy {
     tableData: any;
     bulkAddData: any = [];
     loading: boolean = false;
@@ -27,6 +28,11 @@ export class MembersComponent implements OnInit {
     bulkAdd: boolean = false;
     selectedProduct: any;
     items: MenuItem[];
+
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     commonForm: FormGroup = new FormGroup({
         counter_id: new FormControl(''),
         member_id: new FormControl('', [Validators.required]),
@@ -44,8 +50,9 @@ export class MembersComponent implements OnInit {
         public counterService: CounterService
     ) {}
 
+
     ngOnInit(): void {
-            this.counterService.counterDate$.subscribe((data:any)=>{
+            this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
                 this.commonForm.controls.counter_id.setValue(data?.id??'')
                 this.loadData();
             })
@@ -76,6 +83,16 @@ export class MembersComponent implements OnInit {
         ];
     }
 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
     loadData() {
         this.loading = true;
         var url = ""
@@ -87,7 +104,11 @@ export class MembersComponent implements OnInit {
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
+                if (result.result) {
                 this.tableData = result?.data;
+                } else {
+                    this.tableData = []
+                }
             });
     }
 

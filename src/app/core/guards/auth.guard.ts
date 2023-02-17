@@ -27,7 +27,6 @@ export class AuthGuard implements CanActivate {
         const user = this.authService.getUser();
         const helper = new JwtHelperService();
         const TokenExpired = helper.isTokenExpired(user?.token) ?? false;
-        console.log(TokenExpired);
 
         if (!TokenExpired) {
             this.authService.beginsesssion();

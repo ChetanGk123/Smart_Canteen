@@ -6,7 +6,7 @@ import { PosItemsComponent } from './pos-items/pos-items.component';
 import { AddPosComponent } from './add-pos/add-pos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
-import { SharedModule } from 'primeng/api';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { UpdatePosComponent } from './update-pos/update-pos.component';
 import { PosDetailsComponent } from './pos-items/pos-details/pos-details.component';

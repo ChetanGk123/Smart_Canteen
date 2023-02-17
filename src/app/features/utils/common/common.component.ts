@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { CounterService } from '../../counters/counter.service';
 import { CommonEditComponent } from './common-edit/common-edit.component';
 
 @Component({
@@ -10,7 +12,7 @@ import { CommonEditComponent } from './common-edit/common-edit.component';
     templateUrl: './common.component.html',
     styleUrls: ['./common.component.scss'],
 })
-export class CommonComponent implements OnInit {
+export class CommonComponent implements OnInit, OnDestroy {
     @Input() Url;
     @Input() Title;
     loading: boolean;
@@ -18,15 +20,28 @@ export class CommonComponent implements OnInit {
     selectedProduct: any;
     items: MenuItem[];
     Data = [];
+    counter_id: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         public apiService: ApiService,
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
-        public dialogService: DialogService
+        public dialogService: DialogService,
+        public counterService: CounterService
     ) {}
 
     ngOnInit(): void {
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+                this.loading = true;
+                this.Data = [];
+                this.loadData();
+            });
         this.items = [
             {
                 label: 'Edit',
@@ -39,14 +54,31 @@ export class CommonComponent implements OnInit {
                 command: () => this.confirm(),
             },
         ];
-        this.loading = true;
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    loadData() {
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
         this.apiService
-            .getTypeRequest(`table_data/${this.Url}`)
+            .getTypeRequest(`table_data/${this.Url}${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
                 if (result.result) {
                     this.Data = result.data;
+                } else {
+                    this.Data = [];
                 }
             });
     }

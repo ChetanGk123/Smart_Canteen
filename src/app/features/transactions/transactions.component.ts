@@ -1,11 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
 import { AccountTransferComponent } from '../account/account-transfer/account-transfer.component';
+import { CounterService } from '../counters/counter.service';
 import { ExpenseReceiptComponent } from '../receipt/expense-receipt/expense-receipt.component';
 import { TransactionReceiptComponent } from '../receipt/transaction-receipt/transaction-receipt.component';
 import { AddEditTransactionComponent } from './transaction-history/add-edit-transaction/add-edit-transaction.component';
@@ -15,7 +17,7 @@ import { AddEditTransactionComponent } from './transaction-history/add-edit-tran
     templateUrl: './transactions.component.html',
     styleUrls: ['./transactions.component.scss'],
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsComponent implements OnInit, OnDestroy {
     //     @ViewChild("myinput") myInputField: ElementRef;
     // ngAfterViewInit() {
     // this.myInputField.nativeElement.focus();
@@ -30,15 +32,28 @@ export class TransactionsComponent implements OnInit {
     end_date: any;
     User: any;
     transaction_range: any;
+    counter_id: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         public apiService: ApiService,
         public messageService: MessageService,
         public dialogService: DialogService,
-        public memberService: MemberService
+        public memberService: MemberService,
+        public counterService: CounterService
     ) {}
 
     ngOnInit() {
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+                this.loading = true;
+                this.Data = [];
+                this.loadData();
+            });
         this.User = this.memberService.getUserData().user_role;
         this.transaction_range =
             this.User == 'OWNER'
@@ -62,8 +77,15 @@ export class TransactionsComponent implements OnInit {
                 command: () => this.print(),
             },
         ];
+    }
 
-        this.loadData();
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 
     ConvertStringToNumber(input: string) {
@@ -72,6 +94,10 @@ export class TransactionsComponent implements OnInit {
     }
 
     loadData() {
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
         this.loading = true;
         var Data = {
             member_id: '',
@@ -81,7 +107,7 @@ export class TransactionsComponent implements OnInit {
             end_date: this.end_date,
         };
         this.apiService
-            .postTypeRequest(`transactions/RECENT`, Data)
+            .postTypeRequest(`transactions/RECENT${url}`, Data)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;

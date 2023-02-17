@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { CounterService } from 'src/app/features/counters/counter.service';
 
 @Component({
     selector: 'app-transactions',
@@ -22,14 +23,15 @@ export class TransactionsComponent implements OnInit {
     accountList: any = [];
     start_date: any;
     end_date: any;
-    User : any;
+    User: any;
     transaction_range: any;
+    counter_id: any;
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     commonForm: FormGroup = new FormGroup({
         account_head_id: new FormControl(''),
-        start_date: new FormControl(
-            '',
-            [Validators.required]
-        ),
+        start_date: new FormControl('', [Validators.required]),
         end_date: new FormControl(new Date().toISOString().substring(0, 10), [
             Validators.required,
         ]),
@@ -38,24 +40,73 @@ export class TransactionsComponent implements OnInit {
         public apiService: ApiService,
         public dialogService: DialogService,
         public messageService: MessageService,
-        public memberService: MemberService
+        public memberService: MemberService,
+        public counterService: CounterService
     ) {}
 
     ngOnInit(): void {
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+                this.loading = true;
+                this.Data = [];
+                this.loadData();
+            });
         this.accountList = [];
-        this.User = this.memberService.getUserData().user_role
-        this.transaction_range = this.User == "OWNER"? this.memberService.getSettings().transaction_range:0
-        this.commonForm.get('start_date').setValue(
-            this.datePipe.transform(
-                new Date().setDate(
-                    new Date().getDate() -
-                        this.transaction_range
-                ),
-                'yyyy-MM-dd'
-            )
-        );
+        this.User = this.memberService.getUserData().user_role;
+        // this.transaction_range = this.User == "OWNER"? this.memberService.getSettings().transaction_range:0
+        this.transaction_range = 0;
+        this.commonForm
+            .get('start_date')
+            .setValue(
+                this.datePipe.transform(
+                    new Date().setDate(
+                        new Date().getDate() - this.transaction_range
+                    ),
+                    'yyyy-MM-dd'
+                )
+            );
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    loadData() {
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
+        this.loadAccountList = true;
+        this.accountList = []
+
+        // if (this.commonForm.valid) {
+        this.loading = true;
         this.apiService
-            .getTypeRequest(`table_data/EXPENSE_ACCOUNT_HEAD`)
+            .postTypeRequest(
+                `transaction_data/ACCOUNT_HEAD_TRANSACTIONS${url}`,
+                this.commonForm.value
+            )
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    this.Data = result.data;
+                } else {
+                    this.Data = [];
+                }
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+        this.apiService
+            .getTypeRequest(`table_data/EXPENSE_ACCOUNT_HEAD${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
@@ -65,15 +116,14 @@ export class TransactionsComponent implements OnInit {
                         value: 'de',
                         items: result.data,
                     };
-                    this.accountList.push(data);
+                    this.accountList.push(data)
                 }
             })
             .finally(() => {
                 this.loading = false;
             });
-
         this.apiService
-            .getTypeRequest(`table_data/INCOME_ACCOUNT_HEAD`)
+            .getTypeRequest(`table_data/INCOME_ACCOUNT_HEAD${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
@@ -83,35 +133,12 @@ export class TransactionsComponent implements OnInit {
                         value: 'de',
                         items: result.data,
                     };
-                    this.accountList.push(data);
+                    this.accountList.push(data)
                 }
             })
             .finally(() => {
                 this.loading = false;
-                this.loadData()
             });
-    }
-
-    loadData() {
-        this.loadAccountList = true;
-
-        // if (this.commonForm.valid) {
-            this.loading = true;
-            this.apiService
-                .postTypeRequest(
-                    `transaction_data/ACCOUNT_HEAD_TRANSACTIONS`,
-                    this.commonForm.value
-                )
-                .toPromise()
-                .then((result: any) => {
-                    this.loading = false;
-                    if (result.result) {
-                        this.Data = result.data;
-                    }
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
         // } else {
         //     this.messageService.add({
         //         severity: 'warn',

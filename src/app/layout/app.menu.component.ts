@@ -38,7 +38,7 @@ import { AppMainComponent } from './app.main.component';
 })
 export class AppMenuComponent implements OnInit {
     model: any[];
-    User:any
+    User: any;
 
     constructor(
         public appMain: AppMainComponent,
@@ -175,12 +175,60 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
+            {
+                label: 'Accounts',
+                items: [
+                    {
+                        label: 'Account Transactions',
+                        icon: 'pi pi-history',
+                        routerLink: ['/accounts/accountTransactions'],
+                    },
+                ],
+            },
+            {
+                label: 'Transactions',
+                items: [
+                    {
+                        label: 'Transactions',
+                        icon: 'pi pi-history',
+                        routerLink: ['/transactions/history'],
+                    },
+                ],
+            },
+            {
+                label: 'Utils',
+                items: [
+                    {
+                        label: 'Misc',
+                        icon: 'pi pi-slack',
+                        routerLink: ['/utils'],
+                    },
+                ],
+            },
+            {
+                label: 'POS',
+                items: [
+                    {
+                        label: 'Main Category',
+                        icon: 'pi pi-slack',
+                        routerLink: ['/pos/mainCategory'],
+                    },
+                    {
+                        label: 'Items',
+                        icon: 'pi pi-slack',
+                        routerLink: ['/pos/posItems'],
+                    },
+                    {
+                        label: 'Sale History',
+                        icon: 'pi pi-slack',
+                        routerLink: ['/pos/posHistory'],
+                    },
+                ],
+            },
         ];
-        this.User = this.memberService.getUserData().user_role
+        this.User = this.memberService.getUserData().user_role;
         this.model =
-            this.User == 'OWNER' || this.User == 'su_user'
-                ? owner
-                : user;
+            this.User == 'OWNER' || this.User == 'su_user' ? owner : user;
     }
 
     onKeydown(event: KeyboardEvent) {

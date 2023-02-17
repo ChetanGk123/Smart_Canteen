@@ -2,7 +2,7 @@
     header="User Details "
     [(visible)]="UserConfigDialog"
     [modal]="true"
-    [closable]="false"
+    (onHide)="closeDialog()"
     [style]="{ width: '50vw' }"
 >
     <div class="card">
