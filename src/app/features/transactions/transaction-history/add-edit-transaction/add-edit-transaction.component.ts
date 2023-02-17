@@ -67,7 +67,6 @@ export class AddEditTransactionComponent implements OnInit {
     }
 
     add(memberData: any) {
-        console.log(memberData);
 
         const ref = this.dialogService.open(AddMemberTransactionComponent, {
             data: memberData,

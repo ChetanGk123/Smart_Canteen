@@ -136,7 +136,6 @@ export class MembersComponent implements OnInit, OnDestroy {
             const data = XLSX.utils.sheet_to_json(ws) as MembersData[]; // to get 2d array pass 2nd parameter as object {header: 1}
             // Data will be logged in array format containing objects
             //this.convertArrayToJson(data);
-            console.log('data', data);
             this.bulkAddData = data;
             this.bulkAdd = true;
         };
@@ -207,7 +206,6 @@ export class MembersComponent implements OnInit, OnDestroy {
             counter_id: this.authService.getUser()?.counter_id,
             member_data: this.bulkAddData,
         };
-        console.log(data);
         this.apiService
             .postTypeRequest(`member_ops/insert`, data)
             .toPromise()

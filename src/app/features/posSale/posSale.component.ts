@@ -136,8 +136,6 @@ export class PosSaleComponent implements OnInit {
         if (this.OrderDetails.account_head_id || this.OrderDetails.member_id) {
             this.UserConfigDialog = false;
         } else {
-            console.log('account_head_id', this.OrderDetails.account_head_id);
-            console.log('member_id', this.OrderDetails.member_id);
             this.appMain.showMenu();
             this.router.navigate(['/dashboard']);
         }

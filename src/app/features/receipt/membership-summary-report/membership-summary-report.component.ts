@@ -35,7 +35,6 @@ export class MembershipSummaryReportComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.config.data);
 
         this.name = this.memberService.getSettings().mess_name;
         this.logo = localStorage.getItem('logo');

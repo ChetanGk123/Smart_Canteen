@@ -29,7 +29,6 @@ public authService: AuthService,
 public config: DynamicDialogConfig,) {}
 
   ngOnInit(): void {
-    console.log(this.authService.getUser());
     this.commonForm.controls.role_id.setValue(2)
   }
 
