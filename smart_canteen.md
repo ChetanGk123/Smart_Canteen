@@ -168,22 +168,22 @@
 14. API to fetch Card Update details of specific member
     get: /api/v1/table_data/CARD_UPDATE_DETAILS/member_id -->
 
-15. API to fetch Card Update details of logged in counter
-    get: /api/v1/table_data/CARD_UPDATE_DETAILS
+<!-- 15. API to fetch Card Update details of logged in counter
+    get: /api/v1/table_data/CARD_UPDATE_DETAILS -->
 
 <!-- 16. API to fetch all the members in the Counter:
         get: /api/v1/table_data/MEMBER -->
 
-17. API to fetch Self Counter's details:
+<!-- 17. API to fetch Self Counter's details:
     get: /api/v1/specific_data/COUNTER/MY_COUNTER
 
 18. API to get self counter's license
-    get: /api/v1/table_data/COUNTER_LICENSE/MY_COUNTER
+    get: /api/v1/table_data/COUNTER_LICENSE/MY_COUNTER -->
 
-Smart Canteen Updates:
+<!--  Smart Canteen Updates:
 
 19. API to Operate on Income/Expense Account Head
-   <!--  a. To create new Account Head
+   a. To create new Account Head
         post: /account_head_ops/insert
         payload:{
                     "account_name":"SBAAI BANK",
@@ -211,10 +211,10 @@ Smart Canteen Updates:
         get: /table_data/INCOME_ACCOUNT_HEAD
     
     c. API to fetch only Expense account head
-        get: /table_data/EXPENSE_ACCOUNT_HEAD -->
+        get: /table_data/EXPENSE_ACCOUNT_HEAD
     
     d. API to fetch sepcific account head
-        get: /specific_data/ACCOUNT_HEAD/account_head_id
+        get: /specific_data/ACCOUNT_HEAD/account_head_id -->
 
 <!-- 21. API to Operate on Transactions
     a. To refill member's wallet balance
@@ -255,9 +255,9 @@ Smart Canteen Updates:
                     "user_comments" : "user comments"  
                 } -->
 
-Smart Canteen Updates:
+<!-- Smart Canteen Updates:
 
-<!-- 1. API to retrieve member information by card number
+1. API to retrieve member information by card number
     get: specific_data/MEMBER_DATA/card_number -->
 
 <!-- 2. Retrieving transaction data
