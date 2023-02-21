@@ -354,6 +354,8 @@ export class PosSaleComponent implements OnInit {
         this.currentOrder = [];
         this.calculateBill();
         this.commonForm.reset();
+        this.OrderDetails.account_head_id =null
+         this.OrderDetails.member_id = null
         this.UserConfigDialog = true;
         this.commonForm.controls.account_head_id.enable();
     }
