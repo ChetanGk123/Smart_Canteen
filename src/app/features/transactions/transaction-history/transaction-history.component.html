@@ -7,24 +7,26 @@
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <button
-                        (document:keydown.Alt.n)="add()"
-                        pButton
-                        pRipple
-                        label="Expense Entry"
-                        icon="pi pi-fw pi-wallet"
-                        class="mr-2 inline-block p-button"
-                        (click)="accountTransfer()"
-                    ></button>
-                    <button
-                        (document:keydown.Alt.n)="add()"
-                        pButton
-                        pRipple
-                        label="Member Entry"
-                        icon="pi pi-fw pi-user-plus"
-                        class="mr-2 inline-block p-button"
-                        (click)="add()"
-                    ></button>
+                    <div class="" *ngIf="this.memberService.getUserData().user_role !='OWNER'">
+                        <button
+                            (document:keydown.Alt.n)="add()"
+                            pButton
+                            pRipple
+                            label="Expense Entry"
+                            icon="pi pi-fw pi-wallet"
+                            class="mr-2 inline-block p-button"
+                            (click)="accountTransfer()"
+                        ></button>
+                        <button
+                            (document:keydown.Alt.n)="add()"
+                            pButton
+                            pRipple
+                            label="Member Entry"
+                            icon="pi pi-fw pi-user-plus"
+                            class="mr-2 inline-block p-button"
+                            (click)="add()"
+                        ></button>
+                    </div>
                 </ng-template>
             </p-toolbar>
             <div class="grid">

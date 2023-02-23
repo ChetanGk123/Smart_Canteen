@@ -11,6 +11,7 @@
                         (document:keydown.Alt.n)="add()"
                         pButton
                         pRipple
+                        *ngIf="this.memberService.getUserData().user_role !='OWNER'"
                         label="Add"
                         icon="pi pi-plus"
                         class="mr-2 inline-block p-button"

@@ -52,7 +52,7 @@ export class AppConfigComponent implements OnInit, OnDestroy {
                         contact_number: '',
                         contact_person: '',
                         counter_address: '',
-                        counter_name: 'All',
+                        counter_name: 'All Counters',
                         email: '',
                         id: '',
                         logo_location: '',
@@ -109,6 +109,7 @@ export class AppConfigComponent implements OnInit, OnDestroy {
 
     updateCounter(){
         this.counterService.updatecounterDate(this.selectedCounter)
+        this.appMain.configActive = false;
     }
 
     ngOnDestroy() {

@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CounterService } from '../../counters/counter.service';
@@ -12,7 +13,7 @@ import { MemberService } from '../member.service';
     templateUrl: './manage-member.component.html',
     styleUrls: ['./manage-member.component.scss'],
 })
-export class ManageMemberComponent implements OnInit {
+export class ManageMemberComponent implements OnInit, OnDestroy {
 
     loading: boolean = false;
     member_types: any = [];
@@ -63,6 +64,8 @@ export class ManageMemberComponent implements OnInit {
             [Validators.required]
         ),
     });
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         public ref: DynamicDialogRef,
         public apiService: ApiService,
@@ -103,6 +106,9 @@ export class ManageMemberComponent implements OnInit {
                 } */
             });
             if(this.memberService.getUserData().user_role =="OWNER"){
+                this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
+                    this.commonForm.controls.counter_id.setValue(data?.id??'')
+                })
                 this.apiService
                 .getTypeRequest(`table_data/COUNTER`)
                 .toPromise()
@@ -112,16 +118,27 @@ export class ManageMemberComponent implements OnInit {
             }
     }
 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
     submitClick() {
         if (this.commonForm.valid) {
             var data;
             this.loading = true;
             var operation = this.config?.data ? 'update' : 'insert';
             if(operation == "insert"){
-
+                console.log("User Data",this.authService.getUser());
+                console.log("Counter Data",this.counterService.getCounterData());
 
                 data = {
-                    counter_id: this.authService.getUser()?.counter_id??this.counterService.getCounterData()?.counter_id,
+                    counter_id: this.commonForm.controls.counter_id.value?? this.authService.getUser()?.counter_id??this.counterService.getCounterData()?.id,
                     member_data: [this.commonForm.value],
                 };
             }

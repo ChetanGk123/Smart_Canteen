@@ -201,11 +201,14 @@ export class MembersComponent implements OnInit, OnDestroy {
 
     bulkUpload() {
         this.bulkAddloading = true;
-        // if(this.authService.getUser().user_role == "OWNER" && )
+        var counter_id
+         if(this.authService.getUser().user_role == "OWNER" && this.counterService.getCounterData().id){
+            counter_id = this.counterService.getCounterData().id
+         }
         console.log("User Data",this.authService.getUser());
                 console.log("Counter Data",this.counterService.getCounterData());
         var data = {
-            counter_id: this.authService.getUser()?.counter_id,
+            counter_id: counter_id??this.authService.getUser()?.counter_id,
             member_data: this.bulkAddData,
         };
         this.apiService

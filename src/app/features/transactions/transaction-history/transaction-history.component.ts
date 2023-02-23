@@ -59,7 +59,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
                 this.loadData();
             });
         //this.User = this.memberService.getUserData().user_role
-        this.transaction_range = 0
+        this.transaction_range = 10
         // this.transaction_range = this.memberService.getSettings()?.transaction_range??0
 
         this.end_date = new Date().toISOString().substring(0, 10);

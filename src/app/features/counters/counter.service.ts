@@ -23,12 +23,10 @@ export class CounterService {
     // Call this method whenever the value of counterDate changes
     updatecounterDate(newValue: any) {
         this.counterDateSubject.next(newValue);
-        this.setCounterData(newValue)
     }
 
     updatecounterProfileDate(newValue: any) {
         this.counterProfileDateSubject.next(newValue);
-        this.setCounterProfileData(newValue)
     }
 
     setCounterData(counterData: any) {

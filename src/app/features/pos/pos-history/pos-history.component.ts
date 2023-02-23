@@ -46,7 +46,7 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
             });
         // this.User = this.memberService.getUserData()?.user_role
         // this.transaction_range = this.User == "OWNER"? this.memberService.getSettings()?.transaction_range:0
-        this.transaction_range = 0
+        this.transaction_range = 10
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(
             new Date().setDate(

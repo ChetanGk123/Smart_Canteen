@@ -56,7 +56,7 @@ export class TransactionsComponent implements OnInit {
         this.accountList = [];
         this.User = this.memberService.getUserData().user_role;
         // this.transaction_range = this.User == "OWNER"? this.memberService.getSettings().transaction_range:0
-        this.transaction_range = 0;
+        this.transaction_range = 10;
         this.commonForm
             .get('start_date')
             .setValue(

@@ -58,7 +58,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this.transaction_range =
             this.User == 'OWNER'
                 ? this.memberService.getSettings().transaction_range
-                : 0;
+                : 10;
 
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(

@@ -6,6 +6,7 @@ import { Table } from 'primeng/table';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { CounterService } from '../../counters/counter.service';
+import { MemberService } from '../../members/member.service';
 import { AddPosComponent } from '../add-pos/add-pos.component';
 import { UpdateImageComponent } from '../update-image/update-image.component';
 import { UpdatePosComponent } from '../update-pos/update-pos.component';
@@ -30,6 +31,7 @@ export class PosItemsComponent implements OnInit, OnDestroy {
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
         public dialogService: DialogService,
+        public memberService: MemberService,
         public counterService: CounterService,
     ) {}
 

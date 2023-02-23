@@ -63,7 +63,7 @@ export class MemberProfileComponent implements OnInit {
         this.cardHistoryLoading = true;
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(
-            new Date().setDate(new Date().getDate() - 0),
+            new Date().setDate(new Date().getDate() - 10),
             'yyyy-MM-dd'
         );
         if (this.memberData) {
@@ -110,9 +110,12 @@ export class MemberProfileComponent implements OnInit {
     }
 
     fetchMemberTransactions(){
+        console.log(this.memberData);
+
         this.transactionLoading = true;
         var Data = {
             member_id: this.memberData.member_id,
+            counter_id: this.memberData?.counter_id,
             txn_id: '',
             account_id: '',
             start_date: this.start_date,

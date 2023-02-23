@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppMainComponent } from './app.main.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/services/auth/auth.service';
@@ -8,15 +8,21 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MemberService } from '../core/services/MemberService/member.service';
 import { CoreConfig } from '../core/interfaces/coreConfig';
 import { EnvService } from '../env.service';
+import { Subject, takeUntil } from 'rxjs';
+import { CounterService } from '../features/counters/counter.service';
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
 })
-export class AppTopBarComponent implements OnInit {
+export class AppTopBarComponent implements OnInit, OnDestroy {
     checked: boolean;
     config: AppConfig;
     public coreConfig:CoreConfig
+    public counterData:any
+
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         public appMain: AppMainComponent,
         public authService: AuthService,
@@ -24,6 +30,7 @@ export class AppTopBarComponent implements OnInit {
         public dialogService: DialogService,
         public memberService: MemberService,
         public _coreEnvService: EnvService,
+        public counterService: CounterService,
         public router: Router
     ) {
         this.coreConfig =  _coreEnvService.config
@@ -32,6 +39,19 @@ export class AppTopBarComponent implements OnInit {
         this.config = this.configService.config;
 
         this.checked = !this.config?.dark ?? true;
+        this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
+                this.counterData = data
+            })
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 
     changeTheme() {

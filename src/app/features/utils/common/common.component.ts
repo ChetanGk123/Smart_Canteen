@@ -5,6 +5,7 @@ import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { CounterService } from '../../counters/counter.service';
+import { MemberService } from '../../members/member.service';
 import { CommonEditComponent } from './common-edit/common-edit.component';
 
 @Component({
@@ -30,6 +31,7 @@ export class CommonComponent implements OnInit, OnDestroy {
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
         public dialogService: DialogService,
+        public memberService: MemberService,
         public counterService: CounterService
     ) {}
 
