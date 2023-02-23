@@ -113,7 +113,6 @@ export class MembersComponent implements OnInit, OnDestroy {
     }
 
     excelFileInputChange(fileInputEvent: any) {
-        debugger;
         /* wire up file reader */
         const target: DataTransfer = <DataTransfer>(
             (<unknown>fileInputEvent.target)
@@ -202,6 +201,9 @@ export class MembersComponent implements OnInit, OnDestroy {
 
     bulkUpload() {
         this.bulkAddloading = true;
+        // if(this.authService.getUser().user_role == "OWNER" && )
+        console.log("User Data",this.authService.getUser());
+                console.log("Counter Data",this.counterService.getCounterData());
         var data = {
             counter_id: this.authService.getUser()?.counter_id,
             member_data: this.bulkAddData,

@@ -7,6 +7,7 @@ import {
     DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { MemberService } from '../member.service';
 
 @Component({
     selector: 'app-add-member-transaction',

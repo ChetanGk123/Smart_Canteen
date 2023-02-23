@@ -27,7 +27,7 @@ export class CountersComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadData();
-        this.counterService.counterDate$.subscribe((data:any)=>{
+        this.counterService.counterProfileDate$.subscribe((data:any)=>{
             console.log(data);
 
         })
@@ -71,7 +71,7 @@ export class CountersComponent implements OnInit {
     }
 
     openCounterFrofile(data:any){
-        this.counterService.setCounterData(data);
+        this.counterService.setCounterProfileData(data);
         this.router.navigate(['./counterProfile'], { relativeTo: this.route });
     }
 }

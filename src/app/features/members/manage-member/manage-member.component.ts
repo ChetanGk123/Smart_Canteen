@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { CounterService } from '../../counters/counter.service';
+import { MemberService } from '../member.service';
 
 @Component({
     selector: 'app-manage-member',
@@ -11,24 +13,14 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
     styleUrls: ['./manage-member.component.scss'],
 })
 export class ManageMemberComponent implements OnInit {
-    /* {
-        "member_id":4,
-        "full_name" :"newfull_name",
-        "gender" :"newgender",
-        "phone_number" :"newphone_number", //non-madatory
-        "parents_ph" :"newparents_ph",
-        "dob" :"30-01-1998",
-        "email" :"email@gmail.com", //non-madatory
-        "class_name" :"new_class_name", //non-madatory
-        "division_name" :"new_division_name", //non-madatory
-        "hostel_details" :"new_hostel_details", //non-madatory
-        "member_type_id" :1,
-        "address" :"new address" //non-madatory
-    } */
 
     loading: boolean = false;
     member_types: any = [];
+    counterList: any[];
     commonForm: FormGroup = new FormGroup({
+        counter_id: new FormControl(this.config.data?.counter_id ?? '', [
+            Validators.required,
+        ]),
         member_id: new FormControl(
             this.config?.data?.member_id ?? this.config?.data?.id ?? ''
         ),
@@ -75,6 +67,8 @@ export class ManageMemberComponent implements OnInit {
         public ref: DynamicDialogRef,
         public apiService: ApiService,
         public authService: AuthService,
+        public memberService: MemberService,
+        public counterService: CounterService,
         public config: DynamicDialogConfig
     ) {}
 
@@ -86,7 +80,9 @@ export class ManageMemberComponent implements OnInit {
                 this.loading = false;
                 this.member_types = result?.data;
                 if (this.config?.data) {
+
                     this.commonForm.controls.card_number.disable()
+                    this.commonForm.controls.counter_id.disable()
                     this.commonForm.controls.opening_balance.disable()
                 } /* else {
                     this.commonForm.patchValue({
@@ -106,6 +102,14 @@ export class ManageMemberComponent implements OnInit {
                     });
                 } */
             });
+            if(this.memberService.getUserData().user_role =="OWNER"){
+                this.apiService
+                .getTypeRequest(`table_data/COUNTER`)
+                .toPromise()
+                .then((result: any) => {
+                    this.counterList = result?.data;
+                });
+            }
     }
 
     submitClick() {
@@ -114,8 +118,10 @@ export class ManageMemberComponent implements OnInit {
             this.loading = true;
             var operation = this.config?.data ? 'update' : 'insert';
             if(operation == "insert"){
+
+
                 data = {
-                    counter_id: this.authService.getUser()?.counter_id,
+                    counter_id: this.authService.getUser()?.counter_id??this.counterService.getCounterData()?.counter_id,
                     member_data: [this.commonForm.value],
                 };
             }

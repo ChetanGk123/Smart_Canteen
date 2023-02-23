@@ -28,7 +28,7 @@ export class CounterProfileComponent implements OnInit {
 
     ngOnInit(): void {
         this.user_role = this.authService.getUser().user_role;
-        this.counterData = this.counterService.getCounterData();
+        this.counterData = this.counterService.getCounterProfileData();
         if (this.counterData) {
             this.apiService
                 .getTypeRequest(
