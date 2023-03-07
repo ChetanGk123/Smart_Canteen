@@ -9,6 +9,8 @@ import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
 import { LockScreenComponent } from 'src/app/features/lock-screen/lock-screen.component';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ConfigService } from '../app.config.service';
+import { AppConfig } from '../../interfaces/appconfig';
 
 @Injectable({
     providedIn: 'root',
@@ -20,12 +22,14 @@ export class AuthService {
     public returnUrl: string;
     encPassword = environment.encPassword;
     public userActivity;
+    config: AppConfig;
     public userInactive: Subject<any> = new Subject();
     constructor(
         public dialogService: DialogService,
         private messageService: MessageService,
         private route: ActivatedRoute,
         public router: Router,
+        public configService: ConfigService,
         public ApiService: ApiService
     ) {}
 
@@ -44,6 +48,7 @@ export class AuthService {
             if (response.data.user_role != 'USER') {
             }
             this.beginsesssion();
+            this.setTheme(response.data.settings)
             loginData.password = '';
             this.messageService.add({
                 severity: 'success',
@@ -163,5 +168,24 @@ export class AuthService {
             this.logout();
             return null;
         }
+    }
+
+    setTheme(settings:any) {
+        let themeSettings = settings.filter((settings:any)=> settings.settings_name === "THEME_COLOR")
+        let themeElement = document.getElementById('theme-css');
+        let dark: boolean;
+        let theme: string;
+        if (themeSettings[0].settings_value == 'dark') {
+            dark = true;
+            theme = 'lara-dark-indigo';
+        } else {
+            dark = false;
+            theme = 'lara-light-indigo';
+        }
+        themeElement.setAttribute(
+            'href',
+            'assets/theme/' + theme + '/theme.css'
+        );
+        this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
     }
 }

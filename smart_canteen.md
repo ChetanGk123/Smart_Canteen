@@ -395,3 +395,53 @@
 
 3. API to get all the information related to Specific POS Sales
     API: get /pos_sale_data/pos_sale_id
+
+Smart Canteen Updates:
+
+1. API to create a setting
+    a. API: post /settings_ops/insert
+        payload: {
+                "display_label": "Display aName",
+                "settings_name":"UDATaaassaaaaaaaaaaD",
+                "settings_value":1,
+                "isDisplay" : 0,
+                "isDeletable": 0
+            }
+    b. API: post /settings_ops/update
+        payload: {
+            "settings_id": 3,
+            "display_label": "Display aName",
+            "settings_name":"UDATaaassaaaaaaaaaaD",
+            "settings_value":1,
+            "isDisplay" : 0,
+            "isDeletable": 1
+        }
+
+2. API to fetch canteen related settings (only accessible through Canteen Login)
+    get /table_data/CANTEEN_SETTINGS 
+
+3. API to fetch canteen related specific settings (only accessible through Canteen Login)
+    get /specific_data/CANTEEN_SETTINGS/settings_id
+
+4. API to fetch the counter wise settings data (only accessible through Canteen Login)
+    post /settings_ops/FETCH_GROUPED
+
+5. API to fetch counter settings
+    get /table_data/SETTINGS
+
+6. API to fetch specific counter settings
+    get /specific_data/SETTINGS/settings_id
+
+
+
+
+Initial Settings on registration of every canteen & counter
+1. Canteen
+    a. Theme Color, THEME_COLOR, dark
+    b. Date Range, DATE_RANGE, 10
+
+2. Counter (these settings will be generated on every new registration of counter)
+    a. Theme Color, THEME_COLOR, dark
+    b. Date Range, DATE_RANGE, 10
+    c. Send SMS on Every Tap, SMS_ON_EVERY_TAP, 1
+    d. Minimum Card Balance, MINIMUM_CARD_BALANCE, 100

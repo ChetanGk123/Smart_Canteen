@@ -1,0 +1,179 @@
+<div class="grid">
+    <div class="col-xl-5">
+        <div class="card" style="margin-top: 0.5rem !important;">
+            <h5>User Profile</h5>
+                <div class="grid">
+                    <div class="col-fixed">
+                        <img
+                            class="img-fluid rounded-circle image-radius"
+                            style="height: 55px; width: 55px"
+                            [src]="coreConfig.app.appLogoImage"
+                            alt=""
+                        />
+                    </div>
+                    <div class="col" style="margin-top: 6px">
+                        <h5 class="mt-0 mb-0 f-w-600">
+                            <span class="counter">{{memberData.full_name}}</span>
+                        </h5>
+                        <p>{{memberData.user_name}}</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="new-users">
+                    <!-- <div
+                        class="col mt-2 d-flex align-content-center"
+                        style="justify-content: center; cursor: pointer"
+                        [ngStyle]="{
+                            color:
+                                card == 'Personal Information' ? '#4466f2' : ''
+                        }"
+                        (click)="setCard('Personal Information')"
+                    >
+                        <i data-feather="user" style="height: 20px"></i>
+                        <span class="mr-auto pl-2" style="font-size: 19px"
+                            >Personal Information</span
+                        >
+                        <i class="icon-angle-right p-2"></i>
+                    </div> -->
+                    <div
+                        class="col mt-3 d-flex align-content-center"
+                        style="justify-content: center; cursor: pointer"
+                        [ngStyle]="{
+                            color: card == 'Account Activity' ? '#4466f2' : ''
+                        }"
+                        (click)="setCard('Account Activity')"
+                    >
+                        <i data-feather="sliders" style="height: 20px"></i>
+                        <span class="mr-auto pl-2" style="font-size: 19px"
+                            >Account Activity</span
+                        >
+                        <i class="icon-angle-right p-2"></i>
+                    </div>
+                    <!-- <div
+                        class="col mt-3 d-flex align-content-center"
+                        style="justify-content: center; cursor: pointer"
+                        [ngStyle]="{
+                            color: card == 'Security Settings' ? '#4466f2' : ''
+                        }"
+                        (click)="setCard('Security Settings')"
+                    >
+                        <i data-feather="settings" style="height: 20px"></i>
+                        <span class="mr-auto pl-2" style="font-size: 19px"
+                            >Security Settings</span
+                        >
+                        <i class="icon-angle-right p-2"></i>
+                    </div>
+                    <div
+                        class="col mt-3 d-flex align-content-center"
+                        style="justify-content: center; cursor: pointer"
+                        [ngStyle]="{
+                            color: card == 'Notifications' ? '#4466f2' : ''
+                        }"
+                        (click)="setCard('Notifications')"
+                    >
+                        <i data-feather="bell" style="height: 20px"></i>
+                        <span class="mr-auto pl-2" style="font-size: 19px"
+                            >Notifications</span
+                        >
+                        <i class="icon-angle-right p-2"></i>
+                    </div> -->
+                </div>
+        </div>
+    </div>
+    <div class="col mt-0">
+        <div class="card" *ngIf="card == 'Personal Information'">
+                <h5>Personal Information</h5>
+                <span class="d-block fonts-dashboard"
+                    >Basic info, like your name and address, that you use on
+                    this Platform</span
+                >
+            <div class="card-body">
+                <div class="grid"></div>
+            </div>
+        </div>
+        <div class="card" *ngIf="card == 'Notifications'">
+            <div class="card-header">
+                <h5>Notifications</h5>
+                <span class="d-block fonts-dashboard"
+                    >You will get only notification what have enabled.</span
+                >
+            </div>
+        </div>
+        <div class="card" *ngIf="card == 'Account Activity'">
+            <div class="card-header">
+                <h5>Account Activity</h5>
+                <div class="grid">
+                    <div class="col">
+                        <p-table [value]="tableData" dataKey="settings_id" class="flex" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                                <tr [pEditableRow]="product">
+                                    <td>
+                                                {{product.display_label}}
+                                    </td>
+                                    <td>
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <p-dropdown [options]="statuses" appendTo="body" [(ngModel)]="product.inventoryStatus" [style]="{'width':'100%'}"></p-dropdown>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{product.settings_value}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td>
+                                        <div class="flex align-items-center justify-content-center gap-2">
+                                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"  class="p-button-rounded p-button-text"></button>
+                                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"  class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"  class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body"></div>
+        </div>
+        <div class="card" *ngIf="card == 'Security Settings'">
+            <div class="card-header">
+                <h5>Security Settings</h5>
+                <span class="d-block fonts-dashboard"
+                    >These settings are helps you keep your account
+                    secure..</span
+                >
+            </div>
+            <div class="card-body">
+                <div
+                    class="grid col d-flex justify-content-between"
+                    style="justify-content: center"
+                >
+                    <div><span>Change Password</span><br /></div>
+                    <div class="grid mr-2">
+                        <div>
+                            <p>
+                                Last changed on 24/03/2022<br />
+                                12:15
+                            </p>
+                        </div>
+                        <button
+                            class="btn btn-primary text-cente ml-3"
+                            style="height: 35px"
+                            type="button"
+                            (click)="ChangePassword()"
+                        >
+                            Change Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

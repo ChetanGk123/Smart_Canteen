@@ -106,6 +106,14 @@ import { LandingComponent } from './features/landing/landing.component';
                                     './features/transactions/transactions.module'
                                 ).then((m) => m.TransactionsModule),
                         },
+                        {
+                            path: 'settings',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/settings/settings.module'
+                                ).then((m) => m.SettingsModule),
+                        },
                     ],
                 },
                 { path: 'pages/landing', component: LandingComponent },
