@@ -104,39 +104,54 @@
                 <h5>Account Activity</h5>
                 <div class="grid">
                     <div class="col">
-                        <p-table [value]="tableData" dataKey="settings_id" class="flex" editMode="row" [tableStyle]="{'min-width': '50rem'}">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Value</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
-                                <tr [pEditableRow]="product">
-                                    <td>
-                                                {{product.display_label}}
-                                    </td>
-                                    <td>
-                                        <p-cellEditor>
-                                            <ng-template pTemplate="input">
-                                                <p-dropdown [options]="statuses" appendTo="body" [(ngModel)]="product.inventoryStatus" [style]="{'width':'100%'}"></p-dropdown>
-                                            </ng-template>
-                                            <ng-template pTemplate="output">
-                                                {{product.settings_value}}
-                                            </ng-template>
-                                        </p-cellEditor>
-                                    </td>
-                                    <td>
-                                        <div class="flex align-items-center justify-content-center gap-2">
-                                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"  class="p-button-rounded p-button-text"></button>
-                                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"  class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"  class="p-button-rounded p-button-text p-button-danger"></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
+
+<div class="surface-section">
+    <div class="font-medium text-3xl text-900 mb-3">Account Activity</div>
+    <ul class="list-none p-0 m-0" *ngIf="tableData.length>0;else loading">
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">Theme</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1" *ngIf="!editTheme; else updateTheme">{{tableData[0]?.settings_value}}</div>
+            <ng-template #updateTheme>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                    <p-inputSwitch [ngModel]="getThemeCheckedValue(tableData[0]?.settings_value)" (onChange)="updateThemeCheckedValue($event)"></p-inputSwitch>
+                </div>
+            </ng-template>
+            <div class="w-6 md:w-2 flex justify-content-end">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-text" *ngIf="!editTheme; else saveCancelTheme" (click)="editTheme = true"></button>
+                <ng-template #saveCancelTheme>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="updateThemeValue()"></button>
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editTheme = false"></button>
+                </ng-template>
+            </div>
+        </li>
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-2 font-medium">Date Range</div>
+            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1" *ngIf="!editDateRange; else updateDateRange">{{tableData[1].settings_value}}</div>
+            <ng-template #updateDateRange>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                    <!-- <input
+                    type="number"
+                    id="date_range"
+                    placeholder="14"
+                    [value]="tableData[1].settings_value"
+                /> -->
+                <p-inputNumber [(ngModel)]="tableData[1].settings_value" inputId="minmax" inputId="minmax" mode="decimal" [min]="0" [max]="100">
+                </p-inputNumber>
+                </div>
+            </ng-template>
+            <div class="w-6 md:w-2 flex justify-content-end">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-text" *ngIf="!editDateRange; else saveCancelDateRange" (click)="editDateRange = true"></button>
+                <ng-template #saveCancelDateRange>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="updateSettings(tableData[1])"></button>
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editDateRange = false"></button>
+                </ng-template>
+            </div>
+        </li>
+    </ul>
+    <ng-template #loading>
+        <p-progressSpinner class="center"></p-progressSpinner>
+    </ng-template>
+</div>
                     </div>
                 </div>
             </div>

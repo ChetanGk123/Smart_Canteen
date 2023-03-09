@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppConfig } from 'src/app/core/interfaces/appconfig';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { ConfigService } from 'src/app/core/services/app.config.service';
@@ -6,42 +7,95 @@ import { EnvService } from 'src/app/env.service';
 import { MemberService } from '../members/member.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-
-    card:string = "Account Activity";
-    public coreConfig:CoreConfig
+    card: string = 'Account Activity';
+    public coreConfig: CoreConfig;
     loading: boolean = false;
-    tableData: any;
-    memberData:any
-  constructor(
-    public apiService: ApiService,
-    public configService: ConfigService,
-    public memberService: MemberService,
-    public _coreEnvService: EnvService,) {
-        this.coreConfig =  _coreEnvService.config}
+    tableData: any[] = [];
+    memberData: any;
+    config: AppConfig;
+    editTheme: boolean = false;
+    editDateRange: boolean = false;
+    constructor(
+        public apiService: ApiService,
+        public configService: ConfigService,
+        public memberService: MemberService,
+        public _coreEnvService: EnvService
+    ) {
+        this.coreConfig = _coreEnvService.config;
+    }
 
-  ngOnInit(): void {
-    this.memberData = this.memberService.getUserData();
-    this.apiService
-    .getTypeRequest(`table_data/CANTEEN_SETTINGS`)
-    .toPromise()
-    .then((result: any) => {
-        this.loading = false;
-        if (result.result) {
-        this.tableData = result?.data;
+    ngOnInit(): void {
+        this.memberData = this.memberService.getUserData();
+        this.config = this.configService.config;
+        this.apiService
+            .getTypeRequest(`table_data/CANTEEN_SETTINGS`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    this.tableData = result?.data;
+                    console.log(this.tableData);
+                } else {
+                    this.tableData = [];
+                }
+            });
+    }
+
+    setCard(cardName) {
+        this.card = cardName;
+    }
+
+    ChangePassword() {}
+
+    updateSettings(data: any) {
+        this.apiService
+            .postTypeRequest(`settings_ops/update`,data)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    this.editDateRange = false
+                    this.ngOnInit()
+                }
+            });
+    }
+
+    getThemeCheckedValue(data:any){
+        if(data == 'dark'){
+            return true;
         } else {
-            this.tableData = []
+            return false;
         }
-    });
-  }
+    }
 
-  setCard(cardName){
-    this.card = cardName
-  }
+    updateThemeCheckedValue(data:any){
+        let themeElement = document.getElementById('theme-css');
+        let dark: boolean;
+        let theme: string;
+        if(data.checked){
+            this.tableData[0].settings_value = 'dark'
+            dark = true;
+            theme = 'lara-dark-indigo';
+        } else {
+            this.tableData[0].settings_value = 'light'
+            dark = false;
+            theme = 'lara-light-indigo';
+        }
+        themeElement.setAttribute(
+            'href',
+            'assets/theme/' + theme + '/theme.css'
+        );
+        this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
+    }
 
-  ChangePassword(){}
+    updateThemeValue(){
+        this.editTheme = false
+        console.log(this.tableData[0]);
+        this.updateSettings(this.tableData[0])
+    }
 }
