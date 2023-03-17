@@ -117,7 +117,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
                 this.loading = false;
                 if (result.result) {
                     this.Data = result.data;
-                    this.printList()
+                    // this.printList()
                 }
             })
             .finally(() => {
