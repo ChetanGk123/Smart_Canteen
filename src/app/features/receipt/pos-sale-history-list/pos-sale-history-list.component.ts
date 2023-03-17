@@ -39,9 +39,9 @@ export class PosSaleHistoryListComponent implements OnInit {
         }/${+new Date().getFullYear()}`;
         this.logo = `${date} - $`;
         this.dateRange = `${date} - ${date}`;
-        // this.logo = this.memberService.getUserData()?.dp_location
-        this.logo =
-            'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
+        this.logo = this.memberService.getUserData()?.dp_location
+        // this.logo =
+        //     'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
         this.generatePDF();
   }
 
@@ -73,8 +73,8 @@ export class PosSaleHistoryListComponent implements OnInit {
                             columns: [
                                 {},
                                 {
-                                    text: '',
-                                    //image: this.logo,
+                                    //text: '',
+                                    image: 'logo',
                                     width: 60,
                                     height: 60,
                                     alignment: 'center',

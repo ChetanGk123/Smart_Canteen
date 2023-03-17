@@ -46,8 +46,8 @@ export class PosSaleComponent implements OnInit {
         this.appConfig = this.configService.config;
 
         this.name = this.memberService.getUserData()?.full_name;
-        // this.logo = this.memberService.getUserData()?.dp_location
-        this.logo = "https://picsum.photos/id/1080/367/267"
+        this.logo = this.memberService.getUserData()?.dp_location
+        // this.logo = "https://picsum.photos/id/1080/367/267"
         this.loading = true;
         var id = this.config.data?.id ?? this.config.data?.receipt_id;
         this.apiService
