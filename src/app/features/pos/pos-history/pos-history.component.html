@@ -55,7 +55,17 @@
                             </div>
                         </ng-template>
 
-                        <ng-template pTemplate="right"> </ng-template>
+                        <ng-template pTemplate="right">
+
+                            <button
+                            *ngIf="Data.length>0"
+                            pButton
+                            pRipple
+                            label="Print"
+                            icon="pi pi-fw pi-print"
+                            class="mr-2 inline-block p-button"
+                            (click)="printList()"
+                        ></button> </ng-template>
                     </p-toolbar>
                     <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu>

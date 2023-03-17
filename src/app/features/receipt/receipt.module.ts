@@ -11,6 +11,8 @@ import { ExpenseReceiptComponent } from './expense-receipt/expense-receipt.compo
 import { PosSaleComponent } from './pos-sale/pos-sale.component';
 import { PosSummaryComponent } from './pos-summary/pos-summary.component';
 import { MembershipSummaryReportComponent } from './membership-summary-report/membership-summary-report.component';
+import { TransactionsListComponent } from './transactions-list/transactionsList.component';
+import { PosSaleHistoryListComponent } from './pos-sale-history-list/pos-sale-history-list.component';
 
 @NgModule({
     declarations: [
@@ -22,6 +24,8 @@ import { MembershipSummaryReportComponent } from './membership-summary-report/me
         PosSaleComponent,
         PosSummaryComponent,
         MembershipSummaryReportComponent,
+        TransactionsListComponent,
+        PosSaleHistoryListComponent,
     ],
     imports: [CommonModule, ReceiptRoutingModule, PrimengModule],
     exports: [NewMembershipReceiptComponent],

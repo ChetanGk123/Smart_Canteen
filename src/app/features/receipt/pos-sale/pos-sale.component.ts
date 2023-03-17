@@ -7,6 +7,10 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { DatePipe } from '@angular/common';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { EnvService } from 'src/app/env.service';
+import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
+import { ConfigService } from 'src/app/core/services/app.config.service';
+import { AppConfig } from 'src/app/core/interfaces/appconfig';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -22,6 +26,8 @@ export class PosSaleComponent implements OnInit {
     loading: boolean = false;
     response: any;
     orderData: any;
+    public coreConfig:CoreConfig
+    appConfig: AppConfig;
 
     constructor(
         protected _sanitizer: DomSanitizer,
@@ -29,13 +35,19 @@ export class PosSaleComponent implements OnInit {
         public apiService: ApiService,
         public config: DynamicDialogConfig,
         public messageService: MessageService,
-        public memberService: MemberService
-    ) {}
+        public memberService: MemberService,
+        public configService: ConfigService,
+        public _coreEnvService: EnvService,
+    ) {
+        this.coreConfig =  _coreEnvService.config
+     }
 
     ngOnInit(): void {
-        //
-        this.name = this.memberService.getSettings().mess_name;
-        this.logo = localStorage.getItem('logo');
+        this.appConfig = this.configService.config;
+
+        this.name = this.memberService.getUserData()?.full_name;
+        // this.logo = this.memberService.getUserData()?.dp_location
+        this.logo = "https://picsum.photos/id/1080/367/267"
         this.loading = true;
         var id = this.config.data?.id ?? this.config.data?.receipt_id;
         this.apiService
@@ -44,11 +56,10 @@ export class PosSaleComponent implements OnInit {
             .then((result: any) => {
                 if (result.result) {
                     this.orderData = result.data;
-                    this.logo = localStorage.getItem('logo');
                     this.generatePDF();
                 }
             })
-            .finally(() => {});
+            .finally(() => { });
     }
 
     async generatePDF() {
@@ -64,6 +75,12 @@ export class PosSaleComponent implements OnInit {
                 fontSize: 7,
             },
             pageMargins: [2, 10, 2, 10],
+            info: {
+                title: 'awesome Document',
+                author: 'john doe',
+                subject: 'subject of document',
+                keywords: 'keywords for document',
+              },
             content: [
                 {
                     columns: [
@@ -72,7 +89,7 @@ export class PosSaleComponent implements OnInit {
                                 columns: [
                                     {},
                                     {
-                                        image: this.logo,
+                                        image: 'logo',
                                         width: 60,
                                         height: 60,
                                         alignment: 'center',
@@ -114,9 +131,8 @@ export class PosSaleComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Name: ${
-                                    orderDetails.customer_name ?? ''
-                                }`,
+                                text: `Name: ${orderDetails.customer_name ?? ''
+                                    }`,
                                 alignment: 'left',
                             },
                         ],
@@ -127,9 +143,8 @@ export class PosSaleComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Phone No: ${
-                                    orderDetails.customer_ph ?? ''
-                                }`,
+                                text: `Phone No: ${orderDetails.customer_ph ?? ''
+                                    }`,
                                 alignment: 'left',
                             },
                         ],
@@ -293,13 +308,13 @@ export class PosSaleComponent implements OnInit {
                 logo: this.logo,
             },
         };
-        // const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-        // pdfDocGenerator.getDataUrl((dataUrl) => {
-        //     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
-        //     this.loading = false;
-        // });
-        var win = window.open('', '_blank');
-        pdfMake.createPdf(docDefinition).print({}, win);
-        this.ref.close();
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition,"Sale Receipt");
+        pdfDocGenerator.getDataUrl((dataUrl) => {
+            this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
+            this.loading = false;
+        });
+        // var win = window.open('', '_blank');
+        // pdfMake.createPdf(docDefinition).print({}, win);
+        // this.ref.close();
     }
 }

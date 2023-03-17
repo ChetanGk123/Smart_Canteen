@@ -4,8 +4,8 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
-import { MemberService } from 'src/app/core/services/MemberService/member.service';
 import { CounterService } from '../../counters/counter.service';
+import { PosSaleHistoryListComponent } from '../../receipt/pos-sale-history-list/pos-sale-history-list.component';
 import { PosSaleComponent } from '../../receipt/pos-sale/pos-sale.component';
 
 @Component({
@@ -112,6 +112,14 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
             data: this.selectedProduct,
             header: `POS Sale Details`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+    }
+
+    printList(){
+        this.dialogService.open(PosSaleHistoryListComponent, {
+            data: this.Data,
+            header: `Sales History`,
+            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-9',
         });
     }
 }

@@ -13,6 +13,7 @@ import { CounterService } from '../../counters/counter.service';
 // import { AccountTransferComponent } from '../../account/account-transfer/account-transfer.component';
 import { ExpenseReceiptComponent } from '../../receipt/expense-receipt/expense-receipt.component';
 import { TransactionReceiptComponent } from '../../receipt/transaction-receipt/transaction-receipt.component';
+import { TransactionsListComponent } from '../../receipt/transactions-list/transactionsList.component';
 import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-transaction.component';
 
 @Component({
@@ -108,6 +109,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
             start_date: this.start_date,
             end_date: this.end_date,
         };
+        this.Data = []
         this.apiService
             .postTypeRequest(`transaction_data/ALL_TRANSACTIONS${url}`, Data)
             .toPromise()
@@ -115,6 +117,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
                 this.loading = false;
                 if (result.result) {
                     this.Data = result.data;
+                    this.printList()
                 }
             })
             .finally(() => {
@@ -188,5 +191,13 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
     openProfile() {
         this.memberService.setMemberData(this.selectedProduct);
         this.router.navigate(['members/memberProfile']);
+    }
+
+    printList(){
+        this.dialogService.open(TransactionsListComponent, {
+            data: this.Data,
+            header: `Transactions`,
+            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-9',
+        });
     }
 }

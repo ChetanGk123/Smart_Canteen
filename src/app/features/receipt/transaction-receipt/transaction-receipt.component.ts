@@ -7,6 +7,8 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { DatePipe } from '@angular/common';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { EnvService } from 'src/app/env.service';
+import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -22,6 +24,7 @@ export class TransactionReceiptComponent implements OnInit {
     loading: boolean = false;
     response: any;
     memberData: any;
+    public coreConfig:CoreConfig
 
     constructor(
         protected _sanitizer: DomSanitizer,
@@ -29,20 +32,21 @@ export class TransactionReceiptComponent implements OnInit {
         public apiService: ApiService,
         public config: DynamicDialogConfig,
         public messageService: MessageService,
-        public memberService: MemberService
+        public memberService: MemberService,
+        public _coreEnvService: EnvService,
     ) {}
 
     ngOnInit(): void {
         // //
-        this.name = this.memberService.getSettings().mess_name
+        this.name = this.memberService.getUserData()?.full_name;
         this.response = this.config.data.txnData;
         this.memberData = this.config.data.memberData;
-        this.logo = localStorage.getItem('logo');
+        // this.logo = this.memberService.getUserData()?.dp_location
+        this.logo = "https://picsum.photos/id/1080/367/267.jpg"
         this.generatePDF();
     }
 
     async generatePDF() {
-        this.loading = false;
         let docDefinition = {
             pageSize: {
                 width: 160,
@@ -136,11 +140,11 @@ export class TransactionReceiptComponent implements OnInit {
                             ],
                             [
                                 {
-                                    text: `${this.response.payment_mode}`,
+                                    text: `${this.response.payment_mode??"-"}`,
                                     border: [false],
                                 },
                                 {
-                                    text: `${this.response.payment_ref}`,
+                                    text: `${this.response.payment_ref??"-"}`,
                                     border: [false],
                                 },
                             ],
@@ -215,7 +219,7 @@ export class TransactionReceiptComponent implements OnInit {
                     },
                 },
                 {
-                    text: `Comments: ${this.response.user_comments}`,
+                    text: `Comments: ${this.response.user_comments??"-"}`,
 
                     margin: [5, 5, 0, 0],
                 },
@@ -247,6 +251,7 @@ export class TransactionReceiptComponent implements OnInit {
         //     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
         //     this.loading = false;
         // });
+        this.loading = false;
         var win = window.open('', '_blank');
         pdfMake.createPdf(docDefinition).print({}, win);
         this.ref.close();

@@ -32,9 +32,11 @@ export class ExpenseReceiptComponent implements OnInit {
 
     ngOnInit(): void {
         // //
-        this.name = this.memberService.getSettings().mess_name;
+        this.name = this.memberService.getUserData()?.full_name;
         this.response = this.config.data.txnData;
-        this.logo = localStorage.getItem('logo');
+
+        // this.logo = this.memberService.getUserData()?.dp_location
+        this.logo = "https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c"
         this.generatePDF();
     }
 
@@ -49,6 +51,12 @@ export class ExpenseReceiptComponent implements OnInit {
                 fontSize: 7,
             },
             pageMargins: [2, 10, 2, 10],
+            info: {
+                title: 'awesome Document',
+                author: 'john doe',
+                subject: 'subject of document',
+                keywords: 'keywords for document',
+              },
             content: [
                 {
                     columns: [
@@ -57,7 +65,8 @@ export class ExpenseReceiptComponent implements OnInit {
                                 columns: [
                                     {},
                                     {
-                                        image: this.logo,
+                                        text:'',
+                                        //image: this.logo,
                                         width: 60,
                                         height: 60,
                                         alignment: 'center',
@@ -133,11 +142,11 @@ export class ExpenseReceiptComponent implements OnInit {
                             ],
                             [
                                 {
-                                    text: `${this.response.payment_mode}`,
+                                    text: `${this.response.payment_mode??"-"}`,
                                     border: [false],
                                 },
                                 {
-                                    text: `${this.response.payment_ref}`,
+                                    text: `${this.response.payment_ref??"-"}`,
                                     border: [false],
                                 },
                             ],
@@ -170,13 +179,13 @@ export class ExpenseReceiptComponent implements OnInit {
                                     border: [false, false, false, true],
                                 },
                             ],
-                            [
+                            /* [
                                 {
                                     text: `Amount In Words: ${this.response.transaction_amount_in_words}`,
                                     colSpan: 2,
                                 },
                                 {},
-                            ],
+                            ], */
                         ],
                     },
                     layout: {
@@ -199,7 +208,7 @@ export class ExpenseReceiptComponent implements OnInit {
                     },
                 },
                 {
-                    text: `Comments: ${this.response.user_comments}`,
+                    text: `Comments: ${this.response.user_comments??"-"}`,
 
                     margin: [5, 5, 0, 0],
                 },
@@ -227,12 +236,13 @@ export class ExpenseReceiptComponent implements OnInit {
             },
         };
         //const pdfDocGenerator =
-        var win = window.open('', '_blank');
+        /* var win = window.open('', '_blank');
         pdfMake.createPdf(docDefinition).print({}, win);
-        this.ref.close();
-        // pdfDocGenerator.getDataUrl((dataUrl) => {
-        //     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
-        //     this.loading = false;
-        // });
+        this.ref.close(); */
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition,"Sale Receipt");
+        pdfDocGenerator.getDataUrl((dataUrl) => {
+            this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
+            this.loading = false;
+        });
     }
 }

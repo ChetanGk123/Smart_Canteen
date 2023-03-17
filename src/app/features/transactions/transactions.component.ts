@@ -6,10 +6,11 @@ import { Table } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
-import { AccountTransferComponent } from '../account/account-transfer/account-transfer.component';
+import { AccountTransferComponent } from '../accounts/account-transfer/account-transfer.component';
 import { CounterService } from '../counters/counter.service';
 import { ExpenseReceiptComponent } from '../receipt/expense-receipt/expense-receipt.component';
 import { TransactionReceiptComponent } from '../receipt/transaction-receipt/transaction-receipt.component';
+import { TransactionsListComponent } from '../receipt/transactions-list/transactionsList.component';
 import { AddEditTransactionComponent } from './transaction-history/add-edit-transaction/add-edit-transaction.component';
 
 @Component({
@@ -182,4 +183,5 @@ export class TransactionsComponent implements OnInit, OnDestroy {
             });
         }
     }
+
 }
