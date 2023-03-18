@@ -39,17 +39,20 @@ export class AccountComponent implements OnInit {
                 icon: 'pi pi-fw pi-trash',
                 command: () => this.confirm(this.selectedProduct),
             },
-            {
-                label: 'Direct Entry',
-                icon: 'pi pi-fw pi-dollar',
-                command: () => this.wildCardEntry(this.selectedProduct),
-            },
+
             // {
             //     label: 'Transactions',
             //     icon: 'pi pi-fw pi-dollar',
             //     command: () => this.wildCardEntry(this.selectedProduct),
             // },
         ];
+        if(this.Url == 'INCOME_ACCOUNT_HEAD'){
+            this.items.push({
+                label: 'Direct Entry',
+                icon: 'pi pi-fw pi-dollar',
+                command: () => this.wildCardEntry(this.selectedProduct),
+            },)
+        }
         this.accountsData = this.apiService
             .getTypeRequest(`table_data/${this.Url}`)
             .pipe(
