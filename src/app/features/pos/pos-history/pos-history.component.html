@@ -8,10 +8,7 @@
             </p-toolbar>
             <div class="grid">
                 <div class="col-12">
-                    <p-toolbar
-                        styleClass="mb-4"
-                        class="align-content-center"
-                    >
+                    <p-toolbar styleClass="mb-4" class="align-content-center">
                         <ng-template
                             class="align-content-center"
                             pTemplate="left"
@@ -56,16 +53,16 @@
                         </ng-template>
 
                         <ng-template pTemplate="right">
-
                             <button
-                            *ngIf="Data.length>0"
-                            pButton
-                            pRipple
-                            label="Print"
-                            icon="pi pi-fw pi-print"
-                            class="mr-2 inline-block p-button"
-                            (click)="printList()"
-                        ></button> </ng-template>
+                                *ngIf="Data.length > 0"
+                                pButton
+                                pRipple
+                                label="Print"
+                                icon="pi pi-fw pi-print"
+                                class="mr-2 inline-block p-button"
+                                (click)="printList()"
+                            ></button>
+                        </ng-template>
                     </p-toolbar>
                     <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu>
@@ -115,7 +112,10 @@
                             <tr>
                                 <th style="min-width: 3rem">Slno</th>
                                 <th style="min-width: 8rem">Date</th>
-                                <th pSortableColumn="receipt_no" style="min-width: 10rem">
+                                <th
+                                    pSortableColumn="receipt_no"
+                                    style="min-width: 10rem"
+                                >
                                     Receipt No
                                     <p-sortIcon field="receipt_no"></p-sortIcon>
                                 </th>
@@ -141,7 +141,7 @@
                                     {{ product.receipt_no }}
                                 </td>
                                 <td>
-                                    {{ product.customer_name??"-" }}
+                                    {{ product.customer_name ?? "-" }}
                                 </td>
                                 <td>
                                     {{ product.no_of_items }}
@@ -228,7 +228,7 @@
                             <div
                                 class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                             >
-                                {{ selectedProduct?.customer_name??"-" }}
+                                {{ selectedProduct?.customer_name ?? "-" }}
                             </div>
                         </li>
                         <li
@@ -240,7 +240,7 @@
                             <div
                                 class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                             >
-                                {{ selectedProduct?.customer_ph??"-" }}
+                                {{ selectedProduct?.customer_ph ?? "-" }}
                             </div>
                         </li>
                         <li
@@ -256,6 +256,39 @@
                             </div>
                         </li>
                         <li
+                            class="flex align-items-center py-3 px-5 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-900 font-bold w-4 md:w-4 font-medium">
+                                Name
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                Rate
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                Quantity
+                            </div>
+                        </li>
+                        <li *ngFor="let a of transactionData"
+                            class="flex align-items-center py-3 px-5 border-top-1 surface-border flex-wrap"
+                        >
+                        <div class="text-900 w-4 md:w-4 font-medium">
+                            {{a.particular_name}}
+                        </div>
+                        <div
+                            class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                        >
+                            {{a.sale_rate}}
+                        </div>
+                        <div
+                            class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                        >
+                            {{a.sale_qty}}
+                        </div></li>
+                        <li
                             class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                         >
                             <div class="text-500 w-6 md:w-5 font-medium">
@@ -266,7 +299,7 @@
                             >
                                 {{
                                     selectedProduct?.base_total
-                                        | currency: "INR"
+                                        | currency : "INR"
                                 }}
                             </div>
                         </li>
@@ -281,7 +314,7 @@
                             >
                                 {{
                                     selectedProduct?.total_gst_amount
-                                        | currency: "INR"
+                                        | currency : "INR"
                                 }}
                             </div>
                         </li>
@@ -296,7 +329,7 @@
                             >
                                 {{
                                     selectedProduct?.total_cgst
-                                        | currency: "INR"
+                                        | currency : "INR"
                                 }}
                             </div>
                         </li>
@@ -311,7 +344,7 @@
                             >
                                 {{
                                     selectedProduct?.total_sgst
-                                        | currency: "INR"
+                                        | currency : "INR"
                                 }}
                             </div>
                         </li>
@@ -326,7 +359,7 @@
                             >
                                 {{
                                     selectedProduct?.packaging_amt
-                                        | currency: "INR"
+                                        | currency : "INR"
                                 }}
                             </div>
                         </li>
@@ -341,7 +374,7 @@
                             >
                                 {{
                                     selectedProduct?.grand_total
-                                        | currency: "INR"
+                                        | currency : "INR"
                                 }}
                             </div>
                         </li>

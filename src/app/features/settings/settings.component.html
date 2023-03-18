@@ -107,42 +107,51 @@
 
 <div class="surface-section">
     <ul class="list-none p-0 m-0" *ngIf="tableData.length>0;else loading">
-        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
-            <div class="text-500 w-6 md:w-2 font-medium">Theme</div>
-            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1" *ngIf="!editTheme; else updateTheme">{{tableData[0]?.settings_value}}</div>
+        <!-- <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="text-500 w-6 md:w-4 font-medium">{{tableData[0].display_label}}</div>
+            <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1" *ngIf="editIndex == tableData[0].settings_id; else updateTheme"><p-inputSwitch [ngModel]="getThemeCheckedValue(tableData[0]?.settings_value)" (onChange)="updateThemeCheckedValue($event)"></p-inputSwitch></div>
             <ng-template #updateTheme>
-                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                    <p-inputSwitch [ngModel]="getThemeCheckedValue(tableData[0]?.settings_value)" (onChange)="updateThemeCheckedValue($event)"></p-inputSwitch>
+                <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1">
+                    {{tableData[0]?.settings_value}}
+
                 </div>
             </ng-template>
             <div class="w-6 md:w-2 flex justify-content-end">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-text" *ngIf="!editTheme; else saveCancelTheme" (click)="editTheme = true"></button>
+                <div class="" *ngIf="editIndex == tableData[0].settings_id; else saveCancelTheme">
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="editIndex = tableData[0].settings_id;updateThemeValue()"></button>
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editIndex = -1;editTheme = false"></button>
+                </div>
+
                 <ng-template #saveCancelTheme>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="updateThemeValue()"></button>
-                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editTheme = false"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text"  (click)="editIndex = tableData[0].settings_id;editTheme = true"></button>
                 </ng-template>
             </div>
-        </li>
-        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
-            <div class="text-500 w-6 md:w-2 font-medium">Date Range</div>
-            <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1" *ngIf="!editDateRange; else updateDateRange">{{tableData[1].settings_value}}</div>
+        </li> -->
+        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap" *ngFor="let a of tableData">
+            <div class="text-500 w-4 md:w-4 font-medium">{{a.display_label}}</div>
+            <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1" *ngIf="editIndex == a.settings_id; else updateDateRange">
+                <input [(ngModel)]="a.settings_value" pInputText type="text"/>
+
+            </div>
             <ng-template #updateDateRange>
-                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1">
                     <!-- <input
                     type="number"
                     id="date_range"
                     placeholder="14"
-                    [value]="tableData[1].settings_value"
+                    [value]="a.settings_value"
                 /> -->
-                <p-inputNumber [(ngModel)]="tableData[1].settings_value" inputId="minmax" inputId="minmax" mode="decimal" [min]="0" [max]="100">
-                </p-inputNumber>
+                {{a.settings_value}}
                 </div>
             </ng-template>
             <div class="w-6 md:w-2 flex justify-content-end">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-text" *ngIf="!editDateRange; else saveCancelDateRange" (click)="editDateRange = true"></button>
+                <div class="" *ngIf="editIndex == a.settings_id; else saveCancelDateRange">
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="updateSettings(a)"></button>
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editIndex = -1;editDateRange = false"></button>
+                </div>
+
                 <ng-template #saveCancelDateRange>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="updateSettings(tableData[1])"></button>
-                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editDateRange = false"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text" (click)="editIndex = a.settings_id;editDateRange = true"></button>
                 </ng-template>
             </div>
         </li>

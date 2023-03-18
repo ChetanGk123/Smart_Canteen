@@ -17,6 +17,7 @@ export class SettingsComponent implements OnInit {
     loading: boolean = false;
     tableData: any[] = [];
     memberData: any;
+    editIndex: any;
     config: AppConfig;
     editTheme: boolean = false;
     editDateRange: boolean = false;
@@ -30,10 +31,17 @@ export class SettingsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.editIndex = -1
         this.memberData = this.memberService.getUserData();
+        var url
         this.config = this.configService.config;
+        if(this.memberData.user_role == "OWNER"){
+            url = "table_data/CANTEEN_SETTINGS"
+        } else {
+            url = "table_data/SETTINGS"
+        }
         this.apiService
-            .getTypeRequest(`table_data/CANTEEN_SETTINGS`)
+            .getTypeRequest(`${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;

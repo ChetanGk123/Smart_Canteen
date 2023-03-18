@@ -132,6 +132,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
         const ref = this.dialogService.open(AccountTransferComponent, {
             data: {
                 sourceUrl: sourceUrl,
+                wildCardEntry: false,
                 destinationUrl: destinationUrl,
                 url: 'transaction_ops/EXPENSE_ENTRY',
             },

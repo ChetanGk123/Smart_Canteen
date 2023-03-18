@@ -22,6 +22,7 @@ export class PosSaleHistoryListComponent implements OnInit {
     loading: boolean = false;
     response: any;
     dateRange: any;
+    total = 0;
     constructor(
         protected _sanitizer: DomSanitizer,
         public ref: DynamicDialogRef,
@@ -39,7 +40,10 @@ export class PosSaleHistoryListComponent implements OnInit {
         }/${+new Date().getFullYear()}`;
         this.logo = `${date} - $`;
         this.dateRange = `${date} - ${date}`;
-        this.logo = this.memberService.getUserData()?.dp_location
+        this.logo = this.memberService.getUserData()?.dp_location;
+        this.config.data.forEach(p => {
+            this.total += Number(p.grand_total)
+        });
         // this.logo =
         //     'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
         this.generatePDF();
@@ -194,15 +198,24 @@ export class PosSaleHistoryListComponent implements OnInit {
                         ]),
                         [
                             {
-                                colSpan: 5,
+                                colSpan: 3,
                                 text: '',
-                                margin: [5, 3, 0, 5],
-                                border: [false, true, false, false],
+                                margin: [0, 5,0, -5],
+                                border: [false, true, false, true],
                             },
                             {},
                             {},
-                            {},
-                            {},
+                            {
+                                text: 'Total',
+                                margin: [0, 5,0, -5],
+                                border: [false, true, false, true],
+                            },
+                            {
+                                text: this.total.toFixed(2),
+                                alignment: 'right',
+                                margin: [0, 5,0, -5],
+                                border: [false, true, false, true],
+                            },
                         ],
                     ],
                 },

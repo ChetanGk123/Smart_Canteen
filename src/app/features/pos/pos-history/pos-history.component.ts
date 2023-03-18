@@ -22,8 +22,10 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
     datePipe: DatePipe = new DatePipe('en-US');
     start_date: any;
     end_date: any;
-    User:any;
-    transaction_range:any;
+    User: any;
+    transactionData: Array<any> = [];
+    transactionDataLoading: Boolean = false;
+    transaction_range: any;
     counter_id: any;
 
     // Private
@@ -46,13 +48,10 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
             });
         // this.User = this.memberService.getUserData()?.user_role
         // this.transaction_range = this.User == "OWNER"? this.memberService.getSettings()?.transaction_range:0
-        this.transaction_range = 10
+        this.transaction_range = 10;
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(
-            new Date().setDate(
-                new Date().getDate() -
-                    this.transaction_range
-            ),
+            new Date().setDate(new Date().getDate() - this.transaction_range),
             'yyyy-MM-dd'
         );
         this.items = [
@@ -103,7 +102,20 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
     }
 
     viewTransaction() {
-        this.displayTransaction = true;
+        this.transactionDataLoading = true;
+        this.apiService
+            .getTypeRequest(`pos_sale_data/${this.selectedProduct.id}`)
+            .toPromise()
+            .then((result: any) => {
+                if (result.result) {
+                    this.transactionData = [];
+                    result.data.slave_data.forEach((element) => {
+                        this.transactionData.push(element);
+                    });
+                    this.transactionDataLoading = false;
+                    this.displayTransaction = true;
+                }
+            });
     }
 
     printMembership2Inc() {
@@ -115,7 +127,7 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
         });
     }
 
-    printList(){
+    printList() {
         this.dialogService.open(PosSaleHistoryListComponent, {
             data: this.Data,
             header: `Sales History`,
@@ -123,4 +135,3 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
         });
     }
 }
-
