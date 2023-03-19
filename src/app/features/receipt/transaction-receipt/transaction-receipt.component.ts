@@ -41,8 +41,8 @@ export class TransactionReceiptComponent implements OnInit {
         this.name = this.memberService.getUserData()?.full_name;
         this.response = this.config.data.txnData;
         this.memberData = this.config.data.memberData;
-        // this.logo = this.memberService.getUserData()?.dp_location
-        this.logo = "https://picsum.photos/id/1080/367/267.jpg"
+        this.logo = this.memberService.getUserData()?.dp_location
+        // this.logo = "https://picsum.photos/id/1080/367/267.jpg"
         this.generatePDF();
     }
 

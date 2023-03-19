@@ -37,7 +37,7 @@ export class MembershipSummaryReportComponent implements OnInit {
     ngOnInit(): void {
 
         this.name = this.memberService.getSettings().mess_name;
-        this.logo = localStorage.getItem('logo');
+        this.logo = this.memberService.getUserData()?.dp_location
         this.loading = true;
         this.grand_total = 0;
         this.no_of_items = 0;
@@ -67,7 +67,7 @@ export class MembershipSummaryReportComponent implements OnInit {
                                 columns: [
                                     {},
                                     {
-                                        image: this.logo,
+                                        image: 'logo',
                                         width: 60,
                                         height: 60,
                                         alignment: 'center',

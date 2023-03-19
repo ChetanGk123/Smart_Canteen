@@ -35,7 +35,7 @@ export class NewMembershipReceiptComponent implements OnInit {
         // //
         this.name = this.memberService.getSettings().mess_name;
         this.response = this.config.data;
-        this.logo = localStorage.getItem('logo');
+        this.logo = this.memberService.getUserData()?.dp_location
         this.generatePDF();
     }
 
@@ -58,7 +58,7 @@ export class NewMembershipReceiptComponent implements OnInit {
                                 columns: [
                                     {},
                                     {
-                                        image: this.logo,
+                                        image: 'logo',
                                         width: 60,
                                         height: 60,
                                         alignment: 'center',
