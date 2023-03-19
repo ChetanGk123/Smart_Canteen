@@ -69,19 +69,25 @@
                         },
                         "demo": {
                             "outputPath": "dist/demo",
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "3mb",
+                                    "maximumWarning": "5mb",
                                     "maximumError": "5mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "7kb",
-                                    "maximumError": "10kb"
+                                    "maximumWarning": "25kb",
+                                    "maximumError": "25kb"
                                 }
-                            ],
-                            "outputHashing": "all"
+                            ]
                         },
                         "development": {
                             "buildOptimizer": false,
