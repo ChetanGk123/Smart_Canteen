@@ -133,7 +133,7 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
             this.loading = true;
             var operation = this.config?.data ? 'update' : 'insert';
             if(operation == "insert"){
-                var id = this.authService.getUser()?.counter_id??this.counterService.getCounterData()?.id??this.commonForm.controls.counter_id.value
+                var id = this.counterService.getCounterData()?.id??this.authService.getUser()?.counter_id??this.commonForm.controls.counter_id.value
                 data = {
                     counter_id: id,
                     member_data: [this.commonForm.value],

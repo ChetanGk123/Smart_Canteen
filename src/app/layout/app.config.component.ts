@@ -108,7 +108,7 @@ export class AppConfigComponent implements OnInit, OnDestroy {
     }
 
     updateCounter(){
-        this.counterService.updatecounterDate(this.selectedCounter)
+        this.counterService.setCounterData(this.selectedCounter)
         this.appMain.configActive = false;
     }
 

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
@@ -45,6 +45,7 @@ export class MembersComponent implements OnInit, OnDestroy {
         public router: Router,
         public route: ActivatedRoute,
         public dialogService: DialogService,
+        private messageService: MessageService,
         public memberService: MemberService,
         private confirmationService: ConfirmationService,
         public counterService: CounterService
@@ -202,11 +203,17 @@ export class MembersComponent implements OnInit, OnDestroy {
     bulkUpload() {
         this.bulkAddloading = true;
         var counter_id
-         if(this.authService.getUser().user_role == "OWNER" && this.counterService.getCounterData().id){
-            counter_id = this.counterService.getCounterData().id
+         if(this.authService.getUser().user_role == "OWNER" && this.counterService.getCounterData()?.id || this.authService.getUser()?.counter_id){
+            counter_id = this.counterService.getCounterData()?.id??this.authService.getUser()?.counter_id
+         } else{
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Select Counter',
+                detail: `Please select a counter`,
+            });
+            this.bulkAddloading = false;
+            return;
          }
-        console.log("User Data",this.authService.getUser());
-                console.log("Counter Data",this.counterService.getCounterData());
         var data = {
             counter_id: counter_id??this.authService.getUser()?.counter_id,
             member_data: this.bulkAddData,
