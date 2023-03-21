@@ -19,9 +19,7 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
     member_types: any = [];
     counterList: any[];
     commonForm: FormGroup = new FormGroup({
-        counter_id: new FormControl(this.config.data?.counter_id ?? '', [
-            Validators.required,
-        ]),
+        counter_id: new FormControl(this.config.data?.counter_id ?? ''),
         member_id: new FormControl(
             this.config?.data?.member_id ?? this.config?.data?.id ?? ''
         ),
@@ -129,16 +127,15 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
     }
 
     submitClick() {
+        debugger
         if (this.commonForm.valid) {
             var data;
             this.loading = true;
             var operation = this.config?.data ? 'update' : 'insert';
             if(operation == "insert"){
-                console.log("User Data",this.authService.getUser());
-                console.log("Counter Data",this.counterService.getCounterData());
-
+                var id = this.authService.getUser()?.counter_id??this.counterService.getCounterData()?.id??this.commonForm.controls.counter_id.value
                 data = {
-                    counter_id: this.commonForm.controls.counter_id.value?? this.authService.getUser()?.counter_id??this.counterService.getCounterData()?.id,
+                    counter_id: id,
                     member_data: [this.commonForm.value],
                 };
             }
