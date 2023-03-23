@@ -14,7 +14,6 @@ import { MemberService } from '../member.service';
     styleUrls: ['./manage-member.component.scss'],
 })
 export class ManageMemberComponent implements OnInit, OnDestroy {
-
     loading: boolean = false;
     member_types: any = [];
     counterList: any[];
@@ -36,9 +35,7 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
         parents_ph: new FormControl(this.config?.data?.parents_ph ?? '', [
             Validators.required,
         ]),
-        dob: new FormControl(this.config?.data?.dob ?? '', [
-            Validators.required,
-        ]),
+        dob: new FormControl(this.config?.data?.dob ?? '00-00-0000'),
         email: new FormControl(this.config?.data?.email ?? ''),
         class_name: new FormControl(this.config?.data?.class_name ?? '', [
             Validators.required,
@@ -81,10 +78,9 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                 this.loading = false;
                 this.member_types = result?.data;
                 if (this.config?.data) {
-
-                    this.commonForm.controls.card_number.disable()
-                    this.commonForm.controls.counter_id.disable()
-                    this.commonForm.controls.opening_balance.disable()
+                    this.commonForm.controls.card_number.disable();
+                    this.commonForm.controls.counter_id.disable();
+                    this.commonForm.controls.opening_balance.disable();
                 } /* else {
                     this.commonForm.patchValue({
                         card_number: '744755373a90123',
@@ -103,43 +99,48 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                     });
                 } */
             });
-            if(this.memberService.getUserData().user_role =="OWNER"){
-                this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
-                    this.commonForm.controls.counter_id.setValue(data?.id??'')
-                })
-                this.apiService
+        if (this.memberService.getUserData().user_role == 'OWNER') {
+            this.counterService.counterDate$
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((data: any) => {
+                    this.commonForm.controls.counter_id.setValue(
+                        data?.id ?? ''
+                    );
+                });
+            this.apiService
                 .getTypeRequest(`table_data/COUNTER`)
                 .toPromise()
                 .then((result: any) => {
                     this.counterList = result?.data;
                 });
-            }
+        }
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
     submitClick() {
-        debugger
+        debugger;
         if (this.commonForm.valid) {
             var data;
             this.loading = true;
             var operation = this.config?.data ? 'update' : 'insert';
-            if(operation == "insert"){
-                var id = this.counterService.getCounterData()?.id??this.authService.getUser()?.counter_id??this.commonForm.controls.counter_id.value
+            if (operation == 'insert') {
+                var id =
+                    this.counterService.getCounterData()?.id ??
+                    this.authService.getUser()?.counter_id ??
+                    this.commonForm.controls.counter_id.value;
                 data = {
                     counter_id: id,
                     member_data: [this.commonForm.value],
                 };
-            }
-            else{
+            } else {
                 data = this.commonForm.value;
             }
             this.apiService
