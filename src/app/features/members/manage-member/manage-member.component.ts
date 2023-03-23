@@ -55,7 +55,7 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
             Validators.required,
         ]),
         opening_balance: new FormControl(
-            this.config?.data?.opening_balance ?? '',
+            this.config?.data?.opening_balance ?? '0',
             [Validators.required]
         ),
     });
