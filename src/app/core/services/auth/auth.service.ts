@@ -172,7 +172,7 @@ export class AuthService {
 
     setTheme(settings:any) {
         let themeSettings = settings.filter((settings:any)=> settings.settings_name === "THEME_COLOR")
-        let themeElement = document.getElementById('theme-css');
+        // let themeElement = document.getElementById('theme-css');
         let dark: boolean;
         let theme: string;
         if (themeSettings[0].settings_value == 'dark') {
@@ -182,10 +182,10 @@ export class AuthService {
             dark = false;
             theme = 'lara-light-indigo';
         }
-        themeElement.setAttribute(
-            'href',
-            'assets/theme/' + theme + '/theme.css'
-        );
+        // themeElement.setAttribute(
+        //     'href',
+        //     'assets/theme/' + theme + '/theme.css'
+        // );
         this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
     }
 }

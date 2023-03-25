@@ -55,7 +55,7 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
     }
 
     changeTheme() {
-        let themeElement = document.getElementById('theme-css');
+        // let themeElement = document.getElementById('theme-css');
         let dark: boolean;
         let theme: string;
         if (this.checked) {
@@ -67,10 +67,10 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
             dark = false;
             theme = 'lara-light-indigo';
         }
-        themeElement.setAttribute(
-            'href',
-            'assets/theme/' + theme + '/theme.css'
-        );
+        // themeElement.setAttribute(
+        //     'href',
+        //     'assets/theme/' + theme + '/theme.css'
+        // );
         this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
     }
 }
