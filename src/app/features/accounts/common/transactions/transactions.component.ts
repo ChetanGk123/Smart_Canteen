@@ -51,6 +51,7 @@ export class TransactionsComponent implements OnInit {
                 this.counter_id = data?.id ?? '';
                 this.loading = true;
                 this.Data = [];
+                this.loadAccountHeads();
                 this.loadData();
             });
         this.accountList = [];
@@ -78,13 +79,54 @@ export class TransactionsComponent implements OnInit {
         this._unsubscribeAll.complete();
     }
 
-    loadData() {
+    loadAccountHeads() {
         var url = '';
         if (this.counter_id != '') {
             url = `/BY_COUNTER/${this.counter_id}`;
         }
         this.loadAccountList = true;
-        this.accountList = []
+        this.accountList = [];
+        this.apiService
+            .getTypeRequest(`table_data/EXPENSE_ACCOUNT_HEAD${url}`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    var data = {
+                        label: 'Expense Account',
+                        value: 'de',
+                        items: result.data,
+                    };
+                    this.accountList.push(data);
+                }
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+        this.apiService
+            .getTypeRequest(`table_data/INCOME_ACCOUNT_HEAD${url}`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    var data = {
+                        label: 'Income Account',
+                        value: 'de',
+                        items: result.data,
+                    };
+                    this.accountList.push(data);
+                }
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+    }
+
+    loadData() {
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
 
         // if (this.commonForm.valid) {
         this.loading = true;
@@ -105,40 +147,7 @@ export class TransactionsComponent implements OnInit {
             .finally(() => {
                 this.loading = false;
             });
-        this.apiService
-            .getTypeRequest(`table_data/EXPENSE_ACCOUNT_HEAD${url}`)
-            .toPromise()
-            .then((result: any) => {
-                this.loading = false;
-                if (result.result) {
-                    var data = {
-                        label: 'Expense Account',
-                        value: 'de',
-                        items: result.data,
-                    };
-                    this.accountList.push(data)
-                }
-            })
-            .finally(() => {
-                this.loading = false;
-            });
-        this.apiService
-            .getTypeRequest(`table_data/INCOME_ACCOUNT_HEAD${url}`)
-            .toPromise()
-            .then((result: any) => {
-                this.loading = false;
-                if (result.result) {
-                    var data = {
-                        label: 'Income Account',
-                        value: 'de',
-                        items: result.data,
-                    };
-                    this.accountList.push(data)
-                }
-            })
-            .finally(() => {
-                this.loading = false;
-            });
+
         // } else {
         //     this.messageService.add({
         //         severity: 'warn',
