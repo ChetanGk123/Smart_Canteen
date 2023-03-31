@@ -9,108 +9,122 @@
             <div class="grid">
                 <div class="col-12">
                     <p-toolbar styleClass="mb-4" class="align-content-center">
-                        <form [formGroup]="commonForm" autocomplete="off">
-                            <div class="grid mb-0">
-                                <div class="field p-fluid col">
-                                    <label for="account_id">Account</label>
-                                    <p-dropdown
-                                        id="account_head_id"
-                                        [options]="accountList"
-                                        optionLabel="account_name"
-                                        optionValue="account_head_id"
-                                        formControlName="account_head_id"
-                                        placeholder="Select a Account"
-                                        [showClear]="true"
-                                        [group]="true"
-                                    >
-                                        <ng-template
-                                            let-group
-                                            pTemplate="group"
+                            <ng-template
+                                class="align-content-center"
+                                pTemplate="left"
+                            >
+                            <form [formGroup]="commonForm" autocomplete="off">
+                                <div class="grid mb-0">
+                                    <div class="field p-fluid col">
+                                        <label for="account_id">Account</label>
+                                        <p-dropdown
+                                            id="account_head_id"
+                                            [options]="accountList"
+                                            optionLabel="account_name"
+                                            formControlName="account_head_id"
+                                            placeholder="Select a Account"
+                                            [showClear]="true"
+                                            [group]="true"
                                         >
-                                            <div
-                                                class="flex align-items-center"
+                                            <ng-template
+                                                let-group
+                                                pTemplate="group"
                                             >
-                                                <span>{{ group.label }}</span>
-                                            </div>
-                                        </ng-template>
-                                        <ng-template let-group pTemplate="item">
-                                            <div
-                                                class="flex align-items-center"
-                                            >
-                                                <span>{{
-                                                    group.account_name
-                                                }}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-dropdown>
-                                    <small
-                                        class="p-error"
-                                        *ngIf="
-                                            commonForm.controls.account_head_id
-                                                .touched &&
-                                            commonForm.controls.account_head_id
-                                                .errors?.required
-                                        "
-                                        >Account is required.</small
+                                                <div
+                                                    class="flex align-items-center"
+                                                >
+                                                    <span>{{ group.label }}</span>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-group pTemplate="item">
+                                                <div
+                                                    class="flex align-items-center"
+                                                >
+                                                    <span>{{
+                                                        group.account_name
+                                                    }}</span>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                        <small
+                                            class="p-error"
+                                            *ngIf="
+                                                commonForm.controls.account_head_id
+                                                    .touched &&
+                                                commonForm.controls.account_head_id
+                                                    .errors?.required
+                                            "
+                                            >Account is required.</small
+                                        >
+                                    </div>
+                                    <div
+                                        class="field p-fluid col"
+                                        style="margin-bottom: -1rem"
                                     >
-                                </div>
-                                <div
-                                    class="field p-fluid col"
-                                    style="margin-bottom: -1rem"
-                                >
-                                    <label for="dob">Start Date </label>
-                                    <input
-                                        id="dob"
-                                        type="date"
-                                        pInputText
-                                        formControlName="start_date"
-                                    />
-                                    <small
-                                        class="p-error"
-                                        *ngIf="
-                                            commonForm.controls.start_date
-                                                .touched &&
-                                            commonForm.controls.start_date
-                                                .errors?.required
-                                        "
-                                        >Date is required.</small
+                                        <label for="dob">Start Date </label>
+                                        <input
+                                            id="dob"
+                                            type="date"
+                                            pInputText
+                                            formControlName="start_date"
+                                        />
+                                        <small
+                                            class="p-error"
+                                            *ngIf="
+                                                commonForm.controls.start_date
+                                                    .touched &&
+                                                commonForm.controls.start_date
+                                                    .errors?.required
+                                            "
+                                            >Date is required.</small
+                                        >
+                                    </div>
+                                    <div
+                                        class="field p-fluid col"
+                                        style="margin-bottom: -1rem"
                                     >
+                                        <label for="dob">End Date </label>
+                                        <input
+                                            id="dob"
+                                            type="date"
+                                            pInputText
+                                            formControlName="end_date"
+                                        />
+                                        <small
+                                            class="p-error"
+                                            *ngIf="
+                                                commonForm.controls.end_date
+                                                    .touched &&
+                                                commonForm.controls.end_date.errors
+                                                    ?.required
+                                            "
+                                            >Date is required.</small
+                                        >
+                                    </div>
+                                    <div class="field p-fluid flex col align-items-center">
+                                        <button
+                                            pButton
+                                            pRipple
+                                            [disabled]="!commonForm.valid"
+                                            type="button"
+                                            icon="pi pi-search"
+                                            class="mt-4 p-button-rounded p-action-button"
+                                            (click)="loadData()"
+                                        ></button>
+                                    </div>
                                 </div>
-                                <div
-                                    class="field p-fluid col"
-                                    style="margin-bottom: -1rem"
-                                >
-                                    <label for="dob">End Date </label>
-                                    <input
-                                        id="dob"
-                                        type="date"
-                                        pInputText
-                                        formControlName="end_date"
-                                    />
-                                    <small
-                                        class="p-error"
-                                        *ngIf="
-                                            commonForm.controls.end_date
-                                                .touched &&
-                                            commonForm.controls.end_date.errors
-                                                ?.required
-                                        "
-                                        >Date is required.</small
-                                    >
-                                </div>
-                                <div class="field p-fluid flex col align-items-center">
-                                    <button
-                                        pButton
-                                        pRipple
-                                        [disabled]="!commonForm.valid"
-                                        type="button"
-                                        icon="pi pi-search"
-                                        class="mt-4 p-button-rounded p-action-button"
-                                        (click)="loadData()"
-                                    ></button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </ng-template>
+                        <ng-template pTemplate="right">
+                            <button
+                            *ngIf="Data.length>0"
+                            pButton
+                            pRipple
+                            label="Print"
+                            icon="pi pi-fw pi-print"
+                            class="mr-2 inline-block p-button"
+                            (click)="printList()"
+                        ></button> </ng-template>
                     </p-toolbar>
                     <!-- <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu> -->

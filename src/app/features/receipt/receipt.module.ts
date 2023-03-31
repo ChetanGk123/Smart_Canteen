@@ -13,6 +13,7 @@ import { PosSummaryComponent } from './pos-summary/pos-summary.component';
 import { MembershipSummaryReportComponent } from './membership-summary-report/membership-summary-report.component';
 import { TransactionsListComponent } from './transactions-list/transactionsList.component';
 import { PosSaleHistoryListComponent } from './pos-sale-history-list/pos-sale-history-list.component';
+import { AccountTransactionsComponent } from './account-transactions/account-transactions.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { PosSaleHistoryListComponent } from './pos-sale-history-list/pos-sale-hi
         MembershipSummaryReportComponent,
         TransactionsListComponent,
         PosSaleHistoryListComponent,
+        AccountTransactionsComponent,
     ],
     imports: [CommonModule, ReceiptRoutingModule, PrimengModule],
     exports: [NewMembershipReceiptComponent],

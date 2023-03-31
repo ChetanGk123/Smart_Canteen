@@ -7,6 +7,7 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
 import { CounterService } from 'src/app/features/counters/counter.service';
+import { AccountTransactionsComponent } from 'src/app/features/receipt/account-transactions/account-transactions.component';
 
 @Component({
     selector: 'app-transactions',
@@ -123,17 +124,23 @@ export class TransactionsComponent implements OnInit {
     }
 
     loadData() {
+
         var url = '';
         if (this.counter_id != '') {
             url = `/BY_COUNTER/${this.counter_id}`;
         }
 
         // if (this.commonForm.valid) {
+            var data = {
+                account_head_id:this.commonForm.controls.account_head_id.value?.account_head_id,
+                start_date:this.commonForm.controls.start_date.value,
+                end_date:this.commonForm.controls.end_date.value,
+            }
         this.loading = true;
         this.apiService
             .postTypeRequest(
                 `transaction_data/ACCOUNT_HEAD_TRANSACTIONS${url}`,
-                this.commonForm.value
+                data
             )
             .toPromise()
             .then((result: any) => {
@@ -160,5 +167,13 @@ export class TransactionsComponent implements OnInit {
         //         controls[name].markAllAsTouched();
         //     }
         // }
+    }
+
+    printList(){
+        this.dialogService.open(AccountTransactionsComponent, {
+            data: { transactions_Data: this.Data, account_Data: this.commonForm.value },
+            header: `Transaction Details`,
+            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
+        });
     }
 }
