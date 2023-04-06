@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -18,6 +18,8 @@ import { MembersData } from './members-details.model';
     styleUrls: ['./members.component.scss'],
 })
 export class MembersComponent implements OnInit, OnDestroy {
+    @ViewChild('excelFile')
+myInputVariable: ElementRef;
     tableData: any;
     bulkAddData: any = [];
     loading: boolean = false;
@@ -26,7 +28,9 @@ export class MembersComponent implements OnInit, OnDestroy {
     dataLoaded: boolean = false;
     bulkAddloading: boolean = false;
     bulkAdd: boolean = false;
+    Unsuccessful_registration: boolean = false;
     selectedProduct: any;
+    errorMessage: any;
     items: MenuItem[];
 
 
@@ -138,6 +142,7 @@ export class MembersComponent implements OnInit, OnDestroy {
             //this.convertArrayToJson(data);
             this.bulkAddData = data;
             this.bulkAdd = true;
+            this.myInputVariable.nativeElement.value = "";
         };
 
         //this.loadComponents();
@@ -223,7 +228,31 @@ export class MembersComponent implements OnInit, OnDestroy {
             .toPromise()
             .then((result: any) => {
                 if (result.result) {
+                    // {
+                    //     "success": 0,
+                    //     "incomplete_data": 0,
+                    //     "invalid_member_type": [],
+                    //     "duplicate_members": [
+                    //         "sanjay2",
+                    //         "sanjay3"
+                    //     ],
+                    //     "duplicate_cardnumber": []
+                    // }
                     this.loadData();
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successfully registered',
+                        detail: result.data.success+" members",
+                    });
+                    if(result.data.duplicate_members.length>0 || result.data.incomplete_data>0 || result.data.invalid_member_type.length>0 || result.data.duplicate_members.length>0 || result.data.duplicate_cardnumber.length>0){
+                        this.errorMessage = result.data
+                        this.Unsuccessful_registration = true
+                        // this.messageService.add({
+                        //     severity: 'error',
+                        //     summary: 'Unsuccessful registration',
+                        //     detail: result.data.duplicate_members.length+" members",
+                        // });
+                    }
                 }
             })
             .finally(() => {

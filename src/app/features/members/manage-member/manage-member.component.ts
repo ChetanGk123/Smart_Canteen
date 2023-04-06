@@ -126,7 +126,6 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
     }
 
     submitClick() {
-        debugger;
         if (this.commonForm.valid) {
             var data;
             this.loading = true;
