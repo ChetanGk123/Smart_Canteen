@@ -31,24 +31,24 @@ export class MemberService {
     getMemberData() {
         try {
             var memberData: any;
-        if (this.memberData) {
-            memberData = this.memberData;
-        } else {
-            memberData = localStorage.getItem('memberData')
-                ? JSON.parse(
-                      CryptoJS.AES.decrypt(
-                          localStorage.getItem('memberData'),
-                          this.encPassword.trim()
-                      ).toString(CryptoJS.enc.Utf8)
-                  )
-                : null;
-        }
+            if (this.memberData) {
+                memberData = this.memberData;
+            } else {
+                memberData = localStorage.getItem('memberData')
+                    ? JSON.parse(
+                          CryptoJS.AES.decrypt(
+                              localStorage.getItem('memberData'),
+                              this.encPassword.trim()
+                          ).toString(CryptoJS.enc.Utf8)
+                      )
+                    : null;
+            }
 
-        if (memberData) {
-            return memberData;
-        } else {
-            return null;
-        }
+            if (memberData) {
+                return memberData;
+            } else {
+                return null;
+            }
         } catch (error) {
             this.authService.logout();
         }
@@ -105,7 +105,5 @@ export class MemberService {
         }
     }
 
-    updateSettings(){
-
-    }
+    updateSettings() {}
 }

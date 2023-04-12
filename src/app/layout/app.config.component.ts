@@ -43,7 +43,7 @@ export class AppConfigComponent implements OnInit, OnDestroy {
         //         this.applyScale();
         //     }
         // );
-        if(this.memberService.getUserData().user_role =='OWNER'){
+        if (this.memberService.getUserData().user_role == 'OWNER') {
             this.apiService
                 .getTypeRequest(`table_data/COUNTER`)
                 .toPromise()
@@ -59,11 +59,11 @@ export class AppConfigComponent implements OnInit, OnDestroy {
                         logo_url: '',
                         status: '',
                     };
-                    this.selectedCounter = data
-                    this.updateCounter()
-                    this.counters.push(data)
-                    result?.data.forEach(element => {
-                        this.counters.push(element)
+                    this.selectedCounter = data;
+                    this.updateCounter();
+                    this.counters.push(data);
+                    result?.data.forEach((element) => {
+                        this.counters.push(element);
                     });
                 });
         }
@@ -107,8 +107,8 @@ export class AppConfigComponent implements OnInit, OnDestroy {
         this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
     }
 
-    updateCounter(){
-        this.counterService.setCounterData(this.selectedCounter)
+    updateCounter() {
+        this.counterService.setCounterData(this.selectedCounter);
         this.appMain.configActive = false;
     }
 

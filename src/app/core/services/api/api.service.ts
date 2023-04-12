@@ -17,8 +17,8 @@ export class ApiService {
         }),
     };
 
-    constructor(private _http: HttpClient,public _coreEnvService: EnvService) {
-        this.baseUrl =  _coreEnvService.config.url;
+    constructor(private _http: HttpClient, public _coreEnvService: EnvService) {
+        this.baseUrl = _coreEnvService.config.url;
     }
 
     getTocken() {

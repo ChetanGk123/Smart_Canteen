@@ -42,7 +42,9 @@ export class TransactionsListComponent implements OnInit {
         this.dateRange = `${date} - ${date}`;
         console.log(this.memberService.getUserData()?.dp_location);
 
-         this.logo = environment.production?this.memberService.getUserData()?.dp_location:Logos.baseLogo
+        this.logo = environment.production
+            ? this.memberService.getUserData()?.dp_location
+            : Logos.baseLogo;
         // this.logo = 'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
         this.generatePDF();
     }
@@ -66,7 +68,7 @@ export class TransactionsListComponent implements OnInit {
                 title: 'Account Transactions',
                 author: 'Smart Canteen',
                 subject: 'Transactions',
-              },
+            },
             content: [
                 {
                     columns: [
@@ -93,7 +95,7 @@ export class TransactionsListComponent implements OnInit {
                             },
                             {
                                 text: 'Transactions',
-                                decoration: "underline",
+                                decoration: 'underline',
                                 fontSize: 13,
                                 // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
                                 margin: [0, 5, 0, 0],
@@ -166,17 +168,17 @@ export class TransactionsListComponent implements OnInit {
                                 {
                                     text: p.transaction_date,
                                     border: [false, false, false, false],
-                                    margin: [5, 5,0, -5],
+                                    margin: [5, 5, 0, -5],
                                 },
                                 {
                                     text: p.transaction_description,
                                     border: [false, false, false, false],
-                                    margin: [5, 5,0, -5],
+                                    margin: [5, 5, 0, -5],
                                 },
                                 {
                                     text: p.receipt_no,
                                     border: [false, false, false, false],
-                                    margin: [5, 5,0, -5],
+                                    margin: [5, 5, 0, -5],
                                 },
                                 {
                                     text:
@@ -184,7 +186,7 @@ export class TransactionsListComponent implements OnInit {
                                             ? p.transaction_amount
                                             : '',
                                     border: [false, false, false, false],
-                                    margin: [0, 5,0, -5],
+                                    margin: [0, 5, 0, -5],
                                     alignment: 'right',
                                 },
                                 {
@@ -193,7 +195,7 @@ export class TransactionsListComponent implements OnInit {
                                             ? p.transaction_amount
                                             : '',
                                     border: [false, false, false, false],
-                                    margin: [0, 5,0, -5],
+                                    margin: [0, 5, 0, -5],
                                     alignment: 'right',
                                 },
                             ]),
@@ -220,9 +222,9 @@ export class TransactionsListComponent implements OnInit {
                     margin: [-15, 10, -15, -10],
                 },
             ],
-            images:{
-                logo:this.logo
-            }
+            images: {
+                logo: this.logo,
+            },
         };
         const pdfDocGenerator = pdfMake.createPdf(
             docDefinition,

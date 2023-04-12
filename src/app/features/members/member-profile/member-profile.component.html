@@ -328,6 +328,12 @@
                                     field="previous_balance"
                                 ></p-sortIcon>
                             </th>
+                            <th pSortableColumn="transaction_type">
+                                Txn Type
+                                <p-sortIcon
+                                    field="transaction_type"
+                                ></p-sortIcon>
+                            </th>
                             <th pSortableColumn="transaction_amount">
                                 Amount
                                 <p-sortIcon
@@ -363,6 +369,17 @@
                                     product.previous_balance
                                         | currency : "INR"
                                 }}
+                            </td>
+                            <td>
+                                <span
+                                    [class]="
+                                        product.transaction_type == 'CREDIT'
+                                            ? 'p-success'
+                                            : 'p-error'
+                                    "
+                                >
+                                    {{ product.transaction_type }}</span
+                                >
                             </td>
                             <td>
                                 {{

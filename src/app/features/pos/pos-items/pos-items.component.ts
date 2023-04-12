@@ -32,16 +32,18 @@ export class PosItemsComponent implements OnInit, OnDestroy {
         public messageService: MessageService,
         public dialogService: DialogService,
         public memberService: MemberService,
-        public counterService: CounterService,
+        public counterService: CounterService
     ) {}
 
     ngOnInit(): void {
-        this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
-            this.counter_id= data?.id??'';
-            this.loading = true;
-            this.Data = []
-            this.loadData();
-        })
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+                this.loading = true;
+                this.Data = [];
+                this.loadData();
+            });
         this.items = [
             {
                 label: 'Update Image',
@@ -69,23 +71,21 @@ export class PosItemsComponent implements OnInit, OnDestroy {
                 command: () => this.updateStock(),
             },
         ];
-
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
-    loadData(){
-        var url = ""
-        if(this.counter_id != ''){
-            url = `/BY_COUNTER/${this.counter_id}`
+    loadData() {
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
         }
         this.apiService
             .getTypeRequest(`table_data/POS_PARTICULAR${url}`)
@@ -95,7 +95,7 @@ export class PosItemsComponent implements OnInit, OnDestroy {
                 if (result.result) {
                     this.Data = result.data;
                 } else {
-                    this.Data = []
+                    this.Data = [];
                 }
             });
     }

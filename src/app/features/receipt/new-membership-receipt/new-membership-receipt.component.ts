@@ -38,7 +38,9 @@ export class NewMembershipReceiptComponent implements OnInit {
         this.name = this.memberService.getSettings().mess_name;
         this.response = this.config.data;
 
-         this.logo = environment.production?this.memberService.getUserData()?.dp_location:Logos.baseLogo
+        this.logo = environment.production
+            ? this.memberService.getUserData()?.dp_location
+            : Logos.baseLogo;
         this.generatePDF();
     }
 

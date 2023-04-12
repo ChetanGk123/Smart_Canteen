@@ -6,12 +6,13 @@ import { CountersComponent } from './counters.component';
 const routes: Routes = [
     { path: '', component: CountersComponent },
     {
-        path:'counterProfile', component: CounterProfileComponent
-    }
+        path: 'counterProfile',
+        component: CounterProfileComponent,
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class CountersRoutingModule { }
+export class CountersRoutingModule {}

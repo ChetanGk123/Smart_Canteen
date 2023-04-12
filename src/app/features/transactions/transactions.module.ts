@@ -9,10 +9,7 @@ import { TransactionHistoryComponent } from './transaction-history/transaction-h
 import { CorePipesModule } from 'src/app/core/pipes/pipes.module';
 
 @NgModule({
-    declarations: [
-        AddEditTransactionComponent,
-        TransactionHistoryComponent,
-    ],
+    declarations: [AddEditTransactionComponent, TransactionHistoryComponent],
     imports: [
         CommonModule,
         TransactionsRoutingModule,

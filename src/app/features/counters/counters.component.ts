@@ -7,14 +7,13 @@ import { CounterService } from './counter.service';
 import { ManageCounterComponent } from './manage-counter/manage-counter.component';
 
 @Component({
-  selector: 'app-counters',
-  templateUrl: './counters.component.html',
-  styleUrls: ['./counters.component.scss']
+    selector: 'app-counters',
+    templateUrl: './counters.component.html',
+    styleUrls: ['./counters.component.scss'],
 })
 export class CountersComponent implements OnInit {
-
     tableData: any;
-    user_role: any
+    user_role: any;
     loading: boolean = false;
     constructor(
         public counterService: CounterService,
@@ -27,14 +26,13 @@ export class CountersComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadData();
-        this.counterService.counterProfileDate$.subscribe((data:any)=>{
+        this.counterService.counterProfileDate$.subscribe((data: any) => {
             console.log(data);
-
-        })
+        });
     }
 
     loadData() {
-        this.user_role = this.authService.getUser().user_role
+        this.user_role = this.authService.getUser().user_role;
         this.loading = true;
         this.apiService
             .getTypeRequest(`table_data/COUNTER`)
@@ -57,10 +55,10 @@ export class CountersComponent implements OnInit {
         });
     }
 
-    updateCounter(data:any){
+    updateCounter(data: any) {
         const ref = this.dialogService.open(ManageCounterComponent, {
             header: `Update Counter`,
-            data:data,
+            data: data,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
         ref.onClose.subscribe((result: any) => {
@@ -70,7 +68,7 @@ export class CountersComponent implements OnInit {
         });
     }
 
-    openCounterFrofile(data:any){
+    openCounterFrofile(data: any) {
         this.counterService.setCounterProfileData(data);
         this.router.navigate(['./counterProfile'], { relativeTo: this.route });
     }

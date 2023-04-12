@@ -12,23 +12,22 @@ import { NgxMaskModule } from 'ngx-mask';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { AccountTransferComponent } from './account-transfer/account-transfer.component';
 
-
 @NgModule({
-  declarations: [
-    IncomeAccountComponent,
-    ExpenseAccountComponent,
-    AccountTransferComponent,
-    AccountComponent,
-    AddEditAccountComponent,
-    TransactionsComponent,
-  ],
-  imports: [
-    CommonModule,
-    AccountsRoutingModule,
-    PrimengModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxMaskModule.forRoot(),
-  ]
+    declarations: [
+        IncomeAccountComponent,
+        ExpenseAccountComponent,
+        AccountTransferComponent,
+        AccountComponent,
+        AddEditAccountComponent,
+        TransactionsComponent,
+    ],
+    imports: [
+        CommonModule,
+        AccountsRoutingModule,
+        PrimengModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxMaskModule.forRoot(),
+    ],
 })
-export class AccountsModule { }
+export class AccountsModule {}

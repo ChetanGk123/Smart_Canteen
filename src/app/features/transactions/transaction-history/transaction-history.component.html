@@ -20,10 +20,18 @@
                         <button
                             pButton
                             pRipple
-                            label="Member Entry"
+                            label="Wallet Credit"
                             icon="pi pi-fw pi-user-plus"
                             class="mr-2 inline-block p-button"
-                            (click)="add()"
+                            (click)="walletCredit()"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            label="Wallet Debit"
+                            icon="pi pi-fw pi-user-minus"
+                            class="mr-2 inline-block p-button"
+                            (click)="walletDebit()"
                         ></button>
                     </div>
                 </ng-template>

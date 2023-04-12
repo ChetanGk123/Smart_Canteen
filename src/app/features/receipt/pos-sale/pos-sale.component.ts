@@ -28,7 +28,7 @@ export class PosSaleComponent implements OnInit {
     loading: boolean = false;
     response: any;
     orderData: any;
-    public coreConfig:CoreConfig
+    public coreConfig: CoreConfig;
     appConfig: AppConfig;
 
     constructor(
@@ -39,17 +39,19 @@ export class PosSaleComponent implements OnInit {
         public messageService: MessageService,
         public memberService: MemberService,
         public configService: ConfigService,
-        public _coreEnvService: EnvService,
+        public _coreEnvService: EnvService
     ) {
-        this.coreConfig =  _coreEnvService.config
-     }
+        this.coreConfig = _coreEnvService.config;
+    }
 
     ngOnInit(): void {
         this.appConfig = this.configService.config;
 
         this.name = this.memberService.getUserData()?.full_name;
 
-         this.logo = environment.production?this.memberService.getUserData()?.dp_location:Logos.baseLogo
+        this.logo = environment.production
+            ? this.memberService.getUserData()?.dp_location
+            : Logos.baseLogo;
         // this.logo = "https://picsum.photos/id/1080/367/267"
         this.loading = true;
         var id = this.config.data?.id ?? this.config.data?.receipt_id;
@@ -62,7 +64,7 @@ export class PosSaleComponent implements OnInit {
                     this.generatePDF();
                 }
             })
-            .finally(() => { });
+            .finally(() => {});
     }
 
     async generatePDF() {
@@ -83,7 +85,7 @@ export class PosSaleComponent implements OnInit {
                 author: 'john doe',
                 subject: 'subject of document',
                 keywords: 'keywords for document',
-              },
+            },
             content: [
                 {
                     columns: [
@@ -134,8 +136,9 @@ export class PosSaleComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Name: ${orderDetails.customer_name ?? ''
-                                    }`,
+                                text: `Name: ${
+                                    orderDetails.customer_name ?? ''
+                                }`,
                                 alignment: 'left',
                             },
                         ],
@@ -146,8 +149,9 @@ export class PosSaleComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Phone No: ${orderDetails.customer_ph ?? ''
-                                    }`,
+                                text: `Phone No: ${
+                                    orderDetails.customer_ph ?? ''
+                                }`,
                                 alignment: 'left',
                             },
                         ],
@@ -307,11 +311,14 @@ export class PosSaleComponent implements OnInit {
                     ],
                 },
             ],
-            images:{
-                logo:this.logo
-            }
+            images: {
+                logo: this.logo,
+            },
         };
-        const pdfDocGenerator = pdfMake.createPdf(docDefinition,"Sale Receipt");
+        const pdfDocGenerator = pdfMake.createPdf(
+            docDefinition,
+            'Sale Receipt'
+        );
         pdfDocGenerator.getDataUrl((dataUrl) => {
             this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
             this.loading = false;

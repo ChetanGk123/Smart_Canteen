@@ -124,18 +124,18 @@ export class TransactionsComponent implements OnInit {
     }
 
     loadData() {
-
         var url = '';
         if (this.counter_id != '') {
             url = `/BY_COUNTER/${this.counter_id}`;
         }
 
         // if (this.commonForm.valid) {
-            var data = {
-                account_head_id:this.commonForm.controls.account_head_id.value?.account_head_id,
-                start_date:this.commonForm.controls.start_date.value,
-                end_date:this.commonForm.controls.end_date.value,
-            }
+        var data = {
+            account_head_id:
+                this.commonForm.controls.account_head_id.value?.account_head_id,
+            start_date: this.commonForm.controls.start_date.value,
+            end_date: this.commonForm.controls.end_date.value,
+        };
         this.loading = true;
         this.apiService
             .postTypeRequest(
@@ -169,9 +169,12 @@ export class TransactionsComponent implements OnInit {
         // }
     }
 
-    printList(){
+    printList() {
         this.dialogService.open(AccountTransactionsComponent, {
-            data: { transactions_Data: this.Data, account_Data: this.commonForm.value },
+            data: {
+                transactions_Data: this.Data,
+                account_Data: this.commonForm.value,
+            },
             header: `Transaction Details`,
             styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
         });

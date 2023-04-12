@@ -20,5 +20,3 @@ export interface MembershipType {
     snacks_amt: string;
     total_amt: string;
 }
-
-

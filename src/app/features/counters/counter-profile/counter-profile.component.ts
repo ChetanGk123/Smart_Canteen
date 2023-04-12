@@ -91,10 +91,12 @@ export class CounterProfileComponent implements OnInit {
             license_start_date: '29-01-2023',
             no_of_days: 365,
         };
-        this.apiService.postTypeRequest(`license_ops/insert`,data).toPromise()
-        .then((result: any) => {
-            this.loading = false;
-            this.licenceData = result?.data;
-        });
+        this.apiService
+            .postTypeRequest(`license_ops/insert`, data)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                this.licenceData = result?.data;
+            });
     }
 }

@@ -26,7 +26,7 @@ export class TransactionReceiptComponent implements OnInit {
     loading: boolean = false;
     response: any;
     memberData: any;
-    public coreConfig:CoreConfig
+    public coreConfig: CoreConfig;
 
     constructor(
         protected _sanitizer: DomSanitizer,
@@ -35,7 +35,7 @@ export class TransactionReceiptComponent implements OnInit {
         public config: DynamicDialogConfig,
         public messageService: MessageService,
         public memberService: MemberService,
-        public _coreEnvService: EnvService,
+        public _coreEnvService: EnvService
     ) {}
 
     ngOnInit(): void {
@@ -44,7 +44,9 @@ export class TransactionReceiptComponent implements OnInit {
         this.response = this.config.data.txnData;
         this.memberData = this.config.data.memberData;
 
-         this.logo = environment.production?this.memberService.getUserData()?.dp_location:Logos.baseLogo
+        this.logo = environment.production
+            ? this.memberService.getUserData()?.dp_location
+            : Logos.baseLogo;
         // this.logo = "https://picsum.photos/id/1080/367/267.jpg"
         this.generatePDF();
     }
@@ -143,11 +145,13 @@ export class TransactionReceiptComponent implements OnInit {
                             ],
                             [
                                 {
-                                    text: `${this.response.payment_mode??"-"}`,
+                                    text: `${
+                                        this.response.payment_mode ?? '-'
+                                    }`,
                                     border: [false],
                                 },
                                 {
-                                    text: `${this.response.payment_ref??"-"}`,
+                                    text: `${this.response.payment_ref ?? '-'}`,
                                     border: [false],
                                 },
                             ],
@@ -222,7 +226,7 @@ export class TransactionReceiptComponent implements OnInit {
                     },
                 },
                 {
-                    text: `Comments: ${this.response.user_comments??"-"}`,
+                    text: `Comments: ${this.response.user_comments ?? '-'}`,
 
                     margin: [5, 5, 0, 0],
                 },

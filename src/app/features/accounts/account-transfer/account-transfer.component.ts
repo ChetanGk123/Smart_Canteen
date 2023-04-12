@@ -53,7 +53,6 @@ export class AccountTransferComponent implements OnInit {
         this.destinationUrl = this.config.data.destinationUrl;
         this.loadData();
         this.updateBalance();
-
     }
     async loadData() {
         this.loading = true;
@@ -76,9 +75,11 @@ export class AccountTransferComponent implements OnInit {
                     this.loading = false;
                     if (result.result) {
                         this.destinationAccounts = result.data;
-                        if(this.config.data?.data){
-                            this.commonForm.controls.destination_head_id.setValue(this.config.data?.data.account_head_id)
-                            this.updateBalance()
+                        if (this.config.data?.data) {
+                            this.commonForm.controls.destination_head_id.setValue(
+                                this.config.data?.data.account_head_id
+                            );
+                            this.updateBalance();
                         }
                     }
                 });
@@ -105,8 +106,8 @@ export class AccountTransferComponent implements OnInit {
     }
     updateData() {
         this.loading = true;
-        var data ;
-        if(this.config.data.wildCardEntry){
+        var data;
+        if (this.config.data.wildCardEntry) {
             data = {
                 txn_amount: this.commonForm.controls.txn_amount.value,
                 txn_date: this.commonForm.controls.txn_date.value,
@@ -114,7 +115,8 @@ export class AccountTransferComponent implements OnInit {
                 payment_mode: this.commonForm.controls.payment_mode.value,
                 payment_ref: this.commonForm.controls.payment_ref.value,
                 user_comments: this.commonForm.controls.user_comments.value,
-                account_head_id: this.commonForm.controls.destination_head_id.value,
+                account_head_id:
+                    this.commonForm.controls.destination_head_id.value,
             };
         } else {
             data = {
@@ -124,9 +126,10 @@ export class AccountTransferComponent implements OnInit {
                 payment_mode: this.commonForm.controls.payment_mode.value,
                 payment_ref: this.commonForm.controls.payment_ref.value,
                 user_comments: this.commonForm.controls.user_comments.value,
-                source_head_id:this.commonForm.controls.source_head_id.value,
-                destination_head_id:this.commonForm.controls.destination_head_id.value,
-            }
+                source_head_id: this.commonForm.controls.source_head_id.value,
+                destination_head_id:
+                    this.commonForm.controls.destination_head_id.value,
+            };
         }
         this.apiService
             .postTypeRequest(this.config.data.url, data)

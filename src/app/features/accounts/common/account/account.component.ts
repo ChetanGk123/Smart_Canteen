@@ -46,12 +46,12 @@ export class AccountComponent implements OnInit {
             //     command: () => this.wildCardEntry(this.selectedProduct),
             // },
         ];
-        if(this.Url == 'INCOME_ACCOUNT_HEAD'){
+        if (this.Url == 'INCOME_ACCOUNT_HEAD') {
             this.items.push({
                 label: 'Direct Entry',
                 icon: 'pi pi-fw pi-dollar',
                 command: () => this.wildCardEntry(this.selectedProduct),
-            },)
+            });
         }
         this.accountsData = this.apiService
             .getTypeRequest(`table_data/${this.Url}`)

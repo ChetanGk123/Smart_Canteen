@@ -15,22 +15,22 @@ import { MemberProfileComponent } from './member-profile/member-profile.componen
 import { AddMemberTransactionComponent } from './add-member-transaction/add-member-transaction.component';
 
 @NgModule({
-  declarations: [
-    MembersComponent,
-    ManageMemberComponent,
-    AddMemberTransactionComponent,
-    MemberProfileComponent
-  ],
-  imports: [
-    CommonModule,
-    MembersRoutingModule,
-    CorePipesModule,
-    PrimengModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxMaskModule.forRoot(),
-  ],
-  providers: [DynamicDialogRef, DynamicDialogConfig],
+    declarations: [
+        MembersComponent,
+        ManageMemberComponent,
+        AddMemberTransactionComponent,
+        MemberProfileComponent,
+    ],
+    imports: [
+        CommonModule,
+        MembersRoutingModule,
+        CorePipesModule,
+        PrimengModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxMaskModule.forRoot(),
+    ],
+    providers: [DynamicDialogRef, DynamicDialogConfig],
 })
-export class MembersModule { }
+export class MembersModule {}

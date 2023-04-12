@@ -34,14 +34,14 @@ import { environment } from 'src/environments/environment';
     ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    displayLogins:boolean
+    displayLogins: boolean;
     username: string;
     password: string;
     rememberme: boolean = true;
     loading: boolean = false;
 
     config: AppConfig;
-    coreConfig:CoreConfig;
+    coreConfig: CoreConfig;
 
     subscription: Subscription;
 
@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         public router: Router,
         public _coreEnvService: EnvService
     ) {
-        this.coreConfig =  _coreEnvService.config
+        this.coreConfig = _coreEnvService.config;
     }
 
     ngOnInit(): void {
-        this.displayLogins = !environment.production
+        this.displayLogins = !environment.production;
         this.loading = false;
         this.config = this.configService.config;
         this.subscription = this.configService.configUpdate$.subscribe(
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
         });
     }
-    otherSignIn(username:any,password:any) {
+    otherSignIn(username: any, password: any) {
         this.loading = true;
         var credentials: Login = {
             username: username,

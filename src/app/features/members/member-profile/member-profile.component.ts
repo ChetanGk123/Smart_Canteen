@@ -103,15 +103,13 @@ export class MemberProfileComponent implements OnInit {
                         return res.data;
                     })
                 );
-                    this.fetchMemberTransactions();
+            this.fetchMemberTransactions();
         } else {
             this.router.navigate(['../'], { relativeTo: this.route });
         }
     }
 
-    fetchMemberTransactions(){
-        console.log(this.memberData);
-
+    fetchMemberTransactions() {
         this.transactionLoading = true;
         var Data = {
             member_id: this.memberData.member_id,
@@ -122,13 +120,13 @@ export class MemberProfileComponent implements OnInit {
             end_date: this.end_date,
         };
         this.transactionData = this.apiService
-        .postTypeRequest(`transaction_data/MEMBER_TRANSACTIONS`, Data)
-        .pipe(
-            map((res: any) => {
-                this.transactionLoading = false;
-                return res.data;
-            })
-        )
+            .postTypeRequest(`transaction_data/MEMBER_TRANSACTIONS`, Data)
+            .pipe(
+                map((res: any) => {
+                    this.transactionLoading = false;
+                    return res.data;
+                })
+            );
     }
 
     loadData() {

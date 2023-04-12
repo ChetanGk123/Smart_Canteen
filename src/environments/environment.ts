@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    encPassword:"hApPy_PlAtEs",
+    encPassword: 'hApPy_PlAtEs',
 };

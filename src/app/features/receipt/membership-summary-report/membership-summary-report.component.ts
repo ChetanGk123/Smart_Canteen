@@ -37,9 +37,10 @@ export class MembershipSummaryReportComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-
         this.name = this.memberService.getSettings().mess_name;
-         this.logo = environment.production?this.memberService.getUserData()?.dp_location:Logos.baseLogo
+        this.logo = environment.production
+            ? this.memberService.getUserData()?.dp_location
+            : Logos.baseLogo;
         this.loading = true;
         this.grand_total = 0;
         this.no_of_items = 0;
@@ -47,7 +48,7 @@ export class MembershipSummaryReportComponent implements OnInit {
             this.grand_total += element.total_amount;
             this.no_of_items += element.sale_qty;
         });
-        this.generatePDF()
+        this.generatePDF();
     }
 
     async generatePDF() {

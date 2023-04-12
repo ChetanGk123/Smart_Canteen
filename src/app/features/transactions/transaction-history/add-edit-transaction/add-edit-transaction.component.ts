@@ -47,7 +47,6 @@ export class AddEditTransactionComponent implements OnInit {
                     if (resopnse.result) {
                         this.ref.close();
                         this.add(resopnse.data);
-
                         this.messageService.add({
                             severity: 'success',
                             summary: resopnse.message,
@@ -67,10 +66,14 @@ export class AddEditTransactionComponent implements OnInit {
     }
 
     add(memberData: any) {
-
         const ref = this.dialogService.open(AddMemberTransactionComponent, {
-            data: memberData,
-            header: `Add Transaction`,
+            data: {
+                accountUrl: this.config.data.accountUrl,
+                title: this.config.data.title,
+                transactionUrl: this.config.data.transactionUrl,
+                member: memberData,
+            },
+            header: `${this.config.data.title}`,
             styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
         });
         ref.onClose.subscribe((result: any) => {

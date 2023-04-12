@@ -6,11 +6,13 @@ import { MembersComponent } from './members.component';
 const routes: Routes = [
     { path: '', component: MembersComponent },
     {
-        path:'memberProfile', component: MemberProfileComponent
-    }];
+        path: 'memberProfile',
+        component: MemberProfileComponent,
+    },
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class MembersRoutingModule { }
+export class MembersRoutingModule {}

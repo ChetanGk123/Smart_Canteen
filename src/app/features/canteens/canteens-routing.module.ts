@@ -5,7 +5,7 @@ import { CanteensComponent } from './canteens.component';
 const routes: Routes = [{ path: '', component: CanteensComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class CanteensRoutingModule { }
+export class CanteensRoutingModule {}

@@ -81,7 +81,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
         MessageService,
         ConfirmationService,
         DialogService,
-        EnvServiceProvider
+        EnvServiceProvider,
     ],
     bootstrap: [AppComponent],
 })

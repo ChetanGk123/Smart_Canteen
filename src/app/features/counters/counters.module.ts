@@ -12,23 +12,22 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ManageCounterComponent } from './manage-counter/manage-counter.component';
 import { CounterProfileComponent } from './counter-profile/counter-profile.component';
 
-
 @NgModule({
-  declarations: [
-    CountersComponent,
-    ManageCounterComponent,
-    CounterProfileComponent
-  ],
-  imports: [
-    CommonModule,
-    CountersRoutingModule,
-    CorePipesModule,
-    PrimengModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxMaskModule.forRoot(),
-  ],
-  providers: [DynamicDialogRef, DynamicDialogConfig],
+    declarations: [
+        CountersComponent,
+        ManageCounterComponent,
+        CounterProfileComponent,
+    ],
+    imports: [
+        CommonModule,
+        CountersRoutingModule,
+        CorePipesModule,
+        PrimengModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxMaskModule.forRoot(),
+    ],
+    providers: [DynamicDialogRef, DynamicDialogConfig],
 })
-export class CountersModule { }
+export class CountersModule {}

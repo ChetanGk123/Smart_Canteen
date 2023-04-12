@@ -82,7 +82,6 @@ export class ActiveMembershipReceiptComponent implements OnInit {
                                                                         columns:
                                                                             [
                                                                                 [
-
                                                                                     {
                                                                                         text: `${this.name}`,
                                                                                         fontSize: 18,

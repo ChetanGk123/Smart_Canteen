@@ -18,8 +18,8 @@ import { CounterService } from '../features/counters/counter.service';
 export class AppTopBarComponent implements OnInit, OnDestroy {
     checked: boolean;
     config: AppConfig;
-    public coreConfig:CoreConfig
-    public counterData:any
+    public coreConfig: CoreConfig;
+    public counterData: any;
 
     // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -33,22 +33,23 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
         public counterService: CounterService,
         public router: Router
     ) {
-        this.coreConfig =  _coreEnvService.config
+        this.coreConfig = _coreEnvService.config;
     }
     ngOnInit(): void {
         this.config = this.configService.config;
 
         this.checked = !this.config?.dark ?? true;
-        this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
-                this.counterData = data
-            })
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counterData = data;
+            });
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();

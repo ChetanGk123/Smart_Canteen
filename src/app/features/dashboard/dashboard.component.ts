@@ -8,11 +8,12 @@ import { Router } from '@angular/router';
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-    constructor(public configService: ConfigService, public apiService: ApiService,
+    constructor(
+        public configService: ConfigService,
+        public apiService: ApiService,
         public member: MemberService,
-        public router: Router,) {}
+        public router: Router
+    ) {}
 
-    ngOnInit() {
-
-    }
+    ngOnInit() {}
 }

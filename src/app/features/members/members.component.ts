@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -19,7 +25,7 @@ import { MembersData } from './members-details.model';
 })
 export class MembersComponent implements OnInit, OnDestroy {
     @ViewChild('excelFile')
-myInputVariable: ElementRef;
+    myInputVariable: ElementRef;
     tableData: any;
     bulkAddData: any = [];
     loading: boolean = false;
@@ -32,7 +38,6 @@ myInputVariable: ElementRef;
     selectedProduct: any;
     errorMessage: any;
     items: MenuItem[];
-
 
     // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -55,12 +60,13 @@ myInputVariable: ElementRef;
         public counterService: CounterService
     ) {}
 
-
     ngOnInit(): void {
-            this.counterService.counterDate$.pipe(takeUntil(this._unsubscribeAll)).subscribe((data:any)=>{
-                this.commonForm.controls.counter_id.setValue(data?.id??'')
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.commonForm.controls.counter_id.setValue(data?.id ?? '');
                 this.loadData();
-            })
+            });
         this.items = [
             {
                 label: 'View',
@@ -91,8 +97,7 @@ myInputVariable: ElementRef;
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
@@ -100,9 +105,9 @@ myInputVariable: ElementRef;
 
     loadData() {
         this.loading = true;
-        var url = ""
-        if(this.commonForm.controls.counter_id.value != ''){
-            url = `/BY_COUNTER/${this.commonForm.controls.counter_id.value}`
+        var url = '';
+        if (this.commonForm.controls.counter_id.value != '') {
+            url = `/BY_COUNTER/${this.commonForm.controls.counter_id.value}`;
         }
         this.apiService
             .getTypeRequest(`table_data/MEMBER${url}`)
@@ -110,9 +115,9 @@ myInputVariable: ElementRef;
             .then((result: any) => {
                 this.loading = false;
                 if (result.result) {
-                this.tableData = result?.data;
+                    this.tableData = result?.data;
                 } else {
-                    this.tableData = []
+                    this.tableData = [];
                 }
             });
     }
@@ -142,7 +147,7 @@ myInputVariable: ElementRef;
             //this.convertArrayToJson(data);
             this.bulkAddData = data;
             this.bulkAdd = true;
-            this.myInputVariable.nativeElement.value = "";
+            this.myInputVariable.nativeElement.value = '';
         };
 
         //this.loadComponents();
@@ -207,10 +212,16 @@ myInputVariable: ElementRef;
 
     bulkUpload() {
         this.bulkAddloading = true;
-        var counter_id
-         if(this.authService.getUser().user_role == "OWNER" && this.counterService.getCounterData()?.id || this.authService.getUser()?.counter_id){
-            counter_id = this.counterService.getCounterData()?.id??this.authService.getUser()?.counter_id
-         } else{
+        var counter_id;
+        if (
+            (this.authService.getUser().user_role == 'OWNER' &&
+                this.counterService.getCounterData()?.id) ||
+            this.authService.getUser()?.counter_id
+        ) {
+            counter_id =
+                this.counterService.getCounterData()?.id ??
+                this.authService.getUser()?.counter_id;
+        } else {
             this.messageService.add({
                 severity: 'error',
                 summary: 'Select Counter',
@@ -218,9 +229,9 @@ myInputVariable: ElementRef;
             });
             this.bulkAddloading = false;
             return;
-         }
+        }
         var data = {
-            counter_id: counter_id??this.authService.getUser()?.counter_id,
+            counter_id: counter_id ?? this.authService.getUser()?.counter_id,
             member_data: this.bulkAddData,
         };
         this.apiService
@@ -242,11 +253,17 @@ myInputVariable: ElementRef;
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Successfully registered',
-                        detail: result.data.success+" members",
+                        detail: result.data.success + ' members',
                     });
-                    if(result.data.duplicate_members.length>0 || result.data.incomplete_data>0 || result.data.invalid_member_type.length>0 || result.data.duplicate_members.length>0 || result.data.duplicate_cardnumber.length>0){
-                        this.errorMessage = result.data
-                        this.Unsuccessful_registration = true
+                    if (
+                        result.data.duplicate_members.length > 0 ||
+                        result.data.incomplete_data > 0 ||
+                        result.data.invalid_member_type.length > 0 ||
+                        result.data.duplicate_members.length > 0 ||
+                        result.data.duplicate_cardnumber.length > 0
+                    ) {
+                        this.errorMessage = result.data;
+                        this.Unsuccessful_registration = true;
                         // this.messageService.add({
                         //     severity: 'error',
                         //     summary: 'Unsuccessful registration',

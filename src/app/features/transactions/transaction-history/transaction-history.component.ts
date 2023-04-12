@@ -1,4 +1,3 @@
-
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,9 +18,9 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
 @Component({
     selector: 'app-transaction-history',
     templateUrl: './transaction-history.component.html',
-    styleUrls: ['./transaction-history.component.scss']
-  })
-  export class TransactionHistoryComponent implements OnInit, OnDestroy {
+    styleUrls: ['./transaction-history.component.scss'],
+})
+export class TransactionHistoryComponent implements OnInit, OnDestroy {
     //     @ViewChild("myinput") myInputField: ElementRef;
     // ngAfterViewInit() {
     // this.myInputField.nativeElement.focus();
@@ -34,8 +33,8 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
     datePipe: DatePipe = new DatePipe('en-US');
     start_date: any;
     end_date: any;
-    User:any
-    transaction_range:any
+    User: any;
+    transaction_range: any;
     counter_id: any;
 
     // Private
@@ -60,15 +59,12 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
                 this.loadData();
             });
         //this.User = this.memberService.getUserData().user_role
-        this.transaction_range = 10
+        this.transaction_range = 10;
         // this.transaction_range = this.memberService.getSettings()?.transaction_range??0
 
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(
-            new Date().setDate(
-                new Date().getDate() -
-                    this.transaction_range
-            ),
+            new Date().setDate(new Date().getDate() - this.transaction_range),
             'yyyy-MM-dd'
         );
         this.items = [
@@ -109,7 +105,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
             start_date: this.start_date,
             end_date: this.end_date,
         };
-        this.Data = []
+        this.Data = [];
         this.apiService
             .postTypeRequest(`transaction_data/ALL_TRANSACTIONS${url}`, Data)
             .toPromise()
@@ -150,10 +146,29 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
         table.clear();
     }
 
-    add() {
-        var newMembershipType: any;
+    walletCredit() {
         const ref = this.dialogService.open(AddEditTransactionComponent, {
-            data: newMembershipType,
+            data: {
+                title: 'Wallet Refill',
+                accountUrl: 'INCOME_ACCOUNT_HEAD',
+                transactionUrl: 'MEMBER_WALLET_REFILL',
+            },
+            header: `Transaction Details`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
+            }
+        });
+    }
+    walletDebit() {
+        const ref = this.dialogService.open(AddEditTransactionComponent, {
+            data: {
+                title: 'Wallet Debit',
+                accountUrl: 'INCOME_ACCOUNT_HEAD',
+                transactionUrl: 'MEMBER_WALLET_DEBIT',
+            },
             header: `Transaction Details`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
@@ -194,7 +209,7 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
         this.router.navigate(['members/memberProfile']);
     }
 
-    printList(){
+    printList() {
         this.dialogService.open(TransactionsListComponent, {
             data: this.Data,
             header: `Transactions`,

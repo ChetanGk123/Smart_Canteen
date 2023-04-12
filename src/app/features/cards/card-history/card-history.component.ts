@@ -22,11 +22,11 @@ export class CardHistoryComponent implements OnInit {
         public dialogService: DialogService,
         public messageService: MessageService,
         public member: MemberService,
-        public router: Router,
+        public router: Router
     ) {}
 
     ngOnInit(): void {
-        this.loadData()
+        this.loadData();
         this.items = [
             /* {
                 label: 'View',
@@ -51,7 +51,7 @@ export class CardHistoryComponent implements OnInit {
 
     loadData() {
         this.loading = true;
-         this.apiService
+        this.apiService
             .getTypeRequest(`table_data/CARD_UPDATE_DETAILS`)
             .toPromise()
             .then((result: any) => {
@@ -59,7 +59,7 @@ export class CardHistoryComponent implements OnInit {
                 if (result.result) {
                     this.Data = result.data;
                 }
-            })
+            });
     }
 
     getCardDetails() {

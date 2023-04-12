@@ -48,7 +48,7 @@ export class AuthService {
             if (response.data.user_role != 'USER') {
             }
             this.beginsesssion();
-            this.setTheme(response.data.settings)
+            this.setTheme(response.data.settings);
             loginData.password = '';
             this.messageService.add({
                 severity: 'success',
@@ -92,7 +92,6 @@ export class AuthService {
         } catch (error) {
             console.log(error);
             this.logout();
-
         }
     }
 
@@ -170,8 +169,10 @@ export class AuthService {
         }
     }
 
-    setTheme(settings:any) {
-        let themeSettings = settings.filter((settings:any)=> settings.settings_name === "THEME_COLOR")
+    setTheme(settings: any) {
+        let themeSettings = settings.filter(
+            (settings: any) => settings.settings_name === 'THEME_COLOR'
+        );
         // let themeElement = document.getElementById('theme-css');
         let dark: boolean;
         let theme: string;

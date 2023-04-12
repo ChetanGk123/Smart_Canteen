@@ -37,14 +37,12 @@ export class CardDetailsComponent implements OnInit {
     getCardDetails() {
         /* if (
             this.cardNumber.value.length == this.coreConfig.app.cardNumberLength
-        )  */{
+        )  */ {
             this.loading = true;
-            const cardNumber = this.cardNumber.value
+            const cardNumber = this.cardNumber.value;
             this.cardNumber.reset();
             this.apiService
-                .getTypeRequest(
-                    `card_update_details/CARD_NUMBER/${cardNumber}`
-                )
+                .getTypeRequest(`card_update_details/CARD_NUMBER/${cardNumber}`)
                 .toPromise()
                 .then((resopnse: any) => {
                     if (resopnse.result) {
@@ -61,7 +59,6 @@ export class CardDetailsComponent implements OnInit {
                             summary: resopnse.message,
                             detail: 'Card Details Not Found.',
                         });
-
                     }
                 })
                 .finally(() => (this.loading = false));

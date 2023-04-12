@@ -10,11 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
-    declarations: [
-        UtilsComponent,
-        CommonComponent,
-        CommonEditComponent,
-    ],
+    declarations: [UtilsComponent, CommonComponent, CommonEditComponent],
     imports: [
         CommonModule,
         UtilsRoutingModule,

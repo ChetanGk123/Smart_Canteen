@@ -46,7 +46,9 @@ export class CommonEditComponent implements OnInit {
                     detail: 'Duplicate Value Entered',
                 });
             } else {
-                this.commonForm.controls.item_id.value ? this.edit() : this.add();
+                this.commonForm.controls.item_id.value
+                    ? this.edit()
+                    : this.add();
             }
         } else {
             var controls = this.commonForm.controls;

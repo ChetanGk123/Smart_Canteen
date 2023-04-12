@@ -44,10 +44,10 @@ export class CanteensComponent implements OnInit {
         });
     }
 
-    updateCanteen(data:any){
+    updateCanteen(data: any) {
         const ref = this.dialogService.open(ManagaeCanteenComponent, {
             header: `Update Canteen`,
-            data:data,
+            data: data,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
         ref.onClose.subscribe((result: any) => {
@@ -57,7 +57,7 @@ export class CanteensComponent implements OnInit {
         });
     }
 
-    deleteCanteen(){
+    deleteCanteen() {
         /* this.apiService
                 .postTypeRequest(`canteen_ops/delete`,this.commonForm.value)
                 .toPromise()

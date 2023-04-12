@@ -5,20 +5,21 @@ import { environment } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
 import { Observable, BehaviorSubject } from 'rxjs';
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class CounterService {
-
     counterData: any;
     counterProfileData: any;
     encPassword = environment.encPassword;
-    constructor(public authService: AuthService) {
-    }
-    private counterDateSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    constructor(public authService: AuthService) {}
+    private counterDateSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+        null
+    );
     counterDate$: Observable<any> = this.counterDateSubject.asObservable();
-    private counterProfileDateSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    counterProfileDate$: Observable<any> = this.counterProfileDateSubject.asObservable();
-
+    private counterProfileDateSubject: BehaviorSubject<any> =
+        new BehaviorSubject<any>(null);
+    counterProfileDate$: Observable<any> =
+        this.counterProfileDateSubject.asObservable();
 
     // Call this method whenever the value of counterDate changes
     updatecounterDate(newValue: any) {
@@ -31,7 +32,7 @@ export class CounterService {
 
     setCounterData(counterData: any) {
         try {
-            this.updatecounterDate(counterData)
+            this.updatecounterDate(counterData);
             this.counterData = counterData;
             var enc = CryptoJS.AES.encrypt(
                 JSON.stringify(this.counterData),
@@ -44,7 +45,7 @@ export class CounterService {
     }
     setCounterProfileData(counterData: any) {
         try {
-            this.updatecounterProfileDate(counterData)
+            this.updatecounterProfileDate(counterData);
             this.counterProfileData = counterData;
             var enc = CryptoJS.AES.encrypt(
                 JSON.stringify(this.counterProfileData),
@@ -67,24 +68,24 @@ export class CounterService {
     getCounterData() {
         try {
             var counterData: any;
-        if (this.counterData) {
-            counterData = this.counterData;
-        } else {
-            counterData = localStorage.getItem('counterData')
-                ? JSON.parse(
-                      CryptoJS.AES.decrypt(
-                          localStorage.getItem('counterData'),
-                          this.encPassword.trim()
-                      ).toString(CryptoJS.enc.Utf8)
-                  )
-                : null;
-        }
+            if (this.counterData) {
+                counterData = this.counterData;
+            } else {
+                counterData = localStorage.getItem('counterData')
+                    ? JSON.parse(
+                          CryptoJS.AES.decrypt(
+                              localStorage.getItem('counterData'),
+                              this.encPassword.trim()
+                          ).toString(CryptoJS.enc.Utf8)
+                      )
+                    : null;
+            }
 
-        if (counterData) {
-            return counterData;
-        } else {
-            return null;
-        }
+            if (counterData) {
+                return counterData;
+            } else {
+                return null;
+            }
         } catch (error) {
             this.authService.logout();
         }
@@ -93,24 +94,24 @@ export class CounterService {
     getCounterProfileData() {
         try {
             var counterProfileData: any;
-        if (this.counterProfileData) {
-            counterProfileData = this.counterProfileData;
-        } else {
-            counterProfileData = localStorage.getItem('counterProfileData')
-                ? JSON.parse(
-                      CryptoJS.AES.decrypt(
-                          localStorage.getItem('counterProfileData'),
-                          this.encPassword.trim()
-                      ).toString(CryptoJS.enc.Utf8)
-                  )
-                : null;
-        }
+            if (this.counterProfileData) {
+                counterProfileData = this.counterProfileData;
+            } else {
+                counterProfileData = localStorage.getItem('counterProfileData')
+                    ? JSON.parse(
+                          CryptoJS.AES.decrypt(
+                              localStorage.getItem('counterProfileData'),
+                              this.encPassword.trim()
+                          ).toString(CryptoJS.enc.Utf8)
+                      )
+                    : null;
+            }
 
-        if (counterProfileData) {
-            return counterProfileData;
-        } else {
-            return null;
-        }
+            if (counterProfileData) {
+                return counterProfileData;
+            } else {
+                return null;
+            }
         } catch (error) {
             this.authService.logout();
         }

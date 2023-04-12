@@ -26,7 +26,9 @@ export class AddEditAccountComponent implements OnInit {
     "styleClass": "w-10 sm:w-10 md:w-10 lg:w-8"
     } */
     commonForm: FormGroup = new FormGroup({
-        account_head_id: new FormControl(this.config?.data?.data?.account_head_id ?? ''),
+        account_head_id: new FormControl(
+            this.config?.data?.data?.account_head_id ?? ''
+        ),
         account_name: new FormControl(
             this.config?.data?.data?.account_name ?? '',
             [Validators.required]

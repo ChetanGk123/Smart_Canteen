@@ -5,15 +5,8 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 
-
 @NgModule({
-  declarations: [
-    SettingsComponent
-  ],
-  imports: [
-    CommonModule,
-    PrimengModule,
-    SettingsRoutingModule
-  ]
+    declarations: [SettingsComponent],
+    imports: [CommonModule, PrimengModule, SettingsRoutingModule],
 })
-export class SettingsModule { }
+export class SettingsModule {}
