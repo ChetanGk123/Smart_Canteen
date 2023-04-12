@@ -74,7 +74,7 @@ export class AddEditTransactionComponent implements OnInit {
                 member: memberData,
             },
             header: `${this.config.data.title}`,
-            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
         ref.onClose.subscribe((result: any) => {
             if (result) {

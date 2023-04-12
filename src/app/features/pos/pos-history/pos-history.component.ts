@@ -123,7 +123,7 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
         this.dialogService.open(PosSaleComponent, {
             data: this.selectedProduct,
             header: `POS Sale Details`,
-            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
     }
 
@@ -131,7 +131,7 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
         this.dialogService.open(PosSaleHistoryListComponent, {
             data: this.Data,
             header: `Sales History`,
-            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-9',
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
     }
 }

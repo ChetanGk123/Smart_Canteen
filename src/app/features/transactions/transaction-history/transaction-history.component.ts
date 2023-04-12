@@ -133,7 +133,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
                 url: 'transaction_ops/EXPENSE_ENTRY',
             },
             header: `Expense Entry`,
-            width: '60%',
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
         ref.onClose.subscribe((result: any) => {
             if (result) {
@@ -199,7 +199,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
             this.dialogService.open(ExpenseReceiptComponent, {
                 data: { txnData: this.selectedProduct },
                 header: `Transaction Details`,
-                styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
+                styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
             });
         }
     }
@@ -213,7 +213,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
         this.dialogService.open(TransactionsListComponent, {
             data: this.Data,
             header: `Transactions`,
-            styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-9',
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
     }
 }
