@@ -34,6 +34,7 @@ export class TransactionsListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        console.log(this.config.data);
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -50,6 +51,8 @@ export class TransactionsListComponent implements OnInit {
     }
 
     async generatePDF() {
+        let totalCredit = this.config.data.reduce((acc,cur) => acc + Number(cur.transaction_type == "CREDIT"?cur.transaction_amount:0),0)
+        let totalDEBIT = this.config.data.reduce((acc,cur) => acc + Number(cur.transaction_type == "DEBIT"?cur.transaction_amount:0),0)
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -201,16 +204,24 @@ export class TransactionsListComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 5,
-                                    text: '',
-                                    margin: [5, 3, 0, 5],
-                                    border: [false, true, false, false],
+                                  colSpan: 3,
+                                  text: "Total",
+                                  margin: [5, 5, 0, 5],
+                                  border: [false, true, false, true],
                                 },
                                 {},
                                 {},
-                                {},
-                                {},
-                            ],
+                                {
+                                  text: totalDEBIT.toFixed(2),
+                                  margin: [5, 5, 0, 5],alignment: 'right',
+                                  border: [false, true, false, true],
+                                },
+                                {
+                                  text:totalCredit.toFixed(2),
+                                  margin: [5, 5, 0, 5],alignment: 'right',
+                                  border: [false, true, false, true],
+                                },
+                              ],
                         ],
                     },
                     layout: {

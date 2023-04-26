@@ -49,6 +49,24 @@ export class AccountTransactionsComponent implements OnInit {
     }
 
     async generatePDF() {
+        let totalCredit = this.config.data?.transactions_Data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.transaction_type == 'CREDIT'
+                        ? cur.transaction_amount
+                        : 0
+                ),
+            0
+        );
+        let totalDEBIT = this.config.data?.transactions_Data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.transaction_type == 'DEBIT' ? cur.transaction_amount : 0
+                ),
+            0
+        );
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -219,15 +237,25 @@ export class AccountTransactionsComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 5,
-                                    text: '',
-                                    margin: [5, 3, 0, 5],
-                                    border: [false, true, false, false],
+                                    colSpan: 3,
+                                    text: 'Total',
+                                    margin: [5, 5, 0, 5],
+                                    border: [false, true, false, true],
                                 },
                                 {},
                                 {},
-                                {},
-                                {},
+                                {
+                                    text: totalDEBIT.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
+                                },
+                                {
+                                    text: totalCredit.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
+                                },
                             ],
                         ],
                     },
