@@ -199,18 +199,14 @@ export class PosSaleHistoryListComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 3,
-                                    text: '',
-                                    margin: [0, 5, 0, -5],
-                                    border: [false, true, false, true],
-                                },
-                                {},
-                                {},
-                                {
+                                    colSpan: 4,
                                     text: 'Total',
                                     margin: [0, 5, 0, -5],
                                     border: [false, true, false, true],
                                 },
+                                {},
+                                {},
+                                {},
                                 {
                                     text: this.total.toFixed(2),
                                     alignment: 'right',
