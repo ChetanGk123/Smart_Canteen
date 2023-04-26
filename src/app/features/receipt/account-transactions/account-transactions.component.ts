@@ -245,13 +245,13 @@ export class AccountTransactionsComponent implements OnInit {
                                 {},
                                 {},
                                 {
-                                    text: totalDEBIT.toFixed(2),
+                                    text: '₹'+totalDEBIT.toFixed(2),
                                     margin: [5, 5, 0, 5],
                                     alignment: 'right',
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: totalCredit.toFixed(2),
+                                    text: '₹'+totalCredit.toFixed(2),
                                     margin: [5, 5, 0, 5],
                                     alignment: 'right',
                                     border: [false, true, false, true],
