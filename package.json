@@ -5,8 +5,8 @@
         "ng": "ng",
         "start": "ng serve",
         "start_Local": "ng serve --open --host 0.0.0.0 --disable-host-check",
-        "build": "ng build --proxy-config proxy.conf.json",
-        "demo": "ng build --configuration demo --proxy-config proxy.conf.json",
+        "build": "ng build",
+        "demo": "ng build --configuration demo",
         "watch": "ng build --watch --configuration development",
         "test": "ng test"
     },
