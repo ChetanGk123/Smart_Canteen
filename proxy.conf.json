@@ -1,0 +1,10 @@
+{
+    "https://thetechvaidya.com/smart_canteen/uploads/default_logo.png": {
+        "target": "https://thetechvaidya.com/smart_canteen/uploads/default_logo.png",
+        "secure": true,
+        "changeOrigin": true,
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        }
+    }
+}
