@@ -51,24 +51,8 @@ export class TransactionsListComponent implements OnInit {
     }
 
     async generatePDF() {
-        let totalCredit = this.config.data.reduce(
-            (acc, cur) =>
-                acc +
-                Number(
-                    cur.transaction_type == 'CREDIT'
-                        ? cur.transaction_amount
-                        : 0
-                ),
-            0
-        );
-        let totalDEBIT = this.config.data.reduce(
-            (acc, cur) =>
-                acc +
-                Number(
-                    cur.transaction_type == 'DEBIT' ? cur.transaction_amount : 0
-                ),
-            0
-        );
+        let totalCredit = this.config.data.reduce((acc,cur) => acc + Number(cur.transaction_type == "CREDIT"?cur.transaction_amount:0),0)
+        let totalDEBIT = this.config.data.reduce((acc,cur) => acc + Number(cur.transaction_type == "DEBIT"?cur.transaction_amount:0),0)
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -220,26 +204,24 @@ export class TransactionsListComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 3,
-                                    text: 'Total',
-                                    margin: [5, 5, 0, 5],
-                                    border: [false, true, false, true],
+                                  colSpan: 3,
+                                  text: "Total",
+                                  margin: [5, 5, 0, 5],
+                                  border: [false, true, false, true],
                                 },
                                 {},
                                 {},
                                 {
-                                    text: '₹' + totalDEBIT.toFixed(2),
-                                    margin: [5, 5, 0, 5],
-                                    alignment: 'right',
-                                    border: [false, true, false, true],
+                                  text: '₹'+totalDEBIT.toFixed(2),
+                                  margin: [5, 5, 0, 5],alignment: 'right',
+                                  border: [false, true, false, true],
                                 },
                                 {
-                                    text: '₹' + totalCredit.toFixed(2),
-                                    margin: [5, 5, 0, 5],
-                                    alignment: 'right',
-                                    border: [false, true, false, true],
+                                  text: '₹'+totalCredit.toFixed(2),
+                                  margin: [5, 5, 0, 5],alignment: 'right',
+                                  border: [false, true, false, true],
                                 },
-                            ],
+                              ],
                         ],
                     },
                     layout: {
@@ -255,21 +237,9 @@ export class TransactionsListComponent implements OnInit {
                 logo: this.logo,
             },
         };
-        var options = {
-            // your options
-            httpHeaders: {
-                'Access-Control-Allow-Origin': '*',
-            },
-            pdfMake: {
-                // pdfMake specific options
-                // set the mode property to no-cors
-                mode: 'no-cors',
-            },
-        };
         const pdfDocGenerator = pdfMake.createPdf(
             docDefinition,
-            'Sale Receipt',
-            options
+            'Sale Receipt'
         );
         pdfDocGenerator.getDataUrl((dataUrl) => {
             this.src = this._sanitizer.bypassSecurityTrustResourceUrl(dataUrl);
