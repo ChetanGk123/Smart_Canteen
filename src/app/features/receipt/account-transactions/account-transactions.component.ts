@@ -9,6 +9,9 @@ import { DatePipe } from '@angular/common';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
 import { environment } from 'src/environments/environment';
 import { Logos } from 'src/assets/logo/base_logo';
+import imageToBase64 from 'image-to-base64/browser';
+import { EnvService } from 'src/app/env.service';
+import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -24,14 +27,17 @@ export class AccountTransactionsComponent implements OnInit {
     loading: boolean = false;
     response: any;
     dateRange: any;
+    public coreConfig: CoreConfig;
     constructor(
         protected _sanitizer: DomSanitizer,
         public ref: DynamicDialogRef,
         public apiService: ApiService,
         public config: DynamicDialogConfig,
         public messageService: MessageService,
+        public _coreEnvService: EnvService,
         public memberService: MemberService
-    ) {}
+    ) {
+        this.coreConfig = _coreEnvService.config;}
 
     ngOnInit(): void {
         this.name = this.memberService.getUserData()?.full_name;
@@ -41,11 +47,15 @@ export class AccountTransactionsComponent implements OnInit {
         this.logo = `${date} - $`;
         this.dateRange = `${this.config.data.account_Data.start_date} - ${this.config.data.account_Data.end_date}`;
 
-        this.logo = environment.production
-            ? this.memberService.getUserData()?.dp_location
-            : Logos.baseLogo;
-        // this.logo = 'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
-        this.generatePDF();
+        imageToBase64(this.coreConfig.app.appLogoImage) // Path to the image
+            .then((response) => {
+                //console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
+                this.logo = 'data:image/png;base64,' + response;
+                this.generatePDF();
+            })
+            .catch((error) => {
+                console.log(error); // Logs an error if there was one
+            });
     }
 
     async generatePDF() {

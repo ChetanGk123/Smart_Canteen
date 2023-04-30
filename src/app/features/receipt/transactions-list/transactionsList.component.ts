@@ -10,6 +10,8 @@ import { MemberService } from 'src/app/core/services/MemberService/member.servic
 import { environment } from 'src/environments/environment';
 import { Logos } from 'src/assets/logo/base_logo';
 import imageToBase64 from 'image-to-base64/browser';
+import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
+import { EnvService } from 'src/app/env.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -26,47 +28,65 @@ export class TransactionsListComponent implements OnInit {
     loading: boolean = false;
     response: any;
     dateRange: any;
+    public coreConfig: CoreConfig;
     constructor(
         protected _sanitizer: DomSanitizer,
         public ref: DynamicDialogRef,
         public apiService: ApiService,
         public config: DynamicDialogConfig,
         public messageService: MessageService,
-        public memberService: MemberService
-    ) {}
+        public memberService: MemberService,
+        public _coreEnvService: EnvService
+    ) {
+        this.coreConfig = _coreEnvService.config;
+    }
 
     ngOnInit(): void {
-        console.log(this.config.data);
+        //console.log(this.config.data);
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
         }/${+new Date().getFullYear()}`;
         this.logo = `${date} - $`;
         this.dateRange = `${date} - ${date}`;
-        console.log(this.memberService.getUserData()?.dp_location);
+        // console.log(this.memberService.getUserData()?.dp_location);
+        //console.log(this.coreConfig.app.appLogoImage);
 
         this.logoUrl = environment.production
             ? this.memberService.getUserData()?.dp_location
             : Logos.baseLogo;
-            imageToBase64(this.logoUrl) // Path to the image
-    .then(
-        (response) => {
-            console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
-            this.logo = 'data:image/png;base64,'+response;
-        }
-    )
-    .catch(
-        (error) => {
-            console.log(error); // Logs an error if there was one
-        }
-    )
+        imageToBase64(this.coreConfig.app.appLogoImage) // Path to the image
+            .then((response) => {
+                //console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
+                this.logo = 'data:image/png;base64,' + response;
+                this.generatePDF();
+            })
+            .catch((error) => {
+                console.log(error); // Logs an error if there was one
+            });
+        //this.logo = this.coreConfig.app.appLogoImage
         // this.logo = 'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
-        this.generatePDF();
     }
 
     async generatePDF() {
-        let totalCredit = this.config.data.reduce((acc,cur) => acc + Number(cur.transaction_type == "CREDIT"?cur.transaction_amount:0),0)
-        let totalDEBIT = this.config.data.reduce((acc,cur) => acc + Number(cur.transaction_type == "DEBIT"?cur.transaction_amount:0),0)
+        let totalCredit = this.config.data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.transaction_type == 'CREDIT'
+                        ? cur.transaction_amount
+                        : 0
+                ),
+            0
+        );
+        let totalDEBIT = this.config.data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.transaction_type == 'DEBIT' ? cur.transaction_amount : 0
+                ),
+            0
+        );
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -218,24 +238,26 @@ export class TransactionsListComponent implements OnInit {
                             ]),
                             [
                                 {
-                                  colSpan: 3,
-                                  text: "Total",
-                                  margin: [5, 5, 0, 5],
-                                  border: [false, true, false, true],
+                                    colSpan: 3,
+                                    text: 'Total',
+                                    margin: [5, 5, 0, 5],
+                                    border: [false, true, false, true],
                                 },
                                 {},
                                 {},
                                 {
-                                  text: '₹'+totalDEBIT.toFixed(2),
-                                  margin: [5, 5, 0, 5],alignment: 'right',
-                                  border: [false, true, false, true],
+                                    text: '₹' + totalDEBIT.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
                                 },
                                 {
-                                  text: '₹'+totalCredit.toFixed(2),
-                                  margin: [5, 5, 0, 5],alignment: 'right',
-                                  border: [false, true, false, true],
+                                    text: '₹' + totalCredit.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
                                 },
-                              ],
+                            ],
                         ],
                     },
                     layout: {

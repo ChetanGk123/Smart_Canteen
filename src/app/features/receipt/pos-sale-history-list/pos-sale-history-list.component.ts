@@ -11,6 +11,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import imageToBase64 from 'image-to-base64/browser';
 import { environment } from 'src/environments/environment';
 import { Logos } from 'src/assets/logo/base_logo';
+import { EnvService } from 'src/app/env.service';
+import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 @Component({
     selector: 'app-pos-sale-history-list',
     templateUrl: './pos-sale-history-list.component.html',
@@ -25,14 +27,18 @@ export class PosSaleHistoryListComponent implements OnInit {
     response: any;
     dateRange: any;
     total = 0;
+    public coreConfig: CoreConfig;
     constructor(
         protected _sanitizer: DomSanitizer,
         public ref: DynamicDialogRef,
         public apiService: ApiService,
         public config: DynamicDialogConfig,
         public messageService: MessageService,
-        public memberService: MemberService
-    ) {}
+        public memberService: MemberService,
+        public _coreEnvService: EnvService
+    ) {
+        this.coreConfig = _coreEnvService.config;
+    }
 
     ngOnInit(): void {
         this.name = this.memberService.getUserData()?.full_name;
@@ -49,7 +55,15 @@ export class PosSaleHistoryListComponent implements OnInit {
         });
         // this.logo =
         //     'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
-        this.generatePDF();
+        imageToBase64(this.coreConfig.app.appLogoImage) // Path to the image
+            .then((response) => {
+                //console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
+                this.logo = 'data:image/png;base64,' + response;
+                this.generatePDF();
+            })
+            .catch((error) => {
+                console.log(error); // Logs an error if there was one
+            });
     }
 
     async generatePDF() {

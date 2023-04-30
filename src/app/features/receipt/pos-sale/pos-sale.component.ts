@@ -13,6 +13,7 @@ import { ConfigService } from 'src/app/core/services/app.config.service';
 import { AppConfig } from 'src/app/core/interfaces/appconfig';
 import { environment } from 'src/environments/environment';
 import { Logos } from 'src/assets/logo/base_logo';
+import imageToBase64 from 'image-to-base64/browser';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -61,7 +62,15 @@ export class PosSaleComponent implements OnInit {
             .then((result: any) => {
                 if (result.result) {
                     this.orderData = result.data;
-                    this.generatePDF();
+                    imageToBase64(this.coreConfig.app.appLogoImage) // Path to the image
+            .then((response) => {
+                //console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
+                this.logo = 'data:image/png;base64,' + response;
+                this.generatePDF();
+            })
+            .catch((error) => {
+                console.log(error); // Logs an error if there was one
+            });
                 }
             })
             .finally(() => {});
