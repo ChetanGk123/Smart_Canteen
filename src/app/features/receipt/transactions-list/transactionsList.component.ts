@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
 import { environment } from 'src/environments/environment';
 import { Logos } from 'src/assets/logo/base_logo';
+import imageToBase64 from 'image-to-base64/browser';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -20,6 +21,7 @@ export class TransactionsListComponent implements OnInit {
     pipe = new DatePipe('en-US');
     src: any;
     logo: any;
+    logoUrl: any;
     name: any;
     loading: boolean = false;
     response: any;
@@ -43,9 +45,21 @@ export class TransactionsListComponent implements OnInit {
         this.dateRange = `${date} - ${date}`;
         console.log(this.memberService.getUserData()?.dp_location);
 
-        this.logo = environment.production
+        this.logoUrl = environment.production
             ? this.memberService.getUserData()?.dp_location
             : Logos.baseLogo;
+            imageToBase64(this.logoUrl) // Path to the image
+    .then(
+        (response) => {
+            console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
+            this.logo = 'data:image/png;base64,'+response;
+        }
+    )
+    .catch(
+        (error) => {
+            console.log(error); // Logs an error if there was one
+        }
+    )
         // this.logo = 'https://fastly.picsum.photos/id/1080/367/267.jpg?hmac=tUSNDSd12u94lQBRq7qu21g1mUcxNPSxXn5beLS4g_c';
         this.generatePDF();
     }
