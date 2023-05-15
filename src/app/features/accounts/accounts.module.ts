@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { AccountTransferComponent } from './account-transfer/account-transfer.component';
+import { CommodityAccountComponent } from './commodity-account/commodity-account.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { AccountTransferComponent } from './account-transfer/account-transfer.co
         AccountComponent,
         AddEditAccountComponent,
         TransactionsComponent,
+        CommodityAccountComponent,
     ],
     imports: [
         CommonModule,

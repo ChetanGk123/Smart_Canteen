@@ -92,6 +92,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/accounts/expenseAccount'],
                     },
                     {
+                        label: 'Commodity Accounts',
+                        icon: 'pi pi-dollar',
+                        routerLink: ['/accounts/commodityAccount'],
+                    },
+                    {
                         label: 'Account Transactions',
                         icon: 'pi pi-history',
                         routerLink: ['/accounts/accountTransactions'],
@@ -140,6 +145,21 @@ export class AppMenuComponent implements OnInit {
                         label: 'Sale History',
                         icon: 'pi pi-slack',
                         routerLink: ['/pos/posHistory'],
+                    },
+                ],
+            },
+            {
+                label: 'Meal',
+                items: [
+                    {
+                        label: 'Meal Types',
+                        icon: 'pi pi-slack',
+                        routerLink: ['/meal/mealType'],
+                    },
+                    {
+                        label: 'Meal Packs',
+                        icon: 'pi pi-slack',
+                        routerLink: ['/meal/mealPack'],
                     },
                 ],
             },

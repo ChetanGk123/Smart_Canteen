@@ -1,0 +1,109 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template class="align-content-center" pTemplate="left">
+                    <h4>{{ Title }}</h4>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button
+                        pButton
+                        *ngIf="this.memberService.getUserData().user_role !='OWNER'"
+                        pRipple
+                        label="Add"
+                        icon="pi pi-plus"
+                        class="mr-2 inline-block p-button"
+                        (click)="add()"
+                    ></button>
+                </ng-template>
+            </p-toolbar>
+            <div class="grid">
+                <div class="col-12">
+                    <p-contextMenu #cm [model]="items"></p-contextMenu>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-table
+                        #dt
+                        [(contextMenuSelection)]="selectedProduct"
+                        [contextMenu]="cm"
+                        dataKey="code"
+                        [value]="Data"
+                        [paginator]="true"
+                        [rows]="10"
+                        [loading]="loading"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                        currentPageReportTemplate="Showing {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [filterDelay]="0"
+                        [globalFilterFields]="['meal_name']"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div
+                                class="table-header align-content-center justify-content-end grid flex"
+                            >
+                                <div
+                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>SlNo</th>
+                                <th pSortableColumn="meal_name">
+                                    Name
+                                    <p-sortIcon field="meal_name"></p-sortIcon>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+                                <td style="width: 20%">
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td style="width: 60%">
+                                    {{ product.meal_name }}
+                                </td>
+                                <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-ellipsis-v"
+                                        (click)="
+                                            selectedProduct = product;
+                                            menu.toggle($event)
+                                        "
+                                        class="p-button-rounded p-button-text p-action-button"
+                                    ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

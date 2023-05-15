@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CorePipesModule } from 'src/app/core/pipes/pipes.module';
-import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberProfileComponent } from './member-profile/member-profile.component';
@@ -25,7 +24,6 @@ import { AddMemberTransactionComponent } from './add-member-transaction/add-memb
         CommonModule,
         MembersRoutingModule,
         CorePipesModule,
-        PrimengModule,
         SharedModule,
         FormsModule,
         ReactiveFormsModule,

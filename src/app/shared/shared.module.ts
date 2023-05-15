@@ -8,7 +8,7 @@ import { PrimengModule } from './primeng/primeng.module';
 
 @NgModule({
     declarations: [CameraComponent],
-    exports: [CameraComponent],
+    exports: [CameraComponent, WebcamModule, ImageCropperModule, PrimengModule],
     imports: [CommonModule, WebcamModule, ImageCropperModule, PrimengModule],
 })
 export class SharedModule {}

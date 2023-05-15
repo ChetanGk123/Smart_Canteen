@@ -114,6 +114,14 @@ import { LandingComponent } from './features/landing/landing.component';
                                     './features/settings/settings.module'
                                 ).then((m) => m.SettingsModule),
                         },
+                        {
+                            path: 'meal',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/meal/meal.module'
+                                ).then((m) => m.MealModule),
+                        },
                     ],
                 },
                 { path: 'pages/landing', component: LandingComponent },

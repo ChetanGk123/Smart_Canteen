@@ -10,6 +10,6 @@
         layout: {
             enableLocalStorage: true,
         },
-        url: "https://canteen.thetechvaidya.com/api/v1/",
+        url: "https://thetechvaidya.com/cooksbook_new/api/v1/",
     };
 })(this);

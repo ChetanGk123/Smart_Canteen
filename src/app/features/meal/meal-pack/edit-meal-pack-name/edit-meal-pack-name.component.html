@@ -1,0 +1,32 @@
+<div class="card">
+    <form [formGroup]="commonForm" autocomplete="off">
+        <div class="field p-fluid">
+            <label htmlFor="meal_pack_name"
+                >Name <span class="p-error">*</span></label
+            >
+            <input
+                type="text"
+                pInputText
+                id="meal_pack_name"
+                formControlName="meal_pack_name"
+                required
+                autofocus
+            />
+            <small
+                class="p-error"
+                *ngIf="
+                    commonForm.controls.meal_pack_name.touched &&
+                    commonForm.controls.meal_pack_name.errors?.required
+                "
+                >Name is required.</small
+            >
+        </div>
+        <button
+            pButton
+            type="submit"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="this.config?.data?.data?.id ? 'Update' : 'Submit'"
+        ></button>
+    </form>
+</div>
