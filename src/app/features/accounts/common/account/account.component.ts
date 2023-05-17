@@ -34,11 +34,6 @@ export class AccountComponent implements OnInit {
                 icon: 'pi pi-fw pi-pencil',
                 command: () => this.editData(this.selectedProduct),
             },
-            {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: () => this.confirm(this.selectedProduct),
-            },
 
             // {
             //     label: 'Transactions',
@@ -51,6 +46,13 @@ export class AccountComponent implements OnInit {
                 label: 'Direct Entry',
                 icon: 'pi pi-fw pi-dollar',
                 command: () => this.wildCardEntry(this.selectedProduct),
+            });
+        }
+        if (this.Url != 'COMMODITY_ACCOUNT') {
+            this.items.push({
+                label: 'Delete',
+                icon: 'pi pi-fw pi-trash',
+                command: () => this.confirm(this.selectedProduct),
             });
         }
         this.accountsData = this.apiService

@@ -35,7 +35,6 @@ export class ConfigureMealPackComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.config.data);
         this.counter_id = this.config.data?.counter_id;
         this.loadData();
         this.items = [

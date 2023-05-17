@@ -10,6 +10,7 @@
 
                 <ng-template pTemplate="right">
                     <button
+                    *ngIf="Url != 'COMMODITY_ACCOUNT'"
                         (document:keydown.Alt.n)="add()"
                         pButton
                         pRipple

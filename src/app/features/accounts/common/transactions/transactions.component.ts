@@ -121,6 +121,23 @@ export class TransactionsComponent implements OnInit {
             .finally(() => {
                 this.loading = false;
             });
+        this.apiService
+            .getTypeRequest(`table_data/COMMODITY_ACCOUNT${url}`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    var data = {
+                        label: 'Commodity Account',
+                        value: 'de',
+                        items: result.data,
+                    };
+                    this.accountList.push(data);
+                }
+            })
+            .finally(() => {
+                this.loading = false;
+            });
     }
 
     loadData() {

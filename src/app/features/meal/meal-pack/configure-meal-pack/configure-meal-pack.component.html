@@ -18,6 +18,16 @@
                                     formControlName="meal_id"
                                     optionLabel="meal_name"
                                 ></p-dropdown>
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.meal_id
+                                            .touched &&
+                                        commonForm.controls.meal_id.errors
+                                            ?.required
+                                    "
+                                    >Meal is required.</small
+                                >
                             </div>
                             <div
                                 class="field col-12 sm:col-12 md:col-6 lg:col-2"
@@ -32,7 +42,6 @@
                                     id="meal_price"
                                     formControlName="meal_price"
                                     required
-                                    autofocus
                                 />
                                 <small
                                     class="p-error"
@@ -190,50 +199,13 @@
                                         (click)="mealsToInsert.splice(rowIndex,1)"
                                         class="p-button-rounded p-button-text p-button-danger"
                                     ></button>
-                                    <!-- <button
-                                        *ngIf="!editing"
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        pInitEditableRow
-                                        icon="pi pi-pencil"
-                                        class="p-button-rounded p-button-text"
-                                    ></button>
-                                    <button
-                                        *ngIf="!editing"
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        icon="pi pi-trash"
-                                        (click)="confirm(product)"
-                                        class="p-button-rounded p-button-text p-button-danger"
-                                    ></button>
-                                    <button
-                                        *ngIf="editing"
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        pSaveEditableRow
-                                        icon="pi pi-check"
-                                        (click)="updateMeal(product)"
-                                        class="p-button-rounded p-button-text p-button-success"
-                                    ></button>
-                                    <button
-                                        *ngIf="editing"
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        pCancelEditableRow
-                                        icon="pi pi-times"
-                                        class="p-button-rounded p-button-text p-button-danger"
-                                    ></button> -->
                                 </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="emptymessage" let-columns>
                             <tr>
-                                <td [attr.colspan]="6">
-                                    No records found
+                                <td [attr.colspan]="6" style="text-align: center;">
+                                    No meals added.
                                 </td>
                             </tr>
                         </ng-template>
@@ -449,6 +421,13 @@
                                         icon="pi pi-times"
                                         class="p-button-rounded p-button-text p-button-danger"
                                     ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="6" style="text-align: center;">
+                                    No meals added.
                                 </td>
                             </tr>
                         </ng-template>
