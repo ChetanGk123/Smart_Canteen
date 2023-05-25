@@ -13,24 +13,23 @@ import { MealPackComponent } from './meal-pack/meal-pack.component';
 import { EditMealPackNameComponent } from './meal-pack/edit-meal-pack-name/edit-meal-pack-name.component';
 import { ConfigureMealPackComponent } from './meal-pack/configure-meal-pack/configure-meal-pack.component';
 
-
 @NgModule({
-  declarations: [
-    MealTypeComponent,
-    EditMealTypeComponent,
-    MealPackComponent,
-    EditMealPackNameComponent,
-    ConfigureMealPackComponent
-  ],
-  imports: [
-    CommonModule,
-    MealRoutingModule,
-    CorePipesModule,
+    declarations: [
+        MealTypeComponent,
+        EditMealTypeComponent,
+        MealPackComponent,
+        EditMealPackNameComponent,
+        ConfigureMealPackComponent,
+    ],
+    imports: [
+        CommonModule,
+        MealRoutingModule,
+        CorePipesModule,
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
         NgxMaskModule.forRoot(),
-  ],
-  providers: [DynamicDialogRef, DynamicDialogConfig],
+    ],
+    providers: [DynamicDialogRef, DynamicDialogConfig],
 })
-export class MealModule { }
+export class MealModule {}

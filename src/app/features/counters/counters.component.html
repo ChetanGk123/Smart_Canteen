@@ -8,7 +8,7 @@
 
                 <ng-template pTemplate="right">
                     <button
-                    *ngIf="user_role == 'su_user'"
+                        *ngIf="user_role == 'su_user'"
                         (document:keydown.Alt.n)="add()"
                         pButton
                         pRipple
@@ -41,139 +41,160 @@
                             'contact_number'
                         ]"
                     >
-                    <ng-template pTemplate="caption">
-                        <div
-                            class="table-header align-content-center justify-content-end grid flex"
-                        >
+                        <ng-template pTemplate="caption">
                             <div
-                                class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                style="text-align: end"
+                                class="table-header align-content-center justify-content-end grid flex"
                             >
-                                <span class="p-input-icon-left">
-                                    <i class="pi pi-search"></i>
-                                    <input
-                                        type="search"
-                                        pInputText
-                                        #filter
-                                        (input)="
-                                            dt.filterGlobal(
-                                                $event.target.value,
-                                                'contains'
-                                            )
-                                        "
-                                        placeholder="Global Search"
-                                    />
-                                </span>
-                            </div>
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th style="min-width: 6rem">
-                                Slno
-                                <span
-                                    ><i
-                                        class="pi pi-info-circle p-error"
-                                        pTooltip="Right click on row for options"
-                                    ></i
-                                ></span>
-                            </th>
-                            <th pSortableColumn="full_name" style="min-width: 14rem">
-                                Name
-                                <p-sortIcon field="full_name"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="school_name" style="min-width: 11rem">
-                                School Name
-                                <p-sortIcon
-                                    field="school_name"
-                                ></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="contact_person" style="min-width: 9rem">
-                                Contact Person
-                                <p-sortIcon field="contact_person"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="contact_number" style="min-width: 11rem">
-                                Phone No
-                                <p-sortIcon
-                                    field="contact_number"
-                                ></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="email" style="min-width: 8rem">
-                                Email
-                                <p-sortIcon field="email"></p-sortIcon>
-                            </th>
-                            <th *ngIf="user_role == 'su_user'">Actions</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template
-                        pTemplate="body"
-                        let-product
-                        let-rowIndex="rowIndex"
-                    >
-                        <tr [pContextMenuRow]="product">
-                            <td>
-                                {{ rowIndex + 1 }}
-                            </td>
-                            <td>
-                                <div class="flex align-items-center">
-                                    <div
-                                        class=""
-                                        *ngIf="
-                                            product.logo_url;
-                                            else customAvatar
-                                        "
-                                    >
-                                        <img
-                                            class="rounded-circle mr-1"
-                                            [src]="product.logo_url"
-                                            height="32"
-                                            width="32"
-                                            alt="datatable-avatar"
-                                        />
-                                    </div>
-                                    <ng-template #customAvatar>
-                                        <div
-                                            class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
-                                        >
-                                            <div class="avatar-content">
-                                                {{
-                                                    product.counter_name
-                                                        | initials
-                                                }}
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                    <a
-                                    (click)="openCounterFrofile(product)"
-                                    class="text-800 font-bold cursor-pointer no-underline hover:underline"
-                                    >{{ product?.counter_name ?? "" }}</a
+                                <div
+                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    style="text-align: end"
                                 >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
                                 </div>
-                            </td>
-                            <td>
-                                {{ product.school_name }}
-                            </td>
-                            <td>
-                                {{ product.contact_person }}
-                            </td>
-                            <td>
-                                {{ product.contact_number }}
-                            </td>
-                            <td>
-                                {{ product.email}}
-                            </td>
-                            <td *ngIf="user_role == 'su_user'">
-                                <button
-                                    pButton
-                                    pRipple
-                                    type="button"
-                                    icon="pi pi-pencil"
-                                    (click)="updateCounter(product)"
-                                    class="p-button-rounded p-action-button"
-                                ></button>
-                            </td>
-                        </tr>
-                    </ng-template>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="min-width: 6rem">
+                                    Slno
+                                    <span
+                                        ><i
+                                            class="pi pi-info-circle p-error"
+                                            pTooltip="Right click on row for options"
+                                        ></i
+                                    ></span>
+                                </th>
+                                <th
+                                    pSortableColumn="full_name"
+                                    style="min-width: 14rem"
+                                >
+                                    Name
+                                    <p-sortIcon field="full_name"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="school_name"
+                                    style="min-width: 11rem"
+                                >
+                                    School Name
+                                    <p-sortIcon
+                                        field="school_name"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="contact_person"
+                                    style="min-width: 9rem"
+                                >
+                                    Contact Person
+                                    <p-sortIcon
+                                        field="contact_person"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="contact_number"
+                                    style="min-width: 11rem"
+                                >
+                                    Phone No
+                                    <p-sortIcon
+                                        field="contact_number"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="email"
+                                    style="min-width: 8rem"
+                                >
+                                    Email
+                                    <p-sortIcon field="email"></p-sortIcon>
+                                </th>
+                                <th *ngIf="user_role == 'su_user'">Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>
+                                    <div class="flex align-items-center">
+                                        <div
+                                            class=""
+                                            *ngIf="
+                                                product.logo_url;
+                                                else customAvatar
+                                            "
+                                        >
+                                            <img
+                                                class="rounded-circle mr-1"
+                                                [src]="product.logo_url"
+                                                height="32"
+                                                width="32"
+                                                alt="datatable-avatar"
+                                            />
+                                        </div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                            >
+                                                <div class="avatar-content">
+                                                    {{
+                                                        product.counter_name
+                                                            | initials
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <a
+                                            (click)="
+                                                openCounterFrofile(product)
+                                            "
+                                            class="text-800 font-bold cursor-pointer no-underline hover:underline"
+                                            >{{
+                                                product?.counter_name ?? ""
+                                            }}</a
+                                        >
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ product.school_name }}
+                                </td>
+                                <td>
+                                    {{ product.contact_person }}
+                                </td>
+                                <td>
+                                    {{ product.contact_number }}
+                                </td>
+                                <td>
+                                    {{ product.email }}
+                                </td>
+                                <td *ngIf="user_role == 'su_user'">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-pencil"
+                                        (click)="updateCounter(product)"
+                                        class="p-button-rounded p-action-button"
+                                    ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
                     </p-table>
                 </div>
             </div>

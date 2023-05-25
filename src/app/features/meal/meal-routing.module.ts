@@ -4,7 +4,7 @@ import { MealPackComponent } from './meal-pack/meal-pack.component';
 import { MealTypeComponent } from './meal-type/meal-type.component';
 
 const routes: Routes = [
-    { path: '', redirectTo:'mealType', pathMatch:'full' },
+    { path: '', redirectTo: 'mealType', pathMatch: 'full' },
     {
         path: 'mealType',
         component: MealTypeComponent,
@@ -16,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class MealRoutingModule { }
+export class MealRoutingModule {}

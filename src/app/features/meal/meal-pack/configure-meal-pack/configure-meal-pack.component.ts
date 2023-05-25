@@ -170,7 +170,7 @@ export class ConfigureMealPackComponent implements OnInit {
             this.mealsToInsert.push(this.commonForm.value);
             this.commonForm.reset();
         } else {
-            this.commonForm.markAllAsTouched()
+            this.commonForm.markAllAsTouched();
         }
         this.load_mealsToInsert = true;
     }
@@ -184,19 +184,19 @@ export class ConfigureMealPackComponent implements OnInit {
                 meal_start_time: item.meal_start_time,
                 meal_end_time: item.meal_end_time,
             };
-            meals_array.push(data)
+            meals_array.push(data);
         });
         var payload = {
             meal_pack_id: this.config.data?.meal_pack_id,
-            meals_array: meals_array
-        }
+            meals_array: meals_array,
+        };
         this.apiService
             .postTypeRequest('meal_pack_ops/insert', payload)
             .toPromise()
             .then((result: any) => {
                 if (result.result) {
-                    this.mealsToInsert = []
-                    this.accordionState = false
+                    this.mealsToInsert = [];
+                    this.accordionState = false;
                     this.loadData();
                 }
             });

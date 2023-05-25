@@ -111,9 +111,7 @@
                 >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                <label for="dob"
-                    >Date Of Birth</label
-                >
+                <label for="dob">Date Of Birth</label>
                 <input
                     type="date"
                     pInputText
@@ -179,7 +177,10 @@
                     optionValue="member_type_id"
                 ></p-dropdown>
             </div>
-            <div *ngIf="memberService.getUserData().user_role =='OWNER'" class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+            <div
+                *ngIf="memberService.getUserData().user_role == 'OWNER'"
+                class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+            >
                 <label for="counter_id"
                     >Counter <span class="p-error">*</span></label
                 >

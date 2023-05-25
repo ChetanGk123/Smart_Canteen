@@ -1,190 +1,541 @@
-<div class="grid">
-    <div class="col-12">
-        <div class="card">
-            <h4>Update History</h4>
-            <!-- <div class="col-12">
-                <div class="card">
-                    <div class="grid justify-content-between">
-                        <div class="font-medium text-3xl text-900 mb-3">
-                            Member Profile
+<div class="card">
+    <div class="grid justify-content-between p-3">
+        <div class="font-medium text-3xl text-900">POS Item Profile</div>
+        <button
+            (document:keydown.shift.e)="editPOSItem()"
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            (click)="editPOSItem()"
+            class="p-button-rounded p-button-outlined p-action-button"
+        ></button>
+    </div>
+    <div class="grid flex">
+        <div
+            class="static col-12 xl:col-3 lg:col-4 md:col-4 sm:col-12 xs:col-12"
+        >
+            <!-- <img
+                [src]="posItemData?.logo_url"
+                alt=""
+                class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
+                style="border-radius: 50%; margin-right: -4rem"
+            /> -->
+            <div class="" *ngIf="posItemData?.img_loc; else customAvatar">
+                <img
+                    [src]="posItemData?.img_loc"
+                    (error)="posItemData.img_loc = ''"
+                    alt=""
+                    class="h-14rem xl:h-14rem md:h-14rem sm:h-11rem xs:h-2rem"
+                    style="border-radius: 50%; margin-right: -4rem"
+                />
+                <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-camera"
+                    class="absolute p-button-rounded p-action-button"
+                    (click)="cameraDialog = true"
+                ></button>
+            </div>
+            <ng-template #customAvatar>
+                <div class="avatar mr-1 ml-0 bg-light-success ng-star-inserted">
+                    <div
+                        class="custom-avatar-content h-16rem md:h-16rem sm:h-16rem xs:h-2rem w-16rem md:w-16rem sm:w-16rem xs:w-2rem"
+                    >
+                        {{ posItemData?.name ?? "" | initials }}
+                    </div>
+                    <button
+                        (document:keydown.shift.e)="edit()"
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-camera"
+                        class="absolute avatar-button p-button-rounded p-action-button"
+                        (click)="cameraDialog = true"
+                    ></button>
+                </div>
+            </ng-template>
+            <p-dialog
+                [(visible)]="cameraDialog"
+                [breakpoints]="{ '960px': '75vw', '640px': '95vw' }"
+                [style]="{ width: '50vw' }"
+                header="Camera"
+                [modal]="true"
+                styleClass="p-fluid"
+            >
+                <ng-template pTemplate="content">
+                    <app-camera (getPicture)="handleImage($event)"></app-camera>
+                </ng-template>
+            </p-dialog>
+        </div>
+        <div class="col-12 lg:col-8 md:col-7 sm:col-12 xs:col-12">
+            <div class="surface-section">
+                <ul class="list-none p-0 m-0">
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">Name</div>
+                        <div
+                            class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Main Category
+                        </div>
+                        <div
+                            class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.main_category_name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Stock Quantity
+                        </div>
+                        <div
+                            class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.stock_qty }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">Rate</div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.rate | currency : "INR" }}
+                        </div>
+                    </li>
+                    <!-- <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            GST Slab
+                        </div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.gst_slab }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Discount Amount
+                        </div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.discount_amt }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Discount Percentage
+                        </div>
+                        <div
+                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                        >
+                            {{ posItemData?.discount_per }}
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <!-- <div class="center" *ngIf="loading">
+        <p-progressSpinner></p-progressSpinner>
+    </div> -->
+    <p-tabView [scrollable]="true">
+        <p-tabPanel header="Academic Constratins" leftIcon="pi pi-credit-card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template pTemplate="left"></ng-template>
+                <ng-template pTemplate="right">
+                    <button
+                        pButton
+                        pRipple
+                        label="Add"
+                        icon="pi pi-plus"
+                        class="mr-2 inline-block p-button"
+                        (click)="addAcademicConstraints()"
+                    ></button>
+                </ng-template>
+            </p-toolbar>
+            <p-table
+                dataKey="code"
+                #AC
+                [value]="academicConstraints | async"
+                [paginator]="true"
+                [rows]="10"
+                [loading]="academicConstraintsLoading"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [filterDelay]="0"
+                [globalFilterFields]="['class_name','division_name']"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="table-header align-content-center justify-content-end grid flex"
+                    >
+                        <div
+                            class="col-12 md:col-8 lg:6 grid justify-content-end"
+                            style="text-align: end"
+                        >
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    pInputText
+                                    type="search"
+                                    #filter
+                                    autofocus
+                                    (input)="
+                                    AC.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                    placeholder="Global Search"
+                                />
+                            </span>
                         </div>
                     </div>
-                    <div class="grid">
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Slno</th>
+                        <th pSortableColumn="class_id">Class<p-sortIcon
+                            field="class_id"
+                        ></p-sortIcon></th>
+                        <th pSortableColumn="division_id">Division<p-sortIcon
+                            field="division_id"
+                        ></p-sortIcon></th>
+                        <th pSortableColumn="rate">Rate<p-sortIcon
+                            field="rate"
+                        ></p-sortIcon></th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-product
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>
+                            {{ product.class_name }}
+                        </td>
+                        <td>
+                            {{ product.division_name ?? "-" }}
+                        </td>
+                        <td>
+                            {{ product.rate | currency : "INR" }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    (click)="updateAcademicConstraints(product)"
+                                    icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-text p-button-primary"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    (click)="deleteAcademicConstraints(product)"
+                                    icon="pi pi-trash"
+                                    class="p-button-rounded p-button-text p-button-danger"
+                                ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="Time Constratins" leftIcon="pi pi-credit-card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template pTemplate="left"></ng-template>
+                <ng-template pTemplate="right">
+                    <button
+                        pButton
+                        pRipple
+                        label="Add"
+                        icon="pi pi-plus"
+                        class="mr-2 inline-block p-button"
+                        (click)="addTimeConstraints()"
+                    ></button>
+                </ng-template>
+            </p-toolbar>
+            <p-table
+            #TC
+                dataKey="code"
+                [value]="timeConstraints | async"
+                [paginator]="true"
+                [rows]="10"
+                [loading]="timeConstraintsLoading"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [filterDelay]="0"
+                [globalFilterFields]="['start_time','start_date','end_time','end_date']"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="table-header align-content-center justify-content-end grid flex"
+                    >
                         <div
-                            class="static col-12 xl:col-3 lg:col-4 md:col-5 sm:col-12 xs:col-12"
+                            class="col-12 md:col-8 lg:6 grid justify-content-end"
+                            style="text-align: end"
                         >
-                            <img
-                                [src]="
-                                    'https://spng.pinpng.com/pngs/s/74-740774_veg-icon-png-circle-transparent-png.png'
-                                "
-                                alt=""
-                                class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
-                                style="border-radius: 50%; margin-right: -4rem"
-                            />
-                            <p-dialog
-                                [(visible)]="cameraDialog"
-                                [breakpoints]="{
-                                    '960px': '75vw',
-                                    '640px': '95vw'
-                                }"
-                                [style]="{ width: '50vw' }"
-                                header="Camera"
-                                [modal]="true"
-                                styleClass="p-fluid"
-                            >
-                                <ng-template pTemplate="content">
-                                    <app-camera
-                                        (getPicture)="handleImage($event)"
-                                    ></app-camera>
-                                </ng-template>
-                            </p-dialog>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    pInputText
+                                    type="search"
+                                    #filter
+                                    autofocus
+                                    (input)="
+                                        TC.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                    placeholder="Global Search"
+                                />
+                            </span>
+
                         </div>
-                        <div
-                            class="col-12 lg:col-8 md:col-7 sm:col-12 xs:col-12"
-                        >
-                            <div class="surface-section">
-                                <ul class="list-none p-0 m-0">
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Title
-                                        </div>
-                                        <div
-                                            class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Card Number
-                                        </div>
-                                        <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Balance
-                                        </div>
-                                        <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" | currency: "INR" }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Gender
-                                        </div>
-                                        <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Phone No
-                                        </div>
-                                        <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Date Of Birth
-                                        </div>
-                                        <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" }}
-                                        </div>
-                                    </li>
-                                    <li
-                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    >
-                                        <div
-                                            class="text-500 w-6 md:w-3 font-medium"
-                                        >
-                                            Email
-                                        </div>
-                                        <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
-                                        >
-                                            {{ "" }}
-                                        </div>
-                                    </li>
-                                </ul>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Slno</th>
+                        <th>Start Time</th>
+                        <th>Start Date</th>
+                        <th>End Time</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-product
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>
+                            {{ product.start_time }}
+                        </td>
+                        <td>
+                            {{ product.start_date }}
+                        </td>
+                        <td>
+                            {{ product.end_time }}
+                        </td>
+                        <td>
+                            {{ product.end_date }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    (click)="updateTimeConstraints(product)"
+                                    icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-text p-button-primary"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    (click)="deleteTimeConstraints(product)"
+                                    icon="pi pi-trash"
+                                    class="p-button-rounded p-button-text p-button-danger"
+                                ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel
+            cache="true"
+            header="Transaction History"
+            leftIcon="pi pi-list"
+        >
+            <div class="card">
+                <p-toolbar styleClass="mb-4" class="align-content-center">
+                    <ng-template class="align-content-center" pTemplate="left">
+                        <div class="grid mb-0">
+                            <div
+                                class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                style="margin-bottom: -1rem"
+                            >
+                                <label for="dob">Start Date </label>
+                                <input
+                                    id="dob"
+                                    type="date"
+                                    pInputText
+                                    [(ngModel)]="start_date"
+                                />
+                            </div>
+                            <div
+                                class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                style="margin-bottom: -1rem"
+                            >
+                                <label for="dob">End Date </label>
+                                <input
+                                    id="dob"
+                                    type="date"
+                                    pInputText
+                                    [(ngModel)]="end_date"
+                                />
+                            </div>
+                            <div class=" col-12 sm:col-12 md:col-6 lg:col-2 align-items-center">
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-search"
+                                    class="mt-2 p-button-rounded p-action-button lg:mt-5"
+                                    (click)="fetchMemberTransactions()"
+                                ></button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div> -->
-            <div class="col-12">
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+                        <button
+                            pButton
+                            pRipple
+                            label="Add"
+                            icon="pi pi-plus"
+                            class="mr-2 inline-block p-button lg:mt-5"
+                            (click)="add()"
+                        ></button>
+                    </ng-template>
+                </p-toolbar>
+                <p-contextMenu
+                    #cm
+                    appendTo="body"
+                    [model]="transactionMenu"
+                ></p-contextMenu>
+                <p-menu #menu [popup]="true" [model]="transactionMenu"></p-menu>
                 <p-table
-                    dataKey="card_number"
-                    [value]="History"
+                    #dt
+                    dataKey="code"
+                    [(contextMenuSelection)]="selectedProduct"
+                    [contextMenu]="cm"
+                    [value]="transactionData | async"
                     [paginator]="true"
-                    [loading]="loading"
                     [rows]="10"
+                    [loading]="transactionLoading"
                     [showCurrentPageReport]="true"
                     responsiveLayout="scroll"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     [rowsPerPageOptions]="[10, 25, 50]"
+                    [filterDelay]="0"
+                    [globalFilterFields]="['membership_name']"
                 >
+                    <ng-template pTemplate="caption">
+                        <div
+                            class="table-header align-content-center justify-content-end grid flex"
+                        >
+                            <div
+                                class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                style="text-align: end"
+                            >
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        pInputText
+                                        type="search"
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Slno</th>
-                            <th pSortableColumn="stock_update_date">
+                            <th>
+                                Slno
+                                <span
+                                    ><i
+                                        class="pi pi-info-circle p-error"
+                                        pTooltip="Right click on row for options"
+                                    ></i
+                                ></span>
+                            </th>
+                            <th pSortableColumn="receipt_no">
+                                Receipt No
+                                <p-sortIcon field="receipt_no"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="transaction_date">
                                 Date
                                 <p-sortIcon
-                                    field="stock_update_date"
+                                    field="transaction_date"
                                 ></p-sortIcon>
                             </th>
-                            <th pSortableColumn="qty_txn_type">
+                            <th pSortableColumn="previous_balance">
+                                Previous Balance
+                                <p-sortIcon
+                                    field="previous_balance"
+                                ></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="transaction_type">
                                 Txn Type
-                                <p-sortIcon field="qty_txn_type"></p-sortIcon>
+                                <p-sortIcon
+                                    field="transaction_type"
+                                ></p-sortIcon>
                             </th>
-                            <th pSortableColumn="qty_txn_cat">
-                                Category
-                                <p-sortIcon field="qty_txn_cat"></p-sortIcon>
+                            <th pSortableColumn="transaction_amount">
+                                Amount
+                                <p-sortIcon
+                                    field="transaction_amount"
+                                ></p-sortIcon>
                             </th>
-                            <th pSortableColumn="qty">
-                                Quantity
-                                <p-sortIcon field="qty"></p-sortIcon>
+                            <th pSortableColumn="current_balance">
+                                Balance
+                                <p-sortIcon
+                                    field="current_balance"
+                                ></p-sortIcon>
                             </th>
-                            <th pSortableColumn="reason">
-                                Reason
-                                <p-sortIcon field="reason"></p-sortIcon>
-                            </th>
+                            <th>Status</th>
                         </tr>
                     </ng-template>
                     <ng-template
@@ -192,29 +543,172 @@
                         let-product
                         let-rowIndex="rowIndex"
                     >
-                        <tr>
+                        <tr [pContextMenuRow]="product">
                             <td>
                                 {{ rowIndex + 1 }}
                             </td>
-                            <td style="width: 14%; min-width: 10rem">
-                                {{ product.stock_update_date }}
+                            <td>
+                                {{ product.receipt_no }}
                             </td>
-                            <td style="width: 14%; min-width: 10rem">
-                                {{ product.qty_txn_type }}
+                            <td>
+                                {{ product.transaction_date }}
                             </td>
-                            <td style="width: 14%; min-width: 10rem">
-                                {{ product.qty_txn_cat }}
+                            <td>
+                                {{
+                                    product.previous_balance | currency : "INR"
+                                }}
                             </td>
-                            <td style="width: 14%; min-width: 10rem">
-                                {{ product.qty }}
+                            <td>
+                                <span
+                                    [class]="
+                                        product.transaction_type == 'CREDIT'
+                                            ? 'p-success'
+                                            : 'p-error'
+                                    "
+                                >
+                                    {{ product.transaction_type }}</span
+                                >
                             </td>
-                            <td style="width: 14%; min-width: 10rem">
-                                {{ product.reason }}
+                            <td>
+                                {{
+                                    product.transaction_amount
+                                        | currency : "INR"
+                                }}
+                            </td>
+                            <td>
+                                {{ product.current_balance | currency : "INR" }}
+                            </td>
+                            <td>
+                                <button
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-ellipsis-v"
+                                    (click)="
+                                        selectedProduct = product;
+                                        menu.toggle($event)
+                                    "
+                                    class="p-button-rounded p-button-text p-action-button"
+                                ></button>
                             </td>
                         </tr>
                     </ng-template>
                 </p-table>
             </div>
-        </div>
-    </div>
+            <p-dialog
+                header="Transaction Details"
+                [(visible)]="displayTransaction"
+                [breakpoints]="{ '960px': '50vw', '640px': '85vw' }"
+                [style]="{ width: '40vw' }"
+                modal="true"
+            >
+                <div class="card">
+                    <div class="">
+                        <div class="surface-section">
+                            <ul class="list-none p-0 m-0">
+                                <li
+                                    class="flex justify-content-end align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div class="text-500 font-medium">
+                                        Date:&nbsp;
+                                    </div>
+                                    <div class="text-900 font-bold">
+                                        {{ selectedProduct?.transaction_date }}
+                                    </div>
+                                </li>
+
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Membership Name
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{ posItemData.name ?? "" }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Payment Mode
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{ selectedProduct?.payment_mode }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Payment Reference
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{ selectedProduct?.payment_ref }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Transaction Type
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{ selectedProduct?.transaction_type }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Transaction Amount
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{
+                                            selectedProduct?.transaction_amount
+                                                | currency : "INR"
+                                        }}
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-6 md:w-5 font-medium"
+                                    >
+                                        Comments
+                                    </div>
+                                    <div
+                                        class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        {{ selectedProduct?.user_comments }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </p-dialog>
+        </p-tabPanel>
+    </p-tabView>
 </div>

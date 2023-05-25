@@ -222,7 +222,7 @@ export class PosSaleHistoryListComponent implements OnInit {
                                 {},
                                 {},
                                 {
-                                    text: '₹'+this.total.toFixed(2),
+                                    text: '₹' + this.total.toFixed(2),
                                     alignment: 'right',
                                     margin: [0, 5, 0, -5],
                                     border: [false, true, false, true],

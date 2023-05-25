@@ -1,0 +1,335 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template class="align-content-center" pTemplate="left">
+                    <h4>Members On Leave</h4>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button
+                        *ngIf="selectedStudents.length > 0"
+                        pButton
+                        pRipple
+                        label="End Leave"
+                        icon="pi pi-users"
+                        class="mr-2 inline-block p-button"
+                        (click)="showLeaveDialog()"
+                    ></button>
+                    <button
+                        (document:keydown.Alt.n)="add()"
+                        pButton
+                        pRipple
+                        label="Add"
+                        icon="pi pi-plus"
+                        class="mr-2 inline-block p-button"
+                        (click)="add()"
+                    ></button>
+                </ng-template>
+            </p-toolbar>
+            <div class="grid">
+                <div class="col-12">
+                    <p-toolbar styleClass="mb-4" class="align-content-center">
+                        <ng-template
+                            class="align-content-center"
+                            pTemplate="left"
+                        >
+                            <div class="grid mb-0">
+                                <div
+                                    class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                    style="margin-bottom: -1rem"
+                                >
+                                    <label for="dob">Start Date </label>
+                                    <input
+                                        id="dob"
+                                        type="date"
+                                        pInputText
+                                        [(ngModel)]="start_date"
+                                    />
+                                </div>
+                                <div
+                                    class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                    style="margin-bottom: -1rem"
+                                >
+                                    <label for="dob">End Date </label>
+                                    <input
+                                        id="dob"
+                                        type="date"
+                                        pInputText
+                                        [(ngModel)]="end_date"
+                                    />
+                                </div>
+                                <div
+                                    class="col-12 sm:col-12 md:col-6 lg:col-2 align-items-center"
+                                >
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-search"
+                                        class="mt-2 p-button-rounded p-action-button lg:mt-5"
+                                        (click)="fetchTransactions()"
+                                    ></button>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="right"> </ng-template>
+                    </p-toolbar>
+                    <p-contextMenu #cm [model]="items"></p-contextMenu>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-table
+                        #dt
+                        [(contextMenuSelection)]="selectedProduct"
+                        [(selection)]="selectedStudents"
+                        [contextMenu]="cm"
+                        dataKey="card_number"
+                        [value]="Data | async"
+                        [paginator]="true"
+                        selectionMode="multiple"
+                        [rows]="10"
+                        [loading]="loading"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [filterDelay]="0"
+                        [globalFilterFields]="[
+                            'full_name',
+                            'card_number',
+                            'membership_name'
+                        ]"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex grid">
+                                <div class="col-6">
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-excel"
+                                        class="p-button-success mr-2"
+                                        pTooltip="XLS"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-pdf"
+                                        (click)="generatePDF()"
+                                        class="p-button-warning mr-2"
+                                        pTooltip="PDF"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                </div>
+                                <div
+                                    class="ml-auto col"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- <div
+                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div> -->
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                
+                                <th style="width: 5rem">
+                                    Slno
+                                    <span
+                                        ><i
+                                            class="pi pi-info-circle p-error"
+                                            pTooltip="Right click on row for options"
+                                        ></i
+                                    ></span>
+                                </th>
+                                <th
+                                    pSortableColumn="full_name"
+                                    style="min-width: 14rem"
+                                >
+                                    Name
+                                    <p-sortIcon field="full_name"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="membership_name"
+                                    style="min-width: 14rem"
+                                >
+                                    Membership
+                                    <p-sortIcon
+                                        field="membership_name"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="days"
+                                    style="min-width: 7rem"
+                                >
+                                    Days
+                                    <p-sortIcon field="days"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="start_date"
+                                    style="min-width: 9rem"
+                                >
+                                    Start Date
+                                    <p-sortIcon field="start_date"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="end_date"
+                                    style="min-width: 9rem"
+                                >
+                                    End Date
+                                    <p-sortIcon field="end_date"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="status"
+                                    style="min-width: 11rem"
+                                >
+                                    Status
+                                    <p-sortIcon field="status"></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="total_amt"
+                                    style="min-width: 9rem"
+                                >
+                                    Total Amt
+                                    <p-sortIcon field="total_amt"></p-sortIcon>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>
+                                    <div class="flex align-items-center">
+                                        <div
+                                            class=""
+                                            *ngIf="
+                                                product.photo_url;
+                                                else customAvatar
+                                            "
+                                        >
+                                            <img
+                                                class="rounded-circle mr-1"
+                                                [src]="product.photo_url"
+                                                height="32"
+                                                width="32"
+                                                alt="datatable-avatar"
+                                            />
+                                        </div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                            >
+                                                <div class="avatar-content">
+                                                    {{
+                                                        product.full_name
+                                                            | initials
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <a
+                                            (click)="
+                                                selectedProduct = product;
+                                                openProfile()
+                                            "
+                                            class="text-800 font-bold cursor-pointer no-underline hover:underline"
+                                            >{{ product?.full_name ?? "" }}</a
+                                        >
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ product.membership_data.meal_pack_name }}
+                                </td>
+                                <td>
+                                    {{ product.membership_data.max_days }}
+                                </td>
+                                <td>
+                                    {{ product.membership_data.start_date }}
+                                </td>
+                                <td>
+                                    {{ product.membership_data.end_date }}
+                                </td>
+                                <td>
+                                    <i
+                                        class="pi flex justify-content-center align-items-center"
+                                        [ngClass]="{
+                                            'true-icon pi-check-circle p-success':
+                                                product.status == 1
+                                                    ? true
+                                                    : false,
+                                            'false-icon pi-times-circle p-error':
+                                                !product.status == 1
+                                                    ? true
+                                                    : false
+                                        }"
+                                    ></i>
+                                </td>
+                                <td>
+                                    {{
+                                        product.membership_data.total_amount
+                                            | currency : "INR"
+                                    }}
+                                </td>
+                                <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-ellipsis-v"
+                                        (click)="
+                                            selectedProduct = product;
+                                            menu.toggle($event)
+                                        "
+                                        class="p-button-rounded p-button-text p-action-button"
+                                    ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

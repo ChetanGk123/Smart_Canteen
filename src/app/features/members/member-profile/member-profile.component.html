@@ -1,6 +1,6 @@
 <div class="card">
     <div class="grid justify-content-between p-3">
-        <div class="font-medium text-3xl text-900">Counter Profile</div>
+        <div class="font-medium text-3xl text-900">Member Profile</div>
         <button
             (document:keydown.shift.e)="editMemberData()"
             pButton
@@ -30,13 +30,13 @@
                     style="border-radius: 50%; margin-right: -4rem"
                 />
                 <button
-                            pButton
-                            pRipple
-                            type="button"
-                            icon="pi pi-camera"
-                            class="absolute p-button-rounded p-action-button"
-                            (click)="cameraDialog = true"
-                        ></button>
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-camera"
+                    class="absolute p-button-rounded p-action-button"
+                    (click)="cameraDialog = true"
+                ></button>
             </div>
             <ng-template #customAvatar>
                 <div class="avatar mr-1 ml-0 bg-light-success ng-star-inserted">
@@ -65,9 +65,7 @@
                 styleClass="p-fluid"
             >
                 <ng-template pTemplate="content">
-                    <app-camera
-                        (getPicture)="handleImage($event)"
-                    ></app-camera>
+                    <app-camera (getPicture)="handleImage($event)"></app-camera>
                 </ng-template>
             </p-dialog>
         </div>
@@ -87,7 +85,9 @@
                     <li
                         class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                     >
-                        <div class="text-500 w-6 md:w-3 font-medium">Card Number</div>
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Card Number
+                        </div>
                         <div
                             class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                         >
@@ -97,11 +97,13 @@
                     <li
                         class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                     >
-                        <div class="text-500 w-6 md:w-3 font-medium">Balance</div>
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Balance
+                        </div>
                         <div
                             class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                         >
-                            {{ memberData?.balance | currency:'INR' }}
+                            {{ memberData?.balance | currency : "INR" }}
                         </div>
                     </li>
                     <li
@@ -155,7 +157,9 @@
                     <li
                         class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                     >
-                        <div class="text-500 w-6 md:w-3 font-medium">Date Of Birth</div>
+                        <div class="text-500 w-6 md:w-3 font-medium">
+                            Date Of Birth
+                        </div>
                         <div
                             class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                         >
@@ -188,14 +192,8 @@
             leftIcon="pi pi-list"
         >
             <div class="card">
-                <p-toolbar
-                    styleClass="mb-4"
-                    class="align-content-center"
-                >
-                    <ng-template
-                        class="align-content-center"
-                        pTemplate="left"
-                    >
+                <p-toolbar styleClass="mb-4" class="align-content-center">
+                    <ng-template class="align-content-center" pTemplate="left">
                         <div class="grid mb-0">
                             <div
                                 class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
@@ -252,11 +250,7 @@
                     appendTo="body"
                     [model]="transactionMenu"
                 ></p-contextMenu>
-                <p-menu
-                    #menu
-                    [popup]="true"
-                    [model]="transactionMenu"
-                ></p-menu>
+                <p-menu #menu [popup]="true" [model]="transactionMenu"></p-menu>
                 <p-table
                     #dt
                     dataKey="code"
@@ -312,9 +306,7 @@
                             </th>
                             <th pSortableColumn="receipt_no">
                                 Receipt No
-                                <p-sortIcon
-                                    field="receipt_no"
-                                ></p-sortIcon>
+                                <p-sortIcon field="receipt_no"></p-sortIcon>
                             </th>
                             <th pSortableColumn="transaction_date">
                                 Date
@@ -366,8 +358,7 @@
                             </td>
                             <td>
                                 {{
-                                    product.previous_balance
-                                        | currency : "INR"
+                                    product.previous_balance | currency : "INR"
                                 }}
                             </td>
                             <td>
@@ -388,10 +379,7 @@
                                 }}
                             </td>
                             <td>
-                                {{
-                                    product.current_balance
-                                        | currency : "INR"
-                                }}
+                                {{ product.current_balance | currency : "INR" }}
                             </td>
                             <td>
                                 <button
@@ -428,9 +416,7 @@
                                         Date:&nbsp;
                                     </div>
                                     <div class="text-900 font-bold">
-                                        {{
-                                            selectedProduct?.transaction_date
-                                        }}
+                                        {{ selectedProduct?.transaction_date }}
                                     </div>
                                 </li>
 
@@ -459,9 +445,7 @@
                                     <div
                                         class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                                     >
-                                        {{
-                                            selectedProduct?.payment_mode
-                                        }}
+                                        {{ selectedProduct?.payment_mode }}
                                     </div>
                                 </li>
                                 <li
@@ -475,9 +459,7 @@
                                     <div
                                         class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                                     >
-                                        {{
-                                            selectedProduct?.payment_ref
-                                        }}
+                                        {{ selectedProduct?.payment_ref }}
                                     </div>
                                 </li>
                                 <li
@@ -491,9 +473,7 @@
                                     <div
                                         class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                                     >
-                                        {{
-                                            selectedProduct?.transaction_type
-                                        }}
+                                        {{ selectedProduct?.transaction_type }}
                                     </div>
                                 </li>
                                 <li
@@ -524,9 +504,7 @@
                                     <div
                                         class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                                     >
-                                        {{
-                                            selectedProduct?.user_comments
-                                        }}
+                                        {{ selectedProduct?.user_comments }}
                                     </div>
                                 </li>
                             </ul>

@@ -1,0 +1,89 @@
+<div class="card">
+    <p-orderList
+        [value]="selectedProduct"
+        [listStyle]="{ 'max-height': '30rem' }"
+        header="List of Products"
+        filterBy="full_name"
+        controlsPosition=""
+        filterPlaceholder="Filter by name"
+    >
+        <ng-template pTemplate="header" let-options="options">
+            <form
+                [formGroup]="commonForm"
+                style="margin-bottom: -32px; margin-top: -20px"
+            >
+                <div class="flex justify-content-between">
+                    <div class="field p-fluid col-8 sm:col-8 md:col-6 lg:col-4">
+                        <label for="leave_date"
+                            >Leave Date <span class="p-error">*</span></label
+                        >
+                        <input
+                            id="leave_date"
+                            type="date"
+                            pInputText
+                            formControlName="leave_date"
+                        />
+                        <small
+                            class="p-error"
+                            *ngIf="
+                                commonForm.controls.leave_date.touched &&
+                                commonForm.controls.leave_date.errors?.required
+                            "
+                            >Leave Date is required.</small
+                        >
+                    </div>
+                    <button
+                        pButton
+                        type="submit"
+                        class="align-self-center"
+                        style="height: 40px"
+                        (click)="submitClick()"
+                        [loading]="loading"
+                        [label]="'Submit'"
+                    ></button>
+                </div>
+            </form>
+        </ng-template>
+        <ng-template let-product pTemplate="item">
+            <div class="product-item">
+                <div class="image-container">
+                    <p-avatar
+                        *ngIf="product.profile_photo; else customAvatar"
+                        [image]="
+                            sanitizeImageUrl(product.profile_photo) ??
+                            'assets/logo.png'
+                        "
+                        styleClass="mr-2"
+                        size="xlarge"
+                        shape="circle"
+                    ></p-avatar>
+                    <ng-template #customAvatar>
+                        <p-avatar
+                            [label]="product.full_name | initials"
+                            styleClass="mr-2"
+                            size="xlarge"
+                            shape="circle"
+                        ></p-avatar>
+                    </ng-template>
+                </div>
+                <div class="product-list-detail">
+                    <h5 class="mb-2">
+                        {{ product.full_name }}
+                    </h5>
+                    <i class="pi pi-credit-card product-category-icon"></i>
+                    <span class="product-category">{{
+                        product.card_number
+                    }}</span>
+                </div>
+                <div class="product-list-action">
+                    <h6 class="mb-2">
+                        {{ product.membership_name }}
+                    </h6>
+                    <span class="product-category">{{
+                        product.membership_number
+                    }}</span>
+                </div>
+            </div>
+        </ng-template>
+    </p-orderList>
+</div>

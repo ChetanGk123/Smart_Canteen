@@ -1,0 +1,192 @@
+<div class="card mb-0">
+    <div class="" *ngIf="!showMemberData">
+        <label for="card_number"
+            >Card Number <span class="p-error">*</span></label
+        >
+        <div
+            class="field p-fluid p-input-icon-right align-items-center flex mt-2"
+        >
+            <input
+                type="text"
+                pInputText
+                id="card_number"
+                #card_number
+                placeholder="XXXXXXXXXX"
+                [(ngModel)]="cardNumber"
+                autocomplete="off"
+                (input)="loadData()"
+                required
+                autofocus
+            />
+            <i class="pi pi-spin pi-spinner mr-2" *ngIf="loading"></i>
+        </div>
+    </div>
+    <form [formGroup]="commonForm" *ngIf="showMemberData">
+        <div class="grid">
+            <div class="surface-section col-12">
+                <div class="font-medium text-2xl text-900 mb-3">
+                    Member & Membership Details
+                </div>
+                <ul class="list-none p-0 m-0">
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-full sm:w-6 md:w-5 font-medium">
+                            Title
+                        </div>
+                        <div
+                            class="text-900 w-full sm:w-6 md:w-7 font-bold md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberData.full_name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-full sm:w-6 md:w-5 font-medium">
+                            Card Number
+                        </div>
+                        <div
+                            class="text-900 w-full sm:w-6 md:w-7 font-bold md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberData.card_number }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-full sm:w-6 md:w-5 font-medium">
+                            Balance
+                        </div>
+                        <div
+                            class="sm:w-6 font-bold md:w-6 md:flex-order-0 flex-order-1"
+                            [ngClass]="{
+                                'true-icon p-error':
+                                    convertToNum(memberData?.balance) <= 0
+                                        ? true
+                                        : false,
+                                'false-icon p-success':
+                                    convertToNum(memberData?.balance) > 0
+                                        ? true
+                                        : false
+                            }"
+                        >
+                            {{
+                                convertToNum(memberData?.balance) ?? ""
+                                    | currency : "INR"
+                            }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-full sm:w-6 md:w-5 font-medium">
+                            Membership Name
+                        </div>
+                        <div
+                            class="text-900 w-full sm:w-6 md:w-7 font-bold md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberData.membership_data.meal_pack_name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-full sm:w-6 md:w-5 font-medium">
+                            Start Date
+                        </div>
+                        <div
+                            class="text-900 w-full sm:w-6 md:w-7 font-bold md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberData.membership_data.start_date }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-full sm:w-6 md:w-5 font-medium">
+                            End Date
+                        </div>
+                        <div
+                            class="text-900 w-full sm:w-6 md:w-7 font-bold md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberData.membership_data.end_date }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div
+                            *ngIf="
+                                memberData?.membership_data.is_on_leave == 1 &&
+                                Data?.active_leave_data
+                            "
+                            class="text-900 w-full font-bold md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberData.full_name }} is on leave from
+                            {{ Data?.active_leave_data.leave_start_date }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12" *ngIf="Data?.current_membership_leave_history">
+                <p-table
+                    dataKey="card_number"
+                    [value]="Data.current_membership_leave_history"
+                    [paginator]="true"
+                    [rows]="5"
+                    [loading]="loading"
+                    [showCurrentPageReport]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[5, 10, 20]"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 5rem">Slno</th>
+                            <th style="min-width: 9rem">Start Date</th>
+                            <th style="min-width: 9rem">End Date</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template
+                        pTemplate="body"
+                        let-product
+                        let-rowIndex="rowIndex"
+                    >
+                        <tr [pContextMenuRow]="product">
+                            <td>
+                                {{ rowIndex + 1 }}
+                            </td>
+                            <td>
+                                {{ product.leave_start_date }}
+                            </td>
+                            <td>
+                                {{ product.leave_end_date }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="field p-fluid col-12 md:col-6" *ngIf="memberData">
+                <label for="leave_date"
+                    >Leave
+                    {{ memberData?.isOnLeave == 1 ? "End" : "Start" }}
+                    Date</label
+                >
+                <input
+                    type="date"
+                    pInputText
+                    id="leave_date"
+                    formControlName="leave_date"
+                />
+            </div>
+        </div>
+        <button
+            pButton
+            type="submit"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="'Submit'"
+        ></button>
+    </form>
+</div>

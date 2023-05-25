@@ -23,8 +23,14 @@
     <div class="layout-config-content">
         <h6 class="mt-0">Counters</h6>
         <div *ngFor="let category of counters" class="field-checkbox">
-            <p-radioButton [inputId]="category.key" name="category" [value]="category" (onClick)="updateCounter()" [(ngModel)]="selectedCounter"></p-radioButton>
-            <label [for]="category.key">{{category.counter_name}}</label>
+            <p-radioButton
+                [inputId]="category.key"
+                name="category"
+                [value]="category"
+                (onClick)="updateCounter()"
+                [(ngModel)]="selectedCounter"
+            ></p-radioButton>
+            <label [for]="category.key">{{ category.counter_name }}</label>
         </div>
     </div>
 </div>

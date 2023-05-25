@@ -63,14 +63,14 @@ export class PosSaleComponent implements OnInit {
                 if (result.result) {
                     this.orderData = result.data;
                     imageToBase64(this.coreConfig.app.appLogoImage) // Path to the image
-            .then((response) => {
-                //console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
-                this.logo = 'data:image/png;base64,' + response;
-                this.generatePDF();
-            })
-            .catch((error) => {
-                console.log(error); // Logs an error if there was one
-            });
+                        .then((response) => {
+                            //console.log('data:image/png;base64,'+response); // "cGF0aC90by9maWxlLmpwZw=="
+                            this.logo = 'data:image/png;base64,' + response;
+                            this.generatePDF();
+                        })
+                        .catch((error) => {
+                            console.log(error); // Logs an error if there was one
+                        });
                 }
             })
             .finally(() => {});

@@ -258,7 +258,9 @@
                         <li
                             class="flex align-items-center py-3 px-5 border-top-1 surface-border flex-wrap"
                         >
-                            <div class="text-900 font-bold w-4 md:w-4 font-medium">
+                            <div
+                                class="text-900 font-bold w-4 md:w-4 font-medium"
+                            >
                                 Name
                             </div>
                             <div
@@ -272,22 +274,24 @@
                                 Quantity
                             </div>
                         </li>
-                        <li *ngFor="let a of transactionData"
+                        <li
+                            *ngFor="let a of transactionData"
                             class="flex align-items-center py-3 px-5 border-top-1 surface-border flex-wrap"
                         >
-                        <div class="text-900 w-4 md:w-4 font-medium">
-                            {{a.particular_name}}
-                        </div>
-                        <div
-                            class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
-                        >
-                            {{a.sale_rate}}
-                        </div>
-                        <div
-                            class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
-                        >
-                            {{a.sale_qty}}
-                        </div></li>
+                            <div class="text-900 w-4 md:w-4 font-medium">
+                                {{ a.particular_name }}
+                            </div>
+                            <div
+                                class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                {{ a.sale_rate }}
+                            </div>
+                            <div
+                                class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                {{ a.sale_qty }}
+                            </div>
+                        </li>
                         <li
                             class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                         >

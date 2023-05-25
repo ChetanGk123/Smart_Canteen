@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainCategoryComponent } from './main-category/main-category.component';
 import { PosHistoryComponent } from './pos-history/pos-history.component';
+import { PosDetailsComponent } from './pos-items/pos-details/pos-details.component';
 import { PosItemsComponent } from './pos-items/pos-items.component';
 import { SubCategoryComponent } from './sub-category/sub-category.component';
 
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path: 'posHistory',
         component: PosHistoryComponent,
+    },
+    {
+        path: 'posDetails',
+        component: PosDetailsComponent,
     },
 ];
 

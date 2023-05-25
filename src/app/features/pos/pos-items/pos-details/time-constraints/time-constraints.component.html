@@ -1,0 +1,176 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <form [formGroup]="commonForm" autocomplete="off">
+                <div class="p-fluid grid">
+                    <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
+                        <label for="start_time"
+                            >Start Time <span class="p-error">*</span></label
+                        >
+                        <p-calendar
+                            appendTo="body"
+                            [timeOnly]="true"
+                            inputId="start_time"
+                            [hourFormat]="12"
+                            [showSeconds]="true"
+                            formControlName="start_time"
+                        ></p-calendar>
+                        <small
+                            class="p-error"
+                            *ngIf="
+                                commonForm.controls.start_time.touched &&
+                                commonForm.controls.start_time.errors?.required
+                            "
+                            >Start Time is required.</small
+                        >
+                    </div>
+                    <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
+                        <label for="start_date">Start Date</label>
+                        <p-calendar
+                            appendTo="body"
+                            inputId="start_date"
+                            dateFormat="dd-mm-yy"
+                            formControlName="start_date"
+                        ></p-calendar>
+                    </div>
+                    <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
+                        <label for="end_time"
+                            >End Time <span class="p-error">*</span></label
+                        >
+                        <p-calendar
+                            appendTo="body"
+                            [timeOnly]="true"
+                            inputId="end_time"
+                            [hourFormat]="12"
+                            [showSeconds]="true"
+                            formControlName="end_time"
+                        ></p-calendar>
+                        <small
+                            class="p-error"
+                            *ngIf="
+                                commonForm.controls.end_time.touched &&
+                                commonForm.controls.end_time.errors?.required
+                            "
+                            >End Time is required.</small
+                        >
+                    </div>
+                    <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
+                        <label for="end_date">End Date</label>
+                        <p-calendar
+                            appendTo="body"
+                            inputId="end_date"
+                            dateFormat="dd-mm-yy"
+                            formControlName="end_date"
+                        ></p-calendar>
+                    </div>
+
+                    <div class="col-4 sm:col-4 md:col-4 lg:col-2 flex">
+                        <button
+                            pButton
+                            pRipple
+                            type="submit"
+                            (click)="addToConstraintsArray()"
+                            icon="pi pi-check"
+                            class="flex p-button-rounded p-button-text p-button-success mr-2 align-self-center"
+                        ></button>
+
+                        <button
+                            pButton
+                            pRipple
+                            type="reset"
+                            icon="pi pi-times"
+                            class="flex p-button-rounded p-button-text p-button-danger align-self-center"
+                        ></button>
+                    </div>
+                </div>
+            </form>
+            <p-table
+                *ngIf="constraints_array.length > 0"
+                dataKey="class_id"
+                [value]="constraints_array"
+                [rows]="10"
+                editMode="row"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>SlNo</th>
+                        <th pSortableColumn="start_time">
+                            Start Time
+                            <p-sortIcon field="start_time"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="start_date">
+                            Start Date
+                            <p-sortIcon field="start_date"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="end_time">
+                            End Time
+                            <p-sortIcon field="end_time"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="end_date">
+                            End Date
+                            <p-sortIcon field="end_date"></p-sortIcon>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-product
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td style="width: 10%">
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td style="width: 20%">
+                            {{ product.start_time }}
+                        </td>
+                        <td style="width: 15%">
+                            {{ product.start_date??'-' }}
+                        </td>
+                        <td style="width: 20%">
+                            {{ product.end_time}}
+                        </td>
+                        <td style="width: 20%">
+                            {{ product.end_date??"-"}}
+                        </td>
+                        <td style="text-align: left; width: 15%">
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-trash"
+                                (click)="constraints_array.splice(rowIndex, 1)"
+                                class="p-button-rounded p-button-text p-button-danger"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="6" style="text-align: center">
+                            No meals added.
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="flex justify-content-center">
+                <button
+                    *ngIf="constraints_array.length > 0"
+                    pButton
+                    pRipple
+                    style="max-width: 100px; margin-top: 1rem"
+                    label="Add"
+                    (click)="insertConstraintsArray()"
+                    class="p-button"
+                ></button>
+            </div>
+        </div>
+    </div>
+</div>

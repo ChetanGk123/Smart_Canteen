@@ -1,0 +1,429 @@
+<div class="card">
+    <div class="mb-2">
+        <label for="card_number"
+            >Card Number <span class="p-error">*</span></label
+        >
+    </div>
+    <div class="field p-fluid p-input-icon-right">
+        <input
+            type="text"
+            pInputText
+            id="card_number"
+            [(ngModel)]="cardNumber"
+            (input)="getMemberDetails()"
+            autocomplete="off"
+            required
+            autofocus
+        />
+        <i class="pi pi-spin pi-spinner mr-2" *ngIf="loading"></i>
+    </div>
+    <form [formGroup]="commonForm" autocomplete="off">
+        <div class="grid" *ngIf="memberDetails">
+            <div class="field p-fluid col-12">
+                <ul class="list-none p-0 m-0">
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">Name</div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberDetails?.full_name }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Card Number
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberDetails?.card_number }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Balance
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            {{ memberDetails?.balance | currency : "INR" }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Membership Type
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="" *ngIf="membershipTypeList">
+                                <p-dropdown
+                                    id="meal_pack_id"
+                                    [options]="membershipTypeList"
+                                    optionLabel="meal_pack_name"
+                                    optionValue="meal_pack_id"
+                                    (onChange)="addId($event)"
+                                    [showClear]="true"
+                                    formControlName="meal_pack_id"
+                                    placeholder="Select a Membership Type"
+                                ></p-dropdown>
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.meal_pack_id
+                                            .touched &&
+                                        commonForm.controls.meal_pack_id.errors
+                                            ?.required
+                                    "
+                                    >Membership Type is required.</small
+                                >
+                            </div>
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Contents
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <p-chip
+                                *ngFor="let data of selectedMembershipType"
+                                styleClass="mr-2"
+                                label=" &nbsp;"
+                                >&nbsp;{{ data.meal_name }}</p-chip
+                            >
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Membership Amount
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            {{ selectedMembershipAmount | currency : "INR" }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Net Payable Amount
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            {{
+                                commonForm.controls.net_amount.value
+                                    | currency : "INR"
+                            }}
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Start Date
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <input
+                                id="dob"
+                                type="date"
+                                pInputText
+                                formControlName="start_date"
+                            />
+                            <small
+                                class="p-error"
+                                *ngIf="
+                                    commonForm.controls.start_date.touched &&
+                                    commonForm.controls.start_date.errors
+                                        ?.required
+                                "
+                                >Start Date is required.</small
+                            >
+                        </div>
+                    </li>
+                    <!-- <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Account
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="" *ngIf="accounts">
+                                <p-dropdown
+                                    id="account_id"
+                                    [options]="accounts"
+                                    optionLabel="account_name"
+                                    optionValue="account_id"
+                                    (onChange)="addId($event)"
+                                    formControlName="payment_account_head_id"
+                                    placeholder="Select a Account"
+                                    [showClear]="true"
+                                ></p-dropdown>
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.payment_account_head_id
+                                            .touched &&
+                                        commonForm.controls.payment_account_head_id
+                                            .errors?.required
+                                    "
+                                    >Membership Type is required.</small
+                                >
+                            </div>
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Amount
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="" *ngIf="accounts">
+                                <input
+                                id="payment_mode"
+                                type="text"
+                                pInputText
+                                formControlName="payment_mode"
+                            />
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.payment_mode
+                                            .touched &&
+                                        commonForm.controls.payment_mode
+                                            .errors?.required
+                                    "
+                                    >Payment Mode is required.</small
+                                >
+                            </div>
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Payment Mode
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="" *ngIf="accounts">
+                                <input
+                                id="payment_mode"
+                                type="text"
+                                pInputText
+                                formControlName="payment_mode"
+                            />
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.payment_mode
+                                            .touched &&
+                                        commonForm.controls.payment_mode
+                                            .errors?.required
+                                    "
+                                    >Payment Mode is required.</small
+                                >
+                            </div>
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Payment Ref
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="" *ngIf="accounts">
+                                <input
+                                id="payment_mode"
+                                type="text"
+                                pInputText
+                                formControlName="payment_mode"
+                            />
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.payment_mode
+                                            .touched &&
+                                        commonForm.controls.payment_mode
+                                            .errors?.required
+                                    "
+                                    >Payment Mode is required.</small
+                                >
+                            </div>
+                        </div>
+                    </li>
+                    <li
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Comments
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            <div class="" *ngIf="accounts">
+                                <input
+                                id="payment_mode"
+                                type="text"
+                                pInputText
+                                formControlName="payment_mode"
+                            />
+                                <small
+                                    class="p-error"
+                                    *ngIf="
+                                        commonForm.controls.payment_mode
+                                            .touched &&
+                                        commonForm.controls.payment_mode
+                                            .errors?.required
+                                    "
+                                    >Payment Mode is required.</small
+                                >
+                            </div>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="total_meal_packs">Total Meal Packs</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="total_meal_packs"
+                    mask="000"
+                    [validation]="false"
+                    maxlength="3"
+                    placeholder="100"
+                    formControlName="total_meal_packs"
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="max_days">Max Days</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="max_days"
+                    mask="000"
+                    [validation]="false"
+                    maxlength="3"
+                    placeholder="100"
+                    formControlName="max_days"
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="payment_account_head_id"
+                    >Account
+                    <span
+                        class="p-error"
+                        *ngIf="payment_account_head_id_required"
+                        >*</span
+                    ></label
+                >
+                <p-dropdown
+                    id="payment_account_head_id"
+                    [options]="accounts"
+                    optionLabel="account_name"
+                    optionValue="account_head_id"
+                    formControlName="payment_account_head_id"
+                    placeholder="Select a Account"
+                    [showClear]="true"
+                ></p-dropdown>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_account_head_id.touched &&
+                        commonForm.controls.payment_account_head_id.errors
+                            ?.required
+                    "
+                    >Account is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="paid_amount">Payable Amount</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="paid_amount"
+                    mask="separator.2"
+                    thousandSeparator=","
+                    maxlength="8"
+                    (input)="updateRequiredFields()"
+                    [validation]="false"
+                    placeholder="100.00"
+                    formControlName="paid_amount"
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="payment_date">Payment Date</label>
+                <input
+                    type="date"
+                    pInputText
+                    id="payment_date"
+                    formControlName="payment_date"
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="payment_mode">Payment Mode</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_mode"
+                    placeholder="Cash"
+                    formControlName="payment_mode"
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
+                <label for="payment_ref">Payment Reference</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_ref"
+                    placeholder="UTR123"
+                    formControlName="payment_ref"
+                />
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-12 lg:col-12">
+                <label for="payment_comments">Comments</label>
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_comments"
+                    placeholder="Some Comments"
+                    formControlName="payment_comments"
+                />
+            </div>
+            <button
+                pButton
+                type="submit"
+                (click)="submitClick()"
+                [loading]="loading"
+                [label]="'Submit'"
+            ></button>
+        </div>
+    </form>
+</div>

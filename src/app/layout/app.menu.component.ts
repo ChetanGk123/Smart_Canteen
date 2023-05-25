@@ -68,6 +68,31 @@ export class AppMenuComponent implements OnInit {
                 ],
             },
             {
+                label: 'Memberships',
+                items: [
+                    {
+                        label: 'All Memberships',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/memberships/allMemberships'],
+                    },
+                    {
+                        label: 'Active Memberships',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/memberships/activeMemberships'],
+                    },
+                    {
+                        label: 'InActive Memberships',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/memberships/inactiveMemberships'],
+                    },
+                    {
+                        label: 'Active Leaves',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/memberships/activeLeaves'],
+                    },
+                ],
+            },
+            {
                 label: 'Cards',
                 icon: 'pi pi-credit-card',
                 items: [

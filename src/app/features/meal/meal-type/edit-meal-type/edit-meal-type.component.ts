@@ -5,12 +5,11 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ApiService } from 'src/app/core/services/api/api.service';
 
 @Component({
-  selector: 'app-edit-meal-type',
-  templateUrl: './edit-meal-type.component.html',
-  styleUrls: ['./edit-meal-type.component.scss']
+    selector: 'app-edit-meal-type',
+    templateUrl: './edit-meal-type.component.html',
+    styleUrls: ['./edit-meal-type.component.scss'],
 })
 export class EditMealTypeComponent implements OnInit {
-
     loading: boolean = false;
     list: any[] = [];
     commonForm: FormGroup = new FormGroup({
@@ -106,5 +105,4 @@ export class EditMealTypeComponent implements OnInit {
                 }
             });
     }
-
 }

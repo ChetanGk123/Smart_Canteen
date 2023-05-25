@@ -2,7 +2,9 @@
     <form [formGroup]="commonForm" autocomplete="off">
         <div class="grid">
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="canteen_name">Name <span class="p-error">*</span></label>
+                <label for="canteen_name"
+                    >Name <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -20,8 +22,15 @@
                 >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="registered_on">Registration Date <span class="p-error">*</span></label>
-                <input id="registered_on" type="date" pInputText formControlName="registered_on" />
+                <label for="registered_on"
+                    >Registration Date <span class="p-error">*</span></label
+                >
+                <input
+                    id="registered_on"
+                    type="date"
+                    pInputText
+                    formControlName="registered_on"
+                />
                 <small
                     class="p-error"
                     *ngIf="
@@ -32,7 +41,9 @@
                 >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="contact_person">Contact Person Name <span class="p-error">*</span></label>
+                <label for="contact_person"
+                    >Contact Person Name <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -106,7 +117,9 @@
                 />
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-12 lg:col-12">
-                <label for="address">Address <span class="p-error">*</span></label>
+                <label for="address"
+                    >Address <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -125,12 +138,12 @@
             </div>
         </div>
         <button
-        pButton
-        type="submit"
-        class=" p-button-rounded"
-        (click)="submitClick()"
-        [loading]="loading"
-        [label]="this.config?.data ? 'Update' : 'Submit'"
-    ></button>
+            pButton
+            type="submit"
+            class="p-button-rounded"
+            (click)="submitClick()"
+            [loading]="loading"
+            [label]="this.config?.data ? 'Update' : 'Submit'"
+        ></button>
     </form>
 </div>

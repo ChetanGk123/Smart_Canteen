@@ -10,7 +10,7 @@
 
                 <ng-template pTemplate="right">
                     <button
-                    *ngIf="Url != 'COMMODITY_ACCOUNT'"
+                        *ngIf="Url != 'COMMODITY_ACCOUNT'"
                         (document:keydown.Alt.n)="add()"
                         pButton
                         pRipple
@@ -79,13 +79,19 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Id</th>
-                                <th pSortableColumn="account_name" style="min-width: 11rem">
+                                <th
+                                    pSortableColumn="account_name"
+                                    style="min-width: 11rem"
+                                >
                                     Name
                                     <p-sortIcon
                                         field="account_name"
                                     ></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="balance" style="min-width: 8rem">
+                                <th
+                                    pSortableColumn="balance"
+                                    style="min-width: 8rem"
+                                >
                                     Balance
                                     <p-sortIcon field="balance"></p-sortIcon>
                                 </th>
@@ -100,20 +106,21 @@
                             <tr [pContextMenuRow]="product">
                                 <td>{{ rowIndex + 1 }}</td>
                                 <td>{{ product.account_name }}</td>
-                                <td>{{ product.balance | currency: "INR" }}</td>
                                 <td>
-
-                                        <button
-                                            pButton
-                                            pRipple
-                                            type="button"
-                                            icon="pi pi-ellipsis-v"
-                                            (click)="
-                                                selectedProduct = product;
-                                                menu.toggle($event)
-                                            "
-                                            class="p-button-rounded p-button-text p-action-button"
-                                        ></button>
+                                    {{ product.balance | currency : "INR" }}
+                                </td>
+                                <td>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-ellipsis-v"
+                                        (click)="
+                                            selectedProduct = product;
+                                            menu.toggle($event)
+                                        "
+                                        class="p-button-rounded p-button-text p-action-button"
+                                    ></button>
                                 </td>
                             </tr>
                         </ng-template>

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 // import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -8,6 +9,7 @@ import { ApiService } from 'src/app/core/services/api/api.service';
 import { CounterService } from '../../counters/counter.service';
 import { MemberService } from '../../members/member.service';
 import { AddPosComponent } from '../add-pos/add-pos.component';
+import { PosService } from '../pos.service';
 import { UpdateImageComponent } from '../update-image/update-image.component';
 import { UpdatePosComponent } from '../update-pos/update-pos.component';
 import { PosDetailsComponent } from './pos-details/pos-details.component';
@@ -31,6 +33,9 @@ export class PosItemsComponent implements OnInit, OnDestroy {
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
         public dialogService: DialogService,
+        public router: Router,
+        public route: ActivatedRoute,
+        public posService: PosService,
         public memberService: MemberService,
         public counterService: CounterService
     ) {}
@@ -134,16 +139,8 @@ export class PosItemsComponent implements OnInit, OnDestroy {
     }
 
     view() {
-        const ref = this.dialogService.open(PosDetailsComponent, {
-            data: this.selectedProduct.id,
-            header: `View Item Details`,
-            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
-        });
-        ref.onClose.subscribe((result: any) => {
-            if (result) {
-                this.ngOnInit();
-            }
-        });
+        this.posService.setPosItemData(this.selectedProduct);
+        this.router.navigate(['../posDetails'], { relativeTo: this.route });
     }
 
     update() {

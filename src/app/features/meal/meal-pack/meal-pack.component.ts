@@ -101,7 +101,7 @@ export class MealPackComponent implements OnInit, OnDestroy {
             header: `Add New ${this.Title}`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
             data: {
-                Url: "meal_pack_name_ops/insert",
+                Url: 'meal_pack_name_ops/insert',
                 list: this.Data,
             },
         });
@@ -121,7 +121,7 @@ export class MealPackComponent implements OnInit, OnDestroy {
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
             data: {
                 data: this.selectedProduct,
-                Url: "meal_pack_name_ops/update",
+                Url: 'meal_pack_name_ops/update',
                 list: this.Data,
             },
         });
@@ -179,7 +179,7 @@ export class MealPackComponent implements OnInit, OnDestroy {
             });
     }
 
-    configure(){
+    configure() {
         const ref = this.dialogService.open(ConfigureMealPackComponent, {
             header: `Configure ${this.Title} - ${this.selectedProduct.meal_pack_name}`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',

@@ -63,7 +63,7 @@ export class MemberProfileComponent implements OnInit {
         this.cardHistoryLoading = true;
         this.end_date = new Date().toISOString().substring(0, 10);
         this.start_date = this.datePipe.transform(
-            new Date().setDate(new Date().getDate() - 10),
+            new Date().setDate(new Date().getDate() - 30),
             'yyyy-MM-dd'
         );
         if (this.memberData) {

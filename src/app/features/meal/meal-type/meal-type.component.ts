@@ -21,8 +21,8 @@ export class MealTypeComponent implements OnInit, OnDestroy {
     items: MenuItem[];
     Data = [];
     counter_id: any;
-    Title:any = "Meal Type";
-    Url:any = "MEAL_TYPE";
+    Title: any = 'Meal Type';
+    Url: any = 'MEAL_TYPE';
     // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(

@@ -37,7 +37,8 @@ export class AccountTransactionsComponent implements OnInit {
         public _coreEnvService: EnvService,
         public memberService: MemberService
     ) {
-        this.coreConfig = _coreEnvService.config;}
+        this.coreConfig = _coreEnvService.config;
+    }
 
     ngOnInit(): void {
         this.name = this.memberService.getUserData()?.full_name;
@@ -255,13 +256,13 @@ export class AccountTransactionsComponent implements OnInit {
                                 {},
                                 {},
                                 {
-                                    text: '₹'+totalDEBIT.toFixed(2),
+                                    text: '₹' + totalDEBIT.toFixed(2),
                                     margin: [5, 5, 0, 5],
                                     alignment: 'right',
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: '₹'+totalCredit.toFixed(2),
+                                    text: '₹' + totalCredit.toFixed(2),
                                     margin: [5, 5, 0, 5],
                                     alignment: 'right',
                                     border: [false, true, false, true],

@@ -1,26 +1,26 @@
 <div class="grid">
     <div class="col-xl-5">
-        <div class="card" style="margin-top: 0.5rem !important;">
+        <div class="card" style="margin-top: 0.5rem !important">
             <h5>User Profile</h5>
-                <div class="grid">
-                    <div class="col-fixed">
-                        <img
-                            class="img-fluid rounded-circle image-radius"
-                            style="height: 55px; width: 55px"
-                            [src]="coreConfig.app.appLogoImage"
-                            alt=""
-                        />
-                    </div>
-                    <div class="col" style="margin-top: 6px">
-                        <h5 class="mt-0 mb-0 f-w-600">
-                            <span class="counter">{{memberData.full_name}}</span>
-                        </h5>
-                        <p>{{memberData.user_name}}</p>
-                    </div>
+            <div class="grid">
+                <div class="col-fixed">
+                    <img
+                        class="img-fluid rounded-circle image-radius"
+                        style="height: 55px; width: 55px"
+                        [src]="coreConfig.app.appLogoImage"
+                        alt=""
+                    />
                 </div>
-                <hr />
-                <div class="new-users">
-                    <!-- <div
+                <div class="col" style="margin-top: 6px">
+                    <h5 class="mt-0 mb-0 f-w-600">
+                        <span class="counter">{{ memberData.full_name }}</span>
+                    </h5>
+                    <p>{{ memberData.user_name }}</p>
+                </div>
+            </div>
+            <hr />
+            <div class="new-users">
+                <!-- <div
                         class="col mt-2 d-flex align-content-center"
                         style="justify-content: center; cursor: pointer"
                         [ngStyle]="{
@@ -35,21 +35,21 @@
                         >
                         <i class="icon-angle-right p-2"></i>
                     </div> -->
-                    <div
-                        class="col mt-3 d-flex align-content-center"
-                        style="justify-content: center; cursor: pointer"
-                        [ngStyle]="{
-                            color: card == 'Account Activity' ? '#4466f2' : ''
-                        }"
-                        (click)="setCard('Account Activity')"
+                <div
+                    class="col mt-3 d-flex align-content-center"
+                    style="justify-content: center; cursor: pointer"
+                    [ngStyle]="{
+                        color: card == 'Account Activity' ? '#4466f2' : ''
+                    }"
+                    (click)="setCard('Account Activity')"
+                >
+                    <i data-feather="sliders" style="height: 20px"></i>
+                    <span class="mr-auto pl-2" style="font-size: 19px"
+                        >Account Activity</span
                     >
-                        <i data-feather="sliders" style="height: 20px"></i>
-                        <span class="mr-auto pl-2" style="font-size: 19px"
-                            >Account Activity</span
-                        >
-                        <i class="icon-angle-right p-2"></i>
-                    </div>
-                    <!-- <div
+                    <i class="icon-angle-right p-2"></i>
+                </div>
+                <!-- <div
                         class="col mt-3 d-flex align-content-center"
                         style="justify-content: center; cursor: pointer"
                         [ngStyle]="{
@@ -77,16 +77,16 @@
                         >
                         <i class="icon-angle-right p-2"></i>
                     </div> -->
-                </div>
+            </div>
         </div>
     </div>
     <div class="col mt-0">
         <div class="card" *ngIf="card == 'Personal Information'">
-                <h5>Personal Information</h5>
-                <span class="d-block fonts-dashboard"
-                    >Basic info, like your name and address, that you use on
-                    this Platform</span
-                >
+            <h5>Personal Information</h5>
+            <span class="d-block fonts-dashboard"
+                >Basic info, like your name and address, that you use on this
+                Platform</span
+            >
             <div class="card-body">
                 <div class="grid"></div>
             </div>
@@ -104,10 +104,12 @@
                 <h5>Account Activity</h5>
                 <div class="grid">
                     <div class="col">
-
-<div class="surface-section">
-    <ul class="list-none p-0 m-0" *ngIf="tableData.length>0;else loading">
-        <!-- <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                        <div class="surface-section">
+                            <ul
+                                class="list-none p-0 m-0"
+                                *ngIf="tableData.length > 0; else loading"
+                            >
+                                <!-- <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
             <div class="text-500 w-6 md:w-4 font-medium">{{tableData[0].display_label}}</div>
             <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1" *ngIf="editIndex == tableData[0].settings_id; else updateTheme"><p-inputSwitch [ngModel]="getThemeCheckedValue(tableData[0]?.settings_value)" (onChange)="updateThemeCheckedValue($event)"></p-inputSwitch></div>
             <ng-template #updateTheme>
@@ -127,39 +129,91 @@
                 </ng-template>
             </div>
         </li> -->
-        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap" *ngFor="let a of tableData">
-            <div class="text-500 w-4 md:w-4 font-medium">{{a.display_label}}</div>
-            <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1" *ngIf="editIndex == a.settings_id; else updateDateRange">
-                <input [(ngModel)]="a.settings_value" pInputText type="text"/>
-
-            </div>
-            <ng-template #updateDateRange>
-                <div class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1">
-                    <!-- <input
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    *ngFor="let a of tableData"
+                                >
+                                    <div
+                                        class="text-500 w-4 md:w-4 font-medium"
+                                    >
+                                        {{ a.display_label }}
+                                    </div>
+                                    <div
+                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                        *ngIf="
+                                            editIndex == a.settings_id;
+                                            else updateDateRange
+                                        "
+                                    >
+                                        <input
+                                            [(ngModel)]="a.settings_value"
+                                            pInputText
+                                            type="text"
+                                        />
+                                    </div>
+                                    <ng-template #updateDateRange>
+                                        <div
+                                            class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                        >
+                                            <!-- <input
                     type="number"
                     id="date_range"
                     placeholder="14"
                     [value]="a.settings_value"
                 /> -->
-                {{a.settings_value}}
-                </div>
-            </ng-template>
-            <div class="w-6 md:w-2 flex justify-content-end">
-                <div class="" *ngIf="editIndex == a.settings_id; else saveCancelDateRange">
-                    <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="updateSettings(a)"></button>
-                    <button pButton pRipple icon="pi pi-times" class="p-button-text" (click)="editIndex = -1;editDateRange = false"></button>
-                </div>
+                                            {{ a.settings_value }}
+                                        </div>
+                                    </ng-template>
+                                    <div
+                                        class="w-6 md:w-2 flex justify-content-end"
+                                    >
+                                        <div
+                                            class=""
+                                            *ngIf="
+                                                editIndex == a.settings_id;
+                                                else saveCancelDateRange
+                                            "
+                                        >
+                                            <button
+                                                pButton
+                                                pRipple
+                                                icon="pi pi-check"
+                                                class="p-button-text"
+                                                (click)="updateSettings(a)"
+                                            ></button>
+                                            <button
+                                                pButton
+                                                pRipple
+                                                icon="pi pi-times"
+                                                class="p-button-text"
+                                                (click)="
+                                                    editIndex = -1;
+                                                    editDateRange = false
+                                                "
+                                            ></button>
+                                        </div>
 
-                <ng-template #saveCancelDateRange>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-text" (click)="editIndex = a.settings_id;editDateRange = true"></button>
-                </ng-template>
-            </div>
-        </li>
-    </ul>
-    <ng-template #loading>
-        <p-progressSpinner class="center"></p-progressSpinner>
-    </ng-template>
-</div>
+                                        <ng-template #saveCancelDateRange>
+                                            <button
+                                                pButton
+                                                pRipple
+                                                icon="pi pi-pencil"
+                                                class="p-button-text"
+                                                (click)="
+                                                    editIndex = a.settings_id;
+                                                    editDateRange = true
+                                                "
+                                            ></button>
+                                        </ng-template>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ng-template #loading>
+                                <p-progressSpinner
+                                    class="center"
+                                ></p-progressSpinner>
+                            </ng-template>
+                        </div>
                     </div>
                 </div>
             </div>

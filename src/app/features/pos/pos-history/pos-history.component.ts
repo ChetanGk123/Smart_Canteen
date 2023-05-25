@@ -102,8 +102,8 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
     }
 
     viewTransaction() {
-    //     let audio: HTMLAudioElement = new Audio('https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7');
-    //  audio.play();
+        //     let audio: HTMLAudioElement = new Audio('https://drive.google.com/uc?export=download&id=1M95VOpto1cQ4FQHzNBaLf0WFQglrtWi7');
+        //  audio.play();
         this.transactionDataLoading = true;
         this.apiService
             .getTypeRequest(`pos_sale_data/${this.selectedProduct.id}`)

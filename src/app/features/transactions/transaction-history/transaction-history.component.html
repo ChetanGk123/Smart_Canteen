@@ -7,7 +7,13 @@
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <div class="card-container gap-1" *ngIf="this.memberService.getUserData().user_role !='OWNER'">
+                    <div
+                        class="card-container gap-1"
+                        *ngIf="
+                            this.memberService.getUserData().user_role !=
+                            'OWNER'
+                        "
+                    >
                         <button
                             (document:keydown.Alt.n)="add()"
                             pButton
@@ -83,16 +89,16 @@
                         </ng-template>
 
                         <ng-template pTemplate="right">
-
                             <button
-                            *ngIf="Data.length>0"
-                            pButton
-                            pRipple
-                            label="Print"
-                            icon="pi pi-fw pi-print"
-                            class="mr-2 mt-5 inline-block p-button"
-                            (click)="printList()"
-                        ></button> </ng-template>
+                                *ngIf="Data.length > 0"
+                                pButton
+                                pRipple
+                                label="Print"
+                                icon="pi pi-fw pi-print"
+                                class="mr-2 mt-5 inline-block p-button"
+                                (click)="printList()"
+                            ></button>
+                        </ng-template>
                     </p-toolbar>
                     <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu>
@@ -153,27 +159,42 @@
                                         ></i
                                     ></span>
                                 </th>
-                                <th pSortableColumn="transaction_date" style="min-width: 8rem">
+                                <th
+                                    pSortableColumn="transaction_date"
+                                    style="min-width: 8rem"
+                                >
                                     Date
                                     <p-sortIcon
                                         field="transaction_date"
                                     ></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="receipt_no" style="min-width: 10rem">
+                                <th
+                                    pSortableColumn="receipt_no"
+                                    style="min-width: 10rem"
+                                >
                                     Receipt No
                                     <p-sortIcon field="receipt_no"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="full_name" style="min-width: 14rem">
+                                <th
+                                    pSortableColumn="full_name"
+                                    style="min-width: 14rem"
+                                >
                                     AC/Member
                                     <p-sortIcon field="full_name"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="transaction_type" style="min-width: 9rem">
+                                <th
+                                    pSortableColumn="transaction_type"
+                                    style="min-width: 9rem"
+                                >
                                     Txn Type
                                     <p-sortIcon
                                         field="transaction_type"
                                     ></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="transaction_amount" style="min-width: 8rem">
+                                <th
+                                    pSortableColumn="transaction_amount"
+                                    style="min-width: 8rem"
+                                >
                                     Amount
                                     <p-sortIcon
                                         field="transaction_amount"
@@ -197,17 +218,22 @@
                                 <td>
                                     {{ product.receipt_no }}
                                 </td>
-                                <td><a *ngIf="product?.member_id; else accountName"
-                                    (click)="selectedProduct = product;openProfile()"
-                                    class="text-800 font-bold cursor-pointer no-underline hover:underline"
-                                    >{{ product?.full_name ?? "" }}</a
-                                >
-                                <ng-template #accountName>
-                                    {{
-
-                                            product.account_name??""
-                                    }}
-                                </ng-template>
+                                <td>
+                                    <a
+                                        *ngIf="
+                                            product?.member_id;
+                                            else accountName
+                                        "
+                                        (click)="
+                                            selectedProduct = product;
+                                            openProfile()
+                                        "
+                                        class="text-800 font-bold cursor-pointer no-underline hover:underline"
+                                        >{{ product?.full_name ?? "" }}</a
+                                    >
+                                    <ng-template #accountName>
+                                        {{ product.account_name ?? "" }}
+                                    </ng-template>
                                 </td>
                                 <td>
                                     <span
@@ -223,7 +249,7 @@
                                 <td>
                                     {{
                                         product.transaction_amount
-                                            | currency: "INR"
+                                            | currency : "INR"
                                     }}
                                 </td>
                                 <td>
@@ -361,7 +387,7 @@
                                             >
                                                 {{
                                                     selectedProduct?.transaction_amount
-                                                        | currency: "INR"
+                                                        | currency : "INR"
                                                 }}
                                             </div>
                                         </li>
@@ -481,7 +507,7 @@
                                                 >
                                                     {{
                                                         selectedProduct?.transaction_amount
-                                                            | currency: "INR"
+                                                            | currency : "INR"
                                                     }}
                                                 </div>
                                             </li>
@@ -498,7 +524,7 @@
                                                 >
                                                     {{
                                                         selectedProduct?.current_balance
-                                                            | currency: "INR"
+                                                            | currency : "INR"
                                                     }}
                                                 </div>
                                             </li>

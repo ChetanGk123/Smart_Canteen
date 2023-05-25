@@ -13,7 +13,7 @@
             "email": "emaisla",
             "gst_no":"gst_no" //non-mandatory
         }
-    
+
     b. To update the canteen
         post: /api/v1/canteen_ops/update
         payload: {
@@ -25,13 +25,13 @@
             "contact_number":"contacta_sumber",
             "email": "emaisla",
             "gst_no":"gst_no" //non-mandatory
-        } 
+        }
 
  2. To fetch registered canteen
     get: /api/v1/table_data/CANTEEN -->
 
 3. To fetch the role
-    get: /api/v1/table_data/ROLE
+   get: /api/v1/table_data/ROLE
 
 <!-- 4. API to operate on Counter Data //Done
     a. To register a new Counter
@@ -57,7 +57,7 @@
             "email": "new_newraamaaeailss@gmail.com",
             "role_id": 1,
             "counter_id":1
-        } 
+        }
 
 5. To fetch the counters //Done
     get: /api/v1/table_data/COUNTER
@@ -77,20 +77,19 @@
     get: /api/v1/specific_data/COUNTER_LICENSE/counter_id -->
 
 9. To fetch all the licenses across the system
-    get: /api/v1/table_data/COUNTER_LICENSE
-    
+   get: /api/v1/table_data/COUNTER_LICENSE
 
-<!-- To be implemented on GUI: 
+<!-- To be implemented on GUI:
 
  10. To login
     post: /api/v1/user_login
     payload: {
         "username":"counter1@canteen.com",
         "password":"counter1@canteen.com"
-    } 
+    }
 
  11. To fetch Member type
-    get: /api/v1/table_data/MEMBER_TYPE 
+    get: /api/v1/table_data/MEMBER_TYPE
 
  12. Member Operations: To operate on Member Data
     a. To insert new Member:
@@ -130,7 +129,7 @@
             }
         ]
     }
-    
+
     b. To update Member:
         post: /api/v1/member_ops/update
         payload: {
@@ -146,16 +145,16 @@
             "hostel_details" :"new_hostel_details", //non-madatory
             "member_type_id" :1,
             "address" :"new address" //non-madatory
-        } 
- 
+        }
+
     c. To update the card number
         post: /card_update
         payload : {
             "member_id":1,
             "card_number":"New Card Number",
             "reason": "Card Lost"
-        } 
-        
+        }
+
          d. To delete Member:
         post: /api/v1/member_ops/delete
         payload:{
@@ -190,29 +189,29 @@
                     "opening_balance" : 100,
                     "isExpenseHead" : 0
                 }
-    
+
     b. To update Account Head Name
         post: /account_head_ops/update
         payload:{
                     "account_head_id" : 1,
                     "account_name":"SBAAI BANK"
-                } 
-    
+                }
+
     c. To delete account head
         post: /account_head_ops/delete
         payload:{
             "account_head_id" : 1,
-        } 
+        }
     20. API to fetch Account head details
      a. API to fetch all account heads
         get: /table_data/ACCOUNT_HEAD
 
     b. API to fetch only Income account head
         get: /table_data/INCOME_ACCOUNT_HEAD
-    
+
     c. API to fetch only Expense account head
         get: /table_data/EXPENSE_ACCOUNT_HEAD
-    
+
     d. API to fetch sepcific account head
         get: /specific_data/ACCOUNT_HEAD/account_head_id -->
 
@@ -229,7 +228,7 @@
                     "user_comments" : "user comments", //non-mandatory
                     "account_head_id" : 3 //this should be income account head
                 }
-    
+
     b. To take amount credit to income account head
         post: /transaction_ops/ACC_HEAD_INCOME_CREDIT
         payload: {
@@ -241,7 +240,7 @@
                     "user_comments" : "user comments",
                     "account_head_id" : 3
                 }
-    
+
     c. To transfer the amount from income account to expense account, i.e. Expense Entry
         post: /transaction_ops/EXPENSE_ENTRY
         payload: {
@@ -252,7 +251,7 @@
                     "txn_discount" : 0, //non-mandatory
                     "payment_mode" : "Mode",
                     "payment_ref" : "Payment Ref",
-                    "user_comments" : "user comments"  
+                    "user_comments" : "user comments"
                 } -->
 
 <!-- Smart Canteen Updates:
@@ -335,7 +334,7 @@
 5. To fetch POS Particular
     a. API to fetch All particulars
         API: get /table_data/POS_PARTICULAR
-    
+
     b. API to fetch specific particular data
         API: get /specific_data/POS_PARTICULAR/particular_id -->
 
@@ -394,54 +393,52 @@
     API: get /table_data/POS_SALES -->
 
 3. API to get all the information related to Specific POS Sales
-    API: get /pos_sale_data/pos_sale_id
+   API: get /pos_sale_data/pos_sale_id
 
 Smart Canteen Updates:
 
 1. API to create a setting
-    a. API: post /settings_ops/insert
-        payload: {
-                "display_label": "Display aName",
-                "settings_name":"UDATaaassaaaaaaaaaaD",
-                "settings_value":1,
-                "isDisplay" : 0,
-                "isDeletable": 0
-            }
-    b. API: post /settings_ops/update
-        payload: {
-            "settings_id": 3,
-            "display_label": "Display aName",
-            "settings_name":"UDATaaassaaaaaaaaaaD",
-            "settings_value":1,
-            "isDisplay" : 0,
-            "isDeletable": 1
-        }
+   a. API: post /settings_ops/insert
+   payload: {
+   "display_label": "Display aName",
+   "settings_name":"UDATaaassaaaaaaaaaaD",
+   "settings_value":1,
+   "isDisplay" : 0,
+   "isDeletable": 0
+   }
+   b. API: post /settings_ops/update
+   payload: {
+   "settings_id": 3,
+   "display_label": "Display aName",
+   "settings_name":"UDATaaassaaaaaaaaaaD",
+   "settings_value":1,
+   "isDisplay" : 0,
+   "isDeletable": 1
+   }
 
 2. API to fetch canteen related settings (only accessible through Canteen Login)
-    get /table_data/CANTEEN_SETTINGS 
+   get /table_data/CANTEEN_SETTINGS
 
 3. API to fetch canteen related specific settings (only accessible through Canteen Login)
-    get /specific_data/CANTEEN_SETTINGS/settings_id
+   get /specific_data/CANTEEN_SETTINGS/settings_id
 
 4. API to fetch the counter wise settings data (only accessible through Canteen Login)
-    post /settings_ops/FETCH_GROUPED
+   post /settings_ops/FETCH_GROUPED
 
 5. API to fetch counter settings
-    get /table_data/SETTINGS
+   get /table_data/SETTINGS
 
 6. API to fetch specific counter settings
-    get /specific_data/SETTINGS/settings_id
-
-
-
+   get /specific_data/SETTINGS/settings_id
 
 Initial Settings on registration of every canteen & counter
+
 1. Canteen
-    a. Theme Color, THEME_COLOR, dark
-    b. Date Range, DATE_RANGE, 10
+   a. Theme Color, THEME_COLOR, dark
+   b. Date Range, DATE_RANGE, 10
 
 2. Counter (these settings will be generated on every new registration of counter)
-    a. Theme Color, THEME_COLOR, dark
-    b. Date Range, DATE_RANGE, 10
-    c. Send SMS on Every Tap, SMS_ON_EVERY_TAP, 1
-    d. Minimum Card Balance, MINIMUM_CARD_BALANCE, 100
+   a. Theme Color, THEME_COLOR, dark
+   b. Date Range, DATE_RANGE, 10
+   c. Send SMS on Every Tap, SMS_ON_EVERY_TAP, 1
+   d. Minimum Card Balance, MINIMUM_CARD_BALANCE, 100

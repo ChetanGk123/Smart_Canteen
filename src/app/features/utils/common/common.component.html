@@ -9,7 +9,10 @@
                 <ng-template pTemplate="right">
                     <button
                         pButton
-                        *ngIf="this.memberService.getUserData().user_role !='OWNER'"
+                        *ngIf="
+                            this.memberService.getUserData().user_role !=
+                            'OWNER'
+                        "
                         pRipple
                         label="Add"
                         icon="pi pi-plus"

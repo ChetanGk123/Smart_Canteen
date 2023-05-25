@@ -18,6 +18,8 @@ import { EditSubCategoryComponent } from './sub-category/edit-sub-category/edit-
 import { UpdateImageComponent } from './update-image/update-image.component';
 import { CorePipesModule } from 'src/app/core/pipes/pipes.module';
 import { PosHistoryComponent } from './pos-history/pos-history.component';
+import { AcademicConstraintsComponent } from './pos-items/pos-details/academic-constraints/academic-constraints.component';
+import { TimeConstraintsComponent } from './pos-items/pos-details/time-constraints/time-constraints.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +33,8 @@ import { PosHistoryComponent } from './pos-history/pos-history.component';
         EditSubCategoryComponent,
         UpdateImageComponent,
         PosHistoryComponent,
+        AcademicConstraintsComponent,
+        TimeConstraintsComponent,
     ],
     imports: [
         CommonModule,

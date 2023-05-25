@@ -2,7 +2,11 @@
     <div class="col-12">
         <div class="card">
             <p-accordion class="p-fluid mb-3">
-                <p-accordionTab header="Add New Meals" style="width: 100%" [(selected)]="accordionState">
+                <p-accordionTab
+                    header="Add New Meals"
+                    style="width: 100%"
+                    [(selected)]="accordionState"
+                >
                     <form [formGroup]="commonForm" autocomplete="off">
                         <div class="grid">
                             <div
@@ -21,8 +25,7 @@
                                 <small
                                     class="p-error"
                                     *ngIf="
-                                        commonForm.controls.meal_id
-                                            .touched &&
+                                        commonForm.controls.meal_id.touched &&
                                         commonForm.controls.meal_id.errors
                                             ?.required
                                     "
@@ -127,7 +130,7 @@
                         </div>
                     </form>
                     <p-table
-                    *ngIf="load_mealsToInsert"
+                        *ngIf="load_mealsToInsert"
                         dataKey="meal_pack_item_id"
                         [value]="mealsToInsert"
                         [rows]="10"
@@ -181,14 +184,10 @@
                                     {{ product.meal_price | currency : "INR" }}
                                 </td>
                                 <td style="width: 20%">
-                                    {{
-                                        product.meal_start_time
-                                    }}
+                                    {{ product.meal_start_time }}
                                 </td>
                                 <td style="width: 20%">
-                                    {{
-                                        product.meal_end_time
-                                    }}
+                                    {{ product.meal_end_time }}
                                 </td>
                                 <td style="text-align: left; width: 15%">
                                     <button
@@ -196,7 +195,9 @@
                                         pRipple
                                         type="button"
                                         icon="pi pi-trash"
-                                        (click)="mealsToInsert.splice(rowIndex,1)"
+                                        (click)="
+                                            mealsToInsert.splice(rowIndex, 1)
+                                        "
                                         class="p-button-rounded p-button-text p-button-danger"
                                     ></button>
                                 </td>
@@ -204,7 +205,10 @@
                         </ng-template>
                         <ng-template pTemplate="emptymessage" let-columns>
                             <tr>
-                                <td [attr.colspan]="6" style="text-align: center;">
+                                <td
+                                    [attr.colspan]="6"
+                                    style="text-align: center"
+                                >
                                     No meals added.
                                 </td>
                             </tr>
@@ -214,8 +218,8 @@
                         <button
                             pButton
                             pRipple
-                            *ngIf="mealsToInsert.length>0"
-                            style="max-width: 100px;margin-top: 1rem;"
+                            *ngIf="mealsToInsert.length > 0"
+                            style="max-width: 100px; margin-top: 1rem"
                             label="Add"
                             (click)="insertMeals()"
                             class="p-button"
@@ -426,7 +430,10 @@
                         </ng-template>
                         <ng-template pTemplate="emptymessage" let-columns>
                             <tr>
-                                <td [attr.colspan]="6" style="text-align: center;">
+                                <td
+                                    [attr.colspan]="6"
+                                    style="text-align: center"
+                                >
                                     No meals added.
                                 </td>
                             </tr>

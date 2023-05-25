@@ -59,6 +59,14 @@ import { LandingComponent } from './features/landing/landing.component';
                                 ).then((m) => m.MembersModule),
                         },
                         {
+                            path: 'memberships',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/memberships/memberships.module'
+                                ).then((m) => m.MembershipsModule),
+                        },
+                        {
                             path: 'accounts',
                             canActivate: [AuthGuard],
                             loadChildren: () =>
@@ -118,9 +126,9 @@ import { LandingComponent } from './features/landing/landing.component';
                             path: 'meal',
                             canActivate: [AuthGuard],
                             loadChildren: () =>
-                                import(
-                                    './features/meal/meal.module'
-                                ).then((m) => m.MealModule),
+                                import('./features/meal/meal.module').then(
+                                    (m) => m.MealModule
+                                ),
                         },
                     ],
                 },

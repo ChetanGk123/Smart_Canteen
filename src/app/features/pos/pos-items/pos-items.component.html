@@ -11,7 +11,10 @@
                         (document:keydown.Alt.n)="add()"
                         pButton
                         pRipple
-                        *ngIf="this.memberService.getUserData().user_role !='OWNER'"
+                        *ngIf="
+                            this.memberService.getUserData().user_role !=
+                            'OWNER'
+                        "
                         label="Add"
                         icon="pi pi-plus"
                         class="mr-2 inline-block p-button"
@@ -83,27 +86,48 @@
                                         ></i
                                     ></span>
                                 </th>
-                                <th pSortableColumn="id" style="min-width: 8rem">
+                                <th
+                                    pSortableColumn="id"
+                                    style="min-width: 8rem"
+                                >
                                     Item Code
                                     <p-sortIcon field="id"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="hsn_code" style="min-width: 8rem">
+                                <th
+                                    pSortableColumn="hsn_code"
+                                    style="min-width: 8rem"
+                                >
                                     HSN Code
                                     <p-sortIcon field="hsn_code"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="name" style="min-width: 10rem">
+                                <th
+                                    pSortableColumn="name"
+                                    style="min-width: 10rem"
+                                >
                                     Name
                                     <p-sortIcon field="name"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="rate" style="min-width: 8rem">
+                                <th
+                                    pSortableColumn="rate"
+                                    style="min-width: 8rem"
+                                >
                                     Rate
                                     <p-sortIcon field="rate"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="uom_name" style="min-width: 6rem">
+                                <th
+                                    pSortableColumn="uom_name"
+                                    style="min-width: 6rem"
+                                >
                                     Unt
-                                    <p-sortIcon field="uom_name" style="min-width: 6rem"></p-sortIcon>
+                                    <p-sortIcon
+                                        field="uom_name"
+                                        style="min-width: 6rem"
+                                    ></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="stock_qty" style="min-width: 9rem">
+                                <th
+                                    pSortableColumn="stock_qty"
+                                    style="min-width: 9rem"
+                                >
                                     Stock Qty
                                     <p-sortIcon field="stock_qty"></p-sortIcon>
                                 </th>
@@ -154,13 +178,16 @@
                                             </div>
                                         </ng-template>
                                         <div class="cell-line-height">
-                                            <p class="font-bold mb-1">
+                                            <a (click)="
+                                            selectedProduct = product;
+                                            view()
+                                        " class="text-800 font-bold cursor-pointer no-underline hover:underline mb-1">
                                                 {{ product.name }}
-                                            </p>
+                                            </a>
                                             <div></div>
                                             <p
                                                 class="font-normal text-sm mb-o mt-o"
-                                                style="margin-top: -8px"
+                                                style="margin-top: -2px"
                                             >
                                                 <img
                                                     *ngIf="
@@ -196,7 +223,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    {{ product.rate | currency: "INR" }}
+                                    {{ product.rate | currency : "INR" }}
                                 </td>
                                 <td>
                                     {{ product.uom_name }}
