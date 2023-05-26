@@ -24,7 +24,6 @@ export class MemberTransactionsComponent implements OnInit {
     name: any;
     loading: boolean = true;
     response: any;
-    datePipe: DatePipe = new DatePipe('en-US');
     dateRange: any;
     public coreConfig: CoreConfig;
     constructor(
@@ -60,7 +59,7 @@ export class MemberTransactionsComponent implements OnInit {
     }
 
     async generatePDF() {
-        let totalCredit = this.config.data.reduce(
+        let totalCredit = this.config.data?.transactions_Data.reduce(
             (acc, cur) =>
                 acc +
                 Number(
@@ -70,7 +69,7 @@ export class MemberTransactionsComponent implements OnInit {
                 ),
             0
         );
-        let totalDEBIT = this.config.data.reduce(
+        let totalDEBIT = this.config.data?.transactions_Data.reduce(
             (acc, cur) =>
                 acc +
                 Number(
@@ -122,7 +121,7 @@ export class MemberTransactionsComponent implements OnInit {
                                 alignment: 'center',
                             },
                             {
-                                text: 'Transactions',
+                                text: 'Account Transactions',
                                 decoration: 'underline',
                                 fontSize: 13,
                                 // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
@@ -138,7 +137,26 @@ export class MemberTransactionsComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Period: ${this.dateRange}`,
+                                text: `Account: ${this.config.data.memberData.full_name}`,
+                                alignment: 'left',
+                            },
+                        ],
+                        [
+                            {
+                                width: 'auto',
+                                text: `Balance on ${this.config.data.statement_date}: ₹ ${this.config.data.memberData.balance}`,
+                                alignment: 'right',
+                            },
+                        ],
+                    ],
+                    // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                    margin: [-15, 0, -15, 5],
+                },
+                {
+                    columns: [
+                        [
+                            {
+                                text: `Period: ${this.config.data.period??""}`,
                                 alignment: 'left',
                             },
                         ],
@@ -192,7 +210,7 @@ export class MemberTransactionsComponent implements OnInit {
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data.map((p) => [
+                            ...this.config.data?.transactions_Data.map((p) => [
                                 // {
                                 //     "id": "152",
                                 //     "receipt_no": "ME-00078",
