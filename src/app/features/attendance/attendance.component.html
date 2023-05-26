@@ -1,0 +1,46 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <form [formGroup]="commonForm" autocomplete="off">
+                <label for="card_number"
+                    >Card Number <span class="p-error">*</span></label
+                >
+                <div class="grid align-items-center flex">
+                    <div
+                        class="p-fluid col-12 sm:col-12 md:col-6 lg:col-4 p-input-icon-right mt-2"
+                    >
+                        <input
+                            type="text"
+                            pInputText
+                            #card_number
+                            id="card_number"
+                            placeholder="XXXXXXXXXX"
+                            formControlName="card_number"
+                            (input)="loadData()"
+                            autocomplete="off"
+                            autofocus
+                        />
+                        <i
+                            class="pi pi-spin pi-spinner mr-2"
+                            *ngIf="loading"
+                        ></i>
+                        <small
+                            class="p-error"
+                            *ngIf="
+                                commonForm.controls.card_number.touched &&
+                                commonForm.controls.card_number.errors?.required
+                            "
+                            >Card Number is required.</small
+                        >
+                    </div>
+                    <div class="col">
+                        <p-messages
+                            [(value)]="messages"
+                            [enableService]="false"
+                        ></p-messages>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

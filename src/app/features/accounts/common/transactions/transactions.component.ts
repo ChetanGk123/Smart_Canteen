@@ -186,7 +186,7 @@ export class TransactionsComponent implements OnInit {
         // }
     }
 
-    printList() {
+    generatePDF() {
         this.dialogService.open(AccountTransactionsComponent, {
             data: {
                 transactions_Data: this.Data,
@@ -196,4 +196,5 @@ export class TransactionsComponent implements OnInit {
             styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
         });
     }
+    generateExcel() {}
 }

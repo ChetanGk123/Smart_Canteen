@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
+import imageToBase64 from 'image-to-base64/browser';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -6,22 +11,18 @@ import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
 import { MemberService } from 'src/app/features/members/member.service';
-import imageToBase64 from 'image-to-base64/browser';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 @Component({
-    selector: 'app-common-report',
-    templateUrl: './common-report.component.html',
-    styleUrls: ['./common-report.component.scss'],
+  selector: 'app-accounts-report',
+  templateUrl: './accounts-report.component.html',
+  styleUrls: ['./accounts-report.component.scss']
 })
-export class CommonReportComponent implements OnInit {
+export class AccountsReportComponent implements OnInit {
+
     src: any;
     logo: any;
     name: any;
-    loading: boolean = false;
+    loading: boolean = true;
     response: any;
     datePipe: DatePipe = new DatePipe('en-US');
     dateRange: any;
@@ -40,7 +41,6 @@ export class CommonReportComponent implements OnInit {
 
     ngOnInit(): void {
         this.loading = true
-
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -117,11 +117,7 @@ export class CommonReportComponent implements OnInit {
                 {
                     columns: [
                         [
-                            {
-                                width: 'auto',
-                                text: `Period: ${this.config.data.period}`,
-                                alignment: 'left',
-                            },
+
                         ],
                         [
                             {
@@ -140,7 +136,7 @@ export class CommonReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [63, 150, 118, 85, 85],
+                        widths: [63, '*', 85],
                         body: [
                             [
                                 {
@@ -154,16 +150,6 @@ export class CommonReportComponent implements OnInit {
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Card No',
-                                    margin: [5, 5, 0, 5],
-                                    border: [false, true, false, true],
-                                },
-                                {
-                                    text: 'Membership',
-                                    margin: [5, 5, 0, 5],
-                                    border: [false, true, false, true],
-                                },
-                                {
                                     text: 'Balance',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
@@ -171,25 +157,24 @@ export class CommonReportComponent implements OnInit {
                                 },
                             ],
                             ...this.config.data?.data.map((p,index) => [
+                                // {
+                                //     "account_head_id": "1",
+                                //     "meal_pack_id": "0",
+                                //     "counter_id": "1",
+                                //     "account_name": "SBAAI BANK",
+                                //     "balance": "16210.00",
+                                //     "isIncomeHead": "1",
+                                //     "isEditable": "1"
+                                // },
                                 {
                                     text: index+1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.full_name,
+                                    text: p.account_name,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
-                                },
-                                {
-                                    text: p.card_number,
-                                    border: [false, false, false, false],
-                                    margin: [5, 5, 0, -5],
-                                },
-                                {
-                                    text: p.membership_data.meal_pack_name,
-                                    border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
                                 },
                                 {
                                     text:
@@ -201,13 +186,11 @@ export class CommonReportComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 5,
+                                    colSpan: 3,
                                     text: '',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, false],
                                 },
-                                {},
-                                {},
                                 {},
                                 {},
                             ]
@@ -235,4 +218,5 @@ export class CommonReportComponent implements OnInit {
             this.loading = false;
         });
     }
+
 }

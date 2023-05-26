@@ -32,6 +32,8 @@ export class ActiveMembershipReceiptComponent implements OnInit {
     ngOnInit(): void {
         // //
         this.loading = true;
+        console.log(this.memberService.getSettings());
+
         this.name = this.memberService.getSettings().mess_name;
         this.membershipDetails = this.config.data.membershipDetails;
         var card_number = this.membershipDetails.card_number;

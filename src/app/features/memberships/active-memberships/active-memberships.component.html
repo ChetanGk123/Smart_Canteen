@@ -101,11 +101,32 @@
                         ]"
                     >
                         <ng-template pTemplate="caption">
-                            <div
-                                class="table-header align-content-center justify-content-end grid flex"
-                            >
+                            <div class="flex grid">
+                                <div class="col-6">
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-excel"
+                                        class="p-button-success mr-2"
+                                        *ngIf="allMemberships"
+                                        pTooltip="XLS"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-pdf"
+                                        *ngIf="allMemberships"
+                                        (click)="generatePDF()"
+                                        class="p-button-warning mr-2"
+                                        pTooltip="PDF"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                </div>
                                 <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    class="ml-auto col"
                                     style="text-align: end"
                                 >
                                     <span class="p-input-icon-left">
@@ -276,7 +297,10 @@
                                     ></i>
                                 </td>
                                 <td>
-                                    {{ product.membership_data.total_amount | currency : "INR" }}
+                                    {{
+                                        product.membership_data.total_amount
+                                            | currency : "INR"
+                                    }}
                                 </td>
                                 <td>
                                     <button

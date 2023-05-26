@@ -5,6 +5,7 @@ import { Table } from 'primeng/table';
 import { map, Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AccountTransferComponent } from '../../account-transfer/account-transfer.component';
+import { AccountsReportComponent } from '../../reports/accounts-report/accounts-report.component';
 import { AddEditAccountComponent } from './add-edit-account/add-edit-account.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class AccountComponent implements OnInit {
     public accountsData: Observable<Object>;
     selectedProduct: any;
     items: MenuItem[];
+    Data: any[];
     loading: boolean = false;
     constructor(
         public apiService: ApiService,
@@ -60,6 +62,7 @@ export class AccountComponent implements OnInit {
             .pipe(
                 map((res: any) => {
                     this.loading = false;
+                    this.Data = res.data;
                     return res.data;
                 })
             );
@@ -187,4 +190,17 @@ export class AccountComponent implements OnInit {
             }
         });
     } */
+
+    generatePDF(){
+
+        this.dialogService.open(AccountsReportComponent, {
+            data: {
+                data:this.Data,
+                title:`${this.header}`,
+            },
+            header: `${this.header}`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+    }
+    generateExcel(){}
 }

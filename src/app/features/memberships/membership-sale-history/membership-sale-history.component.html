@@ -3,38 +3,16 @@
         <div class="card">
             <p-toolbar styleClass="mb-4" class="align-content-center">
                 <ng-template class="align-content-center" pTemplate="left">
-                    <h4>All Memberships</h4>
+                    <h4>Membership Sale History</h4>
                 </ng-template>
 
-                <ng-template pTemplate="right">
-                    <button
-                        *ngIf="selectedStudents.length > 0"
-                        pButton
-                        pRipple
-                        label="Asign Leave"
-                        icon="pi pi-users"
-                        class="mr-2 inline-block p-button"
-                        (click)="showLeaveDialog()"
-                    ></button>
-                    <button
-                        (document:keydown.Alt.n)="add()"
-                        pButton
-                        pRipple
-                        label="Add"
-                        icon="pi pi-plus"
-                        class="mr-2 inline-block p-button"
-                        (click)="add()"
-                    ></button>
-                </ng-template>
+                <ng-template pTemplate="right"> </ng-template>
             </p-toolbar>
             <div class="grid">
                 <div class="col-12">
                     <p-toolbar styleClass="mb-4" class="align-content-center">
-                        <ng-template
-                            class="align-content-center"
-                            pTemplate="left"
-                        >
-                            <div class="grid mb-0">
+                        <ng-template pTemplate="left">
+                            <div class="grid flex mb-0">
                                 <div
                                     class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
                                     style="margin-bottom: -1rem"
@@ -73,7 +51,7 @@
                                     ></p-dropdown>
                                 </div>
                                 <div
-                                    class="col-12 sm:col-12 md:col-6 lg:col-2 align-items-center"
+                                    class="col-12 sm:col-12 md:col-4 lg:col-3 align-items-center"
                                 >
                                     <button
                                         pButton
@@ -86,7 +64,6 @@
                                 </div>
                             </div>
                         </ng-template>
-                        <ng-template pTemplate="right"> </ng-template>
                     </p-toolbar>
                     <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu>
@@ -96,7 +73,6 @@
                         [(selection)]="selectedStudents"
                         [contextMenu]="cm"
                         dataKey="card_number"
-                        [rowSelectable]="isRowSelectable"
                         [value]="Data | async"
                         [paginator]="true"
                         selectionMode="multiple"
@@ -108,9 +84,13 @@
                         [rowsPerPageOptions]="[10, 25, 50]"
                         [filterDelay]="0"
                         [globalFilterFields]="[
-                            'full_name',
-                            'card_number',
-                            'membership_name'
+                            'meal_pack_name',
+                            'sale_date',
+                            'price_per_pack',
+                            'total_meal_packs',
+                            'qty_sold',
+                            'total_amount',
+                            'meal_pack_id'
                         ]"
                     >
                         <ng-template pTemplate="caption">
@@ -162,70 +142,57 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th style="width: 3rem">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
-                                <th style="width: 5rem">
-                                    Slno
-                                    <span
-                                        ><i
-                                            class="pi pi-info-circle p-error"
-                                            pTooltip="Right click on row for options"
-                                        ></i
-                                    ></span>
+                                <th style="width: 5rem">Slno</th>
+                                <th
+                                    pSortableColumn="sale_date"
+                                    style="min-width: 9rem"
+                                >
+                                    Date
+                                    <p-sortIcon field="sale_date"></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="full_name"
+                                    pSortableColumn="meal_pack_name"
                                     style="min-width: 14rem"
                                 >
                                     Name
-                                    <p-sortIcon field="full_name"></p-sortIcon>
-                                </th>
-                                <th
-                                    pSortableColumn="membership_name"
-                                    style="min-width: 14rem"
-                                >
-                                    Membership
                                     <p-sortIcon
-                                        field="membership_name"
+                                        field="meal_pack_name"
                                     ></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="days"
+                                    pSortableColumn="price_per_pack"
+                                    style="min-width: 8rem"
+                                >
+                                    Price
+                                    <p-sortIcon
+                                        field="price_per_pack"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="total_meal_packs"
                                     style="min-width: 7rem"
                                 >
-                                    Days
-                                    <p-sortIcon field="days"></p-sortIcon>
+                                    Meal Packs
+                                    <p-sortIcon
+                                        field="total_meal_packs"
+                                    ></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="start_date"
+                                    pSortableColumn="qty_sold"
                                     style="min-width: 9rem"
                                 >
-                                    Start Date
-                                    <p-sortIcon field="start_date"></p-sortIcon>
+                                    Quantity
+                                    <p-sortIcon field="qty_sold"></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="end_date"
+                                    pSortableColumn="total_amount"
                                     style="min-width: 9rem"
                                 >
-                                    End Date
-                                    <p-sortIcon field="end_date"></p-sortIcon>
+                                    Total Amount
+                                    <p-sortIcon
+                                        field="total_amount"
+                                    ></p-sortIcon>
                                 </th>
-                                <th
-                                    pSortableColumn="status"
-                                    style="min-width: 11rem"
-                                >
-                                    Status
-                                    <p-sortIcon field="status"></p-sortIcon>
-                                </th>
-                                <th
-                                    pSortableColumn="total_amt"
-                                    style="min-width: 9rem"
-                                >
-                                    Total Amt
-                                    <p-sortIcon field="total_amt"></p-sortIcon>
-                                </th>
-                                <th>Actions</th>
                             </tr>
                         </ng-template>
                         <ng-template
@@ -235,98 +202,30 @@
                         >
                             <tr [pContextMenuRow]="product">
                                 <td>
-                                    <p-tableCheckbox
-                                        [value]="product"
-                                        [disabled]="isOnLeave(product)"
-                                    ></p-tableCheckbox>
-                                </td>
-                                <td>
                                     {{ rowIndex + 1 }}
                                 </td>
                                 <td>
-                                    <div class="flex align-items-center">
-                                        <div
-                                            class=""
-                                            *ngIf="
-                                                product.photo_url;
-                                                else customAvatar
-                                            "
-                                        >
-                                            <img
-                                                class="rounded-circle mr-1"
-                                                [src]="product.photo_url"
-                                                height="32"
-                                                width="32"
-                                                alt="datatable-avatar"
-                                            />
-                                        </div>
-                                        <ng-template #customAvatar>
-                                            <div
-                                                class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
-                                            >
-                                                <div class="avatar-content">
-                                                    {{
-                                                        product.full_name
-                                                            | initials
-                                                    }}
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                        <a
-                                            (click)="
-                                                selectedProduct = product;
-                                                openProfile()
-                                            "
-                                            class="text-800 font-bold cursor-pointer no-underline hover:underline"
-                                            >{{ product?.full_name ?? "" }}</a
-                                        >
-                                    </div>
+                                    {{ product.sale_date }}
                                 </td>
                                 <td>
-                                    {{ product.membership_data.meal_pack_name }}
-                                </td>
-                                <td>
-                                    {{ product.membership_data.max_days }}
-                                </td>
-                                <td>
-                                    {{ product.membership_data.start_date }}
-                                </td>
-                                <td>
-                                    {{ product.membership_data.end_date }}
-                                </td>
-                                <td>
-                                    <i
-                                        class="pi flex justify-content-center align-items-center"
-                                        [ngClass]="{
-                                            'true-icon pi-check-circle p-success':
-                                                product.status == 1
-                                                    ? true
-                                                    : false,
-                                            'false-icon pi-times-circle p-error':
-                                                !product.status == 1
-                                                    ? true
-                                                    : false
-                                        }"
-                                    ></i>
+                                    {{ product?.meal_pack_name }}
                                 </td>
                                 <td>
                                     {{
-                                        product.membership_data.total_amount
+                                        product.price_per_pack
                                             | currency : "INR"
                                     }}
                                 </td>
                                 <td>
-                                    <button
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        icon="pi pi-ellipsis-v"
-                                        (click)="
-                                            selectedProduct = product;
-                                            menu.toggle($event)
-                                        "
-                                        class="p-button-rounded p-button-text p-action-button"
-                                    ></button>
+                                    {{ product.total_meal_packs }}
+                                </td>
+                                <td>
+                                    {{ product.qty_sold }}
+                                </td>
+                                <td>
+                                    {{
+                                        product.total_amount | currency : "INR"
+                                    }}
                                 </td>
                             </tr>
                         </ng-template>

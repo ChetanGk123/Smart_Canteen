@@ -12,6 +12,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberProfileComponent } from './member-profile/member-profile.component';
 import { AddMemberTransactionComponent } from './add-member-transaction/add-member-transaction.component';
+import { MemberTransactionsComponent } from './reports/member-transactions/member-transactions.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { AddMemberTransactionComponent } from './add-member-transaction/add-memb
         ManageMemberComponent,
         AddMemberTransactionComponent,
         MemberProfileComponent,
+        MemberTransactionsComponent,
     ],
     imports: [
         CommonModule,

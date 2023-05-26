@@ -18,17 +18,17 @@ export class AddMemberTransactionComponent implements OnInit {
     loading: boolean = false;
     accountList: any[];
     commonForm: FormGroup = new FormGroup({
-        member_id: new FormControl(this.config.data.member.member_id ?? '', [
+        member_id: new FormControl(this.config.data?.member?.member_id ?? '', [
             Validators.required,
         ]),
-        full_name: new FormControl(this.config.data.member.full_name ?? '', [
+        full_name: new FormControl(this.config.data?.member?.full_name ?? '', [
             Validators.required,
         ]),
-        balance: new FormControl(this.config.data.member.balance ?? '', [
+        balance: new FormControl(this.config.data?.member?.balance ?? '', [
             Validators.required,
         ]),
         card_number: new FormControl(
-            this.config.data.member.card_number ?? '',
+            this.config.data?.member?.card_number ?? '',
             [Validators.required]
         ),
         account_head_id: new FormControl('', [Validators.required]),
@@ -49,6 +49,8 @@ export class AddMemberTransactionComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        console.log(this.config.data);
+
         this.apiService
             .getTypeRequest(`table_data/${this.config.data.accountUrl}`)
             .toPromise()

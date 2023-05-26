@@ -8,9 +8,10 @@ import { SharedModule } from 'primeng/api';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { CardDetailsComponent } from './card-history/card-details/card-details.component';
 import { CardHistoryComponent } from './card-history/card-history.component';
+import { CardHistoryReportComponent } from './reports/card-history-report/card-history-report.component';
 
 @NgModule({
-    declarations: [CardHistoryComponent, CardDetailsComponent],
+    declarations: [CardHistoryComponent, CardDetailsComponent, CardHistoryReportComponent],
     imports: [
         CommonModule,
         PrimengModule,

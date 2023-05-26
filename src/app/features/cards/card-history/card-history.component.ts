@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -5,6 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { map, Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { CardHistoryReportComponent } from '../reports/card-history-report/card-history-report.component';
 import { CardDetailsComponent } from './card-details/card-details.component';
 
 @Component({
@@ -17,6 +19,10 @@ export class CardHistoryComponent implements OnInit {
     loading: boolean = false;
     selectedProduct: any;
     items: MenuItem[];
+    start_date: any;
+    meal_pack_id: any = -1;
+    end_date: any = new Date().toISOString().substring(0, 10);
+    datePipe: DatePipe = new DatePipe('en-US');
     constructor(
         public apiService: ApiService,
         public dialogService: DialogService,
@@ -25,28 +31,12 @@ export class CardHistoryComponent implements OnInit {
         public router: Router
     ) {}
 
+    /**
+     * TODO: Add date filter
+     **/
     ngOnInit(): void {
         this.loadData();
-        this.items = [
-            /* {
-                label: 'View',
-                icon: 'pi pi-fw pi-eye',
-                // command: () => this.view(),
-            },
-            {
-                label: 'Invalidate Card',
-                icon: 'pi pi-fw pi-credit-card',
-                // command: () => this.updateCard(),
-            },
-            {
-                separator: true,
-            },
-            {
-                label: 'Activate Member',
-                icon: 'pi pi-fw pi-user-plus',
-                // command: () => this.Activate(),
-            }, */
-        ];
+        this.items = [];
     }
 
     loadData() {
@@ -73,4 +63,23 @@ export class CardHistoryComponent implements OnInit {
         this.member.setMemberData(this.selectedProduct);
         this.router.navigate(['mess/memberProfile']);
     }
+
+    generatePDF() {
+        const start_date = this.datePipe.transform(
+            this.start_date??new Date(),
+            'dd-MM-yyyy'
+        );
+        const end_date = this.datePipe.transform(this.end_date??new Date(), 'dd-MM-yyyy');
+        const period = `${start_date} - ${end_date}`;
+        this.dialogService.open(CardHistoryReportComponent, {
+            data: {
+                data: this.Data,
+                period: period,
+                title: 'Card History',
+            },
+            header: `Card History`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+    }
+    generateExcel() {}
 }

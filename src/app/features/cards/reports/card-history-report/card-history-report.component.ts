@@ -6,6 +6,7 @@ import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
 import { MemberService } from 'src/app/features/members/member.service';
+
 import imageToBase64 from 'image-to-base64/browser';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -13,11 +14,12 @@ import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-    selector: 'app-common-report',
-    templateUrl: './common-report.component.html',
-    styleUrls: ['./common-report.component.scss'],
+  selector: 'app-card-history-report',
+  templateUrl: './card-history-report.component.html',
+  styleUrls: ['./card-history-report.component.scss']
 })
-export class CommonReportComponent implements OnInit {
+export class CardHistoryReportComponent implements OnInit {
+
     src: any;
     logo: any;
     name: any;
@@ -39,7 +41,7 @@ export class CommonReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        console.log(this.config.data.data);
 
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
@@ -140,7 +142,7 @@ export class CommonReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [63, 150, 118, 85, 85],
+                        widths: [50, 120, 100, 100, 85, 85],
                         body: [
                             [
                                 {
@@ -154,23 +156,38 @@ export class CommonReportComponent implements OnInit {
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Card No',
+                                    text: 'Old Card No',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Membership',
+                                    text: 'New Card No',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Balance',
+                                    text: 'Reason',
+                                    margin: [5, 5, 0, 5],
+                                    border: [false, true, false, true],
+                                    alignment: 'right',
+                                },
+                                {
+                                    text: 'Updated On',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                     alignment: 'right',
                                 },
                             ],
                             ...this.config.data?.data.map((p,index) => [
+                                // {
+                                //     "id": "1",
+                                //     "member_id": "1",
+                                //     "full_name": "faaaaaull_name",
+                                //     "old_card_number": "74475537390123",
+                                //     "new_card_number": "98765432100",
+                                //     "reason": "Card Lost",
+                                //     "updated_date": "13-02-2023"
+                                // },
                                 {
                                     text: index+1,
                                     border: [false, false, false, false],
@@ -182,30 +199,36 @@ export class CommonReportComponent implements OnInit {
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.card_number,
+                                    text: p.old_card_number,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.membership_data.meal_pack_name,
+                                    text: p.new_card_number,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                 },
                                 {
                                     text:
-                                        p.balance,
+                                        p.reason,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
-                                    alignment: 'right',
+                                },
+                                {
+                                    text:
+                                        p.updated_date,
+                                    border: [false, false, false, false],
+                                    margin: [0, 5, 0, -5],
                                 },
                             ]),
                             [
                                 {
-                                    colSpan: 5,
+                                    colSpan: 6,
                                     text: '',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, false],
                                 },
+                                {},
                                 {},
                                 {},
                                 {},
@@ -235,4 +258,5 @@ export class CommonReportComponent implements OnInit {
             this.loading = false;
         });
     }
+
 }

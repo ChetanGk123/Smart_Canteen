@@ -6,6 +6,7 @@ import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
 import { MemberService } from 'src/app/features/members/member.service';
+
 import imageToBase64 from 'image-to-base64/browser';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -13,11 +14,11 @@ import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-    selector: 'app-common-report',
-    templateUrl: './common-report.component.html',
-    styleUrls: ['./common-report.component.scss'],
+    selector: 'app-membership-sale-history-report',
+    templateUrl: './membership-sale-history-report.component.html',
+    styleUrls: ['./membership-sale-history-report.component.scss'],
 })
-export class CommonReportComponent implements OnInit {
+export class MembershipSaleHistoryReportComponent implements OnInit {
     src: any;
     logo: any;
     name: any;
@@ -58,6 +59,23 @@ export class CommonReportComponent implements OnInit {
     }
 
     async generatePDF() {
+        let total_qty_sold = this.config.data.data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.qty_sold
+                ),
+            0
+        );
+        let total_amount = this.config.data.data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.total_amount
+                ),
+            0
+        );
+
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -73,9 +91,9 @@ export class CommonReportComponent implements OnInit {
                 };
             },
             info: {
-                title: 'All Memberships',
+                title: 'Membership Sale History',
                 author: 'Smart Canteen',
-                subject: 'Memberships',
+                subject: 'Membership Sale History',
             },
             content: [
                 {
@@ -126,7 +144,10 @@ export class CommonReportComponent implements OnInit {
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -140,11 +161,16 @@ export class CommonReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [63, 150, 118, 85, 85],
+                        widths: [35, 60, '*', 50, 60, 55, 70],
                         body: [
                             [
                                 {
                                     text: 'SlNo',
+                                    margin: [5, 5, 0, 5],
+                                    border: [false, true, false, true],
+                                },
+                                {
+                                    text: 'Date',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
@@ -154,46 +180,70 @@ export class CommonReportComponent implements OnInit {
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Card No',
+                                    text: 'Price',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Membership',
+                                    text: 'Meal Packs',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Balance',
+                                    text: 'Quantity',
+                                    margin: [5, 5, 0, 5],
+                                    border: [false, true, false, true],
+                                },
+                                {
+                                    text: 'Total Amount',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data?.data.map((p, index) => [
+                                // {
+                                //     "meal_pack_id": "10",
+                                //     "meal_pack_name": "Testing Meal Pack ",
+                                //     "price_per_pack": "130.00",
+                                //     "total_meal_packs": "25",
+                                //     "total_amount": "3250.00",
+                                //     "qty_sold": "1",
+                                //     "sale_date": "22-05-2023"
+                                // }
                                 {
-                                    text: index+1,
+                                    text: index + 1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.full_name,
+                                    text: p.sale_date,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.card_number,
+                                    text: p.meal_pack_name,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.membership_data.meal_pack_name,
+                                    text: p.price_per_pack,
                                     border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
+                                    margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text:
-                                        p.balance,
+                                    text: p.total_meal_packs,
+                                    border: [false, false, false, false],
+                                    margin: [5, 5, 0, -5],
+                                },
+                                {
+                                    text: p.qty_sold,
+                                    border: [false, false, false, false],
+                                    margin: [5, 5, 0, -5],
+                                    alignment: 'right',
+                                },
+                                {
+                                    text: p.total_amount,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                     alignment: 'right',
@@ -202,15 +252,27 @@ export class CommonReportComponent implements OnInit {
                             [
                                 {
                                     colSpan: 5,
-                                    text: '',
+                                    text: 'Total',
                                     margin: [5, 5, 0, 5],
-                                    border: [false, true, false, false],
+                                    border: [false, true, false, true],
                                 },
                                 {},
                                 {},
                                 {},
                                 {},
-                            ]
+                                {
+                                    text: total_qty_sold,
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
+                                },
+                                {
+                                    text: '₹' + total_amount.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
+                                },
+                            ],
                         ],
                     },
                     layout: {

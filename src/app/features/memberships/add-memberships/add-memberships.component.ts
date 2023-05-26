@@ -71,8 +71,6 @@ export class AddMembershipsComponent implements OnInit {
                     this.accounts = result.data;
                 }
             });
-        this.cardNumber = 74475537390124;
-        this.getMemberDetails();
     }
 
     addId(event: any) {

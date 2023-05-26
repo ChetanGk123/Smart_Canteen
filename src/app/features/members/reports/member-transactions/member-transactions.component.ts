@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
@@ -5,23 +6,23 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
-import { MemberService } from 'src/app/features/members/member.service';
+import { MemberService } from '../../member.service';
+
 import imageToBase64 from 'image-to-base64/browser';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 @Component({
-    selector: 'app-common-report',
-    templateUrl: './common-report.component.html',
-    styleUrls: ['./common-report.component.scss'],
+  selector: 'app-member-transactions',
+  templateUrl: './member-transactions.component.html',
+  styleUrls: ['./member-transactions.component.scss']
 })
-export class CommonReportComponent implements OnInit {
+export class MemberTransactionsComponent implements OnInit {
+
     src: any;
     logo: any;
     name: any;
-    loading: boolean = false;
+    loading: boolean = true;
     response: any;
     datePipe: DatePipe = new DatePipe('en-US');
     dateRange: any;
@@ -37,10 +38,11 @@ export class CommonReportComponent implements OnInit {
     ) {
         this.coreConfig = _coreEnvService.config;
     }
-
+/**
+ * TODO: Correct This print
+ **/
     ngOnInit(): void {
         this.loading = true
-
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -58,6 +60,24 @@ export class CommonReportComponent implements OnInit {
     }
 
     async generatePDF() {
+        let totalCredit = this.config.data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.transaction_type == 'CREDIT'
+                        ? cur.transaction_amount
+                        : 0
+                ),
+            0
+        );
+        let totalDEBIT = this.config.data.reduce(
+            (acc, cur) =>
+                acc +
+                Number(
+                    cur.transaction_type == 'DEBIT' ? cur.transaction_amount : 0
+                ),
+            0
+        );
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -73,9 +93,9 @@ export class CommonReportComponent implements OnInit {
                 };
             },
             info: {
-                title: 'All Memberships',
+                title: 'Account Transactions',
                 author: 'Smart Canteen',
-                subject: 'Memberships',
+                subject: 'Transactions',
             },
             content: [
                 {
@@ -102,7 +122,7 @@ export class CommonReportComponent implements OnInit {
                                 alignment: 'center',
                             },
                             {
-                                text: `${this.config.data.title}`,
+                                text: 'Transactions',
                                 decoration: 'underline',
                                 fontSize: 13,
                                 // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
@@ -118,15 +138,16 @@ export class CommonReportComponent implements OnInit {
                     columns: [
                         [
                             {
-                                width: 'auto',
-                                text: `Period: ${this.config.data.period}`,
+                                text: `Period: ${this.dateRange}`,
                                 alignment: 'left',
                             },
                         ],
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${new Date().getDate()}/${
+                                    +new Date().getMonth() + 1
+                                }/${+new Date().getFullYear()}`,
                                 alignment: 'right',
                             },
                         ],
@@ -140,60 +161,83 @@ export class CommonReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [63, 150, 118, 85, 85],
+                        widths: [63, '*', 80, 65, 65],
                         body: [
                             [
                                 {
-                                    text: 'SlNo',
+                                    text: 'Date',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Name',
+                                    text: 'Particulars',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Card No',
+                                    text: 'Receipt No',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
                                 {
-                                    text: 'Membership',
+                                    text: 'Dr Amount',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
+                                    alignment: 'right',
                                 },
                                 {
-                                    text: 'Balance',
+                                    text: 'Cr Amount',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data.map((p) => [
+                                // {
+                                //     "id": "152",
+                                //     "receipt_no": "ME-00078",
+                                //     "member_id": "1",
+                                //     "transaction_type": "DEBIT",
+                                //     "transaction_category": "MEMBER_ACCOUNT_NEW_MEMBERSHIP",
+                                //     "previous_balance": "0.00",
+                                //     "discount": "0.00",
+                                //     "transaction_amount": "4900.00",
+                                //     "current_balance": "-4900.00",
+                                //     "payment_mode": null,
+                                //     "payment_ref": null,
+                                //     "transaction_date": "25-05-2023",
+                                //     "transaction_description": "Dr. For New Membership: Full Day Meals",
+                                //     "user_comments": null
+                                // },
                                 {
-                                    text: index+1,
+                                    text: p.transaction_date,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.full_name,
+                                    text: p.transaction_description,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text: p.card_number,
+                                    text: p.receipt_no,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
-                                },
-                                {
-                                    text: p.membership_data.meal_pack_name,
-                                    border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
                                 },
                                 {
                                     text:
-                                        p.balance,
+                                        p.transaction_type == 'DEBIT'
+                                            ? p.transaction_amount
+                                            : '',
+                                    border: [false, false, false, false],
+                                    margin: [0, 5, 0, -5],
+                                    alignment: 'right',
+                                },
+                                {
+                                    text:
+                                        p.transaction_type == 'CREDIT'
+                                            ? p.transaction_amount
+                                            : '',
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                     alignment: 'right',
@@ -201,16 +245,26 @@ export class CommonReportComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 5,
-                                    text: '',
+                                    colSpan: 3,
+                                    text: 'Total',
                                     margin: [5, 5, 0, 5],
-                                    border: [false, true, false, false],
+                                    border: [false, true, false, true],
                                 },
                                 {},
                                 {},
-                                {},
-                                {},
-                            ]
+                                {
+                                    text: '₹' + totalDEBIT.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
+                                },
+                                {
+                                    text: '₹' + totalCredit.toFixed(2),
+                                    margin: [5, 5, 0, 5],
+                                    alignment: 'right',
+                                    border: [false, true, false, true],
+                                },
+                            ],
                         ],
                     },
                     layout: {
@@ -235,4 +289,5 @@ export class CommonReportComponent implements OnInit {
             this.loading = false;
         });
     }
+
 }

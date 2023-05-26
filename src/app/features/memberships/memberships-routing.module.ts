@@ -4,6 +4,7 @@ import { ActiveLeavesComponent } from './active-leaves/active-leaves.component';
 import { ActiveMembershipsComponent } from './active-memberships/active-memberships.component';
 import { AllMembershipsComponent } from './all-memberships/all-memberships.component';
 import { InactiveMembershipsComponent } from './inactive-memberships/inactive-memberships.component';
+import { MembershipSaleHistoryComponent } from './membership-sale-history/membership-sale-history.component';
 
 const routes: Routes = [
     {
@@ -27,18 +28,10 @@ const routes: Routes = [
         path: 'activeLeaves',
         component: ActiveLeavesComponent,
     },
-    // {
-    //     path: 'stock',
-    //     component: StockComponent,
-    // },
-    // {
-    //     path: 'updateStock',
-    //     component: UpdateStockComponent,
-    // },
-    // {
-    //     path: 'units',
-    //     component: UnitsComponent,
-    // },
+    {
+        path: 'saleHistory',
+        component: MembershipSaleHistoryComponent,
+    },
 ];
 
 @NgModule({

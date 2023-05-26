@@ -121,15 +121,7 @@
                             </form>
                         </ng-template>
                         <ng-template pTemplate="right">
-                            <button
-                                *ngIf="Data.length > 0"
-                                pButton
-                                pRipple
-                                label="Print"
-                                icon="pi pi-fw pi-print"
-                                class="mr-2 inline-block p-button"
-                                (click)="printList()"
-                            ></button>
+                            
                         </ng-template>
                     </p-toolbar>
                     <!-- <p-contextMenu #cm [model]="items"></p-contextMenu>
@@ -155,11 +147,32 @@
                         ]"
                     >
                         <ng-template pTemplate="caption">
-                            <div
-                                class="table-header align-content-center justify-content-end grid flex"
-                            >
+                            <div class="flex grid">
+                                <div class="col-6">
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-excel"
+                                        class="p-button-success mr-2"
+                                        *ngIf="Data.length > 0"
+                                        pTooltip="XLS"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-pdf"
+                                        *ngIf="Data.length > 0"
+                                        (click)="generatePDF()"
+                                        class="p-button-warning mr-2"
+                                        pTooltip="PDF"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                </div>
                                 <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    class="ml-auto col"
                                     style="text-align: end"
                                 >
                                     <span class="p-input-icon-left">

@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
-import { Observable, map } from 'rxjs';
+import { Observable, map, Subject, takeUntil } from 'rxjs';
 import { MembershipType } from 'src/app/core/interfaces/appconfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { CounterService } from '../../counters/counter.service';
 import { MemberService } from '../../members/member.service';
 import { ActiveMembershipReceiptComponent } from '../../receipt/active-membership-receipt/active-membership-receipt.component';
 import { NewMembershipReceiptComponent } from '../../receipt/new-membership-receipt/new-membership-receipt.component';
@@ -18,21 +19,25 @@ import { MassLeaveComponent } from '../mass-leave/mass-leave.component';
 import { CommonReportComponent } from '../reports/common-report/common-report.component';
 
 @Component({
-  selector: 'app-all-memberships',
-  templateUrl: './all-memberships.component.html',
-  styleUrls: ['./all-memberships.component.scss']
+    selector: 'app-all-memberships',
+    templateUrl: './all-memberships.component.html',
+    styleUrls: ['./all-memberships.component.scss'],
 })
 export class AllMembershipsComponent implements OnInit {
-
     loading: boolean = false;
     Data: Observable<Object>;
     selectedProduct: any;
     start_date: any;
-    end_date: any = new Date().toISOString().substring(0, 10);
+    meal_pack_id: any = -1;
+    end_date: any;
     datePipe: DatePipe = new DatePipe('en-US');
     selectedStudents: any = [];
     allMemberships: any = [];
+    membershipList: any = [];
     items: MenuItem[];
+    counter_id: any;
+    // Private
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         public apiService: ApiService,
@@ -40,16 +45,19 @@ export class AllMembershipsComponent implements OnInit {
         public messageService: MessageService,
         public dialogService: DialogService,
         public router: Router,
-        public member: MemberService
+        public member: MemberService,
+        public counterService: CounterService
     ) {
         this.isRowSelectable = this.isOnLeave.bind(this);
     }
 
     ngOnInit(): void {
-        this.start_date = this.datePipe.transform(
-            new Date().setDate(new Date().getDate() - 30),
-            'yyyy-MM-dd'
-        );
+        this.counterService.counterDate$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((data: any) => {
+                this.counter_id = data?.id ?? '';
+            });
+
         this.selectedStudents = [];
         this.items = [
             {
@@ -76,21 +84,66 @@ export class AllMembershipsComponent implements OnInit {
                 command: () => this.printMembership2Inc(),
             },
         ];
-        this.fetchTransactions()
+        var url = '';
+        if (this.counter_id != '') {
+            url = `/BY_COUNTER/${this.counter_id}`;
+        }
+        this.membershipList = [];
+        this.membershipList.push({
+            meal_pack_id: '-1',
+            counter_id: '',
+            meal_pack_name: 'All',
+        });
+        this.apiService
+            .getTypeRequest(`table_data/MEAL_PACK_NAME${url}`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    result.data.forEach((element) => {
+                        this.membershipList.push(element);
+                    });
+                } else {
+                    this.membershipList = [];
+                }
+            });
+        this.fetchTransactions();
     }
 
-    fetchTransactions(){
-        const start_date = this.datePipe.transform(this.start_date, 'dd-MM-yyyy');
-        const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
+
+    fetchTransactions() {
         this.loading = true;
-        var url = `membership_data?what=ALL_MEMBERSHIPS`
-        var dateFilter = `&sale_start_date=${start_date}&sale_end_date=${end_date}`
+        var url = `membership_data?what=ALL_MEMBERSHIPS`;
+        var membershipFilter = ``;
+        if (this.meal_pack_id != -1) {
+            membershipFilter = `&membership_id=${this.meal_pack_id}`;
+        }
+        var dateFilter = ``;
+        if (this.start_date != null && this.end_date != null) {
+            const start_date = this.datePipe.transform(
+                this.start_date,
+                'dd-MM-yyyy'
+            );
+            const end_date = this.datePipe.transform(
+                this.end_date,
+                'dd-MM-yyyy'
+            );
+            dateFilter = `&start_date=${start_date}&end_date=${end_date}`;
+        }
         this.Data = this.apiService
-            .getTypeRequest(url)
+            .getTypeRequest(url + membershipFilter + dateFilter)
             .pipe(
                 map((res: any) => {
                     this.loading = false;
-                    this.allMemberships = res.data
+                    this.allMemberships = res.data;
                     return res.data;
                     // {
                     //     "member_id": "2",
@@ -278,22 +331,22 @@ export class AllMembershipsComponent implements OnInit {
             });
     }
 
-    generatePDF(){
+    generatePDF() {
         const start_date = this.datePipe.transform(
             this.start_date,
             'dd-MM-yyyy'
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
-        const period = `${start_date} - ${end_date}`
+        const period = `${start_date} - ${end_date}`;
         this.dialogService.open(CommonReportComponent, {
             data: {
-                data:this.allMemberships,
+                data: this.allMemberships,
                 period: period,
-                title:'All Memberships',
+                title: 'All Memberships',
             },
             header: `All MemberShips`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }
-    generateExcel(){}
+    generateExcel() {}
 }

@@ -20,8 +20,9 @@ import { CommonReportComponent } from '../reports/common-report/common-report.co
 export class ActiveLeavesComponent implements OnInit {
     loading: boolean = false;
     Data: Observable<Object>;
+    meal_pack_id: any = -1;
     start_date: any;
-    end_date: any = new Date().toISOString().substring(0, 10);
+    end_date: any ;
     datePipe: DatePipe = new DatePipe('en-US');
     selectedStudents: any = [];
     allMemberships: any = [];
@@ -36,10 +37,6 @@ export class ActiveLeavesComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.start_date = this.datePipe.transform(
-            new Date().setDate(new Date().getDate() - 30),
-            'yyyy-MM-dd'
-        );
         this.items = [
             {
                 label: 'End Leave',
@@ -52,13 +49,26 @@ export class ActiveLeavesComponent implements OnInit {
     }
 
     fetchTransactions(){
-        const start_date = this.datePipe.transform(this.start_date, 'dd-MM-yyyy');
-        const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
         this.loading = true;
         var url = `membership_data?what=ACTIVE_LEAVE_MEMBERSHIPS`
-        var dateFilter = `&sale_start_date=${start_date}&sale_end_date=${end_date}`
+        var membershipFilter = ``;
+        if (this.meal_pack_id != -1) {
+            membershipFilter = `&membership_id=${this.meal_pack_id}`;
+        }
+        var dateFilter = ``;
+        if (this.start_date != null && this.end_date != null) {
+            const start_date = this.datePipe.transform(
+                this.start_date,
+                'dd-MM-yyyy'
+            );
+            const end_date = this.datePipe.transform(
+                this.end_date,
+                'dd-MM-yyyy'
+            );
+            dateFilter = `&start_date=${start_date}&end_date=${end_date}`;
+        }
         this.Data = this.apiService
-            .getTypeRequest(url)
+            .getTypeRequest(url + membershipFilter + dateFilter)
             .pipe(
                 map((res: any) => {
                     this.loading = false;

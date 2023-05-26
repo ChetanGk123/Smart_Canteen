@@ -108,6 +108,7 @@
                                         pRipple
                                         icon="pi pi-file-excel"
                                         class="p-button-success mr-2"
+                                        *ngIf="allMemberships"
                                         pTooltip="XLS"
                                         tooltipPosition="bottom"
                                     ></button>
@@ -116,6 +117,7 @@
                                         pButton
                                         pRipple
                                         icon="pi pi-file-pdf"
+                                        *ngIf="allMemberships"
                                         (click)="generatePDF()"
                                         class="p-button-warning mr-2"
                                         pTooltip="PDF"
@@ -166,7 +168,6 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                
                                 <th style="width: 5rem">
                                     Slno
                                     <span
@@ -236,7 +237,6 @@
                             let-rowIndex="rowIndex"
                         >
                             <tr [pContextMenuRow]="product">
-
                                 <td>
                                     {{ rowIndex + 1 }}
                                 </td>

@@ -12,6 +12,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { AccountTransferComponent } from './account-transfer/account-transfer.component';
 import { CommodityAccountComponent } from './commodity-account/commodity-account.component';
+import { AccountsReportComponent } from './reports/accounts-report/accounts-report.component';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { CommodityAccountComponent } from './commodity-account/commodity-account
         AddEditAccountComponent,
         TransactionsComponent,
         CommodityAccountComponent,
+        AccountsReportComponent,
     ],
     imports: [
         CommonModule,

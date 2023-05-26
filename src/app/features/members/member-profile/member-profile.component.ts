@@ -165,7 +165,11 @@ export class MemberProfileComponent implements OnInit {
 
     add() {
         const ref = this.dialogService.open(AddMemberTransactionComponent, {
-            data: this.memberData,
+            data: {
+                member:this.memberData,
+                accountUrl:'INCOME_ACCOUNT_HEAD',
+                transactionUrl:'MEMBER_WALLET_REFILL'
+            },
             header: `Add Transaction`,
             styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
         });

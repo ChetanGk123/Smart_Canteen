@@ -27,6 +27,13 @@ import { LandingComponent } from './features/landing/landing.component';
                             component: DashboardComponent,
                         },
                         {
+                            path: 'attendance',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                            import('./features/attendance/attendance.module').then(
+                                (m) => m.AttendanceModule)
+                        },
+                        {
                             path: 'canteens',
                             canActivate: [AuthGuard],
                             loadChildren: () =>
