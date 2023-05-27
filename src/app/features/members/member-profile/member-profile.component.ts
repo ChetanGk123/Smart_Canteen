@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { AddMemberTransactionComponent } from '../add-member-transaction/add-member-transaction.component';
 import { ManageMemberComponent } from '../manage-member/manage-member.component';
 import { MemberService } from '../member.service';
+import { MemberCardHistoryComponent } from '../reports/member-card-history/member-card-history.component';
 import { MemberTransactionsComponent } from '../reports/member-transactions/member-transactions.component';
 
 @Component({
@@ -29,6 +30,7 @@ export class MemberProfileComponent implements OnInit {
     start_date: any;
     end_date: any;
     memberTransactions: any = [];
+    memberCardHistory: any = [];
     file_data: FormData;
     transactionData: Observable<Object>;
     form: FormGroup = new FormGroup({
@@ -102,6 +104,7 @@ export class MemberProfileComponent implements OnInit {
                 .pipe(
                     map((res: any) => {
                         this.cardHistoryLoading = false;
+                        this.memberCardHistory = res.data;
                         return res.data;
                     })
                 );
@@ -125,7 +128,7 @@ export class MemberProfileComponent implements OnInit {
             .postTypeRequest(`transaction_data/MEMBER_TRANSACTIONS`, Data)
             .pipe(
                 map((res: any) => {
-                    res.data.sort((a,b)=>Number(a.id) - Number(b.id))
+                    // res.data.sort((a,b)=>Number(a.id) - Number(b.id))
                     this.memberTransactions = res.data;
                     this.transactionLoading = false;
                     return res.data;
@@ -234,4 +237,24 @@ export class MemberProfileComponent implements OnInit {
         });
     }
     generateMemberTransactionsExcel() {}
+
+    generateMemberCardHistoryPDF() {
+        const start_date = this.datePipe.transform(
+            this.start_date,
+            'dd-MM-yyyy'
+        );
+        const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
+        const period = `${start_date} - ${end_date}`;
+        this.dialogService.open(MemberCardHistoryComponent, {
+            data: {
+                memberData:this.memberData,
+                statement_date:this.datePipe.transform(new Date(), 'dd-MM-yyyy'),
+                transactions_Data: this.memberCardHistory,
+                title: 'Member Card History',
+            },
+            header: `Member Card History`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+    }
+    generateMemberCardHistoryExcel() {}
 }

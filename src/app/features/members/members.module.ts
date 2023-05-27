@@ -13,6 +13,7 @@ import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberProfileComponent } from './member-profile/member-profile.component';
 import { AddMemberTransactionComponent } from './add-member-transaction/add-member-transaction.component';
 import { MemberTransactionsComponent } from './reports/member-transactions/member-transactions.component';
+import { MemberCardHistoryComponent } from './reports/member-card-history/member-card-history.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { MemberTransactionsComponent } from './reports/member-transactions/membe
         AddMemberTransactionComponent,
         MemberProfileComponent,
         MemberTransactionsComponent,
+        MemberCardHistoryComponent,
     ],
     imports: [
         CommonModule,

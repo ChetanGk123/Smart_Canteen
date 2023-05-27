@@ -56,7 +56,7 @@ export class InactiveMembershipsComponent implements OnInit {
                 this.end_date,
                 'dd-MM-yyyy'
             );
-            dateFilter = `&start_date=${start_date}&end_date=${end_date}`;
+            dateFilter = `&membership_start_date=${start_date}&membership_end_date=${end_date}`;
         }
         this.Data = this.apiService
             .getTypeRequest(url + membershipFilter + dateFilter)

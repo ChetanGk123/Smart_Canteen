@@ -39,7 +39,9 @@ export class CardHistoryReportComponent implements OnInit {
     ) {
         this.coreConfig = _coreEnvService.config;
     }
-
+/**
+ * TODO: fix column width
+ **/
     ngOnInit(): void {
         console.log(this.config.data.data);
 
@@ -142,7 +144,7 @@ export class CardHistoryReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [50, 120, 100, 100, 85, 85],
+                        widths: [28, 120, 100, 100, 85, 63],
                         body: [
                             [
                                 {
@@ -169,13 +171,11 @@ export class CardHistoryReportComponent implements OnInit {
                                     text: 'Reason',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
-                                    alignment: 'right',
                                 },
                                 {
                                     text: 'Updated On',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
-                                    alignment: 'right',
                                 },
                             ],
                             ...this.config.data?.data.map((p,index) => [

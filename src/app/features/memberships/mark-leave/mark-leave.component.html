@@ -170,7 +170,7 @@
             <div class="field p-fluid col-12 md:col-6" *ngIf="memberData">
                 <label for="leave_date"
                     >Leave
-                    {{ memberData?.isOnLeave == 1 ? "End" : "Start" }}
+                    {{ memberData?.membership_data.is_on_leave == 1 ? "End" : "Start" }}
                     Date</label
                 >
                 <input

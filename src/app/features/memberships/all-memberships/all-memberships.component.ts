@@ -13,9 +13,6 @@ import { MemberService } from '../../members/member.service';
 import { ActiveMembershipReceiptComponent } from '../../receipt/active-membership-receipt/active-membership-receipt.component';
 import { NewMembershipReceiptComponent } from '../../receipt/new-membership-receipt/new-membership-receipt.component';
 import { AddMembershipsComponent } from '../add-memberships/add-memberships.component';
-import { CancelMembershipComponent } from '../cancel-membership/cancel-membership.component';
-import { MarkLeaveComponent } from '../mark-leave/mark-leave.component';
-import { MassLeaveComponent } from '../mass-leave/mass-leave.component';
 import { CommonReportComponent } from '../reports/common-report/common-report.component';
 
 @Component({
@@ -60,19 +57,6 @@ export class AllMembershipsComponent implements OnInit {
 
         this.selectedStudents = [];
         this.items = [
-            {
-                label: 'Cancel',
-                icon: 'pi pi-fw pi-times',
-                command: () => this.cancelMembership(),
-            },
-            {
-                label: 'Mark Leave',
-                icon: 'pi pi-fw pi-calendar-minus',
-                command: () => this.markLeave(),
-            },
-            {
-                separator: true,
-            },
             {
                 label: 'Print Details (A4)',
                 icon: 'pi pi-fw pi-print',
@@ -136,7 +120,7 @@ export class AllMembershipsComponent implements OnInit {
                 this.end_date,
                 'dd-MM-yyyy'
             );
-            dateFilter = `&start_date=${start_date}&end_date=${end_date}`;
+            dateFilter = `&membership_start_date=${start_date}&membership_end_date=${end_date}`;
         }
         this.Data = this.apiService
             .getTypeRequest(url + membershipFilter + dateFilter)
@@ -204,22 +188,6 @@ export class AllMembershipsComponent implements OnInit {
             );
     }
 
-    showLeaveDialog() {
-        const ref = this.dialogService.open(MassLeaveComponent, {
-            data: {
-                selectedStudents: this.selectedStudents,
-                operation: 'start',
-            },
-            header: `Start Leave`,
-            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
-        });
-        ref.onClose.subscribe((result: any) => {
-            if (result) {
-                this.ngOnInit();
-            }
-        });
-    }
-
     clear(table: Table) {
         table.clear();
     }
@@ -251,19 +219,6 @@ export class AllMembershipsComponent implements OnInit {
         this.router.navigate(['members/memberProfile']);
     }
 
-    markLeave() {
-        const ref = this.dialogService.open(MarkLeaveComponent, {
-            data: this.selectedProduct,
-            header: `Leave Details`,
-            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
-        });
-        ref.onClose.subscribe((result: any) => {
-            if (result) {
-                this.ngOnInit();
-            }
-        });
-    }
-
     printMembership() {
         // //
         this.dialogService.open(ActiveMembershipReceiptComponent, {
@@ -281,19 +236,6 @@ export class AllMembershipsComponent implements OnInit {
             data: this.selectedProduct,
             header: `MemberShip Details`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
-        });
-    }
-
-    cancelMembership() {
-        const ref = this.dialogService.open(CancelMembershipComponent, {
-            data: this.selectedProduct,
-            header: `Cancel MemberShip`,
-            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
-        });
-        ref.onClose.subscribe((result: any) => {
-            if (result) {
-                this.ngOnInit();
-            }
         });
     }
 

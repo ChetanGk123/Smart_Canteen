@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -14,6 +15,7 @@ export class MarkLeaveComponent implements OnInit {
     showMemberData: boolean = false;
     cardNumber: any = null;
     memberData: any;
+    datePipe: DatePipe = new DatePipe('en-US');
     memberIDs: Number[] = [];
     Data: any;
     commonForm: FormGroup = new FormGroup({
@@ -42,9 +44,12 @@ export class MarkLeaveComponent implements OnInit {
         if (this.cardNumber != null && this.cardNumber.length >= 14) {
             this.loading = true;
             const cardNumber = this.cardNumber.trim();
+            console.log(this.memberData);
+
             this.cardNumber = '';
+            var url = ''
             this.apiService
-                .getTypeRequest(`leave_data/${cardNumber}`)
+                .getTypeRequest(`leave_data?member_id=${this.memberData.member_id}`)
                 .toPromise()
                 .then((result: any) => {
                     this.loading = false;
@@ -59,6 +64,8 @@ export class MarkLeaveComponent implements OnInit {
                             this.memberData?.membership_data.is_on_leave == 1
                                 ? 'End Leave'
                                 : 'Start Leave';
+                    } else if(result.message == "No leave data for this combination"){
+                        this.config.header = 'Start Leave'
                     }
                 })
                 .finally(() => {
@@ -68,21 +75,23 @@ export class MarkLeaveComponent implements OnInit {
     }
 
     submitClick() {
-        // //
-        let member_ids: any = [];
-        member_ids.push(this.memberData.member_id);
-        //
-        var operation = this.memberData?.isOnLeave == 1 ? 'end' : 'start';
-        var Data = {
-            member_ids: member_ids,
-            leave_date: this.commonForm.get('leave_date').value,
-        };
-        //
+        var operation = this.memberData?.membership_data.is_on_leave == 1 ? 'end' : 'start';
+        var payload = {
+            leave_array:[
+                {
+                    member_id: this.memberData.member_id,
+                    leave_date: this.datePipe.transform(
+                        this.commonForm.get('leave_date').value,
+                        'dd-MM-yyyy'
+                    ),
+                }
+            ]
+        }
 
         if (this.commonForm.valid) {
             this.loading = true;
             this.apiService
-                .postTypeRequest(`leave_ops/${operation}`, Data)
+                .postTypeRequest(`leave_ops/${operation}`, payload)
                 .toPromise()
                 .then((resopnse: any) => {
                     if (resopnse.result) {

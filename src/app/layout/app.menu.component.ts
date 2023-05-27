@@ -105,6 +105,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/memberships/saleHistory'],
                     },
+                    {
+                        label: 'Leave History',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/memberships/leaveHistory'],
+                    },
                 ],
             },
             {

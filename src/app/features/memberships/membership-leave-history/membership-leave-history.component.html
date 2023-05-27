@@ -3,7 +3,7 @@
         <div class="card">
             <p-toolbar styleClass="mb-4" class="align-content-center">
                 <ng-template class="align-content-center" pTemplate="left">
-                    <h4>Active Memberships</h4>
+                    <h4>Leave History</h4>
                 </ng-template>
 
                 <ng-template pTemplate="right">
@@ -11,7 +11,7 @@
                         *ngIf="selectedStudents.length > 0"
                         pButton
                         pRipple
-                        label="Asign Leave"
+                        label="End Leave"
                         icon="pi pi-users"
                         class="mr-2 inline-block p-button"
                         (click)="showLeaveDialog()"
@@ -83,7 +83,6 @@
                         [(selection)]="selectedStudents"
                         [contextMenu]="cm"
                         dataKey="card_number"
-                        [rowSelectable]="isRowSelectable"
                         [value]="Data | async"
                         [paginator]="true"
                         selectionMode="multiple"
@@ -146,12 +145,29 @@
                                     </span>
                                 </div>
                             </div>
+                            <!-- <div
+                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div> -->
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th style="width: 3rem">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
                                 <th style="width: 5rem">
                                     Slno
                                     <span
@@ -199,11 +215,11 @@
                                     <p-sortIcon field="end_date"></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="isOnLeave"
+                                    pSortableColumn="status"
                                     style="min-width: 11rem"
                                 >
-                                    Leave Status
-                                    <p-sortIcon field="isOnLeave"></p-sortIcon>
+                                    Status
+                                    <p-sortIcon field="status"></p-sortIcon>
                                 </th>
                                 <th
                                     pSortableColumn="total_amt"
@@ -221,12 +237,6 @@
                             let-rowIndex="rowIndex"
                         >
                             <tr [pContextMenuRow]="product">
-                                <td>
-                                    <p-tableCheckbox
-                                        [value]="product"
-                                        [disabled]="isOnLeave(product)"
-                                    ></p-tableCheckbox>
-                                </td>
                                 <td>
                                     {{ rowIndex + 1 }}
                                 </td>
@@ -269,6 +279,17 @@
                                         >
                                     </div>
                                 </td>
+                                <!-- "leave_data": {
+                                    "leave_id": "4",
+                                    "member_id": "2",
+                                    "membership_id": "4",
+                                    "leave_start_date": "27-05-2023",
+                                    "raw_leave_start_date": "2023-05-27",
+                                    "leave_end_date": null,
+                                    "raw_leave_end_date": null,
+                                    "days_extended": "0",
+                                    "is_resumed": "0"
+                                }, -->
                                 <td>
                                     {{ product.membership_data.meal_pack_name }}
                                 </td>
@@ -276,10 +297,10 @@
                                     {{ product.membership_data.max_days }}
                                 </td>
                                 <td>
-                                    {{ product.membership_data.start_date }}
+                                    {{ product.leave_data.leave_start_date }}
                                 </td>
                                 <td>
-                                    {{ product.membership_data.end_date }}
+                                    {{ product.leave_data.leave_end_date??"-" }}
                                 </td>
                                 <td>
                                     <i

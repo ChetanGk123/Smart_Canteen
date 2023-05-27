@@ -75,7 +75,7 @@ export class MembershipSaleHistoryComponent implements OnInit {
                 this.end_date,
                 'dd-MM-yyyy'
             );
-            dateFilter = `&start_date=${start_date}&end_date=${end_date}`;
+            dateFilter = `&sale_start_date=${start_date}&sale_end_date=${end_date}`;
         }
         this.Data = this.apiService
             .getTypeRequest(url+dateFilter)

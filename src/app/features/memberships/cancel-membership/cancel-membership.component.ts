@@ -29,26 +29,24 @@ export class CancelMembershipComponent implements OnInit {
     //     isSettleFromBalance: new FormControl(false),
     // });
     commonForm: FormGroup = new FormGroup({
-        member_id: new FormControl(this.config.data.member_id),
+        member_id: new FormControl(this.config.data.member_id, [Validators.required]),
         cancellation_comments: new FormControl('', [Validators.required]),
         cancellation_date: new FormControl(
             new Date().toISOString().substring(0, 10),
             [Validators.required]
         ),
-        settleType: new FormControl('isSettleFromBalance', [Validators.required]),
-        isSettleFromBalance: new FormControl(true),
+        isSettleFromBalance: new FormControl(false),
         addRetunableAmountToWallet: new FormControl(false),
         account_head_id: new FormControl(''),
-        counter_id: new FormControl('', [Validators.required]),
+        counter_id: new FormControl(''),
         returnable_amount: new FormControl(),
-        txn_date: new FormControl(new Date().toISOString().substring(0, 10), [
-            Validators.required,
-        ]),
+        txn_date: new FormControl(new Date().toISOString().substring(0, 10)),
         txn_comments: new FormControl(),
         payment_mode: new FormControl(),
         payment_ref: new FormControl(),
     });
     loading: boolean = false;
+    displayPaymentDetails: boolean = true;
     constructor(
         public ref: DynamicDialogRef,
         public config: DynamicDialogConfig,
@@ -65,40 +63,61 @@ export class CancelMembershipComponent implements OnInit {
                     this.accountList = resopnse.data;
                 }
             });
-    }
-
-    toggleSettleType(){
-        console.log(this.settleType);
-        if(this.settleType == 'isSettleFromBalance'){
-            this.commonForm.get('isSettleFromBalance').setValue(true);
-            this.commonForm.get('addRetunableAmountToWallet').setValue(false);
-            this.commonForm
-                .get('account_head_id')
-                .setValidators(Validators.required);
-        } else {
-            this.commonForm.get('isSettleFromBalance').setValue(false);
-            this.commonForm.get('addRetunableAmountToWallet').setValue(true);
-        }
-        this.updateFormStatus()
+            this.updateFormStatus()
     }
 
     updateFormStatus() {
-        var status = this.commonForm.get('isSettleFromBalance').value;
-        if (status) {
-            this.commonForm.get('returnable_amount').clearValidators();
-            this.commonForm.get('returnable_amount').setValue(null);
-            this.commonForm.get('returnable_amount').disable();
-            this.commonForm.get('returnable_amount').markAsUntouched();
+        // var status = this.commonForm.get('isSettleFromBalance').value;
+        // var returnable_amount = this.commonForm.get('returnable_amount').value;
+        // if (Number(returnable_amount) > 0) {
+        //     this.commonForm.get('account_head_id').disable();
+        //     this.commonForm.get('txn_date').disable();
+        //     this.commonForm.get('txn_date').setValidators(Validators.required);
+        //     this.commonForm.get('account_head_id').markAsDirty();
+        //     this.commonForm.get('account_head_id').updateValueAndValidity();
+        // } else {
+        //     this.commonForm.get('account_head_id').enable();
+        //     this.commonForm.get('account_head_id').setValue(null);
+        //     this.commonForm.get('account_head_id').markAsUntouched();
+        // }
+        // this.commonForm.updateValueAndValidity();
+        // if (status) {
+        //     this.commonForm.get('returnable_amount').clearValidators();
+        //     this.commonForm.get('returnable_amount').setValue(null);
+        //     this.commonForm.get('returnable_amount').disable();
+        //     this.commonForm.get('returnable_amount').markAsUntouched();
+        // } else {
+        //     this.commonForm.get('returnable_amount').enable();
+        //     this.commonForm
+        //         .get('returnable_amount')
+        //         .setValidators(Validators.required);
+        //     this.commonForm.get('returnable_amount').markAsTouched();
+        // }
+        var isSettleFromBalance = this.commonForm.get('isSettleFromBalance').value;
+        var addRetunableAmountToWallet = this.commonForm.get('addRetunableAmountToWallet').value;
+        if(isSettleFromBalance == false && addRetunableAmountToWallet == false){
+            this.displayPaymentDetails = true
         } else {
-            this.commonForm.get('returnable_amount').enable();
-            this.commonForm
-                .get('returnable_amount')
-                .setValidators(Validators.required);
-            this.commonForm.get('returnable_amount').markAsTouched();
+            this.displayPaymentDetails = false
+        }
+
+        if(this.displayPaymentDetails){
+            this.commonForm.get('account_head_id').setValidators(Validators.required);
+            this.commonForm.get('payment_mode').setValidators(Validators.required);
+            this.commonForm.get('payment_ref').setValidators(Validators.required);
+            this.commonForm.get('txn_comments').setValidators(Validators.required);
+        } else {
+            debugger
+            this.commonForm.get('account_head_id').clearValidators();
+            this.commonForm.get('payment_mode').clearValidators();
+            this.commonForm.get('payment_ref').clearValidators();
+            this.commonForm.get('txn_comments').clearValidators();
+            this.commonForm.updateValueAndValidity()
         }
     }
 
     submitClick() {
+        debugger
         if (this.commonForm.valid) {
             this.add();
         } else {

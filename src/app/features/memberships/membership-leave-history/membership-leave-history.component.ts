@@ -7,17 +7,18 @@ import { Table } from 'primeng/table';
 import { map, Observable } from 'rxjs';
 import { MembershipType } from 'src/app/core/interfaces/appconfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
-import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { MemberService } from '../../members/member.service';
 import { MarkLeaveComponent } from '../mark-leave/mark-leave.component';
 import { MassLeaveComponent } from '../mass-leave/mass-leave.component';
 import { CommonReportComponent } from '../reports/common-report/common-report.component';
 
 @Component({
-    selector: 'app-active-leaves',
-    templateUrl: './active-leaves.component.html',
-    styleUrls: ['./active-leaves.component.scss'],
+  selector: 'app-membership-leave-history',
+  templateUrl: './membership-leave-history.component.html',
+  styleUrls: ['./membership-leave-history.component.scss']
 })
-export class ActiveLeavesComponent implements OnInit {
+export class MembershipLeaveHistoryComponent implements OnInit {
+
     loading: boolean = false;
     Data: Observable<Object>;
     meal_pack_id: any = -1;
@@ -50,7 +51,7 @@ export class ActiveLeavesComponent implements OnInit {
 
     fetchTransactions(){
         this.loading = true;
-        var url = `membership_data?what=ACTIVE_LEAVE_MEMBERSHIPS`
+        var url = `leave_data?what=ALL_LEAVES`
         var membershipFilter = ``;
         if (this.meal_pack_id != -1) {
             membershipFilter = `&membership_id=${this.meal_pack_id}`;
@@ -210,4 +211,5 @@ export class ActiveLeavesComponent implements OnInit {
         });
     }
     generateExcel(){}
+
 }

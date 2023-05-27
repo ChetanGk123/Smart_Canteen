@@ -20,6 +20,8 @@ import { AllMembershipsComponent } from './all-memberships/all-memberships.compo
 import { CommonReportComponent } from './reports/common-report/common-report.component';
 import { MembershipSaleHistoryComponent } from './membership-sale-history/membership-sale-history.component';
 import { MembershipSaleHistoryReportComponent } from './reports/membership-sale-history-report/membership-sale-history-report.component';
+import { LeaveReportComponent } from './reports/leave-report/leave-report.component';
+import { MembershipLeaveHistoryComponent } from './membership-leave-history/membership-leave-history.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +36,8 @@ import { MembershipSaleHistoryReportComponent } from './reports/membership-sale-
         CommonReportComponent,
         MembershipSaleHistoryComponent,
         MembershipSaleHistoryReportComponent,
+        LeaveReportComponent,
+        MembershipLeaveHistoryComponent,
     ],
     imports: [
         CommonModule,

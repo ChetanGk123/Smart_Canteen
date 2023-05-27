@@ -8,15 +8,6 @@
 
                 <ng-template pTemplate="right">
                     <button
-                        *ngIf="selectedStudents.length > 0"
-                        pButton
-                        pRipple
-                        label="Asign Leave"
-                        icon="pi pi-users"
-                        class="mr-2 inline-block p-button"
-                        (click)="showLeaveDialog()"
-                    ></button>
-                    <button
                         (document:keydown.Alt.n)="add()"
                         pButton
                         pRipple
@@ -96,7 +87,6 @@
                         [(selection)]="selectedStudents"
                         [contextMenu]="cm"
                         dataKey="card_number"
-                        [rowSelectable]="isRowSelectable"
                         [value]="Data | async"
                         [paginator]="true"
                         selectionMode="multiple"
@@ -162,9 +152,6 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th style="width: 3rem">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
                                 <th style="width: 5rem">
                                     Slno
                                     <span
@@ -215,7 +202,7 @@
                                     pSortableColumn="status"
                                     style="min-width: 11rem"
                                 >
-                                    Status
+                                    Leave Status
                                     <p-sortIcon field="status"></p-sortIcon>
                                 </th>
                                 <th
@@ -234,12 +221,6 @@
                             let-rowIndex="rowIndex"
                         >
                             <tr [pContextMenuRow]="product">
-                                <td>
-                                    <p-tableCheckbox
-                                        [value]="product"
-                                        [disabled]="isOnLeave(product)"
-                                    ></p-tableCheckbox>
-                                </td>
                                 <td>
                                     {{ rowIndex + 1 }}
                                 </td>
@@ -299,11 +280,11 @@
                                         class="pi flex justify-content-center align-items-center"
                                         [ngClass]="{
                                             'true-icon pi-check-circle p-success':
-                                                product.status == 1
+                                                product.membership_data.is_on_leave == 1
                                                     ? true
                                                     : false,
                                             'false-icon pi-times-circle p-error':
-                                                !product.status == 1
+                                                product.membership_data.is_on_leave == 0
                                                     ? true
                                                     : false
                                         }"

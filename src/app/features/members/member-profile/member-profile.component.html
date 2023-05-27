@@ -548,41 +548,53 @@
                 [filterDelay]="0"
                 [globalFilterFields]="['membership_name']"
             >
-                <ng-template pTemplate="caption">
-                    <div
-                        class="table-header align-content-center justify-content-end grid flex"
-                    >
-                        <div
-                            class="col-12 md:col-8 lg:6 grid justify-content-end"
-                            style="text-align: end"
-                        >
-                            <span class="p-input-icon-left">
-                                <i class="pi pi-search"></i>
-                                <input
-                                    pInputText
-                                    type="text"
-                                    #filter
-                                    autofocus
-                                    (input)="
-                                        dt.filterGlobal(
-                                            $event.target.value,
-                                            'contains'
-                                        )
-                                    "
-                                    placeholder="Global Search"
-                                />
-                            </span>
-                            <button
-                                pButton
-                                pRipple
-                                type="button"
-                                icon="pi pi-filter-slash"
-                                (click)="clear(dt); filter.value = ''"
-                                class="p-button-rounded p-button-outlined p-action-button ml-3 m-1 mr-3"
-                            ></button>
-                        </div>
+            <ng-template pTemplate="caption">
+                <div class="flex grid">
+                    <div class="col-6">
+                        <button
+                            type="button"
+                            pButton
+                            pRipple
+                            icon="pi pi-file-excel"
+                            class="p-button-success mr-2"
+                            *ngIf="memberCardHistory"
+                            pTooltip="XLS"
+                            tooltipPosition="bottom"
+                        ></button>
+                        <button
+                            type="button"
+                            pButton
+                            pRipple
+                            icon="pi pi-file-pdf"
+                            *ngIf="memberCardHistory"
+                            (click)="generateMemberCardHistoryPDF()"
+                            class="p-button-warning mr-2"
+                            pTooltip="PDF"
+                            tooltipPosition="bottom"
+                        ></button>
                     </div>
-                </ng-template>
+                    <div
+                        class="ml-auto col"
+                        style="text-align: end"
+                    >
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                                type="search"
+                                pInputText
+                                #filter
+                                (input)="
+                                    dt.filterGlobal(
+                                        $event.target.value,
+                                        'contains'
+                                    )
+                                "
+                                placeholder="Global Search"
+                            />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
                         <th>

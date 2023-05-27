@@ -121,7 +121,7 @@ export class MemberTransactionsComponent implements OnInit {
                                 alignment: 'center',
                             },
                             {
-                                text: 'Account Transactions',
+                                text: 'Member Wallet Transactions',
                                 decoration: 'underline',
                                 fontSize: 13,
                                 // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
@@ -137,7 +137,7 @@ export class MemberTransactionsComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Account: ${this.config.data.memberData.full_name}`,
+                                text: `Name: ${this.config.data.memberData.full_name}`,
                                 alignment: 'left',
                             },
                         ],
@@ -147,6 +147,21 @@ export class MemberTransactionsComponent implements OnInit {
                                 text: `Balance on ${this.config.data.statement_date}: ₹ ${this.config.data.memberData.balance}`,
                                 alignment: 'right',
                             },
+                        ],
+                    ],
+                    // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                    margin: [-15, 0, -15, 5],
+                },
+                {
+                    columns: [
+                        [
+                            {
+                                width: 'auto',
+                                text: `Card No: ${this.config.data.memberData.card_number}`,
+                                alignment: 'left',
+                            },
+                        ],
+                        [
                         ],
                     ],
                     // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
