@@ -145,29 +145,12 @@
                                     </span>
                                 </div>
                             </div>
-                            <!-- <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                    style="text-align: end"
-                                >
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input
-                                            type="search"
-                                            pInputText
-                                            #filter
-                                            (input)="
-                                                dt.filterGlobal(
-                                                    $event.target.value,
-                                                    'contains'
-                                                )
-                                            "
-                                            placeholder="Global Search"
-                                        />
-                                    </span>
-                                </div> -->
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
                                 <th style="width: 5rem">
                                     Slno
                                     <span
@@ -218,7 +201,7 @@
                                     pSortableColumn="status"
                                     style="min-width: 11rem"
                                 >
-                                    Status
+                                    Leave Status
                                     <p-sortIcon field="status"></p-sortIcon>
                                 </th>
                                 <th
@@ -237,6 +220,11 @@
                             let-rowIndex="rowIndex"
                         >
                             <tr [pContextMenuRow]="product">
+                                <td>
+                                    <p-tableCheckbox
+                                        [value]="product"
+                                    ></p-tableCheckbox>
+                                </td>
                                 <td>
                                     {{ rowIndex + 1 }}
                                 </td>
@@ -293,7 +281,7 @@
                                 </td>
                                 <td>
                                     <i
-                                        class="pi flex justify-content-center align-items-center"
+                                        class="pi"
                                         [ngClass]="{
                                             'true-icon pi-check-circle p-success':
                                                 product.status == 1
@@ -304,6 +292,12 @@
                                                     ? true
                                                     : false
                                         }"
+                                        [pTooltip]="
+                                            product.membership_data
+                                                .is_on_leave == 1
+                                                ? 'Active'
+                                                : 'Inactive'
+                                        "
                                     ></i>
                                 </td>
                                 <td>

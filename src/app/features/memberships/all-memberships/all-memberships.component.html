@@ -277,17 +277,25 @@
                                 </td>
                                 <td>
                                     <i
-                                        class="pi flex justify-content-center align-items-center"
+                                        class="pi"
                                         [ngClass]="{
                                             'true-icon pi-check-circle p-success':
-                                                product.membership_data.is_on_leave == 1
+                                                product.membership_data
+                                                    .is_on_leave == 1
                                                     ? true
                                                     : false,
                                             'false-icon pi-times-circle p-error':
-                                                product.membership_data.is_on_leave == 0
+                                                product.membership_data
+                                                    .is_on_leave == 0
                                                     ? true
                                                     : false
                                         }"
+                                        [pTooltip]="
+                                            product.membership_data
+                                                .is_on_leave == 1
+                                                ? 'Active'
+                                                : 'Inactive'
+                                        "
                                     ></i>
                                 </td>
                                 <td>

@@ -253,7 +253,7 @@
                                 </td>
                                 <td>
                                     <i
-                                        class="pi flex justify-content-center align-items-center"
+                                        class="pi"
                                         [ngClass]="{
                                             'true-icon pi-check-circle p-success':
                                                 product.isOnLeave == 1
@@ -264,6 +264,7 @@
                                                     ? true
                                                     : false
                                         }"
+                                        [pTooltip]="product.isOnLeave == 1?'On Leave':''"
                                     ></i>
                                 </td>
                                 <td>

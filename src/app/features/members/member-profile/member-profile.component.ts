@@ -11,6 +11,7 @@ import { AddMemberTransactionComponent } from '../add-member-transaction/add-mem
 import { ManageMemberComponent } from '../manage-member/manage-member.component';
 import { MemberService } from '../member.service';
 import { MemberCardHistoryComponent } from '../reports/member-card-history/member-card-history.component';
+import { MemberLeaveHistoryComponent } from '../reports/member-leave-history/member-leave-history.component';
 import { MemberTransactionsComponent } from '../reports/member-transactions/member-transactions.component';
 
 @Component({
@@ -25,12 +26,14 @@ export class MemberProfileComponent implements OnInit {
     transactionLoading: boolean = false;
     displayTransaction: boolean = false;
     cardHistory: Observable<Object>;
+    leaveHistory: Observable<Object>;
     memberData: any;
     datePipe: DatePipe = new DatePipe('en-US');
     start_date: any;
     end_date: any;
     memberTransactions: any = [];
     memberCardHistory: any = [];
+    memberLeaveHistory: any = [];
     file_data: FormData;
     transactionData: Observable<Object>;
     form: FormGroup = new FormGroup({
@@ -132,6 +135,67 @@ export class MemberProfileComponent implements OnInit {
                     this.memberTransactions = res.data;
                     this.transactionLoading = false;
                     return res.data;
+                })
+            );
+        this.leaveHistory = this.apiService
+            .getTypeRequest(`leave_data?what=ALL_LEAVES_BY_MEMBER&member_id=${this.memberData.member_id}`)
+            .pipe(
+                map((res: any) => {
+                    // res.data.sort((a,b)=>Number(a.id) - Number(b.id))
+                    this.memberLeaveHistory = res.data;
+                    return res.data;
+                    // {
+                    //     "member_id": "1",
+                    //     "card_number": "74475537390120",
+                    //     "counter_id": "1",
+                    //     "full_name": "faaaaaull_name",
+                    //     "gender": "gender",
+                    //     "phone_number": "phone_number",
+                    //     "parents_ph": "parents_ph",
+                    //     "dob": "00-00-0000",
+                    //     "email": "email",
+                    //     "school_name": "new school name",
+                    //     "class_name": "class_name",
+                    //     "division_name": "division_name",
+                    //     "hostel_details": "hostel_details",
+                    //     "photo_url": "https:\/\/thetechvaidya.com\/cooksbook_new\/uploads\/member_docs\/Y5I8VSAX.png",
+                    //     "profile_photo": "member_docs\/Y5I8VSAX.png",
+                    //     "member_type_id": "1",
+                    //     "member_type": "Studet",
+                    //     "address": "address",
+                    //     "status": "1",
+                    //     "balance": "-4900.00",
+                    //     "leave_data": {
+                    //         "leave_id": "5",
+                    //         "member_id": "1",
+                    //         "membership_id": "5",
+                    //         "leave_start_date": "27-05-2023",
+                    //         "raw_leave_start_date": "2023-05-27",
+                    //         "leave_end_date": null,
+                    //         "raw_leave_end_date": null,
+                    //         "days_extended": "0",
+                    //         "is_resumed": "0"
+                    //     },
+                    //     "membership_data": {
+                    //         "membership_id": "5",
+                    //         "member_id": "1",
+                    //         "counter_id": "1",
+                    //         "membership_number": "MT25052023000002",
+                    //         "meal_pack_id": "11",
+                    //         "meal_pack_name": "Full Day Meals",
+                    //         "price_per_pack": "200.00",
+                    //         "total_meal_packs": "30",
+                    //         "total_amount": "6000.00",
+                    //         "max_days": "30",
+                    //         "start_date": "25-05-2023",
+                    //         "raw_start_date": "2023-05-25",
+                    //         "end_date": "23-06-2023",
+                    //         "raw_end_date": "2023-06-23",
+                    //         "is_active": "1",
+                    //         "is_on_leave": "1",
+                    //         "sale_date": "25-05-2023"
+                    //     }
+                    // },
                 })
             );
     }
@@ -257,4 +321,24 @@ export class MemberProfileComponent implements OnInit {
         });
     }
     generateMemberCardHistoryExcel() {}
+
+    generateMemberLeaveHistoryPDF() {
+        const start_date = this.datePipe.transform(
+            this.start_date,
+            'dd-MM-yyyy'
+        );
+        const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
+        const period = `${start_date} - ${end_date}`;
+        this.dialogService.open(MemberLeaveHistoryComponent, {
+            data: {
+                memberData:this.memberData,
+                statement_date:this.datePipe.transform(new Date(), 'dd-MM-yyyy'),
+                transactions_Data: this.memberLeaveHistory,
+                title: 'Member Leave History',
+            },
+            header: `Member Leave History`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+    }
+    generateMemberLeaveHistoryExcel() {}
 }

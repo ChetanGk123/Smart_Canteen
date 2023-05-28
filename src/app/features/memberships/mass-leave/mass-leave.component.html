@@ -48,9 +48,9 @@
             <div class="product-item">
                 <div class="image-container">
                     <p-avatar
-                        *ngIf="product.profile_photo; else customAvatar"
+                        *ngIf="product.photo_url; else customAvatar"
                         [image]="
-                            sanitizeImageUrl(product.profile_photo) ??
+                            sanitizeImageUrl(product.photo_url) ??
                             'assets/logo.png'
                         "
                         styleClass="mr-2"

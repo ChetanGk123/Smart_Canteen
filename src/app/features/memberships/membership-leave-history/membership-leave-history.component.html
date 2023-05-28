@@ -145,26 +145,6 @@
                                     </span>
                                 </div>
                             </div>
-                            <!-- <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                    style="text-align: end"
-                                >
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input
-                                            type="search"
-                                            pInputText
-                                            #filter
-                                            (input)="
-                                                dt.filterGlobal(
-                                                    $event.target.value,
-                                                    'contains'
-                                                )
-                                            "
-                                            placeholder="Global Search"
-                                        />
-                                    </span>
-                                </div> -->
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
@@ -194,13 +174,6 @@
                                     ></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="days"
-                                    style="min-width: 7rem"
-                                >
-                                    Days
-                                    <p-sortIcon field="days"></p-sortIcon>
-                                </th>
-                                <th
                                     pSortableColumn="start_date"
                                     style="min-width: 9rem"
                                 >
@@ -218,17 +191,9 @@
                                     pSortableColumn="status"
                                     style="min-width: 11rem"
                                 >
-                                    Status
+                                    Leave Status
                                     <p-sortIcon field="status"></p-sortIcon>
                                 </th>
-                                <th
-                                    pSortableColumn="total_amt"
-                                    style="min-width: 9rem"
-                                >
-                                    Total Amt
-                                    <p-sortIcon field="total_amt"></p-sortIcon>
-                                </th>
-                                <th>Actions</th>
                             </tr>
                         </ng-template>
                         <ng-template
@@ -293,18 +258,15 @@
                                 <td>
                                     {{ product.membership_data.meal_pack_name }}
                                 </td>
-                                <td>
-                                    {{ product.membership_data.max_days }}
-                                </td>
-                                <td>
+                                <td class="text-center">
                                     {{ product.leave_data.leave_start_date }}
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     {{ product.leave_data.leave_end_date??"-" }}
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <i
-                                        class="pi flex justify-content-center align-items-center"
+                                        class="pi"
                                         [ngClass]="{
                                             'true-icon pi-check-circle p-success':
                                                 product.membership_data.is_on_leave == 1
@@ -315,26 +277,8 @@
                                                     ? true
                                                     : false
                                         }"
+                                        [pTooltip]="product.membership_data.is_on_leave == 1?'Active':'Inactive'"
                                     ></i>
-                                </td>
-                                <td>
-                                    {{
-                                        product.membership_data.total_amount
-                                            | currency : "INR"
-                                    }}
-                                </td>
-                                <td>
-                                    <button
-                                        pButton
-                                        pRipple
-                                        type="button"
-                                        icon="pi pi-ellipsis-v"
-                                        (click)="
-                                            selectedProduct = product;
-                                            menu.toggle($event)
-                                        "
-                                        class="p-button-rounded p-button-text p-action-button"
-                                    ></button>
                                 </td>
                             </tr>
                         </ng-template>

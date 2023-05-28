@@ -1,27 +1,24 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import imageToBase64 from 'image-to-base64/browser';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
-import { DatePipe } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
-import { MemberService } from 'src/app/features/members/member.service';
-
+import { MemberService } from '../../member.service';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-leave-report',
-  templateUrl: './leave-report.component.html',
-  styleUrls: ['./leave-report.component.scss']
+    selector: 'app-member-leave-history',
+    templateUrl: './member-leave-history.component.html',
+    styleUrls: ['./member-leave-history.component.scss'],
 })
-export class LeaveReportComponent implements OnInit {
-
+export class MemberLeaveHistoryComponent implements OnInit {
     src: any;
     logo: any;
     name: any;
@@ -43,7 +40,8 @@ export class LeaveReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
+        console.log(this.config.data);
 
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
@@ -114,23 +112,37 @@ export class LeaveReportComponent implements OnInit {
                                 bold: false,
                                 alignment: 'center',
                             },
+
                         ],
                     ],
                     margin: [-15, 15, -15, 10],
                 },
                 {
+                    text: `Name: ${this.config.data.memberData.full_name}`,
+                    // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                    margin: [-15, 15, 0, 10],
+                },
+                {
+                    text: `Card No: ${this.config.data.memberData.card_number}`,
+                    // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                    margin: [-15, 0, -15, 10],
+                },
+                {
                     columns: [
                         [
-                            {
-                                width: 'auto',
-                                text: `Period: ${this.config.data.period}`,
-                                alignment: 'left',
-                            },
+                            // {
+                            //     width: 'auto',
+                            //     text: `Period: ${this.config.data.period}`,
+                            //     alignment: 'left',
+                            // },
                         ],
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -144,16 +156,11 @@ export class LeaveReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [33, 150, 118, 63, 63, 63],
+                        widths: [33, '*', 63, 63, 63],
                         body: [
                             [
                                 {
                                     text: 'SlNo',
-                                    margin: [5, 5, 0, 5],
-                                    border: [false, true, false, true],
-                                },
-                                {
-                                    text: 'Name',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
@@ -178,43 +185,42 @@ export class LeaveReportComponent implements OnInit {
                                     border: [false, true, false, true],
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
-                                {
-                                    text: index+1,
-                                    border: [false, false, false, false],
-                                    margin: [5, 5, 0, -5],
-                                },
-                                {
-                                    text: p.full_name,
-                                    border: [false, false, false, false],
-                                    margin: [5, 5, 0, -5],
-                                },
-                                {
-                                    text: p.membership_data.meal_pack_name,
-                                    border: [false, false, false, false],
-                                    margin: [5, 5, 0, -5],
-                                },
-                                {
-                                    text: p.leave_data.leave_start_date,
-                                    border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
-                                },
-                                {
-                                    text:
-                                        p.leave_data.leave_end_date??"-",
-                                    border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
-                                },
-                                {
-                                    text:
-                                        p.membership_data.is_on_leave == 1?'Active':'Inactive'??"-",
-                                    border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
-                                },
-                            ]),
+                            ...this.config.data?.transactions_Data.map(
+                                (p, index) => [
+                                    {
+                                        text: index + 1,
+                                        border: [false, false, false, false],
+                                        margin: [5, 5, 0, -5],
+                                    },
+                                    {
+                                        text: p.membership_data.meal_pack_name,
+                                        border: [false, false, false, false],
+                                        margin: [5, 5, 0, -5],
+                                    },
+                                    {
+                                        text: p.leave_data.leave_start_date,
+                                        border: [false, false, false, false],
+                                        margin: [0, 5, 0, -5],
+                                    },
+                                    {
+                                        text:
+                                            p.leave_data.leave_end_date ?? '-',
+                                        border: [false, false, false, false],
+                                        margin: [0, 5, 0, -5],
+                                    },
+                                    {
+                                        text:
+                                            p.membership_data.is_on_leave == 1
+                                                ? 'Active'
+                                                : 'Inactive' ?? '-',
+                                        border: [false, false, false, false],
+                                        margin: [0, 5, 0, -5],
+                                    },
+                                ]
+                            ),
                             [
                                 {
-                                    colSpan: 6,
+                                    colSpan: 5,
                                     text: '',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, false],
@@ -223,8 +229,7 @@ export class LeaveReportComponent implements OnInit {
                                 {},
                                 {},
                                 {},
-                                {},
-                            ]
+                            ],
                         ],
                     },
                     layout: {
@@ -249,5 +254,4 @@ export class LeaveReportComponent implements OnInit {
             this.loading = false;
         });
     }
-
 }

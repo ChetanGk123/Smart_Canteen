@@ -11,6 +11,7 @@ import { MemberService } from '../../members/member.service';
 import { MarkLeaveComponent } from '../mark-leave/mark-leave.component';
 import { MassLeaveComponent } from '../mass-leave/mass-leave.component';
 import { CommonReportComponent } from '../reports/common-report/common-report.component';
+import { LeaveReportComponent } from '../reports/leave-report/leave-report.component';
 
 @Component({
   selector: 'app-membership-leave-history',
@@ -200,13 +201,13 @@ export class MembershipLeaveHistoryComponent implements OnInit {
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
         const period = `${start_date} - ${end_date}`
-        this.dialogService.open(CommonReportComponent, {
+        this.dialogService.open(LeaveReportComponent, {
             data: {
                 data:this.allMemberships,
                 period: period,
-                title:'Active memberships on leave',
+                title:'Leave History',
             },
-            header: `Active memberShips on leave`,
+            header: `Leave History`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }

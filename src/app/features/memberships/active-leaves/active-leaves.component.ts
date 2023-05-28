@@ -11,6 +11,7 @@ import { MemberService } from 'src/app/core/services/MemberService/member.servic
 import { MarkLeaveComponent } from '../mark-leave/mark-leave.component';
 import { MassLeaveComponent } from '../mass-leave/mass-leave.component';
 import { CommonReportComponent } from '../reports/common-report/common-report.component';
+import { LeaveReportComponent } from '../reports/leave-report/leave-report.component';
 
 @Component({
     selector: 'app-active-leaves',
@@ -50,7 +51,7 @@ export class ActiveLeavesComponent implements OnInit {
 
     fetchTransactions(){
         this.loading = true;
-        var url = `membership_data?what=ACTIVE_LEAVE_MEMBERSHIPS`
+        var url = `leave_data?what=ACTIVE_LEAVES`
         var membershipFilter = ``;
         if (this.meal_pack_id != -1) {
             membershipFilter = `&membership_id=${this.meal_pack_id}`;
@@ -199,13 +200,13 @@ export class ActiveLeavesComponent implements OnInit {
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
         const period = `${start_date} - ${end_date}`
-        this.dialogService.open(CommonReportComponent, {
+        this.dialogService.open(LeaveReportComponent, {
             data: {
                 data:this.allMemberships,
                 period: period,
-                title:'Active memberships on leave',
+                title:'Active Membership Members On Leave',
             },
-            header: `Active memberShips on leave`,
+            header: `Active Membership Members On Leave`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }

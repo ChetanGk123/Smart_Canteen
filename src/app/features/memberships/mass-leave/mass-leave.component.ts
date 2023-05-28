@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -14,6 +15,7 @@ export class MassLeaveComponent implements OnInit {
     loading: boolean = false;
     leave_date: any;
     selectedProduct: any = [];
+    datePipe: DatePipe = new DatePipe('en-US');
     commonForm: FormGroup = new FormGroup({
         leave_date: new FormControl(new Date().toISOString().substring(0, 10), [
             Validators.required,
@@ -28,6 +30,8 @@ export class MassLeaveComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        console.log(this.config.data);
+
         this.selectedProduct = this.config.data.selectedStudents;
     }
     sanitizeImageUrl(imageUrl: string): SafeUrl {
@@ -36,19 +40,24 @@ export class MassLeaveComponent implements OnInit {
 
     submitClick() {
         if (this.commonForm.valid) {
-            var member_ids: any[] = [];
+            var leave_array: any[] = [];
             this.selectedProduct.forEach((member) => {
-                member_ids.push(member.member_id);
+                leave_array.push({
+                    member_id: member.member_id,
+                    leave_date: this.datePipe.transform(
+                        this.commonForm.get('leave_date').value,
+                        'dd-MM-yyyy'
+                    ),
+                });
             });
-            var Data = {
-                member_ids: member_ids,
-                leave_date: this.commonForm.get('leave_date').value,
-            };
+            var payload = {
+                leave_array:leave_array
+            }
             this.loading = true;
             this.apiService
                 .postTypeRequest(
                     `leave_ops/${this.config.data.operation}`,
-                    Data
+                    payload
                 )
                 .toPromise()
                 .then((resopnse: any) => {
