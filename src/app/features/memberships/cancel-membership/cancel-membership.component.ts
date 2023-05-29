@@ -46,6 +46,7 @@ export class CancelMembershipComponent implements OnInit {
         payment_ref: new FormControl(),
     });
     loading: boolean = false;
+    showSettleFromBalance: boolean = false;
     displayPaymentDetails: boolean = true;
     constructor(
         public ref: DynamicDialogRef,
@@ -67,32 +68,8 @@ export class CancelMembershipComponent implements OnInit {
     }
 
     updateFormStatus() {
-        // var status = this.commonForm.get('isSettleFromBalance').value;
-        // var returnable_amount = this.commonForm.get('returnable_amount').value;
-        // if (Number(returnable_amount) > 0) {
-        //     this.commonForm.get('account_head_id').disable();
-        //     this.commonForm.get('txn_date').disable();
-        //     this.commonForm.get('txn_date').setValidators(Validators.required);
-        //     this.commonForm.get('account_head_id').markAsDirty();
-        //     this.commonForm.get('account_head_id').updateValueAndValidity();
-        // } else {
-        //     this.commonForm.get('account_head_id').enable();
-        //     this.commonForm.get('account_head_id').setValue(null);
-        //     this.commonForm.get('account_head_id').markAsUntouched();
-        // }
-        // this.commonForm.updateValueAndValidity();
-        // if (status) {
-        //     this.commonForm.get('returnable_amount').clearValidators();
-        //     this.commonForm.get('returnable_amount').setValue(null);
-        //     this.commonForm.get('returnable_amount').disable();
-        //     this.commonForm.get('returnable_amount').markAsUntouched();
-        // } else {
-        //     this.commonForm.get('returnable_amount').enable();
-        //     this.commonForm
-        //         .get('returnable_amount')
-        //         .setValidators(Validators.required);
-        //     this.commonForm.get('returnable_amount').markAsTouched();
-        // }
+        var returnable_amount = Number(this.commonForm.get('returnable_amount').value??0)
+        this.showSettleFromBalance = returnable_amount <= 0?false:true
         var isSettleFromBalance = this.commonForm.get('isSettleFromBalance').value;
         var addRetunableAmountToWallet = this.commonForm.get('addRetunableAmountToWallet').value;
         if(isSettleFromBalance == false && addRetunableAmountToWallet == false){
@@ -107,7 +84,6 @@ export class CancelMembershipComponent implements OnInit {
             this.commonForm.get('payment_ref').setValidators(Validators.required);
             this.commonForm.get('txn_comments').setValidators(Validators.required);
         } else {
-            debugger
             this.commonForm.get('account_head_id').clearValidators();
             this.commonForm.get('payment_mode').clearValidators();
             this.commonForm.get('payment_ref').clearValidators();
@@ -117,7 +93,6 @@ export class CancelMembershipComponent implements OnInit {
     }
 
     submitClick() {
-        debugger
         if (this.commonForm.valid) {
             this.add();
         } else {

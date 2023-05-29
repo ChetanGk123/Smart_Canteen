@@ -7,6 +7,7 @@ import { Table } from 'primeng/table';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { CounterService } from '../../counters/counter.service';
+import { ConfigureMealPackComponent } from '../../meal/meal-pack/configure-meal-pack/configure-meal-pack.component';
 import { MemberService } from '../../members/member.service';
 import { AddPosComponent } from '../add-pos/add-pos.component';
 import { PosService } from '../pos.service';

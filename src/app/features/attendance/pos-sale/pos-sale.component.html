@@ -1,0 +1,80 @@
+<div class="card">
+    <div class="grid">
+        <div class="col-12">
+            <div
+                    class="flex justify-content-center mt-5"
+                >
+                    <div class="flex flex-wrap gap-5">
+                        <div
+                            *ngFor="let item of this.config.data.items"
+                            class="card cursor-pointer flex flex-column align-items-center w-12rem"
+                            style="max-height: 12rem"
+                            (click)="
+                                OpenPOSDialog = false; makePOSSale(item)
+                            "
+                        >
+                            <div
+                                class="flex w-full text-left justify-content-between"
+                                style="margin-top: -10px"
+                            >
+                                <img
+                                    *ngIf="
+                                        item?.main_cat_img_loc;
+                                        else customAvatar1
+                                    "
+                                    [src]="item.main_cat_img_loc"
+                                    height="25"
+                                    alt=""
+                                />
+                                <ng-template #customAvatar1>
+                                    <div
+                                        class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                    >
+                                        <div
+                                            class="avatar-content-sm"
+                                            style="height: 25px; width: 25px"
+                                        >
+                                            {{
+                                                item.main_category_name
+                                                    | initials
+                                            }}
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <p></p>
+                            </div>
+                            <img
+                                *ngIf="item.img_loc != null; else altImage"
+                                [src]="item.img_loc"
+                                height="55"
+                                alt=""
+                            />
+                            <ng-template #altImage>
+                                <div
+                                    class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                                >
+                                    <div
+                                        class="avatar-content"
+                                        style="height: 55px; width: 55px"
+                                    >
+                                        {{ item.name | initials }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <h5 class="text-overflow-ellipsis">
+                                {{ item.name }}
+                            </h5>
+                            <div
+                                class="child align-self-baseline flex w-full text-left justify-content-between mt-3"
+                            >
+                                <h5>
+                                    {{ item.rate | currency : "INR" }}
+                                </h5>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

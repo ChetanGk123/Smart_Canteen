@@ -89,6 +89,7 @@ export class PosHistoryComponent implements OnInit, OnDestroy {
         }
         this.apiService
             .getTypeRequest(`table_data/POS_SALES${url}`)
+            //.getTypeRequest(`sales_history/POS_SALES?what=DATEWISE_POS_SALE_HISTORY`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;

@@ -144,7 +144,7 @@ export class LeaveReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [33, 150, 118, 63, 63, 63],
+                        widths: [33, '*', 100, 55, 55,50, 63],
                         body: [
                             [
                                 {
@@ -169,6 +169,11 @@ export class LeaveReportComponent implements OnInit {
                                 },
                                 {
                                     text: 'End Date',
+                                    margin: [5, 5, 0, 5],
+                                    border: [false, true, false, true],
+                                },
+                                {
+                                    text: 'Extended',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, true],
                                 },
@@ -207,6 +212,12 @@ export class LeaveReportComponent implements OnInit {
                                 },
                                 {
                                     text:
+                                        p.leave_data.days_extended??"-",
+                                    border: [false, false, false, false],
+                                    margin: [0, 5, 0, -5],
+                                },
+                                {
+                                    text:
                                         p.membership_data.is_on_leave == 1?'Active':'Inactive'??"-",
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
@@ -214,11 +225,12 @@ export class LeaveReportComponent implements OnInit {
                             ]),
                             [
                                 {
-                                    colSpan: 6,
+                                    colSpan: 7,
                                     text: '',
                                     margin: [5, 5, 0, 5],
                                     border: [false, true, false, false],
                                 },
+                                {},
                                 {},
                                 {},
                                 {},

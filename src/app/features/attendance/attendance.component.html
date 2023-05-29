@@ -43,4 +43,280 @@
             </form>
         </div>
     </div>
+    <div class="col-12" *ngIf="memberData">
+        <!-- <div class="col-12"> -->
+        <div class="card">
+            <div class="font-medium text-3xl text-900 mb-3">Member Profile</div>
+            <div class="grid">
+                <div class="lg:col-3 md:col-3 sm:col-12 xs:col-12">
+                    <!-- <img
+                        [src]="memberData.photo_url"
+                        alt=""
+                        class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
+                        style="border-radius: 50%"
+                    /> -->
+                    <div
+                        class=""
+                        *ngIf="memberData.photo_url; else customAvatar"
+                    >
+                        <img
+                            [src]="memberData.photo_url"
+                            alt=""
+                            class="h-16rem md:h-14rem sm:h-11rem xs:h-2rem"
+                            style="border-radius: 50%"
+                        />
+                    </div>
+                    <ng-template #customAvatar>
+                        <div
+                            class="avatar mr-1 ml-0 bg-light-success ng-star-inserted"
+                        >
+                            <div
+                                class="custom-avatar-content h-16rem md:h-16rem sm:h-11rem xs:h-2rem w-16rem md:w-16rem sm:w-11rem xs:w-2rem"
+                            >
+                                {{ memberData?.full_name ?? "" | initials }}
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="lg:col-9 md:col-9 sm:col-12 xs:col-12">
+                    <div class="surface-section">
+                        <ul class="list-none p-0 m-0">
+                            <li
+                                class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap mb-0"
+                            >
+                                <div
+                                    class="text-500 text-xl w-6 md:w-3 font-medium"
+                                >
+                                    Name
+                                </div>
+                                <div
+                                    class="text-900 text-6xl font-bold sm:w-6 md:w-9 md:flex-order-0 flex-order-1"
+                                >
+                                    <a
+                                        (click)="openProfile()"
+                                        class="cursor-pointer no-underline hover:underline"
+                                        >{{ memberData?.full_name ?? "" }}</a
+                                    >
+                                </div>
+                            </li>
+
+                            <!-- <div class="card"> -->
+                            <!-- <div class="mt-2 grid">
+                                    <div class="col-12 md:col-4 lg:col-3">
+                                        <div class="surface-section">
+                                            <div
+                                                class="justify-content-center align-items-center flex text-center text-center"
+                                            >
+                                                <div class="">
+                                                    <i
+                                                        [class]="
+                                                            attendance_data ==
+                                                            'BREAKFAST'
+                                                                ? 'p-success pi-check-circle'
+                                                                : membershipData.isBreakfast ==
+                                                                  1
+                                                                ? 'p-warn pi-check-circle'
+                                                                : 'p-error pi-times-circle'
+                                                        "
+                                                        class="pi true-icon"
+                                                        style="font-size: 5rem"
+                                                    ></i>
+                                                    <div class="text-3xl mt-1">
+                                                        <b>Breakfast</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-4 lg:col-3">
+                                        <div class="surface-section">
+                                            <div
+                                                class="justify-content-center align-items-center flex text-center"
+                                            >
+                                                <div class="">
+                                                    <i
+                                                        [class]="
+                                                            attendance_data ==
+                                                            'LUNCH'
+                                                                ? 'p-success pi-check-circle'
+                                                                : membershipData.isLunch ==
+                                                                  1
+                                                                ? 'p-warn pi-check-circle'
+                                                                : 'p-error pi-times-circle'
+                                                        "
+                                                        class="pi true-icon"
+                                                        style="font-size: 5rem"
+                                                    ></i>
+                                                    <div class="text-3xl mt-1">
+                                                        <b>Lunch</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-4 lg:col-3">
+                                        <div class="surface-section">
+                                            <div
+                                                class="justify-content-center align-items-center flex text-center"
+                                            >
+                                                <div class="">
+                                                    <i
+                                                        [class]="
+                                                            attendance_data ==
+                                                            'SNACKS'
+                                                                ? 'p-success pi-check-circle'
+                                                                : membershipData.isSnacks ==
+                                                                  1
+                                                                ? 'p-warn pi-check-circle'
+                                                                : 'p-error pi-times-circle'
+                                                        "
+                                                        class="pi true-icon"
+                                                        style="font-size: 5rem"
+                                                    ></i>
+                                                    <div class="text-3xl mt-1">
+                                                        <b>Snacks</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-4 lg:col-3">
+                                        <div class="surface-section">
+                                            <div
+                                                class="justify-content-center align-items-center flex text-center"
+                                            >
+                                                <div class="">
+                                                    <i
+                                                        [class]="
+                                                            attendance_data ==
+                                                            'DINNER'
+                                                                ? 'p-success pi-check-circle'
+                                                                : membershipData.isDinner ==
+                                                                  1
+                                                                ? 'p-warn pi-check-circle'
+                                                                : 'p-error pi-times-circle'
+                                                        "
+                                                        class="pi true-icon"
+                                                        style="font-size: 5rem"
+                                                    ></i>
+                                                    <div class="text-3xl mt-1">
+                                                        <b>Dinner</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            <div class="mt-2 grid">
+                                <div class="col-12 md:col-6 lg:col-8">
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 text-xl w-6 md:w-5 font-medium"
+                                        >
+                                            Card Number
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ memberData?.card_number ?? "" }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 text-xl w-6 md:w-5 font-medium"
+                                        >
+                                            Balance
+                                        </div>
+                                        <div
+                                            class="text-3xl sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                            [ngClass]="{
+                                                'true-icon p-success':
+                                                    memberData?.balance > 0
+                                                        ? true
+                                                        : false,
+                                                'false-icon p-error':
+                                                    memberData?.balance <= 0
+                                                        ? true
+                                                        : false
+                                            }"
+                                        >
+                                            {{
+                                                memberData?.balance ?? ""
+                                                    | currency : "INR"
+                                            }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 text-xl w-6 md:w-5 sm:w-6 font-medium"
+                                        >
+                                            Membership Name
+                                        </div>
+                                        <div
+                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{
+                                                membershipData.active_membership_data.meal_pack_name ??
+                                                    ""
+                                            }}
+                                        </div>
+                                    </li>
+                                    <li
+                                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                    >
+                                        <div
+                                            class="text-500 text-xl w-6 md:w-5 font-medium"
+                                        >
+                                            Period
+                                        </div>
+                                        <div
+                                            class="text-xl text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{
+                                                membershipData?.start_date ?(membershipData?.start_date+" to"):
+                                                    ""
+                                            }}
+                                            {{
+                                                membershipData?.end_date ??
+                                                    ""
+                                            }}
+                                        </div>
+                                    </li>
+                                </div>
+                                <div class="col-12 md:col-6 lg:col-4">
+                                    <div class="surface-section">
+                                        <div
+                                            class="justify-content-center align-items-center flex text-center text-center"
+                                        >
+                                            <div class="" *ngIf="attendance_data.current_particular.meal_name">
+                                                <i
+                                                    [class]="
+                                                        attendance_data.isAttendanceMarked
+                                                            ? 'p-success pi-check-circle'
+                                                            : 'p-error pi-times-circle'
+                                                    "
+                                                    class="pi true-icon"
+                                                    style="font-size: 5rem"
+                                                ></i>
+                                                <div class="text-3xl mt-1">
+                                                    <b>{{attendance_data.current_particular.meal_name}}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

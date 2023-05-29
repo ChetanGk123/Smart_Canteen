@@ -70,7 +70,7 @@ export class ConfigureMealPackComponent implements OnInit {
 
         this.apiService
             .getTypeRequest(
-                `table_data/MEAL_PACK_ITEMS/${this.config.data?.meal_pack_id}`
+                `table_data/MEAL_PACK_ITEMS/${this.config.data?.meal_pack_id??this.config.data?.id}`
             )
             .toPromise()
             .then((result: any) => {
@@ -187,7 +187,7 @@ export class ConfigureMealPackComponent implements OnInit {
             meals_array.push(data);
         });
         var payload = {
-            meal_pack_id: this.config.data?.meal_pack_id,
+            meal_pack_id: this.config.data?.meal_pack_id??this.config.data?.id,
             meals_array: meals_array,
         };
         this.apiService

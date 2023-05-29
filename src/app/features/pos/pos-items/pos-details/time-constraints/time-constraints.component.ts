@@ -23,16 +23,16 @@ export class TimeConstraintsComponent implements OnInit {
         end_date: new FormControl(''),
     });
     constructor(
-        public apiService: ApiService,
         public posService: PosService,
+        public apiService: ApiService,
         public ref: DynamicDialogRef,
         public config: DynamicDialogConfig
     ) {}
 
     ngOnInit(): void {
         this.posItemData = this.posService.getPosItemData();
+        console.log(this.posItemData);
         if (this.config.data) {
-            console.log(this.config.data);
             this.updateMode = true;
             this.commonForm.patchValue(this.config.data);
             this.commonForm.controls['start_date'].setValue(
@@ -58,24 +58,28 @@ export class TimeConstraintsComponent implements OnInit {
                     'hh:mm:ss A'
                 ).format('hh:mm:ss A')
             );
-            this.commonForm.controls['start_date'].setValue(
-                moment(
-                    this.commonForm.controls['start_date'].value,
-                    'DD:MM:yyyy'
-                ).format('DD-MM-yyyy')
-            );
+            if(this.commonForm.controls['start_date'].value){
+                this.commonForm.controls['start_date'].setValue(
+                    moment(
+                        this.commonForm.controls['start_date'].value,
+                        'DD:MM:yyyy'
+                    ).format('DD-MM-yyyy')
+                );
+            }
             this.commonForm.controls['end_time'].setValue(
                 moment(
                     this.commonForm.controls['end_time'].value,
                     'hh:mm:ss A'
                 ).format('hh:mm:ss A')
             );
+            if(this.commonForm.controls['end_date'].value){
             this.commonForm.controls['end_date'].setValue(
                 moment(
                     this.commonForm.controls['end_date'].value,
                     'DD:MM:yyyy'
                 ).format('DD-MM-yyyy')
             );
+                }
             if (this.updateMode) {
                 this.updateConstraintsArray();
             } else {

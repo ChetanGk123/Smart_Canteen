@@ -38,7 +38,7 @@
                     type="number"
                     pInputText
                     id="returnable_amount"
-                    (onChange)="updateFormStatus()"
+                    (change)="updateFormStatus()"
                     placeholder="100"
                     autofocus
                     formControlName="returnable_amount"
@@ -52,7 +52,7 @@
                     >Returnable Amount is required.</small
                 >
             </div>
-            <div class="field-checkbox p-fluid sm:col-12 md:col-6 lg:col-4" *ngIf="commonForm.controls['returnable_amount'].value<=0">
+            <div class="field-checkbox p-fluid sm:col-12 md:col-6 lg:col-4" *ngIf="showSettleFromBalance">
                 <p-checkbox
                     inputId="settleFromBalance"
                     (onChange)="updateFormStatus()"

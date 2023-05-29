@@ -188,6 +188,13 @@
                                     <p-sortIcon field="end_date"></p-sortIcon>
                                 </th>
                                 <th
+                                    pSortableColumn="leave_data.days_extended"
+                                    style="min-width: 12rem"
+                                >
+                                    Days Extended
+                                    <p-sortIcon field="leave_data.days_extended"></p-sortIcon>
+                                </th>
+                                <th
                                     pSortableColumn="status"
                                     style="min-width: 11rem"
                                 >
@@ -263,6 +270,9 @@
                                 </td>
                                 <td class="text-center">
                                     {{ product.leave_data.leave_end_date??"-" }}
+                                </td>
+                                <td>
+                                    {{ product.leave_data.days_extended }}
                                 </td>
                                 <td class="text-center">
                                     <i

@@ -61,15 +61,18 @@ export class CardHistoryComponent implements OnInit {
 
     openProfile() {
         this.member.setMemberData(this.selectedProduct);
-        this.router.navigate(['mess/memberProfile']);
+        this.router.navigate(['members/memberProfile']);
     }
 
     generatePDF() {
         const start_date = this.datePipe.transform(
-            this.start_date??new Date(),
+            this.start_date ?? new Date(),
             'dd-MM-yyyy'
         );
-        const end_date = this.datePipe.transform(this.end_date??new Date(), 'dd-MM-yyyy');
+        const end_date = this.datePipe.transform(
+            this.end_date ?? new Date(),
+            'dd-MM-yyyy'
+        );
         const period = `${start_date} - ${end_date}`;
         this.dialogService.open(CardHistoryReportComponent, {
             data: {

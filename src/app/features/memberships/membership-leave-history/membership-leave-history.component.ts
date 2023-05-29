@@ -14,17 +14,16 @@ import { CommonReportComponent } from '../reports/common-report/common-report.co
 import { LeaveReportComponent } from '../reports/leave-report/leave-report.component';
 
 @Component({
-  selector: 'app-membership-leave-history',
-  templateUrl: './membership-leave-history.component.html',
-  styleUrls: ['./membership-leave-history.component.scss']
+    selector: 'app-membership-leave-history',
+    templateUrl: './membership-leave-history.component.html',
+    styleUrls: ['./membership-leave-history.component.scss'],
 })
 export class MembershipLeaveHistoryComponent implements OnInit {
-
     loading: boolean = false;
     Data: Observable<Object>;
     meal_pack_id: any = -1;
     start_date: any;
-    end_date: any ;
+    end_date: any;
     datePipe: DatePipe = new DatePipe('en-US');
     selectedStudents: any = [];
     allMemberships: any = [];
@@ -47,12 +46,12 @@ export class MembershipLeaveHistoryComponent implements OnInit {
             },
         ];
 
-        this.fetchTransactions()
+        this.fetchTransactions();
     }
 
-    fetchTransactions(){
+    fetchTransactions() {
         this.loading = true;
-        var url = `leave_data?what=ALL_LEAVES`
+        var url = `leave_data?what=ALL_LEAVES`;
         var membershipFilter = ``;
         if (this.meal_pack_id != -1) {
             membershipFilter = `&membership_id=${this.meal_pack_id}`;
@@ -74,7 +73,7 @@ export class MembershipLeaveHistoryComponent implements OnInit {
             .pipe(
                 map((res: any) => {
                     this.loading = false;
-                    this.allMemberships = res.data
+                    this.allMemberships = res.data;
                     return res.data;
                     // {
                     //     "member_id": "1",
@@ -191,26 +190,25 @@ export class MembershipLeaveHistoryComponent implements OnInit {
 
     openProfile() {
         this.member.setMemberData(this.selectedProduct);
-        this.router.navigate(['mess/memberProfile']);
+        this.router.navigate(['members/memberProfile']);
     }
 
-    generatePDF(){
+    generatePDF() {
         const start_date = this.datePipe.transform(
             this.start_date,
             'dd-MM-yyyy'
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
-        const period = `${start_date} - ${end_date}`
+        const period = `${start_date} - ${end_date}`;
         this.dialogService.open(LeaveReportComponent, {
             data: {
-                data:this.allMemberships,
+                data: this.allMemberships,
                 period: period,
-                title:'Leave History',
+                title: 'Leave History',
             },
             header: `Leave History`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }
-    generateExcel(){}
-
+    generateExcel() {}
 }

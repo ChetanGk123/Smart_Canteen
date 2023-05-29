@@ -136,7 +136,7 @@
                         class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
                     >
                         <div class="text-500 w-6 md:w-4 font-medium">
-                            Start Date
+                            Start Date <span class="p-error">*</span>
                         </div>
                         <div
                             class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
@@ -158,159 +158,10 @@
                             >
                         </div>
                     </li>
-                    <!-- <li
-                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                    >
-                        <div class="text-500 w-6 md:w-4 font-medium">
-                            Account
-                        </div>
-                        <div
-                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
-                        >
-                            <div class="" *ngIf="accounts">
-                                <p-dropdown
-                                    id="account_id"
-                                    [options]="accounts"
-                                    optionLabel="account_name"
-                                    optionValue="account_id"
-                                    (onChange)="addId($event)"
-                                    formControlName="payment_account_head_id"
-                                    placeholder="Select a Account"
-                                    [showClear]="true"
-                                ></p-dropdown>
-                                <small
-                                    class="p-error"
-                                    *ngIf="
-                                        commonForm.controls.payment_account_head_id
-                                            .touched &&
-                                        commonForm.controls.payment_account_head_id
-                                            .errors?.required
-                                    "
-                                    >Membership Type is required.</small
-                                >
-                            </div>
-                        </div>
-                    </li>
-                    <li
-                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                    >
-                        <div class="text-500 w-6 md:w-4 font-medium">
-                            Amount
-                        </div>
-                        <div
-                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
-                        >
-                            <div class="" *ngIf="accounts">
-                                <input
-                                id="payment_mode"
-                                type="text"
-                                pInputText
-                                formControlName="payment_mode"
-                            />
-                                <small
-                                    class="p-error"
-                                    *ngIf="
-                                        commonForm.controls.payment_mode
-                                            .touched &&
-                                        commonForm.controls.payment_mode
-                                            .errors?.required
-                                    "
-                                    >Payment Mode is required.</small
-                                >
-                            </div>
-                        </div>
-                    </li>
-                    <li
-                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                    >
-                        <div class="text-500 w-6 md:w-4 font-medium">
-                            Payment Mode
-                        </div>
-                        <div
-                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
-                        >
-                            <div class="" *ngIf="accounts">
-                                <input
-                                id="payment_mode"
-                                type="text"
-                                pInputText
-                                formControlName="payment_mode"
-                            />
-                                <small
-                                    class="p-error"
-                                    *ngIf="
-                                        commonForm.controls.payment_mode
-                                            .touched &&
-                                        commonForm.controls.payment_mode
-                                            .errors?.required
-                                    "
-                                    >Payment Mode is required.</small
-                                >
-                            </div>
-                        </div>
-                    </li>
-                    <li
-                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                    >
-                        <div class="text-500 w-6 md:w-4 font-medium">
-                            Payment Ref
-                        </div>
-                        <div
-                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
-                        >
-                            <div class="" *ngIf="accounts">
-                                <input
-                                id="payment_mode"
-                                type="text"
-                                pInputText
-                                formControlName="payment_mode"
-                            />
-                                <small
-                                    class="p-error"
-                                    *ngIf="
-                                        commonForm.controls.payment_mode
-                                            .touched &&
-                                        commonForm.controls.payment_mode
-                                            .errors?.required
-                                    "
-                                    >Payment Mode is required.</small
-                                >
-                            </div>
-                        </div>
-                    </li>
-                    <li
-                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                    >
-                        <div class="text-500 w-6 md:w-4 font-medium">
-                            Comments
-                        </div>
-                        <div
-                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
-                        >
-                            <div class="" *ngIf="accounts">
-                                <input
-                                id="payment_mode"
-                                type="text"
-                                pInputText
-                                formControlName="payment_mode"
-                            />
-                                <small
-                                    class="p-error"
-                                    *ngIf="
-                                        commonForm.controls.payment_mode
-                                            .touched &&
-                                        commonForm.controls.payment_mode
-                                            .errors?.required
-                                    "
-                                    >Payment Mode is required.</small
-                                >
-                            </div>
-                        </div>
-                    </li> -->
                 </ul>
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="total_meal_packs">Total Meal Packs</label>
+                <label for="total_meal_packs">Total Meal Packs <span class="p-error">*</span></label>
                 <input
                     type="text"
                     pInputText
@@ -321,9 +172,18 @@
                     placeholder="100"
                     formControlName="total_meal_packs"
                 />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.total_meal_packs.touched &&
+                        commonForm.controls.total_meal_packs.errors
+                            ?.required
+                    "
+                    >Meal Packs Count is required.</small
+                >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-6">
-                <label for="max_days">Max Days</label>
+                <label for="max_days">Max Days <span class="p-error">*</span></label>
                 <input
                     type="text"
                     pInputText
@@ -334,6 +194,15 @@
                     placeholder="100"
                     formControlName="max_days"
                 />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.max_days.touched &&
+                        commonForm.controls.max_days.errors
+                            ?.required
+                    "
+                    >Max Days is required.</small
+                >
             </div>
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
                 <label for="payment_account_head_id"
