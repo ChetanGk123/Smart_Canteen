@@ -274,7 +274,7 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
         this.file_data = formData;
 
         await this.apiService
-            .postFileTypeRequest('file_upload/MEMBER_PHOTO', formData)
+            .postFileTypeRequest('file_upload/POS_IMAGE', formData)
             .toPromise()
             .then((result: any) => {
                 if (result.result) {

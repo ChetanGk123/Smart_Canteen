@@ -19,7 +19,7 @@ import { LandingComponent } from './features/landing/landing.component';
                         {
                             path: '',
                             pathMatch: 'full',
-                            redirectTo: 'dashboard',
+                            redirectTo: 'attendance',
                         },
                         {
                             path: 'dashboard',

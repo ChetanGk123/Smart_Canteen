@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         );
         const user = localStorage.getItem('user');
         if (user) {
-            this.router.navigate(['/']);
+            this.router.navigate(['/attendance']);
         }
     }
 

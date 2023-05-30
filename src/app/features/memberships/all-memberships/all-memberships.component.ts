@@ -58,15 +58,20 @@ export class AllMembershipsComponent implements OnInit {
         this.selectedStudents = [];
         this.items = [
             {
-                label: 'Print Details (A4)',
+                label: 'View Profile',
                 icon: 'pi pi-fw pi-print',
-                command: () => this.printMembership(),
+                command: () => this.openProfile(),
             },
-            {
-                label: 'Print Details (2")',
-                icon: 'pi pi-fw pi-print',
-                command: () => this.printMembership2Inc(),
-            },
+            // {
+            //     label: 'Print Details (A4)',
+            //     icon: 'pi pi-fw pi-print',
+            //     command: () => this.printMembership(),
+            // },
+            // {
+            //     label: 'Print Details (2")',
+            //     icon: 'pi pi-fw pi-print',
+            //     command: () => this.printMembership2Inc(),
+            // },
         ];
         var url = '';
         if (this.counter_id != '') {
