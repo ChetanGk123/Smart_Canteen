@@ -59,7 +59,7 @@ export class AllMembershipsComponent implements OnInit {
         this.items = [
             {
                 label: 'View Profile',
-                icon: 'pi pi-fw pi-print',
+                icon: 'pi pi-fw pi-eye',
                 command: () => this.openProfile(),
             },
             // {

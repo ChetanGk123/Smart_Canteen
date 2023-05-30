@@ -63,19 +63,19 @@ export class ActiveMembershipsComponent implements OnInit {
                 icon: 'pi pi-fw pi-calendar-minus',
                 command: () => this.markLeave(),
             },
-            {
-                separator: true,
-            },
-            {
-                label: 'Print Details (A4)',
-                icon: 'pi pi-fw pi-print',
-                command: () => this.printMembership(),
-            },
-            {
-                label: 'Print Details (2")',
-                icon: 'pi pi-fw pi-print',
-                command: () => this.printMembership2Inc(),
-            },
+            // {
+            //     separator: true,
+            // },
+            // {
+            //     label: 'Print Details (A4)',
+            //     icon: 'pi pi-fw pi-print',
+            //     command: () => this.printMembership(),
+            // },
+            // {
+            //     label: 'Print Details (2")',
+            //     icon: 'pi pi-fw pi-print',
+            //     command: () => this.printMembership2Inc(),
+            // },
         ];
         this.fetchTransactions();
     }

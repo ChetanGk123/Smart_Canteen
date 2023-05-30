@@ -43,13 +43,13 @@ export class AccountComponent implements OnInit {
             //     command: () => this.wildCardEntry(this.selectedProduct),
             // },
         ];
-        if (this.Url == 'INCOME_ACCOUNT_HEAD') {
-            this.items.push({
-                label: 'Direct Entry',
-                icon: 'pi pi-fw pi-dollar',
-                command: () => this.wildCardEntry(this.selectedProduct),
-            });
-        }
+        // if (this.Url == 'INCOME_ACCOUNT_HEAD') {
+        //     this.items.push({
+        //         label: 'Direct Entry',
+        //         icon: 'pi pi-fw pi-dollar',
+        //         command: () => this.wildCardEntry(this.selectedProduct),
+        //     });
+        // }
         if (this.Url != 'COMMODITY_ACCOUNT') {
             this.items.push({
                 label: 'Delete',
