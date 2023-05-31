@@ -17,7 +17,6 @@ export class PosSaleComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.config.data);
         var config = {
             memberData: {
                 member_id: '1',
@@ -84,7 +83,6 @@ export class PosSaleComponent implements OnInit {
     }
 
     makePOSSale(item: any) {
-        console.log(item);
         var payload = {
             sub_total: 30,
             member_id: this.config.data.memberData.member_id,

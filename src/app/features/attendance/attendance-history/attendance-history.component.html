@@ -6,6 +6,52 @@
                     <h4>Attendance History</h4>
                 </ng-template>
             </p-toolbar>
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template
+                    class="align-content-center"
+                    pTemplate="left"
+                >
+                    <div class="grid mb-0">
+                        <div
+                            class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                            style="margin-bottom: -1rem"
+                        >
+                            <label for="dob">Start Date </label>
+                            <input
+                                id="dob"
+                                type="date"
+                                pInputText
+                                [(ngModel)]="start_date"
+                            />
+                        </div>
+                        <div
+                            class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                            style="margin-bottom: -1rem"
+                        >
+                            <label for="dob">End Date </label>
+                            <input
+                                id="dob"
+                                type="date"
+                                pInputText
+                                [(ngModel)]="end_date"
+                            />
+                        </div>
+                        <div
+                            class="col-12 sm:col-12 md:col-6 lg:col-2 align-items-center"
+                        >
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-search"
+                                class="mt-2 p-button-rounded p-action-button lg:mt-5"
+                                (click)="loadData()"
+                            ></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right"> </ng-template>
+            </p-toolbar>
             <div class="grid">
                 <div class="col-12">
                     <p-toolbar
@@ -108,7 +154,6 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width: 5rem">Slno</th>
-                                <th style="min-width: 9rem">Date</th>
                                 <th pSortableColumn="card_number" style="min-width: 11rem">
                                     Card No
                                     <p-sortIcon
@@ -117,7 +162,7 @@
                                 </th>
                                 <th style="min-width: 14rem">Name</th>
                                 <th style="min-width: 14rem">Particular</th>
-                                <th style="min-width: 9rem">Ph Number</th>
+                                <th style="min-width: 9rem">Time</th>
                                 <!-- <th>Grand Total</th> -->
                             </tr>
                         </ng-template>
@@ -131,9 +176,6 @@
                                     {{ rowIndex + 1 }}
                                 </td>
                                 <td>
-                                    {{ product.attendance_time }}
-                                </td>
-                                <td>
                                     {{ product.card_number }}
                                 </td>
                                 <td>
@@ -144,10 +186,10 @@
                                     >
                                 </td>
                                 <td>
-                                    {{ product.component_name }}
+                                    {{ product.meal_name }}
                                 </td>
                                 <td>
-                                    {{ product.phone_number }}
+                                    {{ product.attendance_date_time }}
                                 </td>
                                 <!-- <td>
                                     <button

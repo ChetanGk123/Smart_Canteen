@@ -30,7 +30,6 @@ export class MassLeaveComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.config.data);
 
         this.selectedProduct = this.config.data.selectedStudents;
     }

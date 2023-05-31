@@ -28,12 +28,14 @@ export class MemberProfileComponent implements OnInit {
     cardHistory: Observable<Object>;
     leaveHistory: Observable<Object>;
     memberData: any;
+    meal_pack_id: any = -1;
     datePipe: DatePipe = new DatePipe('en-US');
     start_date: any;
     end_date: any;
     memberTransactions: any = [];
     memberCardHistory: any = [];
     memberLeaveHistory: any = [];
+    membershipList: any = [];
     file_data: FormData;
     transactionData: Observable<Object>;
     form: FormGroup = new FormGroup({
@@ -73,6 +75,25 @@ export class MemberProfileComponent implements OnInit {
             new Date().setDate(new Date().getDate() - 30),
             'yyyy-MM-dd'
         );
+        this.membershipList = [];
+        this.membershipList.push({
+            meal_pack_id: '-1',
+            counter_id: '',
+            meal_pack_name: 'All',
+        });
+        this.apiService
+            .getTypeRequest(`table_data/MEAL_PACK_NAME`)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    result.data.forEach((element) => {
+                        this.membershipList.push(element);
+                    });
+                } else {
+                    this.membershipList = [];
+                }
+            });
         if (this.memberData) {
             /* {
             "member_id": "1",
@@ -112,6 +133,7 @@ export class MemberProfileComponent implements OnInit {
                     })
                 );
             this.fetchMemberTransactions();
+            this.fetchLeaveTransactions();
         } else {
             this.router.navigate(['../'], { relativeTo: this.route });
         }
@@ -137,8 +159,28 @@ export class MemberProfileComponent implements OnInit {
                     return res.data;
                 })
             );
+    }
+
+    fetchLeaveTransactions() {
+        var url = `leave_data?what=ALL_LEAVES_BY_MEMBER&member_id=${this.memberData.member_id}`;
+        var membershipFilter = ``;
+        if (this.meal_pack_id != -1) {
+            membershipFilter = `&membership_id=${this.meal_pack_id}`;
+        }
+        var dateFilter = ``;
+        if (this.start_date != null && this.end_date != null) {
+            const start_date = this.datePipe.transform(
+                this.start_date,
+                'dd-MM-yyyy'
+            );
+            const end_date = this.datePipe.transform(
+                this.end_date,
+                'dd-MM-yyyy'
+            );
+            dateFilter = `&membership_start_date=${start_date}&membership_end_date=${end_date}`;
+        }
         this.leaveHistory = this.apiService
-            .getTypeRequest(`leave_data?what=ALL_LEAVES_BY_MEMBER&member_id=${this.memberData.member_id}`)
+            .getTypeRequest(url + membershipFilter + dateFilter)
             .pipe(
                 map((res: any) => {
                     // res.data.sort((a,b)=>Number(a.id) - Number(b.id))
@@ -237,9 +279,9 @@ export class MemberProfileComponent implements OnInit {
     add() {
         const ref = this.dialogService.open(AddMemberTransactionComponent, {
             data: {
-                member:this.memberData,
-                accountUrl:'INCOME_ACCOUNT_HEAD',
-                transactionUrl:'MEMBER_WALLET_REFILL'
+                member: this.memberData,
+                accountUrl: 'INCOME_ACCOUNT_HEAD',
+                transactionUrl: 'MEMBER_WALLET_REFILL',
             },
             header: `Add Transaction`,
             styleClass: 'w-8  xs:w-12 sm:w-12 md:w-10 lg:w-5',
@@ -290,8 +332,11 @@ export class MemberProfileComponent implements OnInit {
         const period = `${start_date} - ${end_date}`;
         this.dialogService.open(MemberTransactionsComponent, {
             data: {
-                memberData:this.memberData,
-                statement_date:this.datePipe.transform(new Date(), 'dd-MM-yyyy'),
+                memberData: this.memberData,
+                statement_date: this.datePipe.transform(
+                    new Date(),
+                    'dd-MM-yyyy'
+                ),
                 transactions_Data: this.memberTransactions,
                 period: period,
                 title: 'Member Transactions',
@@ -311,8 +356,11 @@ export class MemberProfileComponent implements OnInit {
         const period = `${start_date} - ${end_date}`;
         this.dialogService.open(MemberCardHistoryComponent, {
             data: {
-                memberData:this.memberData,
-                statement_date:this.datePipe.transform(new Date(), 'dd-MM-yyyy'),
+                memberData: this.memberData,
+                statement_date: this.datePipe.transform(
+                    new Date(),
+                    'dd-MM-yyyy'
+                ),
                 transactions_Data: this.memberCardHistory,
                 title: 'Member Card History',
             },
@@ -331,8 +379,11 @@ export class MemberProfileComponent implements OnInit {
         const period = `${start_date} - ${end_date}`;
         this.dialogService.open(MemberLeaveHistoryComponent, {
             data: {
-                memberData:this.memberData,
-                statement_date:this.datePipe.transform(new Date(), 'dd-MM-yyyy'),
+                memberData: this.memberData,
+                statement_date: this.datePipe.transform(
+                    new Date(),
+                    'dd-MM-yyyy'
+                ),
                 transactions_Data: this.memberLeaveHistory,
                 title: 'Member Leave History',
             },

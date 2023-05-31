@@ -31,11 +31,7 @@ export class AccountComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
         this.items = [
-            {
-                label: 'Update',
-                icon: 'pi pi-fw pi-pencil',
-                command: () => this.editData(this.selectedProduct),
-            },
+
 
             // {
             //     label: 'Transactions',
@@ -52,6 +48,10 @@ export class AccountComponent implements OnInit {
         // }
         if (this.Url != 'COMMODITY_ACCOUNT') {
             this.items.push({
+                label: 'Update',
+                icon: 'pi pi-fw pi-pencil',
+                command: () => this.editData(this.selectedProduct),
+            },{
                 label: 'Delete',
                 icon: 'pi pi-fw pi-trash',
                 command: () => this.confirm(this.selectedProduct),

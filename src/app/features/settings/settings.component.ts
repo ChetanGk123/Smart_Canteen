@@ -47,7 +47,6 @@ export class SettingsComponent implements OnInit {
                 this.loading = false;
                 if (result.result) {
                     this.tableData = result?.data;
-                    console.log(this.tableData);
                 } else {
                     this.tableData = [];
                 }
@@ -103,7 +102,6 @@ export class SettingsComponent implements OnInit {
 
     updateThemeValue() {
         this.editTheme = false;
-        console.log(this.tableData[0]);
         this.updateSettings(this.tableData[0]);
     }
 }

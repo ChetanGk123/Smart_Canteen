@@ -632,6 +632,65 @@
             </p-table>
         </p-tabPanel>
         <p-tabPanel header="Leave History" leftIcon="pi pi-history">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template
+                    class="align-content-center"
+                    pTemplate="left"
+                >
+                    <div class="grid mb-0">
+                        <div
+                            class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
+                            style="margin-bottom: -1rem"
+                        >
+                            <label for="dob">Start Date </label>
+                            <input
+                                id="dob"
+                                type="date"
+                                pInputText
+                                [(ngModel)]="start_date"
+                            />
+                        </div>
+                        <div
+                            class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
+                            style="margin-bottom: -1rem"
+                        >
+                            <label for="dob">End Date </label>
+                            <input
+                                id="dob"
+                                type="date"
+                                pInputText
+                                [(ngModel)]="end_date"
+                            />
+                        </div>
+                        <div
+                            class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
+                            style="margin-bottom: -1rem"
+                        >
+                            <label for="membership">Membership </label>
+                            <p-dropdown
+                                id="membership"
+                                [options]="membershipList"
+                                [(ngModel)]="meal_pack_id"
+                                optionLabel="meal_pack_name"
+                                optionValue="meal_pack_id"
+                            ></p-dropdown>
+                        </div>
+                        <div
+                            class="col-12 sm:col-12 md:col-6 lg:col-2 align-items-center"
+                        >
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                icon="pi pi-search"
+                                class="mt-2 p-button-rounded p-action-button lg:mt-5"
+                                (click)="fetchLeaveTransactions()"
+                            ></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right"> </ng-template>
+            </p-toolbar>
             <p-table
                 dataKey="code"
                 [value]="leaveHistory | async"

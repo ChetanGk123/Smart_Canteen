@@ -26,9 +26,8 @@ export class CountersComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadData();
-        this.counterService.counterProfileDate$.subscribe((data: any) => {
-            console.log(data);
-        });
+        // this.counterService.counterProfileDate$.subscribe((data: any) => {
+        // });
     }
 
     loadData() {

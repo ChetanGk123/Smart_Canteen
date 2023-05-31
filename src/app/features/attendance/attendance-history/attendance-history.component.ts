@@ -37,42 +37,53 @@ export class AttendanceHistoryComponent implements OnInit {
             new Date().setDate(new Date().getDate() - this.transaction_range),
             'yyyy-MM-dd'
         );
-        this.items = [
-            // {
-            //     label: 'View',
-            //     icon: 'pi pi-fw pi-eye',
-            //     // command: () => this.view(),
-            // },
-            // {
-            //     label: 'Invalidate Card',
-            //     icon: 'pi pi-fw pi-credit-card',
-            //     // command: () => this.updateCard(),
-            // },
-            // {
-            //     separator: true,
-            // },
-            // {
-            //     label: 'Activate Member',
-            //     icon: 'pi pi-fw pi-user-plus',
-            //     // command: () => this.Activate(),
-            // },
-        ];
         this.loadData();
     }
 
     loadData() {
         this.loading = true;
-        var Data = {
-            start_date: this.start_date,
-            end_date: this.end_date,
-        };
+        var url = `attendance_data?what=ALL_ATTENDANCE`;
+        var dateFilter = ``;
+        if (this.start_date != null && this.end_date != null) {
+            const start_date = this.datePipe.transform(
+                this.start_date,
+                'dd-MM-yyyy'
+            );
+            const end_date = this.datePipe.transform(
+                this.end_date,
+                'dd-MM-yyyy'
+            );
+            dateFilter = `&attendance_start_date=${start_date}&attendance_end_date=${end_date}`;
+        }
         this.apiService
-            .getTypeRequest(`attendance_data?what=ALL_ATTENDANCE`)
+            .getTypeRequest(url+ dateFilter)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
                 if (result.result) {
                     this.Data = result.data;
+                    // {
+                    //     "attendance_id": "8",
+                    //     "counter_id": "1",
+                    //     "member_id": "1",
+                    //     "card_number": "74475537390120",
+                    //     "phone_number": "963254101",
+                    //     "parents_ph": "963254101",
+                    //     "dob": "00-00-0000",
+                    //     "email": null,
+                    //     "school_name": "Public School Bangalore",
+                    //     "class_name": "3",
+                    //     "division_name": null,
+                    //     "hostel_details": null,
+                    //     "photo_url": "https:\/\/thetechvaidya.com\/cooksbook_new\/uploads\/member_docs\/BH47RD79.png",
+                    //     "profile_photo": "member_docs\/BH47RD79.png",
+                    //     "membership_id": "6",
+                    //     "meal_name": "LUNCH",
+                    //     "attendance_date_time": "29-05-2023 06:17:52 PM",
+                    //     "raw_attendance_date_time": "2023-05-29 18:17:52",
+                    //     "meal_pack_id": "11",
+                    //     "meal_pack_name": "Full Day Meals"
+                    // },
                 }
             })
             .finally(() => {

@@ -3,10 +3,19 @@
         <div class="card">
             <p-toolbar styleClass="mb-4" class="align-content-center">
                 <ng-template class="align-content-center" pTemplate="left">
-                    <h4>All Memberships</h4>
+                    <h4>Memberships</h4>
                 </ng-template>
 
                 <ng-template pTemplate="right">
+                    <button
+                        *ngIf="selectedStudents.length > 0 && selectedMembership =='ACTIVE_MEMBERSHIPS'"
+                        pButton
+                        pRipple
+                        label="Assign Leave"
+                        icon="pi pi-users"
+                        class="mr-2 inline-block p-button"
+                        (click)="showLeaveDialog()"
+                    ></button>
                     <button
                         (document:keydown.Alt.n)="add()"
                         pButton
@@ -21,13 +30,10 @@
             <div class="grid">
                 <div class="col-12">
                     <p-toolbar styleClass="mb-4" class="align-content-center">
-                        <ng-template
-                            class="align-content-center"
-                            pTemplate="left"
-                        >
-                            <div class="grid mb-0">
+
+                            <div class="grid w-full mb-0">
                                 <div
-                                    class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
+                                    class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-2"
                                     style="margin-bottom: -1rem"
                                 >
                                     <label for="dob">Start Date </label>
@@ -39,7 +45,7 @@
                                     />
                                 </div>
                                 <div
-                                    class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
+                                    class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-2"
                                     style="margin-bottom: -1rem"
                                 >
                                     <label for="dob">End Date </label>
@@ -51,16 +57,14 @@
                                     />
                                 </div>
                                 <div
-                                    class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"
+                                    class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-2"
                                     style="margin-bottom: -1rem"
                                 >
-                                    <label for="membership">Membership </label>
+                                    <label for="memberships">Memberships </label>
                                     <p-dropdown
-                                        id="membership"
-                                        [options]="membershipList"
-                                        [(ngModel)]="meal_pack_id"
-                                        optionLabel="meal_pack_name"
-                                        optionValue="meal_pack_id"
+                                        id="memberships"
+                                        [options]="MembershipList"
+                                        [(ngModel)]="selectedMembership"
                                     ></p-dropdown>
                                 </div>
                                 <div
@@ -76,20 +80,18 @@
                                     ></button>
                                 </div>
                             </div>
-                        </ng-template>
-                        <ng-template pTemplate="right"> </ng-template>
                     </p-toolbar>
                     <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu>
                     <p-table
                         #dt
+                        dataKey="member_id"
                         [(contextMenuSelection)]="selectedProduct"
                         [(selection)]="selectedStudents"
                         [contextMenu]="cm"
-                        dataKey="card_number"
+                        [rowSelectable]="isRowSelectable"
                         [value]="Data | async"
                         [paginator]="true"
-                        selectionMode="multiple"
                         [rows]="10"
                         [loading]="loading"
                         [showCurrentPageReport]="true"
@@ -152,6 +154,9 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
                                 <th style="width: 5rem">
                                     Slno
                                     <span
@@ -199,11 +204,11 @@
                                     <p-sortIcon field="end_date"></p-sortIcon>
                                 </th>
                                 <th
-                                    pSortableColumn="status"
+                                    pSortableColumn="isOnLeave"
                                     style="min-width: 11rem"
                                 >
                                     Leave Status
-                                    <p-sortIcon field="status"></p-sortIcon>
+                                    <p-sortIcon field="isOnLeave"></p-sortIcon>
                                 </th>
                                 <th
                                     pSortableColumn="total_amt"
@@ -221,6 +226,12 @@
                             let-rowIndex="rowIndex"
                         >
                             <tr [pContextMenuRow]="product">
+                                <td>
+                                    <p-tableCheckbox
+                                        [value]="product"
+                                        [disabled]="isOnLeave(product)"
+                                    ></p-tableCheckbox>
+                                </td>
                                 <td>
                                     {{ rowIndex + 1 }}
                                 </td>

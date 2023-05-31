@@ -43,7 +43,6 @@ export class CardHistoryReportComponent implements OnInit {
  * TODO: fix column width
  **/
     ngOnInit(): void {
-        console.log(this.config.data.data);
 
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${

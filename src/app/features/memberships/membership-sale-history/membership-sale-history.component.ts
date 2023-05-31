@@ -19,6 +19,7 @@ export class MembershipSaleHistoryComponent implements OnInit {
     selectedProduct: any;
     start_date: any;
     meal_pack_id: any = -1;
+    transaction_range: any;
     end_date: any;
     datePipe: DatePipe = new DatePipe('en-US');
     selectedStudents: any = [];
@@ -36,6 +37,12 @@ export class MembershipSaleHistoryComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.transaction_range = 30;
+        this.end_date = new Date().toISOString().substring(0, 10);
+        this.start_date = this.datePipe.transform(
+            new Date().setDate(new Date().getDate() - this.transaction_range),
+            'yyyy-MM-dd'
+        );
         this.selectedStudents = [];
         this.membershipList = [];
         this.membershipList.push({meal_pack_id: "-1", counter_id: "", meal_pack_name: "All"})

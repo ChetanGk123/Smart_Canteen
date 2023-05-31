@@ -64,14 +64,21 @@
                                     >Start Time
                                     <span class="p-error">*</span></label
                                 >
-                                <p-calendar
+                                <!-- <p-calendar
                                     appendTo="body"
                                     [timeOnly]="true"
                                     inputId="timeonly"
                                     [hourFormat]="12"
                                     [showSeconds]="true"
                                     formControlName="meal_start_time"
-                                ></p-calendar>
+                                ></p-calendar> -->
+                                <input
+                                    type="time"
+                                    pInputText
+                                    id="meal_start_time"
+                                    formControlName="meal_start_time"
+                                    required
+                                />
                                 <small
                                     class="p-error"
                                     *ngIf="
@@ -90,14 +97,21 @@
                                     >End time
                                     <span class="p-error">*</span></label
                                 >
-                                <p-calendar
+                                <!-- <p-calendar
                                     appendTo="body"
                                     [timeOnly]="true"
                                     inputId="timeonly"
                                     [hourFormat]="12"
                                     [showSeconds]="true"
                                     formControlName="meal_end_time"
-                                ></p-calendar>
+                                ></p-calendar> -->
+                                <input
+                                    type="time"
+                                    pInputText
+                                    id="meal_end_time"
+                                    formControlName="meal_end_time"
+                                    required
+                                />
                                 <small
                                     class="p-error"
                                     *ngIf="

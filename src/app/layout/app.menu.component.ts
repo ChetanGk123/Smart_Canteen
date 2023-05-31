@@ -86,33 +86,23 @@ export class AppMenuComponent implements OnInit {
                 label: 'Memberships',
                 items: [
                     {
-                        label: 'All Memberships',
-                        icon: 'pi pi-fw pi-home',
+                        label: 'Memberships',
+                        icon: 'pi pi-fw pi-book',
                         routerLink: ['/memberships/allMemberships'],
                     },
                     {
-                        label: 'Active Memberships',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/memberships/activeMemberships'],
-                    },
-                    {
-                        label: 'InActive Memberships',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/memberships/inactiveMemberships'],
-                    },
-                    {
                         label: 'Active Leaves',
-                        icon: 'pi pi-fw pi-home',
+                        icon: 'pi pi-fw pi-calendar-minus',
                         routerLink: ['/memberships/activeLeaves'],
                     },
                     {
                         label: 'Sale History',
-                        icon: 'pi pi-fw pi-home',
+                        icon: 'pi pi-fw pi-history',
                         routerLink: ['/memberships/saleHistory'],
                     },
                     {
                         label: 'Leave History',
-                        icon: 'pi pi-fw pi-home',
+                        icon: 'pi pi-fw pi-history',
                         routerLink: ['/memberships/leaveHistory'],
                     },
                 ],
@@ -143,7 +133,7 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Commodity Accounts',
-                        icon: 'pi pi-dollar',
+                        icon: 'pi pi-link',
                         routerLink: ['/accounts/commodityAccount'],
                     },
                     {
@@ -174,26 +164,26 @@ export class AppMenuComponent implements OnInit {
                 ],
             },
             {
-                label: 'POS',
+                label: 'Point Of Sale(POS)',
                 items: [
                     {
                         label: 'Main Category',
-                        icon: 'pi pi-slack',
+                        icon: 'pi pi-book',
                         routerLink: ['/pos/mainCategory'],
                     },
                     {
                         label: 'Items',
-                        icon: 'pi pi-slack',
+                        icon: 'pi pi-file',
                         routerLink: ['/pos/posItems'],
                     },
                     {
                         label: 'Sale',
-                        icon: 'pi pi-slack',
+                        icon: 'pi pi-money-bill',
                         routerLink: ['posSale/posSale'],
                     },
                     {
                         label: 'Sale History',
-                        icon: 'pi pi-slack',
+                        icon: 'pi pi-history',
                         routerLink: ['/pos/posHistory'],
                     },
                 ],
@@ -203,12 +193,12 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     {
                         label: 'Meal Types',
-                        icon: 'pi pi-slack',
+                        icon: 'pi pi-list',
                         routerLink: ['/meal/mealType'],
                     },
                     {
                         label: 'Meal Packs',
-                        icon: 'pi pi-slack',
+                        icon: 'pi pi-database',
                         routerLink: ['/meal/mealPack'],
                     },
                 ],

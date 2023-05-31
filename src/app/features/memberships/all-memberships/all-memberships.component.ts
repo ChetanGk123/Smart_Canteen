@@ -13,6 +13,9 @@ import { MemberService } from '../../members/member.service';
 import { ActiveMembershipReceiptComponent } from '../../receipt/active-membership-receipt/active-membership-receipt.component';
 import { NewMembershipReceiptComponent } from '../../receipt/new-membership-receipt/new-membership-receipt.component';
 import { AddMembershipsComponent } from '../add-memberships/add-memberships.component';
+import { CancelMembershipComponent } from '../cancel-membership/cancel-membership.component';
+import { MarkLeaveComponent } from '../mark-leave/mark-leave.component';
+import { MassLeaveComponent } from '../mass-leave/mass-leave.component';
 import { CommonReportComponent } from '../reports/common-report/common-report.component';
 
 @Component({
@@ -24,99 +27,92 @@ export class AllMembershipsComponent implements OnInit {
     loading: boolean = false;
     Data: Observable<Object>;
     selectedProduct: any;
-    start_date: any;
+    selectedMembership: any = 'ACTIVE_MEMBERSHIPS';
     meal_pack_id: any = -1;
+    leave_date: any;
+    start_date: any;
     end_date: any;
+    title: any;
     datePipe: DatePipe = new DatePipe('en-US');
     selectedStudents: any = [];
     allMemberships: any = [];
-    membershipList: any = [];
+    MembershipList: any = [];
     items: MenuItem[];
-    counter_id: any;
-    // Private
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    commonForm: FormGroup = new FormGroup({
+        leave_date: new FormControl(new Date().toISOString().substring(0, 10), [
+            Validators.required,
+        ]),
+    });
     constructor(
         public apiService: ApiService,
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
         public dialogService: DialogService,
         public router: Router,
-        public member: MemberService,
-        public counterService: CounterService
+        public member: MemberService
     ) {
         this.isRowSelectable = this.isOnLeave.bind(this);
     }
 
     ngOnInit(): void {
-        this.counterService.counterDate$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data: any) => {
-                this.counter_id = data?.id ?? '';
-            });
-
         this.selectedStudents = [];
-        this.items = [
+        this.MembershipList = [
             {
-                label: 'View Profile',
-                icon: 'pi pi-fw pi-eye',
-                command: () => this.openProfile(),
+                value:'ALL_MEMBERSHIPS',
+                label:'All Memberships'
             },
-            // {
-            //     label: 'Print Details (A4)',
-            //     icon: 'pi pi-fw pi-print',
-            //     command: () => this.printMembership(),
-            // },
-            // {
-            //     label: 'Print Details (2")',
-            //     icon: 'pi pi-fw pi-print',
-            //     command: () => this.printMembership2Inc(),
-            // },
-        ];
-        var url = '';
-        if (this.counter_id != '') {
-            url = `/BY_COUNTER/${this.counter_id}`;
-        }
-        this.membershipList = [];
-        this.membershipList.push({
-            meal_pack_id: '-1',
-            counter_id: '',
-            meal_pack_name: 'All',
-        });
-        this.apiService
-            .getTypeRequest(`table_data/MEAL_PACK_NAME${url}`)
-            .toPromise()
-            .then((result: any) => {
-                this.loading = false;
-                if (result.result) {
-                    result.data.forEach((element) => {
-                        this.membershipList.push(element);
-                    });
-                } else {
-                    this.membershipList = [];
-                }
-            });
+            {
+                value:'ACTIVE_MEMBERSHIPS',
+                label:'Active Memberships'
+            },
+            {
+                value:'INACTIVE_MEMBERSHIPS',
+                label:'Inactive Memberships'
+            },
+        ]
+
         this.fetchTransactions();
     }
 
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next(null);
-        this._unsubscribeAll.complete();
-    }
-
     fetchTransactions() {
+        if(this.selectedMembership =='ACTIVE_MEMBERSHIPS'){
+            this.items = [
+                {
+                    label: 'View',
+                    icon: 'pi pi-fw pi-eye',
+                    command: () => this.openProfile(),
+                },
+                {
+                    separator: true,
+                },
+                {
+                    label: 'Cancel Membership',
+                    icon: 'pi pi-fw pi-times',
+                    command: () => this.cancelMembership(),
+                },
+                {
+                    label: 'Mark Leave',
+                    icon: 'pi pi-fw pi-calendar-minus',
+                    command: () => this.markLeave(),
+                },
+            ]
+        } else {
+            this.items = [
+                {
+                    label: 'View',
+                    icon: 'pi pi-fw pi-eye',
+                    command: () => this.openProfile(),
+                },
+            ]
+        }
         this.loading = true;
-        var url = `membership_data?what=ALL_MEMBERSHIPS`;
+        var url = `membership_data?what=${this.selectedMembership}`;
         var membershipFilter = ``;
         if (this.meal_pack_id != -1) {
             membershipFilter = `&membership_id=${this.meal_pack_id}`;
         }
         var dateFilter = ``;
-        if (this.start_date != null && this.end_date != null) {
+        if (this.start_date != null && this.end_date != null && this.start_date != "" && this.end_date != "") {
             const start_date = this.datePipe.transform(
                 this.start_date,
                 'dd-MM-yyyy'
@@ -131,7 +127,6 @@ export class AllMembershipsComponent implements OnInit {
             .getTypeRequest(url + membershipFilter + dateFilter)
             .pipe(
                 map((res: any) => {
-                    this.loading = false;
                     this.allMemberships = res.data;
                     return res.data;
                     // {
@@ -190,7 +185,24 @@ export class AllMembershipsComponent implements OnInit {
                     //     }
                     // }
                 })
-            );
+                );
+                this.loading = false;
+    }
+
+    showLeaveDialog() {
+        const ref = this.dialogService.open(MassLeaveComponent, {
+            data: {
+                selectedStudents: this.selectedStudents,
+                operation: 'start',
+            },
+            header: `Start Leave`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
+            }
+        });
     }
 
     clear(table: Table) {
@@ -202,14 +214,14 @@ export class AllMembershipsComponent implements OnInit {
     }
 
     isOnLeave(product) {
-        return product.isOnLeave == 0 ? false : true;
+        return product?.membership_data?.is_on_leave == 0 ? false : true;
     }
 
     add() {
         var newMembershipType: MembershipType;
         const ref = this.dialogService.open(AddMembershipsComponent, {
             data: newMembershipType,
-            header: `Add New MemberShip`,
+            header: `Add MemberShip`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });
         ref.onClose.subscribe((result: any) => {
@@ -222,6 +234,19 @@ export class AllMembershipsComponent implements OnInit {
     openProfile() {
         this.member.setMemberData(this.selectedProduct);
         this.router.navigate(['members/memberProfile']);
+    }
+
+    markLeave() {
+        const ref = this.dialogService.open(MarkLeaveComponent, {
+            data: this.selectedProduct,
+            header: `Leave Details`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
+            }
+        });
     }
 
     printMembership() {
@@ -241,6 +266,20 @@ export class AllMembershipsComponent implements OnInit {
             data: this.selectedProduct,
             header: `MemberShip Details`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+    }
+
+    cancelMembership() {
+
+        const ref = this.dialogService.open(CancelMembershipComponent, {
+            data: this.selectedProduct,
+            header: `Cancel MemberShip`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
+            }
         });
     }
 
@@ -285,13 +324,15 @@ export class AllMembershipsComponent implements OnInit {
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
         const period = `${start_date} - ${end_date}`;
+            this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
+
         this.dialogService.open(CommonReportComponent, {
             data: {
                 data: this.allMemberships,
                 period: period,
-                title: 'All Memberships',
+                title: this.title,
             },
-            header: `All MemberShips`,
+            header: this.title,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }

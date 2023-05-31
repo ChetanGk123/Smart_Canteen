@@ -31,7 +31,6 @@ export class TimeConstraintsComponent implements OnInit {
 
     ngOnInit(): void {
         this.posItemData = this.posService.getPosItemData();
-        console.log(this.posItemData);
         if (this.config.data) {
             this.updateMode = true;
             this.commonForm.patchValue(this.config.data);

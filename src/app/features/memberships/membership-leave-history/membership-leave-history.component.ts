@@ -66,7 +66,7 @@ export class MembershipLeaveHistoryComponent implements OnInit {
                 this.end_date,
                 'dd-MM-yyyy'
             );
-            dateFilter = `&membership_start_date=${start_date}&membership_end_date=${end_date}`;
+            dateFilter = `&leave_start_date=${start_date}&leave_end_date=${end_date}`;
         }
         this.Data = this.apiService
             .getTypeRequest(url + membershipFilter + dateFilter)
@@ -171,7 +171,6 @@ export class MembershipLeaveHistoryComponent implements OnInit {
     }
 
     showLeaveDialog() {
-        console.log(this.selectedStudents);
 
         const ref = this.dialogService.open(MassLeaveComponent, {
             data: {

@@ -41,7 +41,6 @@ export class MemberCardHistoryComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    console.log(this.config.data);
 
     this.name = this.memberService.getUserData()?.full_name;
     let date = `${new Date().getDate()}/${

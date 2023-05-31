@@ -14,8 +14,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MassLeaveComponent } from './mass-leave/mass-leave.component';
 import { CorePipesModule } from 'src/app/core/pipes/pipes.module';
 import { AccountsModule } from '../accounts/accounts.module';
-import { ActiveMembershipsComponent } from './active-memberships/active-memberships.component';
-import { InactiveMembershipsComponent } from './inactive-memberships/inactive-memberships.component';
 import { AllMembershipsComponent } from './all-memberships/all-memberships.component';
 import { CommonReportComponent } from './reports/common-report/common-report.component';
 import { MembershipSaleHistoryComponent } from './membership-sale-history/membership-sale-history.component';
@@ -25,13 +23,11 @@ import { MembershipLeaveHistoryComponent } from './membership-leave-history/memb
 
 @NgModule({
     declarations: [
-        ActiveMembershipsComponent,
         AddMembershipsComponent,
         CancelMembershipComponent,
         MarkLeaveComponent,
         ActiveLeavesComponent,
         MassLeaveComponent,
-        InactiveMembershipsComponent,
         AllMembershipsComponent,
         CommonReportComponent,
         MembershipSaleHistoryComponent,

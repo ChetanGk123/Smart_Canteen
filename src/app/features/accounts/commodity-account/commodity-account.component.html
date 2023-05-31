@@ -1,4 +1,118 @@
-<app-account
-    [Url]="'COMMODITY_ACCOUNT'"
-    [header]="'Commodity Account'"
-></app-account>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template class="align-content-center" pTemplate="left">
+                    <h4>
+                        {{ header }}
+                    </h4>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+
+                </ng-template>
+            </p-toolbar>
+            <div class="grid">
+                <div class="col-12">
+                    <p-table
+                        [value]="accountsData | async"
+                        dataKey="code"
+                        #dt
+                        [paginator]="true"
+                        [rows]="10"
+                        [loading]="loading"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [filterDelay]="0"
+                        [globalFilterFields]="['account_name']"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex grid">
+                                <div class="col-6">
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-excel"
+                                        class="p-button-success mr-2"
+                                        *ngIf="Data"
+                                        pTooltip="XLS"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-pdf"
+                                        *ngIf="Data"
+                                        (click)="generatePDF()"
+                                        class="p-button-warning mr-2"
+                                        pTooltip="PDF"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                </div>
+                                <div
+                                    class="ml-auto col"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Id</th>
+                                <th
+                                    pSortableColumn="account_name"
+                                    style="min-width: 11rem"
+                                >
+                                    Name
+                                    <p-sortIcon
+                                        field="account_name"
+                                    ></p-sortIcon>
+                                </th>
+                                <th
+                                    pSortableColumn="balance"
+                                    style="min-width: 8rem"
+                                >
+                                    Balance
+                                    <p-sortIcon field="balance"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+                                <td>{{ rowIndex + 1 }}</td>
+                                <td>{{ product.account_name }}</td>
+                                <td>
+                                    {{ product.balance | currency : "INR" }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

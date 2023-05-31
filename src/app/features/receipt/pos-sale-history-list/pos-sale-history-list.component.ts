@@ -42,7 +42,6 @@ export class PosSaleHistoryListComponent implements OnInit {
 
     ngOnInit(): void {
         this.name = this.memberService.getUserData()?.full_name;
-        console.log(this.config.data);
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
         }/${+new Date().getFullYear()}`;

@@ -44,7 +44,6 @@ export class MarkLeaveComponent implements OnInit {
         if (this.cardNumber != null && this.cardNumber.length >= 14) {
             this.loading = true;
             const cardNumber = this.cardNumber.trim();
-            console.log(this.memberData);
 
             this.cardNumber = '';
             var url = ''

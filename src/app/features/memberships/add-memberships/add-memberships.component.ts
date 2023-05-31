@@ -34,9 +34,9 @@ export class AddMembershipsComponent implements OnInit {
 } */
     commonForm: FormGroup = new FormGroup({
         member_id: new FormControl('', [Validators.required]),
-        meal_pack_id: new FormControl([Validators.required]),
-        total_meal_packs: new FormControl([Validators.required]),
-        max_days: new FormControl([Validators.required]),
+        meal_pack_id: new FormControl('',[Validators.required]),
+        total_meal_packs: new FormControl('',[Validators.required]),
+        max_days: new FormControl('',[Validators.required]),
         start_date: new FormControl(new Date().toISOString().substring(0, 10), [
             Validators.required,
         ]),
@@ -74,28 +74,29 @@ export class AddMembershipsComponent implements OnInit {
     }
 
     addId(event: any) {
-        var data = this.membershipTypeList.filter((element) => {
-            if (element.meal_pack_id == event.value) {
-                return element;
+        if (event.value != null) {
+            var data = this.membershipTypeList.filter((element) => {
+                if (element.meal_pack_id == event.value) {
+                    return element;
+                } else {
+                    return null;
+                }
+            });
+            this.selectedMembershipAmount = 0;
+            this.selectedMembershipType = data[0].meal_pack_items;
+            this.selectedMembershipAmount = Number(data[0].meal_pack_price);
+            if (this.selectedMembershipAmount > 0) {
+                this.commonForm.controls.net_amount.setValue(
+                    Number(this.selectedMembershipAmount) -
+                        Number(this.memberDetails?.balance)
+                );
             } else {
-                return null;
+                this.commonForm.controls.net_amount.setValue(
+                    Number(this.selectedMembershipAmount)
+                );
             }
-        });
-        this.selectedMembershipAmount = 0;
-        this.selectedMembershipType = [];
-        data[0].meal_pack_items.forEach((element) => {
-            this.selectedMembershipType.push(element);
-            this.selectedMembershipAmount += Number(element.meal_price);
-        });
-        if (this.selectedMembershipAmount > 0) {
-            this.commonForm.controls.net_amount.setValue(
-                Number(this.selectedMembershipAmount) -
-                    Number(this.memberDetails?.balance)
-            );
         } else {
-            this.commonForm.controls.net_amount.setValue(
-                Number(this.selectedMembershipAmount)
-            );
+            this.selectedMembershipType = [];
         }
     }
     getMemberDetails() {
@@ -146,6 +147,18 @@ export class AddMembershipsComponent implements OnInit {
                         this.membershipTypeList = resopnse.data;
                     }
                 });
+        }
+    }
+
+    updateNetPayable() {
+        var total_meal_packs = Number(
+            this.commonForm.controls['total_meal_packs'].value
+        );
+        if (total_meal_packs > 0) {
+            this.commonForm.controls['net_amount'].setValue(
+                total_meal_packs * this.selectedMembershipAmount  -
+                Number(this.memberDetails?.balance)
+            );
         }
     }
 
