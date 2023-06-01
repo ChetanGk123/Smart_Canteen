@@ -186,6 +186,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-history',
                         routerLink: ['/pos/posHistory'],
                     },
+                    {
+                        label: 'Item Sale History',
+                        icon: 'pi pi-history',
+                        routerLink: ['/pos/posItemHistory'],
+                    },
                 ],
             },
             {

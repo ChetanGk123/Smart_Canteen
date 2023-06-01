@@ -209,9 +209,15 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
         this.router.navigate(['members/memberProfile']);
     }
 
-    printList() {
+    generatePDF() {
+        const start_date = this.datePipe.transform(
+            this.start_date,
+            'dd-MM-yyyy'
+        );
+        const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
+        const period = `${start_date} - ${end_date}`;
         this.dialogService.open(TransactionsListComponent, {
-            data: this.Data,
+            data: { data: this.Data, period: period },
             header: `Transactions`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',
         });

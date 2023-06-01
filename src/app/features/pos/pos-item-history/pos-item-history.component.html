@@ -1,0 +1,393 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4" class="align-content-center">
+                <ng-template class="align-content-center" pTemplate="left">
+                    <h4>POS Item Sale History</h4>
+                </ng-template>
+            </p-toolbar>
+            <div class="grid">
+                <div class="col-12">
+                    <p-toolbar styleClass="mb-4" class="align-content-center">
+                        <ng-template
+                            class="align-content-center"
+                            pTemplate="left"
+                        >
+                            <div class="grid mb-0">
+                                <div
+                                    class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                    style="margin-bottom: -1rem"
+                                >
+                                    <label for="dob">Start Date </label>
+                                    <input
+                                        id="dob"
+                                        type="date"
+                                        pInputText
+                                        [(ngModel)]="start_date"
+                                    />
+                                </div>
+                                <div
+                                    class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
+                                    style="margin-bottom: -1rem"
+                                >
+                                    <label for="dob">End Date </label>
+                                    <input
+                                        id="dob"
+                                        type="date"
+                                        pInputText
+                                        [(ngModel)]="end_date"
+                                    />
+                                </div>
+                                <div class="flex col-2 align-items-center">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-search"
+                                        style="margin-bottom: -2rem"
+                                        class="mt-2 p-button-rounded p-action-button"
+                                        (click)="loadData()"
+                                    ></button>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="right">
+                            <!-- <button
+                                *ngIf="Data.length > 0"
+                                pButton
+                                pRipple
+                                label="Print"
+                                icon="pi pi-fw pi-print"
+                                class="mr-2 mt-5 inline-block p-button"
+                                (click)="printList()"
+                            ></button> -->
+                        </ng-template>
+                    </p-toolbar>
+                    <p-contextMenu #cm [model]="items"></p-contextMenu>
+                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+                    <p-table
+                        #dt
+                        [(contextMenuSelection)]="selectedProduct"
+                        [contextMenu]="cm"
+                        dataKey="code"
+                        [value]="Data"
+                        [paginator]="true"
+                        [rows]="10"
+                        [loading]="loading"
+                        [showCurrentPageReport]="true"
+                        responsiveLayout="scroll"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [filterDelay]="0"
+                        [globalFilterFields]="['particular_name']"
+                    >
+                    <ng-template pTemplate="caption">
+                        <div class="flex grid">
+                            <div class="col-6">
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-excel"
+                                    class="p-button-success mr-2"
+                                    *ngIf="Data"
+                                    pTooltip="XLS"
+                                    tooltipPosition="bottom"
+                                ></button>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-pdf"
+                                    *ngIf="Data"
+                                    (click)="generatePDF()"
+                                    class="p-button-warning mr-2"
+                                    pTooltip="PDF"
+                                    tooltipPosition="bottom"
+                                ></button>
+                            </div>
+                            <div
+                                class="ml-auto col"
+                                style="text-align: end"
+                            >
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        type="search"
+                                        pInputText
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="min-width: 3rem">Slno</th>
+                                <th style="min-width: 8rem">Date</th>
+                                <th
+                                    pSortableColumn="particular_name"
+                                    style="min-width: 10rem"
+                                >
+                                    Name
+                                    <p-sortIcon field="particular_name"></p-sortIcon>
+                                </th>
+                                <th style="min-width: 14rem">Sale Rate</th>
+                                <th style="min-width: 8rem">Total Sale Qty</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template
+                            pTemplate="body"
+                            let-product
+                            let-rowIndex="rowIndex"
+                        >
+                            <tr [pContextMenuRow]="product">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>
+                                    {{ product.sale_date }}
+                                </td>
+                                <td>
+                                    {{ product.particular_name }}
+                                </td>
+                                <td>
+                                    {{ '₹ '+product.sale_rate ?? "-" }}
+                                </td>
+                                <td>
+                                    {{ product.total_sale_qty }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-dialog
+        header="Transaction Details"
+        [(visible)]="displayTransaction"
+        [breakpoints]="{ '960px': '50vw', '640px': '85vw' }"
+        [style]="{ width: '40vw' }"
+        modal="true"
+    >
+        <!-- {
+    "id": 1,
+    "serial_no": 1,
+    "receipt_no": "PS-000001",
+    "customer_name": "Chetan",
+    "customer_ph": "9972777455",
+    "sale_date": "24-09-2022",
+    "no_of_items": 1,
+    "base_total": "92.54",
+    "total_gst_amount": "16.66",
+    "total_cgst": "8.33",
+    "total_sgst": "8.33",
+    "total_discount_amt": "0.00",
+    "service_charge_per": "0.00",
+    "service_charge_amt": "0.00",
+    "final_service_charge_amt": "0.00",
+    "packaging_amt": "0.00",
+    "grand_total": "109.20"
+} -->
+        <div class="card">
+            <div class="">
+                <div class="surface-section">
+                    <ul class="list-none p-0 m-0">
+                        <li
+                            class="flex justify-content-end align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 font-medium">Date:&nbsp;</div>
+                            <div class="text-900 font-bold">
+                                {{ selectedProduct?.sale_date }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Receipt No
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{ selectedProduct?.receipt_no }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Name
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{ selectedProduct?.customer_name ?? "-" }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Phone No
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{ selectedProduct?.customer_ph ?? "-" }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                No Of Items
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{ selectedProduct?.no_of_items }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-5 border-top-1 surface-border flex-wrap"
+                        >
+                            <div
+                                class="text-900 font-bold w-4 md:w-4 font-medium"
+                            >
+                                Name
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                Rate
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                Quantity
+                            </div>
+                        </li>
+                        <li
+                            *ngFor="let a of transactionData"
+                            class="flex align-items-center py-3 px-5 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-900 w-4 md:w-4 font-medium">
+                                {{ a.particular_name }}
+                            </div>
+                            <div
+                                class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                {{ a.sale_rate }}
+                            </div>
+                            <div
+                                class="text-900 sm:w-4 md:w-4 md:flex-order-0 flex-order-1"
+                            >
+                                {{ a.sale_qty }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Base Total
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{
+                                    selectedProduct?.base_total
+                                        | currency : "INR"
+                                }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Total GST
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{
+                                    selectedProduct?.total_gst_amount
+                                        | currency : "INR"
+                                }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                CGST
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{
+                                    selectedProduct?.total_cgst
+                                        | currency : "INR"
+                                }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                SGST
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{
+                                    selectedProduct?.total_sgst
+                                        | currency : "INR"
+                                }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Packing Amt
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{
+                                    selectedProduct?.packaging_amt
+                                        | currency : "INR"
+                                }}
+                            </div>
+                        </li>
+                        <li
+                            class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                        >
+                            <div class="text-500 w-6 md:w-5 font-medium">
+                                Total Amt
+                            </div>
+                            <div
+                                class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
+                            >
+                                {{
+                                    selectedProduct?.grand_total
+                                        | currency : "INR"
+                                }}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </p-dialog>
+</div>

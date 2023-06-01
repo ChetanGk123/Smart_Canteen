@@ -87,18 +87,6 @@
                                 </div>
                             </div>
                         </ng-template>
-
-                        <ng-template pTemplate="right">
-                            <button
-                                *ngIf="Data.length > 0"
-                                pButton
-                                pRipple
-                                label="Print"
-                                icon="pi pi-fw pi-print"
-                                class="mr-2 mt-5 inline-block p-button"
-                                (click)="printList()"
-                            ></button>
-                        </ng-template>
                     </p-toolbar>
                     <p-contextMenu #cm [model]="items"></p-contextMenu>
                     <p-menu #menu [popup]="true" [model]="items"></p-menu>
@@ -122,32 +110,53 @@
                             'card_number'
                         ]"
                     >
-                        <ng-template pTemplate="caption">
-                            <div
-                                class="table-header align-content-center justify-content-end grid flex"
-                            >
-                                <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                    style="text-align: end"
-                                >
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input
-                                            type="search"
-                                            pInputText
-                                            #filter
-                                            (input)="
-                                                dt.filterGlobal(
-                                                    $event.target.value,
-                                                    'contains'
-                                                )
-                                            "
-                                            placeholder="Global Search"
-                                        />
-                                    </span>
-                                </div>
+                    <ng-template pTemplate="caption">
+                        <div class="flex grid">
+                            <div class="col-6">
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-excel"
+                                    class="p-button-success mr-2"
+                                    *ngIf="Data"
+                                    pTooltip="XLS"
+                                    tooltipPosition="bottom"
+                                ></button>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-pdf"
+                                    *ngIf="Data"
+                                    (click)="generatePDF()"
+                                    class="p-button-warning mr-2"
+                                    pTooltip="PDF"
+                                    tooltipPosition="bottom"
+                                ></button>
                             </div>
-                        </ng-template>
+                            <div
+                                class="ml-auto col"
+                                style="text-align: end"
+                            >
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        type="search"
+                                        pInputText
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width: 6rem">

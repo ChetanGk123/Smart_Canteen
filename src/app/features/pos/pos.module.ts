@@ -20,6 +20,8 @@ import { CorePipesModule } from 'src/app/core/pipes/pipes.module';
 import { PosHistoryComponent } from './pos-history/pos-history.component';
 import { AcademicConstraintsComponent } from './pos-items/pos-details/academic-constraints/academic-constraints.component';
 import { TimeConstraintsComponent } from './pos-items/pos-details/time-constraints/time-constraints.component';
+import { PosItemHistoryComponent } from './pos-item-history/pos-item-history.component';
+import { PosItemHistoryReportComponent } from './Reports/pos-item-history-report/pos-item-history-report.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,8 @@ import { TimeConstraintsComponent } from './pos-items/pos-details/time-constrain
         PosHistoryComponent,
         AcademicConstraintsComponent,
         TimeConstraintsComponent,
+        PosItemHistoryComponent,
+        PosItemHistoryReportComponent,
     ],
     imports: [
         CommonModule,

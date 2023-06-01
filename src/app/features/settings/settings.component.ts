@@ -47,6 +47,62 @@ export class SettingsComponent implements OnInit {
                 this.loading = false;
                 if (result.result) {
                     this.tableData = result?.data;
+                    this.tableData[0].settings_value =
+                        this.tableData[0].settings_value == 1 ? true : false;
+                    this.tableData[3].settings_value =
+                        this.tableData[3].settings_value == 1 ? true : false;
+                    this.tableData[5].settings_value =
+                        this.tableData[5].settings_value == 1 ? true : false;
+                    var data: [
+                        {
+                            settings_id: '1';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Is Send SMS';
+                            settings_name: 'IS_SEND_SMS';
+                            settings_value: '1';
+                        },
+                        {
+                            settings_id: '2';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Theme Color';
+                            settings_name: 'THEME_COLOR';
+                            settings_value: 'light';
+                        },
+                        {
+                            settings_id: '8';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Date display range';
+                            settings_name: 'DATE_RANGE';
+                            settings_value: '10';
+                        },
+                        {
+                            settings_id: '27';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Send SMS on every card tap';
+                            settings_name: 'SMS_ON_EVERY_TAP';
+                            settings_value: '1';
+                        },
+                        {
+                            settings_id: '28';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Minimum Card Balance';
+                            settings_name: 'MINIMUM_CARD_BALANCE';
+                            settings_value: '100';
+                        },
+                        {
+                            settings_id: '31';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Wallet Prepaid/Postpaid';
+                            settings_name: 'WALLET_TRANSACTION_TYPE';
+                            settings_value: '0';
+                        }
+                    ];
                 } else {
                     this.tableData = [];
                 }
@@ -60,6 +116,15 @@ export class SettingsComponent implements OnInit {
     ChangePassword() {}
 
     updateSettings(data: any) {
+        if (data.settings_name == 'THEME_COLOR') {
+            data.settings_value = data.settings_value =='light' ? 'dark' : 'light';
+            this.updateThemeCheckedValue(data)
+        } else if (
+            data.settings_value == true ||
+            data.settings_value == false
+        ) {
+            data.settings_value = data.settings_value ? 1 : 0;
+        }
         this.apiService
             .postTypeRequest(`settings_ops/update`, data)
             .toPromise()
@@ -84,12 +149,10 @@ export class SettingsComponent implements OnInit {
         let themeElement = document.getElementById('theme-css');
         let dark: boolean;
         let theme: string;
-        if (data.checked) {
-            this.tableData[0].settings_value = 'dark';
+        if (data.settings_value == 'dark') {
             dark = true;
             theme = 'lara-dark-indigo';
         } else {
-            this.tableData[0].settings_value = 'light';
             dark = false;
             theme = 'lara-light-indigo';
         }

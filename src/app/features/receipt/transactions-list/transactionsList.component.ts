@@ -42,13 +42,13 @@ export class TransactionsListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        //console.log(this.config.data);
+        //console.log(this.config.data.data);
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
         }/${+new Date().getFullYear()}`;
         this.logo = `${date} - $`;
-        this.dateRange = `${date} - ${date}`;
+        this.dateRange = this.config.data.period;
         // console.log(this.memberService.getUserData()?.dp_location);
         //console.log(this.coreConfig.app.appLogoImage);
 
@@ -69,7 +69,7 @@ export class TransactionsListComponent implements OnInit {
     }
 
     async generatePDF() {
-        let totalCredit = this.config.data.reduce(
+        let totalCredit = this.config.data.data.reduce(
             (acc, cur) =>
                 acc +
                 Number(
@@ -79,7 +79,7 @@ export class TransactionsListComponent implements OnInit {
                 ),
             0
         );
-        let totalDEBIT = this.config.data.reduce(
+        let totalDEBIT = this.config.data.data.reduce(
             (acc, cur) =>
                 acc +
                 Number(
@@ -201,7 +201,7 @@ export class TransactionsListComponent implements OnInit {
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data.map((p) => [
+                            ...this.config.data.data.map((p) => [
                                 {
                                     text: p.transaction_date,
                                     border: [false, false, false, false],
