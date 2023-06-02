@@ -8,6 +8,7 @@ import { map, Observable } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AddPosComponent } from '../../add-pos/add-pos.component';
 import { PosService } from '../../pos.service';
+import { PosItemHistoryReportComponent } from '../../Reports/pos-item-history-report/pos-item-history-report.component';
 import { AcademicConstraintsComponent } from './academic-constraints/academic-constraints.component';
 import { TimeConstraintsComponent } from './time-constraints/time-constraints.component';
 
@@ -29,8 +30,10 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
     datePipe: DatePipe = new DatePipe('en-US');
     start_date: any;
     end_date: any;
+    title: any;
     file_data: FormData;
     transactionData: Observable<Object>;
+    transactionDataList: any;
     form: FormGroup = new FormGroup({
         file: new FormControl(),
     });
@@ -120,9 +123,72 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
             //     .finally(() => {});
             this.getAcademicConstraints();
             this.getTimeConstraints();
+            this.getTransactionHistory()
         } else {
             this.router.navigate(['/pos/posItems']);
         }
+    }
+
+    getTransactionHistory() {
+        var url = `sales_history/POS_SALES?`;
+        var dateFilter = ``;
+        if (
+            this.start_date != null &&
+            this.end_date != null &&
+            this.start_date != '' &&
+            this.end_date != ''
+        ) {
+            const start_date = this.datePipe.transform(
+                this.start_date,
+                'dd-MM-yyyy'
+            );
+            const end_date = this.datePipe.transform(
+                this.end_date,
+                'dd-MM-yyyy'
+            );
+            dateFilter = `&sale_start_date=${start_date}&sale_end_date=${end_date}`;
+        }
+        var pos_id = `pos_particular_id=${this.posItemData.id}&what=DATEWISE_POS_SALE_HISTORY`
+        this.transactionLoading = true;
+        this.transactionData = this.apiService.getTypeRequest(url + pos_id + dateFilter).pipe(
+            map((res: any) => {
+                res.data.map((item:any)=>{
+                    item.total_sale_qty = Number(item.total_sale_qty)
+                    item.item_grand_total = Number(item.item_grand_total)
+                    item.total_sale_amt = item.total_sale_qty*item.item_grand_total
+                })
+                this.transactionLoading = false;
+                this.transactionDataList = res.data
+                return res.data;
+                // {
+                //     "id": "61",
+                //     "master_id": "80",
+                //     "particular_id": "1",
+                //     "particular_name": "breakfeast",
+                //     "uom_name": "Plate",
+                //     "hsn_code": "hsn_code",
+                //     "pos_rate": "30.00",
+                //     "pos_discount_amt": "0.00",
+                //     "pos_discount_per": "1.00",
+                //     "sale_rate": "30.00",
+                //     "non_gst_sale_rate": "29.70",
+                //     "actual_discount_amt": "0.00",
+                //     "actual_discount_per": "1.00",
+                //     "sub_sale_rate": "30.00",
+                //     "rate_after_discount": "29.70",
+                //     "sale_qty": "1.00",
+                //     "item_sub_total": "29.70",
+                //     "gst_slab": "0.00",
+                //     "isExclusiveGst": "1",
+                //     "gst_amount": "0.00",
+                //     "cgst_amount": "0.00",
+                //     "sgst_amount": "0.00",
+                //     "item_grand_total": "29.70",
+                //     "sale_date": "29-05-2023",
+                //     "total_sale_qty": "5"
+                // },
+            }
+        ))
     }
 
     getAcademicConstraints() {
@@ -188,7 +254,7 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
         });
     }
 
-    updateTimeConstraints(product:any) {
+    updateTimeConstraints(product: any) {
         const ref = this.dialogService.open(TimeConstraintsComponent, {
             data: product,
             header: `Update Time Constraints`,
@@ -201,7 +267,7 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
         });
     }
 
-    updateAcademicConstraints(product:any) {
+    updateAcademicConstraints(product: any) {
         const ref = this.dialogService.open(AcademicConstraintsComponent, {
             data: product,
             header: `Update Academic Constraints`,
@@ -278,7 +344,7 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
             .toPromise()
             .then((result: any) => {
                 if (result.result) {
-                    this.ngOnInit
+                    this.ngOnInit;
                 } else {
                     this.messageService.add({
                         severity: 'error',
@@ -287,5 +353,25 @@ export class PosDetailsComponent implements OnInit, OnDestroy {
                     });
                 }
             });
+    }
+
+    generateTransactionHistoryPDF(){
+        const start_date = this.datePipe.transform(
+            this.start_date,
+            'dd-MM-yyyy'
+        );
+        const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
+        const period = `${start_date} - ${end_date}`;
+            //this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
+            this.title = 'Item Wise Sale'
+        this.dialogService.open(PosItemHistoryReportComponent, {
+            data: {
+                data: this.transactionDataList,
+                period: period,
+                title: this.title,
+            },
+            header: this.title,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
     }
 }

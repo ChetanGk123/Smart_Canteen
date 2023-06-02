@@ -218,7 +218,7 @@
                                             Card Number
                                         </div>
                                         <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                            class="text-xl text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                                         >
                                             {{ memberData?.card_number ?? "" }}
                                         </div>
@@ -259,7 +259,7 @@
                                             Membership Name
                                         </div>
                                         <div
-                                            class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
+                                            class="text-xl text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                                         >
                                             {{
                                                 membershipData.active_membership_data.meal_pack_name ??
@@ -279,11 +279,11 @@
                                             class="text-xl text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                                         >
                                             {{
-                                                membershipData?.start_date ?(membershipData?.start_date+" to"):
+                                                membershipData?.isMembershipActive ?(membershipData?.active_membership_data.start_date+" to"):
                                                     ""
                                             }}
                                             {{
-                                                membershipData?.end_date ??
+                                                membershipData?.active_membership_data.end_date ??
                                                     ""
                                             }}
                                         </div>

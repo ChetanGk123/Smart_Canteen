@@ -36,8 +36,8 @@ export class AttendanceComponent implements OnInit {
         /**
          * TODO:Remove this once attendance is ready
          **/
-        //this.deleteAttandance();
-        // this.commonForm.controls.card_number.setValue('74475537390120');
+        // this.deleteAttandance();
+        // this.commonForm.controls.card_number.setValue('74475537390122');
         // this.loadData();
         // var dummyData = {
         //     result: true,

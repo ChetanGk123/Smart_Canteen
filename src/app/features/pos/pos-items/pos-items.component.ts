@@ -11,6 +11,7 @@ import { ConfigureMealPackComponent } from '../../meal/meal-pack/configure-meal-
 import { MemberService } from '../../members/member.service';
 import { AddPosComponent } from '../add-pos/add-pos.component';
 import { PosService } from '../pos.service';
+import { PosItemsReportComponent } from '../Reports/pos-items/pos-items-report.component';
 import { UpdateImageComponent } from '../update-image/update-image.component';
 import { UpdatePosComponent } from '../update-pos/update-pos.component';
 import { PosDetailsComponent } from './pos-details/pos-details.component';
@@ -22,6 +23,7 @@ import { PosDetailsComponent } from './pos-details/pos-details.component';
 })
 export class PosItemsComponent implements OnInit, OnDestroy {
     Data: any;
+    title: any;
     loading: boolean = false;
     selectedProduct: any;
     items: MenuItem[];
@@ -202,5 +204,19 @@ export class PosItemsComponent implements OnInit, OnDestroy {
             .finally(() => {
                 this.loading = false;
             });
+    }
+
+    generatePDF(){
+
+            //this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
+            this.title = 'POS Items'
+        this.dialogService.open(PosItemsReportComponent, {
+            data: {
+                data: this.Data,
+                title: this.title,
+            },
+            header: this.title,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+        });
     }
 }

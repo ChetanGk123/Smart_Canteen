@@ -22,10 +22,12 @@ import { AcademicConstraintsComponent } from './pos-items/pos-details/academic-c
 import { TimeConstraintsComponent } from './pos-items/pos-details/time-constraints/time-constraints.component';
 import { PosItemHistoryComponent } from './pos-item-history/pos-item-history.component';
 import { PosItemHistoryReportComponent } from './Reports/pos-item-history-report/pos-item-history-report.component';
+import { PosItemsReportComponent } from './Reports/pos-items/pos-items-report.component';
 
 @NgModule({
     declarations: [
         PosItemsComponent,
+        PosItemsReportComponent,
         AddPosComponent,
         UpdatePosComponent,
         PosDetailsComponent,

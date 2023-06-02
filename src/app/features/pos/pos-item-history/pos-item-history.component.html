@@ -142,6 +142,7 @@
                                 </th>
                                 <th style="min-width: 14rem">Sale Rate</th>
                                 <th style="min-width: 8rem">Total Sale Qty</th>
+                                <th style="min-width: 8rem">Total Sale Amount</th>
                             </tr>
                         </ng-template>
                         <ng-template
@@ -160,10 +161,13 @@
                                     {{ product.particular_name }}
                                 </td>
                                 <td>
-                                    {{ '₹ '+product.sale_rate ?? "-" }}
+                                    {{ '₹ '+product.item_grand_total ?? "-" }}
                                 </td>
                                 <td>
                                     {{ product.total_sale_qty }}
+                                </td>
+                                <td class="text-right pr-5">
+                                    {{ '₹ '+product.total_sale_amt.toFixed(2) }}
                                 </td>
                             </tr>
                         </ng-template>
