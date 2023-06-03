@@ -17,6 +17,7 @@ import { CounterService } from '../counters/counter.service';
 import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberService } from './member.service';
 import { MembersData } from './members-details.model';
+import { MemberListReportComponent } from './reports/member-list-report/member-list-report.component';
 
 @Component({
     selector: 'app-members',
@@ -27,6 +28,7 @@ export class MembersComponent implements OnInit, OnDestroy {
     @ViewChild('excelFile')
     myInputVariable: ElementRef;
     tableData: any;
+    title:any;
     bulkAddData: any = [];
     loading: boolean = false;
     CardDetailsSubmitLoading: boolean = false;
@@ -310,4 +312,16 @@ export class MembersComponent implements OnInit, OnDestroy {
             }
         }
     }
+
+generatePDF(){
+    this.title = `ALL members`
+    this.dialogService.open(MemberListReportComponent, {
+        data: {
+            data: this.tableData,
+            title: this.title,
+        },
+        header: this.title,
+        styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
+    });
+}
 }

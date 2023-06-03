@@ -64,32 +64,53 @@
                             'phone_number'
                         ]"
                     >
-                        <ng-template pTemplate="caption">
-                            <div
-                                class="table-header align-content-center justify-content-end grid flex"
-                            >
-                                <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                    style="text-align: end"
-                                >
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input
-                                            type="search"
-                                            pInputText
-                                            #filter
-                                            (input)="
-                                                dt.filterGlobal(
-                                                    $event.target.value,
-                                                    'contains'
-                                                )
-                                            "
-                                            placeholder="Global Search"
-                                        />
-                                    </span>
-                                </div>
+                    <ng-template pTemplate="caption">
+                        <div class="flex grid">
+                            <div class="col-6">
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-excel"
+                                    class="p-button-success mr-2"
+                                    *ngIf="tableData"
+                                    pTooltip="XLS"
+                                    tooltipPosition="bottom"
+                                ></button>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-pdf"
+                                    *ngIf="tableData"
+                                    (click)="generatePDF()"
+                                    class="p-button-warning mr-2"
+                                    pTooltip="PDF"
+                                    tooltipPosition="bottom"
+                                ></button>
                             </div>
-                        </ng-template>
+                            <div
+                                class="ml-auto col"
+                                style="text-align: end"
+                            >
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        type="search"
+                                        pInputText
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width: 1rem">

@@ -15,6 +15,7 @@ import { AddMemberTransactionComponent } from './add-member-transaction/add-memb
 import { MemberTransactionsComponent } from './reports/member-transactions/member-transactions.component';
 import { MemberCardHistoryComponent } from './reports/member-card-history/member-card-history.component';
 import { MemberLeaveHistoryComponent } from './reports/member-leave-history/member-leave-history.component';
+import { MemberListReportComponent } from './reports/member-list-report/member-list-report.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import { MemberLeaveHistoryComponent } from './reports/member-leave-history/memb
         MemberTransactionsComponent,
         MemberCardHistoryComponent,
         MemberLeaveHistoryComponent,
+        MemberListReportComponent,
     ],
     imports: [
         CommonModule,
