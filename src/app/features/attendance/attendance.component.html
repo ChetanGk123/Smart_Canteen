@@ -262,8 +262,9 @@
                                             class="text-xl text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                                         >
                                             {{
-                                                membershipData.active_membership_data.meal_pack_name ??
-                                                    ""
+                                                membershipData
+                                                    .active_membership_data
+                                                    .meal_pack_name ?? ""
                                             }}
                                         </div>
                                     </li>
@@ -279,12 +280,16 @@
                                             class="text-xl text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                                         >
                                             {{
-                                                membershipData?.isMembershipActive ?(membershipData?.active_membership_data.start_date+" to"):
-                                                    ""
+                                                membershipData?.isMembershipActive
+                                                    ? membershipData
+                                                          ?.active_membership_data
+                                                          .start_date + " to"
+                                                    : ""
                                             }}
                                             {{
-                                                membershipData?.active_membership_data.end_date ??
-                                                    ""
+                                                membershipData
+                                                    ?.active_membership_data
+                                                    .end_date ?? ""
                                             }}
                                         </div>
                                     </li>
@@ -294,7 +299,15 @@
                                         <div
                                             class="justify-content-center align-items-center flex text-center text-center"
                                         >
-                                            <div class="" *ngIf="attendance_data.current_particular.meal_name">
+                                            <div
+                                                class=""
+                                                *ngIf="
+                                                    attendance_data
+                                                        .current_particular
+                                                        .meal_name;
+                                                    else posData
+                                                "
+                                            >
                                                 <i
                                                     [class]="
                                                         attendance_data.isAttendanceMarked
@@ -305,9 +318,28 @@
                                                     style="font-size: 5rem"
                                                 ></i>
                                                 <div class="text-3xl mt-1">
-                                                    <b>{{attendance_data.current_particular.meal_name}}</b>
+                                                    <b>{{
+                                                        attendance_data?.isAttendanceMarked
+                                                            ? attendance_data
+                                                                  ?.current_particular
+                                                                  ?.meal_name
+                                                            : pos_Marker_item
+                                                    }}</b>
                                                 </div>
                                             </div>
+                                            <ng-template #posData>
+                                                <div *ngIf="pos_Marker_item">
+                                                    <i
+                                                        class="p-success pi-check-circle pi true-icon"
+                                                        style="font-size: 5rem"
+                                                    ></i>
+                                                    <div class="text-3xl mt-1">
+                                                        <b>{{
+                                                            pos_Marker_item
+                                                        }}</b>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
                                         </div>
                                     </div>
                                 </div>

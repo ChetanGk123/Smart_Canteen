@@ -127,7 +127,7 @@ export class PosSaleComponent implements OnInit {
                         summary: 'Added',
                         detail: resopnse.message,
                     });
-                    this.ref.close(true);
+                    this.ref.close(item.name);
                 }
             });
     }

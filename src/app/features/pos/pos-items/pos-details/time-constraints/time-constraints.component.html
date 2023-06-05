@@ -7,14 +7,21 @@
                         <label for="start_time"
                             >Start Time <span class="p-error">*</span></label
                         >
-                        <p-calendar
+                        <!-- <p-calendar
                             appendTo="body"
                             [timeOnly]="true"
                             inputId="start_time"
                             [hourFormat]="12"
                             [showSeconds]="true"
                             formControlName="start_time"
-                        ></p-calendar>
+                        ></p-calendar> -->
+                        <input
+                                    type="time"
+                                    pInputText
+                                    id="start_time"
+                                    formControlName="start_time"
+                                    required
+                                />
                         <small
                             class="p-error"
                             *ngIf="
@@ -32,19 +39,27 @@
                             dateFormat="dd-mm-yy"
                             formControlName="start_date"
                         ></p-calendar>
+
                     </div>
                     <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
                         <label for="end_time"
                             >End Time <span class="p-error">*</span></label
                         >
-                        <p-calendar
+                        <!-- <p-calendar
                             appendTo="body"
                             [timeOnly]="true"
                             inputId="end_time"
                             [hourFormat]="12"
                             [showSeconds]="true"
                             formControlName="end_time"
-                        ></p-calendar>
+                        ></p-calendar> -->
+                        <input
+                                    type="time"
+                                    pInputText
+                                    id="end_time"
+                                    formControlName="end_time"
+                                    required
+                                />
                         <small
                             class="p-error"
                             *ngIf="

@@ -19,6 +19,7 @@ export class AttendanceComponent implements OnInit {
     memberData: any;
     attendance_data: any;
     pos_sale_data: any;
+    pos_Marker_item: any;
     membershipData: any;
     commonForm: FormGroup = new FormGroup({
         card_number: new FormControl('', [Validators.required]),
@@ -138,8 +139,13 @@ export class AttendanceComponent implements OnInit {
                 .getTypeRequest(`mark_attendance/${Data}`)
                 .toPromise()
                 .then((result: any) => {
-                    this.loading = false;
-                    this.loadAttendanceData(result);
+                    if(result.result){
+                        this.loading = false;
+                        this.playSuccessAudio()
+                        this.loadAttendanceData(result);
+                    } else {
+                        this.playAlertAudio()
+                    }
                 })
                 .finally(() => {
                     //this.commonForm.reset();
@@ -150,102 +156,6 @@ export class AttendanceComponent implements OnInit {
 
     loadAttendanceData(result: any) {
         if (result.result) {
-            // var Data = {
-            //     member_data: {
-            //         member_id: '1',
-            //         card_number: '74475537390120',
-            //         counter_id: '1',
-            //         full_name: 'faaaaaull_name',
-            //         gender: 'gender',
-            //         phone_number: 'phone_number',
-            //         parents_ph: 'parents_ph',
-            //         dob: '00-00-0000',
-            //         email: 'email',
-            //         school_name: 'new school name',
-            //         class_name: 'class_name',
-            //         division_name: 'division_name',
-            //         hostel_details: 'hostel_details',
-            //         photo_url:
-            //             'https://thetechvaidya.com/cooksbook_new/uploads/member_docs/Y5I8VSAX.png',
-            //         profile_photo: 'member_docs/Y5I8VSAX.png',
-            //         member_type_id: '1',
-            //         member_type: 'Studet',
-            //         address: 'address',
-            //         status: '1',
-            //         balance: '-4900.00',
-            //     },
-            //     membership_data: {
-            //         isMembershipActive: true,
-            //         isActiveLeave: false,
-            //         active_membership_data: {
-            //             membership_id: '5',
-            //             member_id: '1',
-            //             counter_id: '1',
-            //             membership_number: 'MT25052023000002',
-            //             meal_pack_id: '11',
-            //             meal_pack_name: 'Full Day Meals',
-            //             price_per_pack: '200.00',
-            //             total_meal_packs: '30',
-            //             total_amount: '6000.00',
-            //             max_days: '30',
-            //             start_date: '25-05-2023',
-            //             end_date: '23-06-2023',
-            //             is_active: '1',
-            //             is_on_leave: '0',
-            //             sale_date: '25-05-2023',
-            //             membership_particulars: [
-            //                 {
-            //                     membership_particular_id: '9',
-            //                     meal_name: 'BREAKFAST',
-            //                     meal_pack_item_id: '19',
-            //                     meal_id: '1',
-            //                     price: '60.00',
-            //                     total_meals: '30',
-            //                     remaining_meals: '30',
-            //                 },
-            //                 {
-            //                     membership_particular_id: '10',
-            //                     meal_name: 'LUNCH',
-            //                     meal_pack_item_id: '20',
-            //                     meal_id: '2',
-            //                     price: '70.00',
-            //                     total_meals: '30',
-            //                     remaining_meals: '30',
-            //                 },
-            //                 {
-            //                     membership_particular_id: '11',
-            //                     meal_name: 'DINNER',
-            //                     meal_pack_item_id: '21',
-            //                     meal_id: '4',
-            //                     price: '70.00',
-            //                     total_meals: '30',
-            //                     remaining_meals: '30',
-            //                 },
-            //             ],
-            //         },
-            //     },
-            //     attendance_data: {
-            //         current_particular: {
-            //             meal_pack_item_id: '21',
-            //             meal_pack_id: '11',
-            //             meal_id: '4',
-            //             meal_name: 'DINNER',
-            //             meal_price: '70.00',
-            //             meal_start_time: '08:00:00 PM',
-            //             raw_meal_start_time: '20:00:00',
-            //             meal_end_time: '10:30:00 PM',
-            //             raw_meal_end_time: '22:30:00',
-            //         },
-            //         attendanceEligibility: true,
-            //         isAttendanceMarked: true,
-            //     },
-            //     pos_sale_data: {
-            //         anyParticularsNow: false,
-            //         isMultiplePOSItems: false,
-            //         particularsNow: [],
-            //         defaultSaleData: [],
-            //     },
-            // };
             this.Data = result.data;
             this.memberData = result.data.member_data;
             this.attendance_data = result.data.attendance_data;
@@ -262,7 +172,14 @@ export class AttendanceComponent implements OnInit {
                 this.attendance_data.isAttendanceMarked == false &&
                 this.membershipData.isMembershipActive == false
             ) {
-                this.openPOSDialog();
+                if(this.pos_sale_data.anyParticularsNow ){
+                    if(this.pos_sale_data.isMultiplePOSItems){
+                        this.openPOSDialog();
+                    } else {
+                        //this.makePOSSale(this.pos_sale_data.particularsNow[0])
+                        this.pos_Marker_item =this.pos_sale_data.particularsNow[0].name
+                    }
+                }
             }
         } else {
             this.messages = [
@@ -272,107 +189,7 @@ export class AttendanceComponent implements OnInit {
                     detail: result.message,
                 },
             ];
-            // this.Data = {
-            //     member_data: {
-            //         member_id: '1',
-            //         card_number: '74475537390120',
-            //         counter_id: '1',
-            //         full_name: 'faaaaaull_name',
-            //         gender: 'gender',
-            //         phone_number: 'phone_number',
-            //         parents_ph: 'parents_ph',
-            //         dob: '00-00-0000',
-            //         email: 'email',
-            //         school_name: 'new school name',
-            //         class_name: 'class_name',
-            //         division_name: 'division_name',
-            //         hostel_details: 'hostel_details',
-            //         photo_url:
-            //             'https://thetechvaidya.com/cooksbook_new/uploads/member_docs/Y5I8VSAX.png',
-            //         profile_photo: 'member_docs/Y5I8VSAX.png',
-            //         member_type_id: '1',
-            //         member_type: 'Studet',
-            //         address: 'address',
-            //         status: '1',
-            //         balance: '-4900.00',
-            //     },
-            //     membership_data: {
-            //         isMembershipActive: true,
-            //         isActiveLeave: false,
-            //         active_membership_data: {
-            //             membership_id: '5',
-            //             member_id: '1',
-            //             counter_id: '1',
-            //             membership_number: 'MT25052023000002',
-            //             meal_pack_id: '11',
-            //             meal_pack_name: 'Full Day Meals',
-            //             price_per_pack: '200.00',
-            //             total_meal_packs: '30',
-            //             total_amount: '6000.00',
-            //             max_days: '30',
-            //             start_date: '25-05-2023',
-            //             end_date: '23-06-2023',
-            //             is_active: '1',
-            //             is_on_leave: '0',
-            //             sale_date: '25-05-2023',
-            //             membership_particulars: [
-            //                 {
-            //                     membership_particular_id: '9',
-            //                     meal_name: 'BREAKFAST',
-            //                     meal_pack_item_id: '19',
-            //                     meal_id: '1',
-            //                     price: '60.00',
-            //                     total_meals: '30',
-            //                     remaining_meals: '30',
-            //                 },
-            //                 {
-            //                     membership_particular_id: '10',
-            //                     meal_name: 'LUNCH',
-            //                     meal_pack_item_id: '20',
-            //                     meal_id: '2',
-            //                     price: '70.00',
-            //                     total_meals: '30',
-            //                     remaining_meals: '30',
-            //                 },
-            //                 {
-            //                     membership_particular_id: '11',
-            //                     meal_name: 'DINNER',
-            //                     meal_pack_item_id: '21',
-            //                     meal_id: '4',
-            //                     price: '70.00',
-            //                     total_meals: '30',
-            //                     remaining_meals: '30',
-            //                 },
-            //             ],
-            //         },
-            //     },
-            //     attendance_data: {
-            //         current_particular: {
-            //             meal_pack_item_id: '21',
-            //             meal_pack_id: '11',
-            //             meal_id: '4',
-            //             meal_name: 'DINNER',
-            //             meal_price: '70.00',
-            //             meal_start_time: '08:00:00 PM',
-            //             raw_meal_start_time: '20:00:00',
-            //             meal_end_time: '10:30:00 PM',
-            //             raw_meal_end_time: '22:30:00',
-            //         },
-            //         attendanceEligibility: true,
-            //         isAttendanceMarked: true,
-            //     },
-            //     pos_sale_data: {
-            //         anyParticularsNow: false,
-            //         isMultiplePOSItems: false,
-            //         particularsNow: [],
-            //         defaultSaleData: [],
-            //     },
-            // };
-            // this.memberData = this.Data.member_data;
-            // this.attendance_data = this.Data.attendance_data;
-            // this.membershipData = this.Data.membership_data;
-            // this.pos_sale_data = this.Data.pos_sale_data;
-        }
+            }
     }
 
     openPOSDialog() {
@@ -386,9 +203,59 @@ export class AttendanceComponent implements OnInit {
         });
         ref.onClose.subscribe((result: any) => {
             if (result) {
+                this.pos_Marker_item = result;
                 this.ngOnInit();
             }
         });
+    }
+
+    makePOSSale(item: any) {
+        var payload = {
+            sub_total: 30,
+            member_id: this.memberData.member_id,
+            total_amount: item.rate,
+            packaging_amt: 0,
+            total_discount: 0,
+            total_tax: 0,
+            account_head_id: null,
+            payment_mode: '',
+            payment_ref: '',
+            customer_name: this.memberData.full_name,
+            customer_ph: this.memberData.phone_number,
+            sale_date: new Date().toISOString().substring(0, 10),
+            service_charge_per: 0,
+            service_charge_amt: 0,
+            sales_array: [
+                {
+                    id: item.id,
+                    img: null,
+                    name: item.name,
+                    gst_slab: 0,
+                    isExclusiveGst: item.isExclusiveGst,
+                    main_category_name: item.main_category_name,
+                    actual_discount_amt: item.discount_amt,
+                    actual_discount_per: item.discount_per,
+                    DiscountType: 'Percentage',
+                    DiscountValue: 0,
+                    sale_qty: 1,
+                    sale_rate: item.rate,
+                },
+            ],
+        };
+
+        this.apiService
+            .postTypeRequest('mark_pos_sales', payload)
+            .toPromise()
+            .then((resopnse: any) => {
+                if (resopnse.result) {
+                    //this.printMembership2Inc(resopnse.data);
+                    this.messageService.add({
+                        severity: 'info',
+                        summary: 'Added',
+                        detail: resopnse.message,
+                    });
+                }
+            });
     }
 
     deleteAttandance() {
@@ -405,4 +272,18 @@ export class AttendanceComponent implements OnInit {
                 ];
             });
     }
+
+    playSuccessAudio(): void {
+        const audio = new Audio();
+        audio.src = '../../assets/success_notification.wav';
+        audio.load();
+        audio.play();
+      }
+
+    playAlertAudio(): void {
+        const audio = new Audio();
+        audio.src = '../../assets/alert_sound_metal_gear.wav';
+        audio.load();
+        audio.play();
+      }
 }

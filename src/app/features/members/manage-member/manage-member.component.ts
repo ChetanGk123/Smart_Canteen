@@ -17,6 +17,8 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
     loading: boolean = false;
     member_types: any = [];
     counterList: any[];
+    classList: any[];
+    divisionList: any[];
     commonForm: FormGroup = new FormGroup({
         counter_id: new FormControl(this.config.data?.counter_id ?? ''),
         member_id: new FormControl(
@@ -114,6 +116,18 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                     this.counterList = result?.data;
                 });
         }
+        this.apiService
+                .getTypeRequest(`table_data/CLASS`)
+                .toPromise()
+                .then((result: any) => {
+                    this.classList = result?.data;
+                });
+                this.apiService
+                .getTypeRequest(`table_data/DIVISION`)
+                .toPromise()
+                .then((result: any) => {
+                    this.divisionList = result?.data;
+                });
     }
 
     /**

@@ -132,6 +132,32 @@
                 <label for="class_name"
                     >Class Name <span class="p-error">*</span></label
                 >
+                <p-dropdown
+                    id="class_name"
+                    [options]="classList"
+                    placeholder="Select a Class Name"
+                    formControlName="class_name"
+                    optionLabel="name"
+                    optionValue="name"
+                ></p-dropdown>
+            </div>
+            <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="division_name"
+                    >Division Name <span class="p-error">*</span></label
+                >
+                <p-dropdown
+                    id="division_name"
+                    [options]="divisionList"
+                    placeholder="Select a Division Name"
+                    formControlName="division_name"
+                    optionLabel="name"
+                    optionValue="name"
+                ></p-dropdown>
+            </div>
+            <!-- <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
+                <label for="class_name"
+                    >Class Name <span class="p-error">*</span></label
+                >
                 <input
                     type="text"
                     pInputText
@@ -151,7 +177,7 @@
                     placeholder="A"
                     formControlName="division_name"
                 />
-            </div>
+            </div> -->
             <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
                 <label for="hostel_details"
                     >Hostel Details <span class="p-error">*</span></label
