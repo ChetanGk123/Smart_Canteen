@@ -81,11 +81,11 @@ export class ConfigureMealPackComponent implements OnInit {
                         item.meal_start_time = moment(
                             item.meal_start_time,
                             'hh:mm:ss A'
-                        ).toDate();
+                        ).format('HH:mm:ss')
                         item.meal_end_time = moment(
                             item.meal_end_time,
                             'hh:mm:ss A'
-                        ).toDate();
+                        ).format('HH:mm:ss')
                     });
                 } else {
                     this.Data = [];

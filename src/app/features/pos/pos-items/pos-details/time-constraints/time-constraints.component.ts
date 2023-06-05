@@ -34,17 +34,33 @@ export class TimeConstraintsComponent implements OnInit {
         if (this.config.data) {
             this.updateMode = true;
             this.commonForm.patchValue(this.config.data);
-            this.commonForm.controls['start_date'].setValue(
+            if (this.config.data.start_date) {
+                this.commonForm.controls['start_date'].setValue(
+                    moment(
+                        this.commonForm.controls['start_date'].value,
+                        'DD-MM-yyyy'
+                    ).toDate()
+                );
+            }
+            if (this.config.data.end_date) {
+                this.commonForm.controls['end_date'].setValue(
+                    moment(
+                        this.commonForm.controls['end_date'].value,
+                        'DD-MM-yyyy'
+                    ).toDate()
+                );
+            }
+            this.commonForm.controls['start_time'].setValue(
                 moment(
-                    this.commonForm.controls['start_date'].value,
-                    'DD-MM-yyyy'
-                ).toDate()
+                    this.commonForm.controls['start_time'].value,
+                    'hh:mm:ss A'
+                ).format('HH:mm:ss')
             );
-            this.commonForm.controls['end_date'].setValue(
+            this.commonForm.controls['end_time'].setValue(
                 moment(
-                    this.commonForm.controls['end_date'].value,
-                    'DD-MM-yyyy'
-                ).toDate()
+                    this.commonForm.controls['end_time'].value,
+                    'hh:mm:ss A'
+                ).format('HH:mm:ss')
             );
         }
     }
@@ -57,7 +73,7 @@ export class TimeConstraintsComponent implements OnInit {
                     'hh:mm:ss A'
                 ).format('hh:mm:ss A')
             );
-            if(this.commonForm.controls['start_date'].value){
+            if (this.commonForm.controls['start_date'].value) {
                 this.commonForm.controls['start_date'].setValue(
                     moment(
                         this.commonForm.controls['start_date'].value,
@@ -71,14 +87,14 @@ export class TimeConstraintsComponent implements OnInit {
                     'hh:mm:ss A'
                 ).format('hh:mm:ss A')
             );
-            if(this.commonForm.controls['end_date'].value){
-            this.commonForm.controls['end_date'].setValue(
-                moment(
-                    this.commonForm.controls['end_date'].value,
-                    'DD:MM:yyyy'
-                ).format('DD-MM-yyyy')
-            );
-                }
+            if (this.commonForm.controls['end_date'].value) {
+                this.commonForm.controls['end_date'].setValue(
+                    moment(
+                        this.commonForm.controls['end_date'].value,
+                        'DD:MM:yyyy'
+                    ).format('DD-MM-yyyy')
+                );
+            }
             if (this.updateMode) {
                 this.updateConstraintsArray();
             } else {

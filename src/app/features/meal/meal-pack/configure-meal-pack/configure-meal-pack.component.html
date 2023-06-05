@@ -357,7 +357,7 @@
                                             pTemplate="input"
                                             style="width: 110px"
                                         >
-                                            <p-calendar
+                                            <!-- <p-calendar
                                                 appendTo="body"
                                                 [timeOnly]="true"
                                                 inputId="timeonly"
@@ -366,12 +366,20 @@
                                                 [(ngModel)]="
                                                     product.meal_start_time
                                                 "
-                                            ></p-calendar>
+                                            ></p-calendar> -->
+                                            <input
+                                                type="time"
+                                                pInputText
+                                                id="meal_start_time"
+                                                [(ngModel)]="
+                                                    product.meal_start_time
+                                                "
+                                            />
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             {{
                                                 product.meal_start_time
-                                                    | date : "mediumTime"
+                                                    
                                             }}
                                         </ng-template>
                                     </p-cellEditor>
@@ -382,7 +390,7 @@
                                             pTemplate="input"
                                             style="width: 110px"
                                         >
-                                            <p-calendar
+                                            <!-- <p-calendar
                                                 appendTo="body"
                                                 [timeOnly]="true"
                                                 inputId="timeonly"
@@ -391,12 +399,20 @@
                                                 [(ngModel)]="
                                                     product.meal_end_time
                                                 "
-                                            ></p-calendar>
+                                            ></p-calendar> -->
+                                            <input
+                                                type="time"
+                                                pInputText
+                                                id="meal_end_time"
+                                                [(ngModel)]="
+                                                    product.meal_end_time
+                                                "
+                                            />
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             {{
                                                 product.meal_end_time
-                                                    | date : "mediumTime"
+                                                    
                                             }}
                                         </ng-template>
                                     </p-cellEditor>
