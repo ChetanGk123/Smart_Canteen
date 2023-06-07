@@ -16,12 +16,13 @@
                             formControlName="start_time"
                         ></p-calendar> -->
                         <input
-                                    type="time"
-                                    pInputText
-                                    id="start_time"
-                                    formControlName="start_time"
-                                    required
-                                />
+                            type="time"
+                            pInputText
+                            id="start_time"
+                            formControlName="start_time"
+                            step="2"
+                            required
+                        />
                         <small
                             class="p-error"
                             *ngIf="
@@ -39,7 +40,6 @@
                             dateFormat="dd-mm-yy"
                             formControlName="start_date"
                         ></p-calendar>
-
                     </div>
                     <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
                         <label for="end_time"
@@ -54,12 +54,13 @@
                             formControlName="end_time"
                         ></p-calendar> -->
                         <input
-                                    type="time"
-                                    pInputText
-                                    id="end_time"
-                                    formControlName="end_time"
-                                    required
-                                />
+                            type="time"
+                            pInputText
+                            id="end_time"
+                            formControlName="end_time"
+                            step="2"
+                            required
+                        />
                         <small
                             class="p-error"
                             *ngIf="
@@ -147,13 +148,13 @@
                             {{ product.start_time }}
                         </td>
                         <td style="width: 15%">
-                            {{ product.start_date??'-' }}
+                            {{ product.start_date ?? "-" }}
                         </td>
                         <td style="width: 20%">
-                            {{ product.end_time}}
+                            {{ product.end_time }}
                         </td>
                         <td style="width: 20%">
-                            {{ product.end_date??"-"}}
+                            {{ product.end_date ?? "-" }}
                         </td>
                         <td style="text-align: left; width: 15%">
                             <button

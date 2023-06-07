@@ -74,6 +74,7 @@
                                 ></p-calendar> -->
                                 <input
                                     type="time"
+                                    step="2"
                                     pInputText
                                     id="meal_start_time"
                                     formControlName="meal_start_time"
@@ -107,6 +108,7 @@
                                 ></p-calendar> -->
                                 <input
                                     type="time"
+                                    step="2"
                                     pInputText
                                     id="meal_end_time"
                                     formControlName="meal_end_time"
@@ -369,6 +371,7 @@
                                             ></p-calendar> -->
                                             <input
                                                 type="time"
+                                                step="2"
                                                 pInputText
                                                 id="meal_start_time"
                                                 [(ngModel)]="
@@ -377,10 +380,7 @@
                                             />
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{
-                                                product.meal_start_time
-                                                    
-                                            }}
+                                            {{ product.meal_start_time }}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
@@ -402,6 +402,7 @@
                                             ></p-calendar> -->
                                             <input
                                                 type="time"
+                                                step="2"
                                                 pInputText
                                                 id="meal_end_time"
                                                 [(ngModel)]="
@@ -410,10 +411,7 @@
                                             />
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{
-                                                product.meal_end_time
-                                                    
-                                            }}
+                                            {{ product.meal_end_time }}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
