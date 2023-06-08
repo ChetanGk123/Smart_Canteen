@@ -29,7 +29,7 @@
                         #dt
                         [(contextMenuSelection)]="selectedProduct"
                         [contextMenu]="cm"
-                        dataKey="code"
+                        dataKey="meal_pack_id"
                         [value]="Data"
                         [paginator]="true"
                         [rows]="10"
@@ -41,34 +41,56 @@
                         [filterDelay]="0"
                         [globalFilterFields]="['meal_pack_name']"
                     >
-                        <ng-template pTemplate="caption">
-                            <div
-                                class="table-header align-content-center justify-content-end grid flex"
-                            >
-                                <div
-                                    class="col-12 md:col-8 lg:6 grid justify-content-end"
-                                    style="text-align: end"
-                                >
-                                    <span class="p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input
-                                            type="search"
-                                            pInputText
-                                            #filter
-                                            (input)="
-                                                dt.filterGlobal(
-                                                    $event.target.value,
-                                                    'contains'
-                                                )
-                                            "
-                                            placeholder="Global Search"
-                                        />
-                                    </span>
-                                </div>
+                    <ng-template pTemplate="caption">
+                        <div class="flex grid">
+                            <div class="col-6">
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-excel"
+                                    class="p-button-success mr-2"
+                                    *ngIf="Data"
+                                    pTooltip="XLS"
+                                    tooltipPosition="bottom"
+                                ></button>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-pdf"
+                                    *ngIf="Data"
+                                    (click)="generatePDF()"
+                                    class="p-button-warning mr-2"
+                                    pTooltip="PDF"
+                                    tooltipPosition="bottom"
+                                ></button>
                             </div>
-                        </ng-template>
+                            <div
+                                class="ml-auto col"
+                                style="text-align: end"
+                            >
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        type="search"
+                                        pInputText
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
+                                <th style="width: 3rem"></th>
                                 <th>SlNo</th>
                                 <th pSortableColumn="meal_pack_name">
                                     Name
@@ -83,8 +105,23 @@
                             pTemplate="body"
                             let-product
                             let-rowIndex="rowIndex"
+                            let-expanded="expanded"
                         >
                             <tr [pContextMenuRow]="product">
+                                <td>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        [pRowToggler]="product"
+                                        class="p-button-text p-button-rounded p-button-plain"
+                                        [icon]="
+                                            expanded
+                                                ? 'pi pi-chevron-down'
+                                                : 'pi pi-chevron-right'
+                                        "
+                                    ></button>
+                                </td>
                                 <td style="width: 20%">
                                     {{ rowIndex + 1 }}
                                 </td>
@@ -103,6 +140,100 @@
                                         "
                                         class="p-button-rounded p-button-text p-action-button"
                                     ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="rowexpansion" let-product>
+                            <tr>
+                                <td colspan="4">
+                                    <div class="p-2">
+                                        <p-table
+                                            [value]="product.meal_pack_items"
+                                            dataKey="meal_pack_id"
+                                        >
+                                            <ng-template pTemplate="header">
+                                                <tr>
+                                                    <th>SLNo</th>
+                                                    <th
+                                                        pSortableColumn="meal_name"
+                                                    >
+                                                        Name
+                                                        <p-sortIcon
+                                                            field="meal_name"
+                                                        ></p-sortIcon>
+                                                    </th>
+                                                    <th
+                                                        pSortableColumn="meal_price"
+                                                    >
+                                                        Price
+                                                        <p-sortIcon
+                                                            field="meal_price"
+                                                        ></p-sortIcon>
+                                                    </th>
+                                                    <th
+                                                        pSortableColumn="meal_start_time"
+                                                    >
+                                                        Start Time
+                                                        <p-sortIcon
+                                                            field="meal_start_time"
+                                                        ></p-sortIcon>
+                                                    </th>
+                                                    <th
+                                                        pSortableColumn="meal_end_time"
+                                                    >
+                                                        End Time
+                                                        <p-sortIcon
+                                                            field="meal_end_time"
+                                                        ></p-sortIcon>
+                                                    </th>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template
+                                                pTemplate="body"
+                                                let-item
+                                                let-rowIndex="rowIndex"
+                                            >
+                                                <tr>
+                                                    <td>{{ rowIndex + 1 }}</td>
+                                                    <td>
+                                                        {{ item.meal_name }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.meal_price
+                                                                | currency
+                                                                    : "INR"
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            item.meal_start_time
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{ item.meal_end_time }}
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template
+                                                pTemplate="emptymessage"
+                                            >
+                                                <tr>
+                                                    <td colspan="4">
+                                                        There are no order for
+                                                        this product yet.
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4">
+                                    There are no order for this product yet.
                                 </td>
                             </tr>
                         </ng-template>

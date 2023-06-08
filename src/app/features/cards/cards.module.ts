@@ -11,7 +11,11 @@ import { CardHistoryComponent } from './card-history/card-history.component';
 import { CardHistoryReportComponent } from './reports/card-history-report/card-history-report.component';
 
 @NgModule({
-    declarations: [CardHistoryComponent, CardDetailsComponent, CardHistoryReportComponent],
+    declarations: [
+        CardHistoryComponent,
+        CardDetailsComponent,
+        CardHistoryReportComponent,
+    ],
     imports: [
         CommonModule,
         PrimengModule,

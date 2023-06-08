@@ -14,12 +14,11 @@ import { DatePipe } from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-card-history-report',
-  templateUrl: './card-history-report.component.html',
-  styleUrls: ['./card-history-report.component.scss']
+    selector: 'app-card-history-report',
+    templateUrl: './card-history-report.component.html',
+    styleUrls: ['./card-history-report.component.scss'],
 })
 export class CardHistoryReportComponent implements OnInit {
-
     src: any;
     logo: any;
     name: any;
@@ -39,11 +38,10 @@ export class CardHistoryReportComponent implements OnInit {
     ) {
         this.coreConfig = _coreEnvService.config;
     }
-/**
- * TODO: fix column width
- **/
+    /**
+     * TODO: fix column width
+     **/
     ngOnInit(): void {
-
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -129,7 +127,10 @@ export class CardHistoryReportComponent implements OnInit {
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -177,7 +178,7 @@ export class CardHistoryReportComponent implements OnInit {
                                     border: [false, true, false, true],
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data?.data.map((p, index) => [
                                 // {
                                 //     "id": "1",
                                 //     "member_id": "1",
@@ -188,7 +189,7 @@ export class CardHistoryReportComponent implements OnInit {
                                 //     "updated_date": "13-02-2023"
                                 // },
                                 {
-                                    text: index+1,
+                                    text: index + 1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
@@ -208,14 +209,12 @@ export class CardHistoryReportComponent implements OnInit {
                                     margin: [0, 5, 0, -5],
                                 },
                                 {
-                                    text:
-                                        p.reason,
+                                    text: p.reason,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                 },
                                 {
-                                    text:
-                                        p.updated_date,
+                                    text: p.updated_date,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                 },
@@ -232,7 +231,7 @@ export class CardHistoryReportComponent implements OnInit {
                                 {},
                                 {},
                                 {},
-                            ]
+                            ],
                         ],
                     },
                     layout: {
@@ -257,5 +256,4 @@ export class CardHistoryReportComponent implements OnInit {
             this.loading = false;
         });
     }
-
 }

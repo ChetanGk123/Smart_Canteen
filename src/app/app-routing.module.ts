@@ -30,8 +30,9 @@ import { LandingComponent } from './features/landing/landing.component';
                             path: 'attendance',
                             canActivate: [AuthGuard],
                             loadChildren: () =>
-                            import('./features/attendance/attendance.module').then(
-                                (m) => m.AttendanceModule)
+                                import(
+                                    './features/attendance/attendance.module'
+                                ).then((m) => m.AttendanceModule),
                         },
                         {
                             path: 'canteens',

@@ -58,24 +58,24 @@ export class AllMembershipsComponent implements OnInit {
         this.selectedStudents = [];
         this.MembershipList = [
             {
-                value:'ALL_MEMBERSHIPS',
-                label:'All Memberships'
+                value: 'ALL_MEMBERSHIPS',
+                label: 'All Memberships',
             },
             {
-                value:'ACTIVE_MEMBERSHIPS',
-                label:'Active Memberships'
+                value: 'ACTIVE_MEMBERSHIPS',
+                label: 'Active Memberships',
             },
             {
-                value:'INACTIVE_MEMBERSHIPS',
-                label:'Inactive Memberships'
+                value: 'INACTIVE_MEMBERSHIPS',
+                label: 'Inactive Memberships',
             },
-        ]
+        ];
 
         this.fetchTransactions();
     }
 
     fetchTransactions() {
-        if(this.selectedMembership =='ACTIVE_MEMBERSHIPS'){
+        if (this.selectedMembership == 'ACTIVE_MEMBERSHIPS') {
             this.items = [
                 {
                     label: 'View',
@@ -95,7 +95,7 @@ export class AllMembershipsComponent implements OnInit {
                     icon: 'pi pi-fw pi-calendar-minus',
                     command: () => this.markLeave(),
                 },
-            ]
+            ];
         } else {
             this.items = [
                 {
@@ -103,7 +103,7 @@ export class AllMembershipsComponent implements OnInit {
                     icon: 'pi pi-fw pi-eye',
                     command: () => this.openProfile(),
                 },
-            ]
+            ];
         }
         this.loading = true;
         var url = `membership_data?what=${this.selectedMembership}`;
@@ -112,7 +112,12 @@ export class AllMembershipsComponent implements OnInit {
             membershipFilter = `&membership_id=${this.meal_pack_id}`;
         }
         var dateFilter = ``;
-        if (this.start_date != null && this.end_date != null && this.start_date != "" && this.end_date != "") {
+        if (
+            this.start_date != null &&
+            this.end_date != null &&
+            this.start_date != '' &&
+            this.end_date != ''
+        ) {
             const start_date = this.datePipe.transform(
                 this.start_date,
                 'dd-MM-yyyy'
@@ -185,8 +190,8 @@ export class AllMembershipsComponent implements OnInit {
                     //     }
                     // }
                 })
-                );
-                this.loading = false;
+            );
+        this.loading = false;
     }
 
     showLeaveDialog() {
@@ -270,7 +275,6 @@ export class AllMembershipsComponent implements OnInit {
     }
 
     cancelMembership() {
-
         const ref = this.dialogService.open(CancelMembershipComponent, {
             data: this.selectedProduct,
             header: `Cancel MemberShip`,
@@ -324,7 +328,9 @@ export class AllMembershipsComponent implements OnInit {
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
         const period = `${start_date} - ${end_date}`;
-            this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
+        this.title = this.MembershipList.find(
+            (data: any) => data.value == this.selectedMembership
+        ).label;
 
         this.dialogService.open(CommonReportComponent, {
             data: {

@@ -14,14 +14,12 @@ import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
 import { MemberService } from 'src/app/features/members/member.service';
 
-
 @Component({
-  selector: 'app-leave-report',
-  templateUrl: './leave-report.component.html',
-  styleUrls: ['./leave-report.component.scss']
+    selector: 'app-leave-report',
+    templateUrl: './leave-report.component.html',
+    styleUrls: ['./leave-report.component.scss'],
 })
 export class LeaveReportComponent implements OnInit {
-
     src: any;
     logo: any;
     name: any;
@@ -43,7 +41,7 @@ export class LeaveReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
 
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
@@ -130,7 +128,10 @@ export class LeaveReportComponent implements OnInit {
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -144,7 +145,7 @@ export class LeaveReportComponent implements OnInit {
                         dontBreakRows: true,
                         keepWithHeaderRows: 1,
                         heights: 25,
-                        widths: [33, '*', 100, 55, 55,50, 63],
+                        widths: [33, '*', 100, 55, 55, 50, 63],
                         body: [
                             [
                                 {
@@ -183,9 +184,9 @@ export class LeaveReportComponent implements OnInit {
                                     border: [false, true, false, true],
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data?.data.map((p, index) => [
                                 {
-                                    text: index+1,
+                                    text: index + 1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
@@ -205,20 +206,20 @@ export class LeaveReportComponent implements OnInit {
                                     margin: [0, 5, 0, -5],
                                 },
                                 {
-                                    text:
-                                        p.leave_data.leave_end_date??"-",
+                                    text: p.leave_data.leave_end_date ?? '-',
+                                    border: [false, false, false, false],
+                                    margin: [0, 5, 0, -5],
+                                },
+                                {
+                                    text: p.leave_data.days_extended ?? '-',
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                 },
                                 {
                                     text:
-                                        p.leave_data.days_extended??"-",
-                                    border: [false, false, false, false],
-                                    margin: [0, 5, 0, -5],
-                                },
-                                {
-                                    text:
-                                        p.membership_data.is_on_leave == 1?'Active':'Inactive'??"-",
+                                        p.membership_data.is_on_leave == 1
+                                            ? 'Active'
+                                            : 'Inactive' ?? '-',
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                 },
@@ -236,7 +237,7 @@ export class LeaveReportComponent implements OnInit {
                                 {},
                                 {},
                                 {},
-                            ]
+                            ],
                         ],
                     },
                     layout: {
@@ -261,5 +262,4 @@ export class LeaveReportComponent implements OnInit {
             this.loading = false;
         });
     }
-
 }

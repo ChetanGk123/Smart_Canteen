@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { CounterService } from '../../counters/counter.service';
 import { MemberService } from '../../members/member.service';
+import { MealPacksReportComponent } from '../reports/meal-packs-report/meal-packs-report.component';
 import { ConfigureMealPackComponent } from './configure-meal-pack/configure-meal-pack.component';
 import { EditMealPackNameComponent } from './edit-meal-pack-name/edit-meal-pack-name.component';
 
@@ -22,7 +23,7 @@ export class MealPackComponent implements OnInit, OnDestroy {
     Data = [];
     counter_id: any;
     Title: any = 'Meal Pack';
-    Url: any = 'MEAL_PACK_NAME';
+    Url: any = 'meal_pack_data';
     // Private
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
@@ -80,7 +81,7 @@ export class MealPackComponent implements OnInit, OnDestroy {
             url = `/BY_COUNTER/${this.counter_id}`;
         }
         this.apiService
-            .getTypeRequest(`table_data/${this.Url}${url}`)
+            .getTypeRequest(`${this.Url}${url}`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
@@ -189,6 +190,17 @@ export class MealPackComponent implements OnInit, OnDestroy {
             if (result) {
                 this.ngOnInit();
             }
+        });
+    }
+
+    generatePDF(){
+        this.dialogService.open(MealPacksReportComponent, {
+            data: {
+                data: this.Data,
+                title: "Meal Packs",
+            },
+            header: "Meal Packs",
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }
 }

@@ -14,12 +14,11 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-pos-item-history-report',
-  templateUrl: './pos-item-history-report.component.html',
-  styleUrls: ['./pos-item-history-report.component.scss']
+    selector: 'app-pos-item-history-report',
+    templateUrl: './pos-item-history-report.component.html',
+    styleUrls: ['./pos-item-history-report.component.scss'],
 })
 export class PosItemHistoryReportComponent implements OnInit {
-
     src: any;
     logo: any;
     name: any;
@@ -41,7 +40,7 @@ export class PosItemHistoryReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -59,8 +58,14 @@ export class PosItemHistoryReportComponent implements OnInit {
     }
 
     async generatePDF() {
-         let total_qty = this.config.data.data.reduce((acc,cur)=> acc+ cur.total_sale_qty,0)
-         let total_amt = this.config.data.data.reduce((acc,cur)=> acc+ cur.total_sale_amt,0)
+        let total_qty = this.config.data.data.reduce(
+            (acc, cur) => acc + cur.total_sale_qty,
+            0
+        );
+        let total_amt = this.config.data.data.reduce(
+            (acc, cur) => acc + cur.total_sale_amt,
+            0
+        );
         let docDefinition = {
             pageSize: 'A4',
             defaultStyle: {
@@ -129,7 +134,10 @@ export class PosItemHistoryReportComponent implements OnInit {
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -180,9 +188,9 @@ export class PosItemHistoryReportComponent implements OnInit {
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data?.data.map((p, index) => [
                                 {
-                                    text: index+1,
+                                    text: index + 1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
@@ -203,15 +211,13 @@ export class PosItemHistoryReportComponent implements OnInit {
                                     alignment: 'right',
                                 },
                                 {
-                                    text:
-                                        p.total_sale_qty,
+                                    text: p.total_sale_qty,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                     alignment: 'right',
                                 },
                                 {
-                                    text:
-                                        p.total_sale_amt.toFixed(2),
+                                    text: p.total_sale_amt.toFixed(2),
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                     alignment: 'right',
@@ -239,7 +245,7 @@ export class PosItemHistoryReportComponent implements OnInit {
                                     alignment: 'right',
                                     border: [false, true, false, true],
                                 },
-                            ]
+                            ],
                         ],
                     },
                     layout: {
@@ -264,5 +270,4 @@ export class PosItemHistoryReportComponent implements OnInit {
             this.loading = false;
         });
     }
-
 }

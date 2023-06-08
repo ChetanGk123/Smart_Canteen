@@ -21,6 +21,8 @@ export class AttendanceComponent implements OnInit {
     pos_sale_data: any;
     pos_Marker_item: any;
     membershipData: any;
+    successAudio = new Audio();
+    failureAudio = new Audio();
     commonForm: FormGroup = new FormGroup({
         card_number: new FormControl('', [Validators.required]),
     });
@@ -34,9 +36,14 @@ export class AttendanceComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.successAudio.src = '../../assets/Success.wav';
+        this.successAudio.load();
+        this.failureAudio.src = '../../assets/Failure.wav';
+        this.failureAudio.load();
         /**
          * TODO:Remove this once attendance is ready
          **/
+
         // this.deleteAttandance();
         // this.commonForm.controls.card_number.setValue('74475537390122');
         // this.loadData();
@@ -139,12 +146,12 @@ export class AttendanceComponent implements OnInit {
                 .getTypeRequest(`mark_attendance/${Data}`)
                 .toPromise()
                 .then((result: any) => {
-                    if(result.result){
+                    if (result.result) {
                         this.loading = false;
-                        this.playSuccessAudio()
+                        this.successAudio.play();
                         this.loadAttendanceData(result);
                     } else {
-                        this.playAlertAudio()
+                        this.failureAudio.play();
                     }
                 })
                 .finally(() => {
@@ -172,12 +179,13 @@ export class AttendanceComponent implements OnInit {
                 this.attendance_data.isAttendanceMarked == false &&
                 this.membershipData.isMembershipActive == false
             ) {
-                if(this.pos_sale_data.anyParticularsNow ){
-                    if(this.pos_sale_data.isMultiplePOSItems){
+                if (this.pos_sale_data.anyParticularsNow) {
+                    if (this.pos_sale_data.isMultiplePOSItems) {
                         this.openPOSDialog();
                     } else {
                         //this.makePOSSale(this.pos_sale_data.particularsNow[0])
-                        this.pos_Marker_item =this.pos_sale_data.particularsNow[0].name
+                        this.pos_Marker_item =
+                            this.pos_sale_data.particularsNow[0].name;
                     }
                 }
             }
@@ -189,7 +197,7 @@ export class AttendanceComponent implements OnInit {
                     detail: result.message,
                 },
             ];
-            }
+        }
     }
 
     openPOSDialog() {
@@ -273,17 +281,17 @@ export class AttendanceComponent implements OnInit {
             });
     }
 
-    playSuccessAudio(): void {
-        const audio = new Audio();
-        audio.src = '../../assets/success_notification.wav';
-        audio.load();
-        audio.play();
-      }
+    // playSuccessAudio(): void {
+    //     const audio = new Audio();
+    //     audio.src = '../../assets/success_notification.wav';
+    //     audio.load();
+    //     audio.play();
+    //   }
 
-    playAlertAudio(): void {
-        const audio = new Audio();
-        audio.src = '../../assets/alert_sound_metal_gear.wav';
-        audio.load();
-        audio.play();
-      }
+    // playAlertAudio(): void {
+    //     const audio = new Audio();
+    //     audio.src = '../../assets/alert_sound_metal_gear.wav';
+    //     audio.load();
+    //     audio.play();
+    //   }
 }

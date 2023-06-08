@@ -9,7 +9,7 @@ export interface MembersData {
     class_name: any; //non-madatory
     division_name: any; //non-madatory
     hostel_details: any; //non-madatory
-    member_type_id: any;
+    member_type_name: any;
     address: any; //non-madatory
     opening_balance: any;
 }

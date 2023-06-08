@@ -37,6 +37,13 @@ export class ApiInterceptor implements HttpInterceptor {
                                 this.router.navigate(['/login']);
                                 //this.toastr.error(response.body.message);
                             }
+                            else if (
+                                response.body.message ==
+                                "INVALID_LOGIN"
+                            ) {
+                                this.router.navigate(['/login']);
+                                //this.toastr.error(response.body.message);
+                            }
                         } else if (response.body?.error_code == '001') {
                         } else if (
                             response.body.message ==

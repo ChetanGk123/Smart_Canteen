@@ -56,7 +56,7 @@ export class AttendanceHistoryComponent implements OnInit {
             dateFilter = `&attendance_start_date=${start_date}&attendance_end_date=${end_date}`;
         }
         this.apiService
-            .getTypeRequest(url+ dateFilter)
+            .getTypeRequest(url + dateFilter)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;

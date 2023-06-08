@@ -66,6 +66,11 @@ export class AddEditTransactionComponent implements OnInit {
     }
 
     add(memberData: any) {
+        // config.data = {
+        //     "title": "Wallet Refill",
+        //     "accountUrl": "INCOME_ACCOUNT_HEAD",
+        //     "transactionUrl": "MEMBER_WALLET_REFILL"
+        // }
         const ref = this.dialogService.open(AddMemberTransactionComponent, {
             data: {
                 accountUrl: this.config.data.accountUrl,

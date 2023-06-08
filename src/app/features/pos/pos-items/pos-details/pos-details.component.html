@@ -188,7 +188,7 @@
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 25, 50]"
                 [filterDelay]="0"
-                [globalFilterFields]="['class_name','division_name']"
+                [globalFilterFields]="['class_name', 'division_name']"
             >
                 <ng-template pTemplate="caption">
                     <div
@@ -206,7 +206,7 @@
                                     #filter
                                     autofocus
                                     (input)="
-                                    AC.filterGlobal(
+                                        AC.filterGlobal(
                                             $event.target.value,
                                             'contains'
                                         )
@@ -220,15 +220,17 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Slno</th>
-                        <th pSortableColumn="class_id">Class<p-sortIcon
-                            field="class_id"
-                        ></p-sortIcon></th>
-                        <th pSortableColumn="division_id">Division<p-sortIcon
-                            field="division_id"
-                        ></p-sortIcon></th>
-                        <th pSortableColumn="rate">Rate<p-sortIcon
-                            field="rate"
-                        ></p-sortIcon></th>
+                        <th pSortableColumn="class_id">
+                            Class<p-sortIcon field="class_id"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="division_id">
+                            Division<p-sortIcon
+                                field="division_id"
+                            ></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="rate">
+                            Rate<p-sortIcon field="rate"></p-sortIcon>
+                        </th>
                         <th>Action</th>
                     </tr>
                 </ng-template>
@@ -289,7 +291,7 @@
                 </ng-template>
             </p-toolbar>
             <p-table
-            #TC
+                #TC
                 dataKey="code"
                 [value]="timeConstraints | async"
                 [paginator]="true"
@@ -300,7 +302,12 @@
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 25, 50]"
                 [filterDelay]="0"
-                [globalFilterFields]="['start_time','start_date','end_time','end_date']"
+                [globalFilterFields]="[
+                    'start_time',
+                    'start_date',
+                    'end_time',
+                    'end_date'
+                ]"
             >
                 <ng-template pTemplate="caption">
                     <div
@@ -326,7 +333,6 @@
                                     placeholder="Global Search"
                                 />
                             </span>
-
                         </div>
                     </div>
                 </ng-template>
@@ -418,7 +424,9 @@
                                     [(ngModel)]="end_date"
                                 />
                             </div>
-                            <div class=" col-12 sm:col-12 md:col-6 lg:col-2 align-items-center">
+                            <div
+                                class="col-12 sm:col-12 md:col-6 lg:col-2 align-items-center"
+                            >
                                 <button
                                     pButton
                                     pRipple
@@ -431,9 +439,7 @@
                         </div>
                     </ng-template>
 
-                    <ng-template pTemplate="right">
-
-                    </ng-template>
+                    <ng-template pTemplate="right"> </ng-template>
                 </p-toolbar>
                 <p-contextMenu
                     #cm
@@ -455,55 +461,57 @@
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     [rowsPerPageOptions]="[10, 25, 50]"
                     [filterDelay]="0"
-                    [globalFilterFields]="['particular_name','sale_date','total_sale_qty','sale_rate']"
+                    [globalFilterFields]="[
+                        'particular_name',
+                        'sale_date',
+                        'total_sale_qty',
+                        'sale_rate'
+                    ]"
                 >
-                <ng-template pTemplate="caption">
-                    <div class="flex grid">
-                        <div class="col-6">
-                            <button
-                                type="button"
-                                pButton
-                                pRipple
-                                icon="pi pi-file-excel"
-                                class="p-button-success mr-2"
-                                *ngIf="transactionDataList"
-                                pTooltip="XLS"
-                                tooltipPosition="bottom"
-                            ></button>
-                            <button
-                                type="button"
-                                pButton
-                                pRipple
-                                icon="pi pi-file-pdf"
-                                *ngIf="transactionDataList"
-                                (click)="generateTransactionHistoryPDF()"
-                                class="p-button-warning mr-2"
-                                pTooltip="PDF"
-                                tooltipPosition="bottom"
-                            ></button>
+                    <ng-template pTemplate="caption">
+                        <div class="flex grid">
+                            <div class="col-6">
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-excel"
+                                    class="p-button-success mr-2"
+                                    *ngIf="transactionDataList"
+                                    pTooltip="XLS"
+                                    tooltipPosition="bottom"
+                                ></button>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-file-pdf"
+                                    *ngIf="transactionDataList"
+                                    (click)="generateTransactionHistoryPDF()"
+                                    class="p-button-warning mr-2"
+                                    pTooltip="PDF"
+                                    tooltipPosition="bottom"
+                                ></button>
+                            </div>
+                            <div class="ml-auto col" style="text-align: end">
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input
+                                        type="search"
+                                        pInputText
+                                        #filter
+                                        (input)="
+                                            dt.filterGlobal(
+                                                $event.target.value,
+                                                'contains'
+                                            )
+                                        "
+                                        placeholder="Global Search"
+                                    />
+                                </span>
+                            </div>
                         </div>
-                        <div
-                            class="ml-auto col"
-                            style="text-align: end"
-                        >
-                            <span class="p-input-icon-left">
-                                <i class="pi pi-search"></i>
-                                <input
-                                    type="search"
-                                    pInputText
-                                    #filter
-                                    (input)="
-                                        dt.filterGlobal(
-                                            $event.target.value,
-                                            'contains'
-                                        )
-                                    "
-                                    placeholder="Global Search"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                </ng-template>
+                    </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
                             <th style="min-width: 3rem">Slno</th>
@@ -513,7 +521,9 @@
                                 style="min-width: 10rem"
                             >
                                 Name
-                                <p-sortIcon field="particular_name"></p-sortIcon>
+                                <p-sortIcon
+                                    field="particular_name"
+                                ></p-sortIcon>
                             </th>
                             <th style="min-width: 14rem">Sale Rate</th>
                             <th style="min-width: 8rem">Total Sale Qty</th>
@@ -536,13 +546,13 @@
                                 {{ product.particular_name }}
                             </td>
                             <td>
-                                {{ '₹ '+product.item_grand_total ?? "-" }}
+                                {{ "₹ " + product.item_grand_total ?? "-" }}
                             </td>
                             <td>
                                 {{ product.total_sale_qty }}
                             </td>
                             <td class="text-right pr-5">
-                                {{ '₹ '+product.total_sale_amt.toFixed(2) }}
+                                {{ "₹ " + product.total_sale_amt.toFixed(2) }}
                             </td>
                         </tr>
                     </ng-template>

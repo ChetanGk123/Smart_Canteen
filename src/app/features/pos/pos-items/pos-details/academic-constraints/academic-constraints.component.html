@@ -38,7 +38,9 @@
                         ></p-dropdown>
                     </div>
                     <div class="field col-12 sm:col-12 md:col-6 lg:col-3">
-                        <label for="rate">Rate <span class="p-error">*</span></label>
+                        <label for="rate"
+                            >Rate <span class="p-error">*</span></label
+                        >
                         <input
                             type="number"
                             pInputText
@@ -119,7 +121,7 @@
                             {{ getClass(product).name }}
                         </td>
                         <td style="width: 15%">
-                            {{ getDivision(product)?.name??'' }}
+                            {{ getDivision(product)?.name ?? "" }}
                         </td>
                         <td style="width: 20%">
                             {{ product.rate | currency : "INR" }}

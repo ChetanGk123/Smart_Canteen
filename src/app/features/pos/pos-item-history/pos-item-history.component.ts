@@ -8,12 +8,11 @@ import { CounterService } from '../../counters/counter.service';
 import { PosItemHistoryReportComponent } from '../Reports/pos-item-history-report/pos-item-history-report.component';
 
 @Component({
-  selector: 'app-pos-item-history',
-  templateUrl: './pos-item-history.component.html',
-  styleUrls: ['./pos-item-history.component.scss']
+    selector: 'app-pos-item-history',
+    templateUrl: './pos-item-history.component.html',
+    styleUrls: ['./pos-item-history.component.scss'],
 })
 export class PosItemHistoryComponent implements OnInit {
-
     Data: any[] = [];
     loading: boolean = false;
     displayTransaction: boolean = false;
@@ -89,17 +88,19 @@ export class PosItemHistoryComponent implements OnInit {
             url = `/BY_COUNTER/${this.counter_id}`;
         }
         this.apiService
-            .getTypeRequest(`sales_history/POS_SALES?what=DATEWISE_POS_SALE_HISTORY`)
+            .getTypeRequest(
+                `sales_history/POS_SALES?what=DATEWISE_POS_SALE_HISTORY`
+            )
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
                 if (result.result) {
-
-                    result.data.map((item:any)=>{
-                        item.total_sale_qty = Number(item.total_sale_qty)
-                        item.item_grand_total = Number(item.item_grand_total)
-                        item.total_sale_amt = item.total_sale_qty*item.item_grand_total
-                    })
+                    result.data.map((item: any) => {
+                        item.total_sale_qty = Number(item.total_sale_qty);
+                        item.item_grand_total = Number(item.item_grand_total);
+                        item.total_sale_amt =
+                            item.total_sale_qty * item.item_grand_total;
+                    });
                     this.Data = result.data;
                     // {
                     //     "id": "36",
@@ -135,15 +136,15 @@ export class PosItemHistoryComponent implements OnInit {
             });
     }
 
-    generatePDF(){
+    generatePDF() {
         const start_date = this.datePipe.transform(
             this.start_date,
             'dd-MM-yyyy'
         );
         const end_date = this.datePipe.transform(this.end_date, 'dd-MM-yyyy');
         const period = `${start_date} - ${end_date}`;
-            //this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
-            this.title = 'Item Wise Sale'
+        //this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
+        this.title = 'Item Wise Sale';
         this.dialogService.open(PosItemHistoryReportComponent, {
             data: {
                 data: this.Data,

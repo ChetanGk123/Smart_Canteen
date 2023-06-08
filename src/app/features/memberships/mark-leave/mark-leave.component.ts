@@ -46,9 +46,11 @@ export class MarkLeaveComponent implements OnInit {
             const cardNumber = this.cardNumber.trim();
 
             this.cardNumber = '';
-            var url = ''
+            var url = '';
             this.apiService
-                .getTypeRequest(`leave_data?member_id=${this.memberData.member_id}`)
+                .getTypeRequest(
+                    `leave_data?member_id=${this.memberData.member_id}`
+                )
                 .toPromise()
                 .then((result: any) => {
                     this.loading = false;
@@ -63,8 +65,10 @@ export class MarkLeaveComponent implements OnInit {
                             this.memberData?.membership_data.is_on_leave == 1
                                 ? 'End Leave'
                                 : 'Start Leave';
-                    } else if(result.message == "No leave data for this combination"){
-                        this.config.header = 'Start Leave'
+                    } else if (
+                        result.message == 'No leave data for this combination'
+                    ) {
+                        this.config.header = 'Start Leave';
                     }
                 })
                 .finally(() => {
@@ -74,18 +78,19 @@ export class MarkLeaveComponent implements OnInit {
     }
 
     submitClick() {
-        var operation = this.memberData?.membership_data.is_on_leave == 1 ? 'end' : 'start';
+        var operation =
+            this.memberData?.membership_data.is_on_leave == 1 ? 'end' : 'start';
         var payload = {
-            leave_array:[
+            leave_array: [
                 {
                     member_id: this.memberData.member_id,
                     leave_date: this.datePipe.transform(
                         this.commonForm.get('leave_date').value,
                         'dd-MM-yyyy'
                     ),
-                }
-            ]
-        }
+                },
+            ],
+        };
 
         if (this.commonForm.valid) {
             this.loading = true;

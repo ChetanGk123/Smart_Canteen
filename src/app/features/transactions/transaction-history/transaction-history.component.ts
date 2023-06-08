@@ -130,7 +130,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
                 sourceUrl: sourceUrl,
                 wildCardEntry: false,
                 destinationUrl: destinationUrl,
-                url: 'transaction_ops/EXPENSE_ENTRY',
+                url: 'transaction_ops/ACC_TRANSFER',
             },
             header: `Expense Entry`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-5',

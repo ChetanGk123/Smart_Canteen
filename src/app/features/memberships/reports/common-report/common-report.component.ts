@@ -39,7 +39,7 @@ export class CommonReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
 
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
@@ -126,7 +126,10 @@ export class CommonReportComponent implements OnInit {
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -170,9 +173,9 @@ export class CommonReportComponent implements OnInit {
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data?.data.map((p, index) => [
                                 {
-                                    text: index+1,
+                                    text: index + 1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
@@ -192,8 +195,7 @@ export class CommonReportComponent implements OnInit {
                                     margin: [0, 5, 0, -5],
                                 },
                                 {
-                                    text:
-                                        p.balance,
+                                    text: p.balance,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                     alignment: 'right',
@@ -210,7 +212,7 @@ export class CommonReportComponent implements OnInit {
                                 {},
                                 {},
                                 {},
-                            ]
+                            ],
                         ],
                     },
                     layout: {

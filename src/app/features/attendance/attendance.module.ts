@@ -10,7 +10,11 @@ import { PosSaleComponent } from './pos-sale/pos-sale.component';
 import { AttendanceHistoryComponent } from './attendance-history/attendance-history.component';
 
 @NgModule({
-    declarations: [AttendanceComponent, PosSaleComponent, AttendanceHistoryComponent],
+    declarations: [
+        AttendanceComponent,
+        PosSaleComponent,
+        AttendanceHistoryComponent,
+    ],
     imports: [
         CommonModule,
         AttendanceRoutingModule,

@@ -13,12 +13,11 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
-  selector: 'app-member-transactions',
-  templateUrl: './member-transactions.component.html',
-  styleUrls: ['./member-transactions.component.scss']
+    selector: 'app-member-transactions',
+    templateUrl: './member-transactions.component.html',
+    styleUrls: ['./member-transactions.component.scss'],
 })
 export class MemberTransactionsComponent implements OnInit {
-
     src: any;
     logo: any;
     name: any;
@@ -37,11 +36,11 @@ export class MemberTransactionsComponent implements OnInit {
     ) {
         this.coreConfig = _coreEnvService.config;
     }
-/**
- * TODO: Correct This print
- **/
+    /**
+     * TODO: Correct This print
+     **/
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -161,8 +160,7 @@ export class MemberTransactionsComponent implements OnInit {
                                 alignment: 'left',
                             },
                         ],
-                        [
-                        ],
+                        [],
                     ],
                     // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
                     margin: [-15, 0, -15, 5],
@@ -171,7 +169,9 @@ export class MemberTransactionsComponent implements OnInit {
                     columns: [
                         [
                             {
-                                text: `Period: ${this.config.data.period??""}`,
+                                text: `Period: ${
+                                    this.config.data.period ?? ''
+                                }`,
                                 alignment: 'left',
                             },
                         ],
@@ -322,5 +322,4 @@ export class MemberTransactionsComponent implements OnInit {
             this.loading = false;
         });
     }
-
 }

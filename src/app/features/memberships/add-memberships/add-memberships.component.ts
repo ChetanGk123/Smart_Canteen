@@ -34,9 +34,9 @@ export class AddMembershipsComponent implements OnInit {
 } */
     commonForm: FormGroup = new FormGroup({
         member_id: new FormControl('', [Validators.required]),
-        meal_pack_id: new FormControl('',[Validators.required]),
-        total_meal_packs: new FormControl('',[Validators.required]),
-        max_days: new FormControl('',[Validators.required]),
+        meal_pack_id: new FormControl('', [Validators.required]),
+        total_meal_packs: new FormControl('', [Validators.required]),
+        max_days: new FormControl('', [Validators.required]),
         start_date: new FormControl(new Date().toISOString().substring(0, 10), [
             Validators.required,
         ]),
@@ -49,6 +49,7 @@ export class AddMembershipsComponent implements OnInit {
         payment_comments: new FormControl(''),
         paid_amount: new FormControl(),
         net_amount: new FormControl(),
+        membership_amount: new FormControl(),
         payment_account_head_id: new FormControl(),
     });
     constructor(
@@ -156,8 +157,19 @@ export class AddMembershipsComponent implements OnInit {
         );
         if (total_meal_packs > 0) {
             this.commonForm.controls['net_amount'].setValue(
-                total_meal_packs * this.selectedMembershipAmount  -
-                Number(this.memberDetails?.balance)
+                total_meal_packs * this.selectedMembershipAmount -
+                    Number(this.memberDetails?.balance)
+            );
+            this.commonForm.controls['membership_amount'].setValue(
+                total_meal_packs * this.selectedMembershipAmount
+            );
+        } else {
+            this.commonForm.controls['net_amount'].setValue(
+                this.selectedMembershipAmount -
+                    Number(this.memberDetails?.balance)
+            );
+            this.commonForm.controls['membership_amount'].setValue(
+                this.selectedMembershipAmount
             );
         }
     }

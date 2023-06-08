@@ -52,7 +52,10 @@
                     >Returnable Amount is required.</small
                 >
             </div>
-            <div class="field-checkbox p-fluid sm:col-12 md:col-6 lg:col-4" *ngIf="showSettleFromBalance">
+            <div
+                class="field-checkbox p-fluid sm:col-12 md:col-6 lg:col-4"
+                *ngIf="showSettleFromBalance"
+            >
                 <p-checkbox
                     inputId="settleFromBalance"
                     (onChange)="updateFormStatus()"
@@ -72,110 +75,110 @@
                     >Return Amount To Wallet</label
                 >
             </div>
+        </div>
+        <div class="grid" *ngIf="displayPaymentDetails">
+            <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
+                <label for="account_head_id"
+                    >Pay from <span class="p-error">*</span></label
+                >
+                <p-dropdown
+                    id="account_head_id"
+                    [options]="accountList"
+                    optionLabel="account_name"
+                    optionValue="account_head_id"
+                    formControlName="account_head_id"
+                    placeholder="Select a Account"
+                    [showClear]="true"
+                ></p-dropdown>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.account_head_id.touched &&
+                        commonForm.controls.account_head_id.errors?.required
+                    "
+                    >Account is required.</small
+                >
             </div>
-            <div class="grid" *ngIf="displayPaymentDetails">
-                <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
-                    <label for="account_head_id"
-                        >Pay from <span class="p-error">*</span></label
-                    >
-                    <p-dropdown
-                        id="account_head_id"
-                        [options]="accountList"
-                        optionLabel="account_name"
-                        optionValue="account_head_id"
-                        formControlName="account_head_id"
-                        placeholder="Select a Account"
-                        [showClear]="true"
-                    ></p-dropdown>
-                    <small
-                        class="p-error"
-                        *ngIf="
-                            commonForm.controls.account_head_id.touched &&
-                            commonForm.controls.account_head_id.errors?.required
-                        "
-                        >Account is required.</small
-                    >
-                </div>
-                <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
-                    <label for="payment_mode"
-                        >Payment Mode <span class="p-error">*</span></label
-                    >
-                    <input
-                        type="text"
-                        pInputText
-                        id="payment_mode"
-                        placeholder="Cash"
-                        formControlName="payment_mode"
-                    />
-                    <small
-                        class="p-error"
-                        *ngIf="
-                            commonForm.controls.payment_mode.touched &&
-                            commonForm.controls.payment_mode.errors?.required
-                        "
-                        >Payment Mode is required.</small
-                    >
-                </div>
-                <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
-                    <label for="payment_ref"
-                        >Payment Reference <span class="p-error">*</span></label
-                    >
-                    <input
-                        type="text"
-                        pInputText
-                        id="payment_ref"
-                        placeholder="UTR232323"
-                        formControlName="payment_ref"
-                    />
-                    <small
-                        class="p-error"
-                        *ngIf="
-                            commonForm.controls.payment_ref.touched &&
-                            commonForm.controls.payment_ref.errors?.required
-                        "
-                        >Payment Reference is required.</small
-                    >
-                </div>
-                <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
-                    <label for="txn_date"
-                        >Transaction Date <span class="p-error">*</span></label
-                    >
-                    <input
-                        type="date"
-                        pInputText
-                        id="txn_date"
-                        placeholder="UTR232323"
-                        formControlName="txn_date"
-                    />
-                    <small
-                        class="p-error"
-                        *ngIf="
-                            commonForm.controls.txn_date.touched &&
-                            commonForm.controls.txn_date.errors?.required
-                        "
-                        >Transaction Date is required.</small
-                    >
-                </div>
-                <div class="field p-fluid col-12 md:col-6 lg:col-8">
-                    <label for="txn_comments"
-                        >Comments <span class="p-error">*</span></label
-                    >
-                    <textarea
-                        pInputTextarea
-                        id="txn_comments"
-                        formControlName="txn_comments"
-                    ></textarea>
-                    <small
-                        class="p-error"
-                        *ngIf="
-                            commonForm.controls.txn_comments.touched &&
-                            commonForm.controls.txn_comments.errors?.required
-                        "
-                        >Comments is required.</small
-                    >
-                </div>
+            <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
+                <label for="payment_mode"
+                    >Payment Mode <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_mode"
+                    placeholder="Cash"
+                    formControlName="payment_mode"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_mode.touched &&
+                        commonForm.controls.payment_mode.errors?.required
+                    "
+                    >Payment Mode is required.</small
+                >
             </div>
-            <div class="grid">
+            <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
+                <label for="payment_ref"
+                    >Payment Reference <span class="p-error">*</span></label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    id="payment_ref"
+                    placeholder="UTR232323"
+                    formControlName="payment_ref"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.payment_ref.touched &&
+                        commonForm.controls.payment_ref.errors?.required
+                    "
+                    >Payment Reference is required.</small
+                >
+            </div>
+            <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
+                <label for="txn_date"
+                    >Transaction Date <span class="p-error">*</span></label
+                >
+                <input
+                    type="date"
+                    pInputText
+                    id="txn_date"
+                    placeholder="UTR232323"
+                    formControlName="txn_date"
+                />
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.txn_date.touched &&
+                        commonForm.controls.txn_date.errors?.required
+                    "
+                    >Transaction Date is required.</small
+                >
+            </div>
+            <div class="field p-fluid col-12 md:col-6 lg:col-8">
+                <label for="txn_comments"
+                    >Comments <span class="p-error">*</span></label
+                >
+                <textarea
+                    pInputTextarea
+                    id="txn_comments"
+                    formControlName="txn_comments"
+                ></textarea>
+                <small
+                    class="p-error"
+                    *ngIf="
+                        commonForm.controls.txn_comments.touched &&
+                        commonForm.controls.txn_comments.errors?.required
+                    "
+                    >Comments is required.</small
+                >
+            </div>
+        </div>
+        <div class="grid">
             <div class="field p-fluid sm:col-12 md:col-6 lg:col-4">
                 <label for="cancellation_date"
                     >Cancellation Date <span class="p-error">*</span></label

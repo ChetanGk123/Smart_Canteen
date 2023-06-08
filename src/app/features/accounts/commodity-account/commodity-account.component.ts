@@ -14,8 +14,8 @@ import { AccountsReportComponent } from '../reports/accounts-report/accounts-rep
     styleUrls: ['./commodity-account.component.scss'],
 })
 export class CommodityAccountComponent implements OnInit {
-    Url:any = "COMMODITY_ACCOUNT";
-    header:any = "Commodity Account";
+    Url: any = 'COMMODITY_ACCOUNT';
+    header: any = 'Commodity Account';
     public accountsData: Observable<Object>;
     selectedProduct: any;
     items: MenuItem[];
@@ -31,8 +31,6 @@ export class CommodityAccountComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
         this.items = [
-
-
             // {
             //     label: 'Transactions',
             //     icon: 'pi pi-fw pi-dollar',
@@ -47,15 +45,18 @@ export class CommodityAccountComponent implements OnInit {
         //     });
         // }
         if (this.Url != 'COMMODITY_ACCOUNT') {
-            this.items.push({
-                label: 'Update',
-                icon: 'pi pi-fw pi-pencil',
-                command: () => this.editData(this.selectedProduct),
-            },{
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: () => this.confirm(this.selectedProduct),
-            });
+            this.items.push(
+                {
+                    label: 'Update',
+                    icon: 'pi pi-fw pi-pencil',
+                    command: () => this.editData(this.selectedProduct),
+                },
+                {
+                    label: 'Delete',
+                    icon: 'pi pi-fw pi-trash',
+                    command: () => this.confirm(this.selectedProduct),
+                }
+            );
         }
         this.accountsData = this.apiService
             .getTypeRequest(`table_data/${this.Url}`)
@@ -191,16 +192,15 @@ export class CommodityAccountComponent implements OnInit {
         });
     } */
 
-    generatePDF(){
-
+    generatePDF() {
         this.dialogService.open(AccountsReportComponent, {
             data: {
-                data:this.Data,
-                title:`${this.header}`,
+                data: this.Data,
+                title: `${this.header}`,
             },
             header: `${this.header}`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }
-    generateExcel(){}
+    generateExcel() {}
 }

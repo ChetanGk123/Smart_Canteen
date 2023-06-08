@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import imageToBase64 from 'image-to-base64/browser';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
@@ -11,14 +12,12 @@ import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
 import { MemberService } from 'src/app/features/members/member.service';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
-  selector: 'app-accounts-report',
-  templateUrl: './accounts-report.component.html',
-  styleUrls: ['./accounts-report.component.scss']
+    selector: 'app-accounts-report',
+    templateUrl: './accounts-report.component.html',
+    styleUrls: ['./accounts-report.component.scss'],
 })
 export class AccountsReportComponent implements OnInit {
-
     src: any;
     logo: any;
     name: any;
@@ -40,7 +39,7 @@ export class AccountsReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
             +new Date().getMonth() + 1
@@ -116,13 +115,14 @@ export class AccountsReportComponent implements OnInit {
                 },
                 {
                     columns: [
-                        [
-
-                        ],
+                        [],
                         [
                             {
                                 width: 'auto',
-                                text: `Date: ${this.datePipe.transform(new Date(), 'dd-MM-yyyy')}`,
+                                text: `Date: ${this.datePipe.transform(
+                                    new Date(),
+                                    'dd-MM-yyyy'
+                                )}`,
                                 alignment: 'right',
                             },
                         ],
@@ -156,7 +156,7 @@ export class AccountsReportComponent implements OnInit {
                                     alignment: 'right',
                                 },
                             ],
-                            ...this.config.data?.data.map((p,index) => [
+                            ...this.config.data?.data.map((p, index) => [
                                 // {
                                 //     "account_head_id": "1",
                                 //     "meal_pack_id": "0",
@@ -167,7 +167,7 @@ export class AccountsReportComponent implements OnInit {
                                 //     "isEditable": "1"
                                 // },
                                 {
-                                    text: index+1,
+                                    text: index + 1,
                                     border: [false, false, false, false],
                                     margin: [5, 5, 0, -5],
                                 },
@@ -177,8 +177,7 @@ export class AccountsReportComponent implements OnInit {
                                     margin: [5, 5, 0, -5],
                                 },
                                 {
-                                    text:
-                                        p.balance,
+                                    text: p.balance,
                                     border: [false, false, false, false],
                                     margin: [0, 5, 0, -5],
                                     alignment: 'right',
@@ -193,7 +192,7 @@ export class AccountsReportComponent implements OnInit {
                                 },
                                 {},
                                 {},
-                            ]
+                            ],
                         ],
                     },
                     layout: {
@@ -218,5 +217,4 @@ export class AccountsReportComponent implements OnInit {
             this.loading = false;
         });
     }
-
 }

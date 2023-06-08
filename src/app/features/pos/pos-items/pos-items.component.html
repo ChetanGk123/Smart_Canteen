@@ -49,53 +49,53 @@
                             'name'
                         ]"
                     >
-                    <ng-template pTemplate="caption">
-                        <div class="flex grid">
-                            <div class="col-6">
-                                <button
-                                    type="button"
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-file-excel"
-                                    class="p-button-success mr-2"
-                                    *ngIf="Data"
-                                    pTooltip="XLS"
-                                    tooltipPosition="bottom"
-                                ></button>
-                                <button
-                                    type="button"
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-file-pdf"
-                                    *ngIf="Data"
-                                    (click)="generatePDF()"
-                                    class="p-button-warning mr-2"
-                                    pTooltip="PDF"
-                                    tooltipPosition="bottom"
-                                ></button>
+                        <ng-template pTemplate="caption">
+                            <div class="flex grid">
+                                <div class="col-6">
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-excel"
+                                        class="p-button-success mr-2"
+                                        *ngIf="Data"
+                                        pTooltip="XLS"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-file-pdf"
+                                        *ngIf="Data"
+                                        (click)="generatePDF()"
+                                        class="p-button-warning mr-2"
+                                        pTooltip="PDF"
+                                        tooltipPosition="bottom"
+                                    ></button>
+                                </div>
+                                <div
+                                    class="ml-auto col"
+                                    style="text-align: end"
+                                >
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input
+                                            type="search"
+                                            pInputText
+                                            #filter
+                                            (input)="
+                                                dt.filterGlobal(
+                                                    $event.target.value,
+                                                    'contains'
+                                                )
+                                            "
+                                            placeholder="Global Search"
+                                        />
+                                    </span>
+                                </div>
                             </div>
-                            <div
-                                class="ml-auto col"
-                                style="text-align: end"
-                            >
-                                <span class="p-input-icon-left">
-                                    <i class="pi pi-search"></i>
-                                    <input
-                                        type="search"
-                                        pInputText
-                                        #filter
-                                        (input)="
-                                            dt.filterGlobal(
-                                                $event.target.value,
-                                                'contains'
-                                            )
-                                        "
-                                        placeholder="Global Search"
-                                    />
-                                </span>
-                            </div>
-                        </div>
-                    </ng-template>
+                        </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width: 6rem">
@@ -199,10 +199,13 @@
                                             </div>
                                         </ng-template>
                                         <div class="cell-line-height">
-                                            <a (click)="
-                                            selectedProduct = product;
-                                            view()
-                                        " class="text-800 font-bold cursor-pointer no-underline hover:underline mb-1">
+                                            <a
+                                                (click)="
+                                                    selectedProduct = product;
+                                                    view()
+                                                "
+                                                class="text-800 font-bold cursor-pointer no-underline hover:underline mb-1"
+                                            >
                                                 {{ product.name }}
                                             </a>
                                             <div></div>

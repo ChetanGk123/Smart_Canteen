@@ -30,7 +30,6 @@ export class MassLeaveComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-
         this.selectedProduct = this.config.data.selectedStudents;
     }
     sanitizeImageUrl(imageUrl: string): SafeUrl {
@@ -50,8 +49,8 @@ export class MassLeaveComponent implements OnInit {
                 });
             });
             var payload = {
-                leave_array:leave_array
-            }
+                leave_array: leave_array,
+            };
             this.loading = true;
             this.apiService
                 .postTypeRequest(

@@ -49,7 +49,6 @@ export class AddMemberTransactionComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-
         this.apiService
             .getTypeRequest(`table_data/${this.config.data.accountUrl}`)
             .toPromise()

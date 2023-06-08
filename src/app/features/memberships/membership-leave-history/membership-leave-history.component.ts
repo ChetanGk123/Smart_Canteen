@@ -171,7 +171,6 @@ export class MembershipLeaveHistoryComponent implements OnInit {
     }
 
     showLeaveDialog() {
-
         const ref = this.dialogService.open(MassLeaveComponent, {
             data: {
                 selectedStudents: this.selectedStudents,

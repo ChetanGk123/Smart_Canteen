@@ -117,8 +117,9 @@ export class SettingsComponent implements OnInit {
 
     updateSettings(data: any) {
         if (data.settings_name == 'THEME_COLOR') {
-            data.settings_value = data.settings_value =='light' ? 'dark' : 'light';
-            this.updateThemeCheckedValue(data)
+            data.settings_value =
+                data.settings_value == 'light' ? 'dark' : 'light';
+            this.updateThemeCheckedValue(data);
         } else if (
             data.settings_value == true ||
             data.settings_value == false

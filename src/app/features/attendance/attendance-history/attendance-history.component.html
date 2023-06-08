@@ -7,10 +7,7 @@
                 </ng-template>
             </p-toolbar>
             <p-toolbar styleClass="mb-4" class="align-content-center">
-                <ng-template
-                    class="align-content-center"
-                    pTemplate="left"
-                >
+                <ng-template class="align-content-center" pTemplate="left">
                     <div class="grid mb-0">
                         <div
                             class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4"
@@ -154,7 +151,10 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width: 5rem">Slno</th>
-                                <th pSortableColumn="card_number" style="min-width: 11rem">
+                                <th
+                                    pSortableColumn="card_number"
+                                    style="min-width: 11rem"
+                                >
                                     Card No
                                     <p-sortIcon
                                         field="card_number"
@@ -180,7 +180,10 @@
                                 </td>
                                 <td>
                                     <a
-                                        (click)="selectedProduct = product;openProfile()"
+                                        (click)="
+                                            selectedProduct = product;
+                                            openProfile()
+                                        "
                                         class="text-800 font-bold cursor-pointer no-underline hover:underline"
                                         >{{ product?.full_name ?? "" }}</a
                                     >

@@ -206,10 +206,9 @@ export class PosItemsComponent implements OnInit, OnDestroy {
             });
     }
 
-    generatePDF(){
-
-            //this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
-            this.title = 'POS Items'
+    generatePDF() {
+        //this.title = this.MembershipList.find((data:any)=> data.value == this.selectedMembership).label
+        this.title = 'POS Items';
         this.dialogService.open(PosItemsReportComponent, {
             data: {
                 data: this.Data,

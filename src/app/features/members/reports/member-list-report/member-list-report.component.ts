@@ -116,9 +116,7 @@ export class MemberListReportComponent implements OnInit {
                 },
                 {
                     columns: [
-                        [
-
-                        ],
+                        [],
                         [
                             {
                                 width: 'auto',

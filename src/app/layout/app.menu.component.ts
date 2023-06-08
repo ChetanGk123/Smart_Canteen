@@ -108,6 +108,21 @@ export class AppMenuComponent implements OnInit {
                 ],
             },
             {
+                label: 'Meal',
+                items: [
+                    {
+                        label: 'Meal Types',
+                        icon: 'pi pi-list',
+                        routerLink: ['/meal/mealType'],
+                    },
+                    {
+                        label: 'Meal Packs',
+                        icon: 'pi pi-database',
+                        routerLink: ['/meal/mealPack'],
+                    },
+                ],
+            },
+            {
                 label: 'Cards',
                 icon: 'pi pi-credit-card',
                 items: [
@@ -190,21 +205,6 @@ export class AppMenuComponent implements OnInit {
                         label: 'Item Sale History',
                         icon: 'pi pi-history',
                         routerLink: ['/pos/posItemHistory'],
-                    },
-                ],
-            },
-            {
-                label: 'Meal',
-                items: [
-                    {
-                        label: 'Meal Types',
-                        icon: 'pi pi-list',
-                        routerLink: ['/meal/mealType'],
-                    },
-                    {
-                        label: 'Meal Packs',
-                        icon: 'pi pi-database',
-                        routerLink: ['/meal/mealPack'],
                     },
                 ],
             },

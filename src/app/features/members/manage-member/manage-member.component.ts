@@ -117,17 +117,17 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                 });
         }
         this.apiService
-                .getTypeRequest(`table_data/CLASS`)
-                .toPromise()
-                .then((result: any) => {
-                    this.classList = result?.data;
-                });
-                this.apiService
-                .getTypeRequest(`table_data/DIVISION`)
-                .toPromise()
-                .then((result: any) => {
-                    this.divisionList = result?.data;
-                });
+            .getTypeRequest(`table_data/CLASS`)
+            .toPromise()
+            .then((result: any) => {
+                this.classList = result?.data;
+            });
+        this.apiService
+            .getTypeRequest(`table_data/DIVISION`)
+            .toPromise()
+            .then((result: any) => {
+                this.divisionList = result?.data;
+            });
     }
 
     /**

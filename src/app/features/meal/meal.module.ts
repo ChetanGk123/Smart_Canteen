@@ -12,6 +12,7 @@ import { EditMealTypeComponent } from './meal-type/edit-meal-type/edit-meal-type
 import { MealPackComponent } from './meal-pack/meal-pack.component';
 import { EditMealPackNameComponent } from './meal-pack/edit-meal-pack-name/edit-meal-pack-name.component';
 import { ConfigureMealPackComponent } from './meal-pack/configure-meal-pack/configure-meal-pack.component';
+import { MealPacksReportComponent } from './reports/meal-packs-report/meal-packs-report.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { ConfigureMealPackComponent } from './meal-pack/configure-meal-pack/conf
         MealPackComponent,
         EditMealPackNameComponent,
         ConfigureMealPackComponent,
+        MealPacksReportComponent,
     ],
     imports: [
         CommonModule,

@@ -40,7 +40,7 @@ export class MembershipSaleHistoryReportComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true
+        this.loading = true;
 
         this.name = this.memberService.getUserData()?.full_name;
         let date = `${new Date().getDate()}/${
@@ -60,19 +60,11 @@ export class MembershipSaleHistoryReportComponent implements OnInit {
 
     async generatePDF() {
         let total_qty_sold = this.config.data.data.reduce(
-            (acc, cur) =>
-                acc +
-                Number(
-                    cur.qty_sold
-                ),
+            (acc, cur) => acc + Number(cur.qty_sold),
             0
         );
         let total_amount = this.config.data.data.reduce(
-            (acc, cur) =>
-                acc +
-                Number(
-                    cur.total_amount
-                ),
+            (acc, cur) => acc + Number(cur.total_amount),
             0
         );
 

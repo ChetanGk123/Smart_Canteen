@@ -237,11 +237,20 @@
                         <button
                             pButton
                             pRipple
+                            label="Wallet Recharge"
+                            icon="pi pi-fw pi-user-plus"
                             style="margin-bottom: -2rem"
-                            label="Add"
-                            icon="pi pi-plus"
                             class="mr-2 inline-block p-button"
-                            (click)="add()"
+                            (click)="walletCredit()"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            label="Wallet Debit"
+                            icon="pi pi-fw pi-user-minus"
+                            style="margin-bottom: -2rem"
+                            class="mr-2 inline-block p-button"
+                            (click)="walletDebit()"
                         ></button>
                     </ng-template>
                 </p-toolbar>
@@ -531,6 +540,104 @@
                 </div>
             </p-dialog>
         </p-tabPanel>
+        <p-tabPanel header="Membership History" leftIcon="pi pi-book">
+            <p-table
+                dataKey="code"
+                [value]="membershipHistory | async"
+                [paginator]="true"
+                [rows]="10"
+                [loading]="transactionLoading"
+                [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [filterDelay]="0"
+                [globalFilterFields]="['membership_data.meal_pack_name']"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex grid">
+                        <div class="col-6">
+                            <button
+                                type="button"
+                                pButton
+                                pRipple
+                                icon="pi pi-file-excel"
+                                class="p-button-success mr-2"
+                                *ngIf="membershipHistoryTransactions"
+                                pTooltip="XLS"
+                                tooltipPosition="bottom"
+                            ></button>
+                            <button
+                                type="button"
+                                pButton
+                                pRipple
+                                icon="pi pi-file-pdf"
+                                *ngIf="membershipHistoryTransactions"
+                                (click)="generateMembershipHistoryPDF()"
+                                class="p-button-warning mr-2"
+                                pTooltip="PDF"
+                                tooltipPosition="bottom"
+                            ></button>
+                        </div>
+                        <div class="ml-auto col" style="text-align: end">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    type="search"
+                                    pInputText
+                                    #filter
+                                    (input)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                    placeholder="Global Search"
+                                />
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            Slno
+                        </th>
+                        <th>Name</th>
+                        <th>Max Days</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Amount</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-product
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>
+                            {{ product.membership_data.meal_pack_name }}
+                        </td>
+                        <td>
+                            {{ product.membership_data.max_days }}
+                        </td>
+                        <td>
+                            {{ product.membership_data.start_date }}
+                        </td>
+                        <td>
+                            {{ product.membership_data.end_date }}
+                        </td>
+                        <td>
+                            {{ product.membership_data.total_amount }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
         <p-tabPanel header="Card History" leftIcon="pi pi-credit-card">
             <p-table
                 dataKey="code"
@@ -633,10 +740,7 @@
         </p-tabPanel>
         <p-tabPanel header="Leave History" leftIcon="pi pi-history">
             <p-toolbar styleClass="mb-4" class="align-content-center">
-                <ng-template
-                    class="align-content-center"
-                    pTemplate="left"
-                >
+                <ng-template class="align-content-center" pTemplate="left">
                     <div class="grid mb-0">
                         <div
                             class="field p-fluid col-12 sm:col-12 md:col-4 lg:col-3"

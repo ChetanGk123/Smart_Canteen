@@ -188,21 +188,27 @@
                                     style="min-width: 9rem"
                                 >
                                     Start Date
-                                    <p-sortIcon field="leave_data.leave_start_date"></p-sortIcon>
+                                    <p-sortIcon
+                                        field="leave_data.leave_start_date"
+                                    ></p-sortIcon>
                                 </th>
                                 <th
                                     pSortableColumn="leave_data.leave_end_date"
                                     style="min-width: 9rem"
                                 >
                                     End Date
-                                    <p-sortIcon field="leave_data.leave_end_date"></p-sortIcon>
+                                    <p-sortIcon
+                                        field="leave_data.leave_end_date"
+                                    ></p-sortIcon>
                                 </th>
                                 <th
                                     pSortableColumn="leave_data.days_extended"
                                     style="min-width: 12rem"
                                 >
                                     Days Extended
-                                    <p-sortIcon field="leave_data.days_extended"></p-sortIcon>
+                                    <p-sortIcon
+                                        field="leave_data.days_extended"
+                                    ></p-sortIcon>
                                 </th>
                                 <th
                                     pSortableColumn="status"
@@ -284,7 +290,9 @@
                                     {{ product.leave_data.leave_start_date }}
                                 </td>
                                 <td>
-                                    {{ product.leave_data.leave_end_date??"-" }}
+                                    {{
+                                        product.leave_data.leave_end_date ?? "-"
+                                    }}
                                 </td>
                                 <td>
                                     {{ product.leave_data.days_extended }}

@@ -171,7 +171,6 @@ export class ActiveLeavesComponent implements OnInit {
     }
 
     showLeaveDialog() {
-
         const ref = this.dialogService.open(MassLeaveComponent, {
             data: {
                 selectedStudents: this.selectedStudents,

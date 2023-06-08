@@ -70,7 +70,9 @@ export class ConfigureMealPackComponent implements OnInit {
 
         this.apiService
             .getTypeRequest(
-                `table_data/MEAL_PACK_ITEMS/${this.config.data?.meal_pack_id??this.config.data?.id}`
+                `table_data/MEAL_PACK_ITEMS/${
+                    this.config.data?.meal_pack_id ?? this.config.data?.id
+                }`
             )
             .toPromise()
             .then((result: any) => {
@@ -81,11 +83,11 @@ export class ConfigureMealPackComponent implements OnInit {
                         item.meal_start_time = moment(
                             item.meal_start_time,
                             'hh:mm:ss A'
-                        ).format('HH:mm:ss')
+                        ).format('HH:mm:ss');
                         item.meal_end_time = moment(
                             item.meal_end_time,
                             'hh:mm:ss A'
-                        ).format('HH:mm:ss')
+                        ).format('HH:mm:ss');
                     });
                 } else {
                     this.Data = [];
@@ -187,7 +189,8 @@ export class ConfigureMealPackComponent implements OnInit {
             meals_array.push(data);
         });
         var payload = {
-            meal_pack_id: this.config.data?.meal_pack_id??this.config.data?.id,
+            meal_pack_id:
+                this.config.data?.meal_pack_id ?? this.config.data?.id,
             meals_array: meals_array,
         };
         this.apiService

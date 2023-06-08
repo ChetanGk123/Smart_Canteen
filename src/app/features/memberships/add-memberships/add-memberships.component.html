@@ -89,7 +89,8 @@
                             </div>
                         </div>
                     </li>
-                    <li  *ngIf="selectedMembershipType.length > 0"
+                    <li
+                        *ngIf="selectedMembershipType.length > 0"
                         class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                     >
                         <div class="text-500 w-6 md:w-4 font-medium">
@@ -106,7 +107,21 @@
                             >
                         </div>
                     </li>
-                    <li  *ngIf="selectedMembershipType.length > 0"
+                    <li
+                        *ngIf="selectedMembershipType.length > 0"
+                        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                    >
+                        <div class="text-500 w-6 md:w-4 font-medium">
+                            Meal Pack Amount
+                        </div>
+                        <div
+                            class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                        >
+                            {{ selectedMembershipAmount | currency : "INR" }}
+                        </div>
+                    </li>
+                    <li
+                        *ngIf="selectedMembershipType.length > 0"
                         class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                     >
                         <div class="text-500 w-6 md:w-4 font-medium">
@@ -115,10 +130,11 @@
                         <div
                             class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
                         >
-                            {{ selectedMembershipAmount | currency : "INR" }}
+                            {{ commonForm.controls.membership_amount.value | currency : "INR" }}
                         </div>
                     </li>
-                    <li  *ngIf="selectedMembershipType.length > 0"
+                    <li
+                        *ngIf="selectedMembershipType.length > 0"
                         class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                     >
                         <div class="text-500 w-6 md:w-4 font-medium">
@@ -135,9 +151,11 @@
                     </li>
                 </ul>
             </div>
-            <div  class="grid" *ngIf="selectedMembershipType.length > 0">
+            <div class="grid" *ngIf="selectedMembershipType.length > 0">
                 <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                    <label for="total_meal_packs">Total Meal Packs <span class="p-error">*</span></label>
+                    <label for="total_meal_packs"
+                        >Total Meal Packs <span class="p-error">*</span></label
+                    >
                     <input
                         type="text"
                         pInputText
@@ -160,7 +178,9 @@
                     >
                 </div>
                 <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
-                    <label for="max_days">Max Days <span class="p-error">*</span></label>
+                    <label for="max_days"
+                        >Max Days <span class="p-error">*</span></label
+                    >
                     <input
                         type="text"
                         pInputText
@@ -175,8 +195,7 @@
                         class="p-error"
                         *ngIf="
                             commonForm.controls.max_days.touched &&
-                            commonForm.controls.max_days.errors
-                                ?.required
+                            commonForm.controls.max_days.errors?.required
                         "
                         >Max Days is required.</small
                     >
@@ -184,20 +203,19 @@
                 <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
                     <label for="start_date">Start Date</label>
                     <input
-                                id="start_date"
-                                type="date"
-                                pInputText
-                                formControlName="start_date"
-                            />
-                            <small
-                                class="p-error"
-                                *ngIf="
-                                    commonForm.controls.start_date.touched &&
-                                    commonForm.controls.start_date.errors
-                                        ?.required
-                                "
-                                >Start Date is required.</small
-                            >
+                        id="start_date"
+                        type="date"
+                        pInputText
+                        formControlName="start_date"
+                    />
+                    <small
+                        class="p-error"
+                        *ngIf="
+                            commonForm.controls.start_date.touched &&
+                            commonForm.controls.start_date.errors?.required
+                        "
+                        >Start Date is required.</small
+                    >
                 </div>
                 <div class="field p-fluid col-12 sm:col-12 md:col-6 lg:col-4">
                     <label for="payment_account_head_id"
@@ -220,7 +238,8 @@
                     <small
                         class="p-error"
                         *ngIf="
-                            commonForm.controls.payment_account_head_id.touched &&
+                            commonForm.controls.payment_account_head_id
+                                .touched &&
                             commonForm.controls.payment_account_head_id.errors
                                 ?.required
                         "

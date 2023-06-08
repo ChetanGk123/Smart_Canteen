@@ -29,7 +29,9 @@ export class CancelMembershipComponent implements OnInit {
     //     isSettleFromBalance: new FormControl(false),
     // });
     commonForm: FormGroup = new FormGroup({
-        member_id: new FormControl(this.config.data.member_id, [Validators.required]),
+        member_id: new FormControl(this.config.data.member_id, [
+            Validators.required,
+        ]),
         cancellation_comments: new FormControl('', [Validators.required]),
         cancellation_date: new FormControl(
             new Date().toISOString().substring(0, 10),
@@ -64,31 +66,48 @@ export class CancelMembershipComponent implements OnInit {
                     this.accountList = resopnse.data;
                 }
             });
-            this.updateFormStatus()
+        this.updateFormStatus();
     }
 
     updateFormStatus() {
-        var returnable_amount = Number(this.commonForm.get('returnable_amount').value??0)
-        this.showSettleFromBalance = returnable_amount <= 0?false:true
-        var isSettleFromBalance = this.commonForm.get('isSettleFromBalance').value;
-        var addRetunableAmountToWallet = this.commonForm.get('addRetunableAmountToWallet').value;
-        if(isSettleFromBalance == false && addRetunableAmountToWallet == false){
-            this.displayPaymentDetails = true
+        var returnable_amount = Number(
+            this.commonForm.get('returnable_amount').value ?? 0
+        );
+        this.showSettleFromBalance = returnable_amount <= 0 ? false : true;
+        var isSettleFromBalance = this.commonForm.get(
+            'isSettleFromBalance'
+        ).value;
+        var addRetunableAmountToWallet = this.commonForm.get(
+            'addRetunableAmountToWallet'
+        ).value;
+        if (
+            isSettleFromBalance == false &&
+            addRetunableAmountToWallet == false
+        ) {
+            this.displayPaymentDetails = true;
         } else {
-            this.displayPaymentDetails = false
+            this.displayPaymentDetails = false;
         }
 
-        if(this.displayPaymentDetails){
-            this.commonForm.get('account_head_id').setValidators(Validators.required);
-            this.commonForm.get('payment_mode').setValidators(Validators.required);
-            this.commonForm.get('payment_ref').setValidators(Validators.required);
-            this.commonForm.get('txn_comments').setValidators(Validators.required);
+        if (this.displayPaymentDetails) {
+            this.commonForm
+                .get('account_head_id')
+                .setValidators(Validators.required);
+            this.commonForm
+                .get('payment_mode')
+                .setValidators(Validators.required);
+            this.commonForm
+                .get('payment_ref')
+                .setValidators(Validators.required);
+            this.commonForm
+                .get('txn_comments')
+                .setValidators(Validators.required);
         } else {
             this.commonForm.get('account_head_id').clearValidators();
             this.commonForm.get('payment_mode').clearValidators();
             this.commonForm.get('payment_ref').clearValidators();
             this.commonForm.get('txn_comments').clearValidators();
-            this.commonForm.updateValueAndValidity()
+            this.commonForm.updateValueAndValidity();
         }
     }
 

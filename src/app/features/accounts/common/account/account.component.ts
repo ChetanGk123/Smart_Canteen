@@ -31,31 +31,39 @@ export class AccountComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
         this.items = [
-
-
             // {
             //     label: 'Transactions',
             //     icon: 'pi pi-fw pi-dollar',
-            //     command: () => this.wildCardEntry(this.selectedProduct),
+            //     command: () => this.directAccountCredit(this.selectedProduct),
             // },
         ];
-        // if (this.Url == 'INCOME_ACCOUNT_HEAD') {
-        //     this.items.push({
-        //         label: 'Direct Entry',
-        //         icon: 'pi pi-fw pi-dollar',
-        //         command: () => this.wildCardEntry(this.selectedProduct),
-        //     });
-        // }
+
         if (this.Url != 'COMMODITY_ACCOUNT') {
-            this.items.push({
-                label: 'Update',
-                icon: 'pi pi-fw pi-pencil',
-                command: () => this.editData(this.selectedProduct),
-            },{
-                label: 'Delete',
-                icon: 'pi pi-fw pi-trash',
-                command: () => this.confirm(this.selectedProduct),
-            });
+            this.items.push(
+                {
+                    label: 'Update',
+                    icon: 'pi pi-fw pi-pencil',
+                    command: () => this.editData(this.selectedProduct),
+                },
+                {
+                    label: 'Delete',
+                    icon: 'pi pi-fw pi-trash',
+                    command: () => this.confirm(this.selectedProduct),
+                },
+                {
+                    separator: true,
+                },
+                {
+                    label: 'Direct Credit',
+                    icon: 'pi pi-fw pi-dollar',
+                    command: () => this.directAccountCredit(this.selectedProduct),
+                },
+                {
+                    label: 'Direct Debit',
+                    icon: 'pi pi-fw pi-dollar',
+                    command: () => this.directAccountDebit(this.selectedProduct),
+                },
+            );
         }
         this.accountsData = this.apiService
             .getTypeRequest(`table_data/${this.Url}`)
@@ -149,19 +157,16 @@ export class AccountComponent implements OnInit {
             });
     }
 
-    wildCardEntry(product: any) {
+    directAccountCredit(product: any) {
         var destinationUrl = this.Url;
         const ref = this.dialogService.open(AccountTransferComponent, {
             data: {
                 data: product,
                 destinationUrl: destinationUrl,
                 wildCardEntry: true,
-                url:
-                    this.Url == 'INCOME_ACCOUNT_HEAD'
-                        ? 'transaction_ops/ACC_HEAD_INCOME_CREDIT'
-                        : 'transaction_ops/ACC_HEAD_EXPENSE_CREDIT',
+                url: 'transaction_ops/ACC_HEAD_CREDIT',
             },
-            header: `Edit Account Balance`,
+            header: `Credit Account Balance`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
         });
         ref.onClose.subscribe((result: any) => {
@@ -171,15 +176,41 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    /* accountTransfer() {
-        var sourceUrl = 'INCOME_ACCOUNT_HEAD';
+    directAccountDebit(product: any) {
         var destinationUrl = this.Url;
+        const ref = this.dialogService.open(AccountTransferComponent, {
+            data: {
+                data: product,
+                destinationUrl: destinationUrl,
+                wildCardEntry: true,
+                url: 'transaction_ops/ACC_HEAD_DEBIT',
+            },
+            header: `Debit Account Balance`,
+            styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
+        });
+        ref.onClose.subscribe((result: any) => {
+            if (result) {
+                this.ngOnInit();
+            }
+        });
+    }
+
+    accountTransfer() {
+        var sourceUrl = 'INCOME_ACCOUNT_HEAD';
+        var destinationUrl = 'EXPENSE_ACCOUNT_HEAD';
+        if (this.Url == 'EXPENSE_ACCOUNT_HEAD') {
+            sourceUrl = 'EXPENSE_ACCOUNT_HEAD';
+            destinationUrl = 'INCOME_ACCOUNT_HEAD';
+        } else {
+            sourceUrl = 'INCOME_ACCOUNT_HEAD';
+            destinationUrl = 'EXPENSE_ACCOUNT_HEAD';
+        }
 
         const ref = this.dialogService.open(AccountTransferComponent, {
             data: {
                 sourceUrl: sourceUrl,
                 destinationUrl: destinationUrl,
-                url: 'account_head_txn/ACC_HEAD_BALANCE_TRANSFER',
+                url: 'transaction_ops/ACC_TRANSFER',
             },
             header: `Account Transfer`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-8',
@@ -189,18 +220,17 @@ export class AccountComponent implements OnInit {
                 this.ngOnInit();
             }
         });
-    } */
+    }
 
-    generatePDF(){
-
+    generatePDF() {
         this.dialogService.open(AccountsReportComponent, {
             data: {
-                data:this.Data,
-                title:`${this.header}`,
+                data: this.Data,
+                title: `${this.header}`,
             },
             header: `${this.header}`,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
     }
-    generateExcel(){}
+    generateExcel() {}
 }
