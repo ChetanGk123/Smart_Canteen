@@ -36,6 +36,7 @@ export class AttendanceComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        document.getElementById('card_number').focus();
         this.successAudio.src = '../../assets/Success.wav';
         this.successAudio.load();
         this.failureAudio.src = '../../assets/Failure.wav';
