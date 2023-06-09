@@ -31,8 +31,19 @@
                         (change)="excelFileInputChange($event)"
                         accept=".xls,.xlsx"
                     />
-                    <button pButton pRipple type="button" icon="pi pi-download" pTooltip="Download Template"  tooltipPosition="top" (click)="excelTemplate.click()" class="p-button-rounded p-button-text"></button>
-                    <a #excelTemplate hidden href="assets/Book1.xlsx">Download here</a>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-download"
+                        pTooltip="Download Template"
+                        tooltipPosition="top"
+                        (click)="excelTemplate.click()"
+                        class="p-button-rounded p-button-text"
+                    ></button>
+                    <a #excelTemplate hidden href="assets/Book1.xlsx"
+                        >Download here</a
+                    >
                 </ng-template>
             </p-toolbar>
             <div class="grid">
