@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/core/services/api/api.service';
 import { ConfigService } from 'src/app/core/services/app.config.service';
 import { EnvService } from 'src/app/env.service';
 import { MemberService } from '../members/member.service';
+import { SettingsService } from './settings.service';
 
 @Component({
     selector: 'app-settings',
@@ -25,14 +26,100 @@ export class SettingsComponent implements OnInit {
         public apiService: ApiService,
         public configService: ConfigService,
         public memberService: MemberService,
+        private settingsService: SettingsService,
         public _coreEnvService: EnvService
     ) {
         this.coreConfig = _coreEnvService.config;
     }
 
     ngOnInit(): void {
+
+
+        this.settingsService.settingsDate$.subscribe((newValue) => {
+            // Handle updated settingsDate value
+            if (newValue == null) {
+                newValue = this.settingsService.getSettingsData();
+            }
+            this.tableData = newValue;
+            this.tableData[0].settings_value =
+                this.tableData[0].settings_value == 1 ? true : false;
+            this.tableData[3].settings_value =
+                this.tableData[3].settings_value == 1 ? true : false;
+            this.tableData[5].settings_value =
+                this.tableData[5].settings_value == 1 ? true : false;
+            this.tableData[6].settings_value =
+                this.tableData[6].settings_value == 1 ? true : false;
+            this.tableData[7].settings_value =
+                this.tableData[7].settings_value == 1 ? true : false;
+        });
         this.editIndex = -1;
         this.memberData = this.memberService.getUserData();
+        console.log(this.memberData);
+
+    }
+
+    setCard(cardName) {
+        this.card = cardName;
+    }
+
+    ChangePassword() {}
+
+    updateSettings(data: any) {
+        if (data.settings_name == 'THEME_COLOR') {
+            data.settings_value =
+                data.settings_value == 'light' ? 'dark' : 'light';
+            this.updateThemeCheckedValue(data);
+        } else if (
+            data.settings_value == true ||
+            data.settings_value == false
+        ) {
+            data.settings_value = data.settings_value ? 1 : 0;
+        }
+        this.apiService
+            .postTypeRequest(`settings_ops/update`, data)
+            .toPromise()
+            .then((result: any) => {
+                this.loading = false;
+                if (result.result) {
+                    this.editDateRange = false;
+                    this.getUpdatedSettings();
+                }
+            });
+    }
+
+    getThemeCheckedValue(data: any) {
+        if (data == 'dark') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    updateThemeCheckedValue(data: any) {
+        let themeElement = document.getElementById('theme-css');
+        let dark: boolean;
+        let theme: string;
+        if (data.settings_value == 'dark') {
+            dark = true;
+            theme = 'lara-dark-indigo';
+        } else {
+            dark = false;
+            theme = 'lara-light-indigo';
+        }
+        themeElement.setAttribute(
+            'href',
+            'assets/theme/' + theme + '/theme.css'
+        );
+        this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
+        this.getUpdatedSettings()
+    }
+
+    updateThemeValue() {
+        this.editTheme = false;
+        this.updateSettings(this.tableData[0]);
+    }
+
+    getUpdatedSettings(){
         var url;
         this.config = this.configService.config;
         if (this.memberData.user_role == 'OWNER') {
@@ -46,6 +133,7 @@ export class SettingsComponent implements OnInit {
             .then((result: any) => {
                 this.loading = false;
                 if (result.result) {
+                    this.settingsService.updateSettingsDate(result.data)
                     this.tableData = result?.data;
                     this.tableData[0].settings_value =
                         this.tableData[0].settings_value == 1 ? true : false;
@@ -109,63 +197,13 @@ export class SettingsComponent implements OnInit {
             });
     }
 
-    setCard(cardName) {
-        this.card = cardName;
-    }
-
-    ChangePassword() {}
-
-    updateSettings(data: any) {
-        if (data.settings_name == 'THEME_COLOR') {
-            data.settings_value =
-                data.settings_value == 'light' ? 'dark' : 'light';
-            this.updateThemeCheckedValue(data);
-        } else if (
-            data.settings_value == true ||
-            data.settings_value == false
-        ) {
-            data.settings_value = data.settings_value ? 1 : 0;
-        }
+    getOldSettings(){
+        // table_data/SPECIFIC_SETTINGS
         this.apiService
-            .postTypeRequest(`settings_ops/update`, data)
+            .getTypeRequest(`table_data/SPECIFIC_SETTINGS`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
-                if (result.result) {
-                    this.editDateRange = false;
-                    this.ngOnInit();
-                }
-            });
-    }
-
-    getThemeCheckedValue(data: any) {
-        if (data == 'dark') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    updateThemeCheckedValue(data: any) {
-        let themeElement = document.getElementById('theme-css');
-        let dark: boolean;
-        let theme: string;
-        if (data.settings_value == 'dark') {
-            dark = true;
-            theme = 'lara-dark-indigo';
-        } else {
-            dark = false;
-            theme = 'lara-light-indigo';
-        }
-        themeElement.setAttribute(
-            'href',
-            'assets/theme/' + theme + '/theme.css'
-        );
-        this.configService.updateConfig({ ...this.config, ...{ theme, dark } });
-    }
-
-    updateThemeValue() {
-        this.editTheme = false;
-        this.updateSettings(this.tableData[0]);
+                if (result.result) {}})
     }
 }

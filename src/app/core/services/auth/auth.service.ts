@@ -11,6 +11,7 @@ import { LockScreenComponent } from 'src/app/features/lock-screen/lock-screen.co
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ConfigService } from '../app.config.service';
 import { AppConfig } from '../../interfaces/appconfig';
+import { SettingsService } from 'src/app/features/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,7 @@ export class AuthService {
     constructor(
         public dialogService: DialogService,
         private messageService: MessageService,
+        private settingsService: SettingsService,
         private route: ActivatedRoute,
         public router: Router,
         public configService: ConfigService,
@@ -47,6 +49,7 @@ export class AuthService {
             await this.setUser(response.data);
             if (response.data.user_role != 'USER') {
             }
+            this.settingsService.updateSettingsDate(response.data.settings)
             this.beginsesssion();
             this.setTheme(response.data.settings);
             loginData.password = '';

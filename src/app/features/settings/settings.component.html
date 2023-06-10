@@ -20,21 +20,6 @@
             </div>
             <hr />
             <div class="new-users">
-                <!-- <div
-                        class="col mt-2 d-flex align-content-center"
-                        style="justify-content: center; cursor: pointer"
-                        [ngStyle]="{
-                            color:
-                                card == 'Personal Information' ? '#4466f2' : ''
-                        }"
-                        (click)="setCard('Personal Information')"
-                    >
-                        <i data-feather="user" style="height: 20px"></i>
-                        <span class="mr-auto pl-2" style="font-size: 19px"
-                            >Personal Information</span
-                        >
-                        <i class="icon-angle-right p-2"></i>
-                    </div> -->
                 <div
                     class="col mt-3 d-flex align-content-center"
                     style="justify-content: center; cursor: pointer"
@@ -49,18 +34,94 @@
                     >
                     <i class="icon-angle-right p-2"></i>
                 </div>
+                <div
+                        class="col mt-2 d-flex align-content-center"
+                        style="justify-content: center; cursor: pointer"
+                        [ngStyle]="{
+                            color:
+                                card == 'Logo' ? '#4466f2' : ''
+                        }"
+                        (click)="setCard('Logo')"
+                    >
+                        <i data-feather="user" style="height: 20px"></i>
+                        <span class="mr-auto pl-2" style="font-size: 19px"
+                            >Logo</span
+                        >
+                        <i class="icon-angle-right p-2"></i>
+                    </div>
             </div>
         </div>
     </div>
     <div class="col mt-0">
-        <div class="card" *ngIf="card == 'Personal Information'">
-            <h5>Personal Information</h5>
-            <span class="d-block fonts-dashboard"
-                >Basic info, like your name and address, that you use on this
-                Platform</span
-            >
+        <div class="card" *ngIf="card == 'Logo'">
+            <h5>Logo</h5>
             <div class="card-body">
-                <div class="grid"></div>
+                <div class="grid flex">
+                    <div
+                        class="flex flex-nowrap align-items-start flex-wrap col-12 xl:col-6 lg:col-6 md:col-6 sm:col-12 xs:col-12 p-5"
+                    >
+                        <div class="text-2xl font-bold">Base Logo</div>
+                        <img
+                            [src]="coreConfig.app.appLogoImage"
+                            alt=""
+                            class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
+                            style="
+                                border-radius: 50%;
+                                margin-right: -4rem;
+                                margin-left: -3rem;
+                            "
+                        />
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-camera"
+                            class="mt-3 p-button-rounded p-action-button"
+                            (click)="base_logo.click()"
+                        ></button>
+                        <input
+                            #base_logo
+                            type="file"
+                            pInputText
+                            (input)="updateLogo($event, 'BASE_LOGO')"
+                            style="display: none"
+                            id="base_logo"
+                        />
+                    </div>
+                    <!-- <div
+                        class="flex flex-nowrap align-items-start flex-wrap col-12 xl:col-6 lg:col-6 md:col-6 sm:col-12 xs:col-12 p-5"
+                    >
+                        <div class="text-2xl font-bold ml-3">
+                            Print Logo
+                        </div>
+                        <img
+                            [src]="Data.print_logo"
+                            alt=""
+                            class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
+                            style="
+                                border-radius: 50%;
+                                margin-right: -4rem;
+                                margin-left: -3rem;
+                            "
+                        />
+                        <input
+                            #print_logo
+                            type="file"
+                            pInputText
+                            (input)="updateLogo($event, 'PRINT_LOGO')"
+                            style="display: none"
+                            id="print_logo"
+                        />
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-camera"
+                            class="mt-3 p-button-rounded p-action-button"
+                            (click)="print_logo.click()"
+                        ></button>
+                    </div> -->
+                </div>
             </div>
         </div>
         <div class="card" *ngIf="card == 'Notifications'">
@@ -79,7 +140,7 @@
                         <div class="surface-section">
                             <ul
                                 class="list-none p-0 m-0"
-                                *ngIf="tableData.length > 0; else loading"
+                                *ngIf="tableData; else loading"
                             >
                                 <!-- <li
                                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
@@ -390,6 +451,48 @@
                                             "
                                             (click)="
                                                 updateSettings(tableData[5])
+                                            "
+                                        ></p-inputSwitch>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-4 md:w-4 font-medium"
+                                    >
+                                        {{ tableData[6].display_label }}
+                                    </div>
+                                    <div
+                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        <p-inputSwitch
+                                            [(ngModel)]="
+                                                tableData[6].settings_value
+                                            "
+                                            (click)="
+                                                updateSettings(tableData[6])
+                                            "
+                                        ></p-inputSwitch>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-4 md:w-4 font-medium"
+                                    >
+                                        {{ tableData[7].display_label }}
+                                    </div>
+                                    <div
+                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        <p-inputSwitch
+                                            [(ngModel)]="
+                                                tableData[7].settings_value
+                                            "
+                                            (click)="
+                                                updateSettings(tableData[7])
                                             "
                                         ></p-inputSwitch>
                                     </div>

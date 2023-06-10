@@ -10,6 +10,7 @@ import { CoreConfig } from '../core/interfaces/coreConfig';
 import { EnvService } from '../env.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CounterService } from '../features/counters/counter.service';
+import { SettingsService } from '../features/settings/settings.service';
 
 @Component({
     selector: 'app-topbar',
@@ -29,6 +30,7 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
         public configService: ConfigService,
         public dialogService: DialogService,
         public memberService: MemberService,
+        private settingsService: SettingsService,
         public _coreEnvService: EnvService,
         public counterService: CounterService,
         public router: Router
@@ -38,7 +40,17 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.config = this.configService.config;
 
-        this.checked = !this.config?.dark ?? true;
+        //this.checked = !this.config?.dark ?? true;
+        this.settingsService.settingsDate$.subscribe((newValue) => {
+            // Handle updated settingsDate value
+            console.log(newValue);
+
+            if (newValue == null) {
+                newValue = this.settingsService.getSettingsData();
+            }
+            this.checked =
+                newValue[1].settings_value == 'light' ? true : false;
+        });
         this.counterService.counterDate$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((data: any) => {
