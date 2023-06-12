@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
     loading: boolean = false;
     tableData: any[] = [];
     memberData: any;
+    base_logo_url: any;
     editIndex: any;
     config: AppConfig;
     editTheme: boolean = false;
@@ -48,14 +49,14 @@ export class SettingsComponent implements OnInit {
             this.tableData[5].settings_value =
                 this.tableData[5].settings_value == 1 ? true : false;
             this.tableData[6].settings_value =
-                this.tableData[6].settings_value == 1 ? true : false;
+                this.tableData[6]?.settings_value == 1 ? true : false;
             this.tableData[7].settings_value =
-                this.tableData[7].settings_value == 1 ? true : false;
+                this.tableData[7]?.settings_value == 1 ? true : false;
         });
         this.editIndex = -1;
         this.memberData = this.memberService.getUserData();
-        console.log(this.memberData);
-
+        this.getUpdatedSettings()
+        this.getOldSettings()
     }
 
     setCard(cardName) {
@@ -141,56 +142,56 @@ export class SettingsComponent implements OnInit {
                         this.tableData[3].settings_value == 1 ? true : false;
                     this.tableData[5].settings_value =
                         this.tableData[5].settings_value == 1 ? true : false;
-                    var data: [
-                        {
-                            settings_id: '1';
-                            counter_id: '1';
-                            isCounter: '1';
-                            display_label: 'Is Send SMS';
-                            settings_name: 'IS_SEND_SMS';
-                            settings_value: '1';
-                        },
-                        {
-                            settings_id: '2';
-                            counter_id: '1';
-                            isCounter: '1';
-                            display_label: 'Theme Color';
-                            settings_name: 'THEME_COLOR';
-                            settings_value: 'light';
-                        },
-                        {
-                            settings_id: '8';
-                            counter_id: '1';
-                            isCounter: '1';
-                            display_label: 'Date display range';
-                            settings_name: 'DATE_RANGE';
-                            settings_value: '10';
-                        },
-                        {
-                            settings_id: '27';
-                            counter_id: '1';
-                            isCounter: '1';
-                            display_label: 'Send SMS on every card tap';
-                            settings_name: 'SMS_ON_EVERY_TAP';
-                            settings_value: '1';
-                        },
-                        {
-                            settings_id: '28';
-                            counter_id: '1';
-                            isCounter: '1';
-                            display_label: 'Minimum Card Balance';
-                            settings_name: 'MINIMUM_CARD_BALANCE';
-                            settings_value: '100';
-                        },
-                        {
-                            settings_id: '31';
-                            counter_id: '1';
-                            isCounter: '1';
-                            display_label: 'Wallet Prepaid/Postpaid';
-                            settings_name: 'WALLET_TRANSACTION_TYPE';
-                            settings_value: '0';
-                        }
-                    ];
+                    // var data: [
+                    //     {
+                    //         settings_id: '1';
+                    //         counter_id: '1';
+                    //         isCounter: '1';
+                    //         display_label: 'Is Send SMS';
+                    //         settings_name: 'IS_SEND_SMS';
+                    //         settings_value: '1';
+                    //     },
+                    //     {
+                    //         settings_id: '2';
+                    //         counter_id: '1';
+                    //         isCounter: '1';
+                    //         display_label: 'Theme Color';
+                    //         settings_name: 'THEME_COLOR';
+                    //         settings_value: 'light';
+                    //     },
+                    //     {
+                    //         settings_id: '8';
+                    //         counter_id: '1';
+                    //         isCounter: '1';
+                    //         display_label: 'Date display range';
+                    //         settings_name: 'DATE_RANGE';
+                    //         settings_value: '10';
+                    //     },
+                    //     {
+                    //         settings_id: '27';
+                    //         counter_id: '1';
+                    //         isCounter: '1';
+                    //         display_label: 'Send SMS on every card tap';
+                    //         settings_name: 'SMS_ON_EVERY_TAP';
+                    //         settings_value: '1';
+                    //     },
+                    //     {
+                    //         settings_id: '28';
+                    //         counter_id: '1';
+                    //         isCounter: '1';
+                    //         display_label: 'Minimum Card Balance';
+                    //         settings_name: 'MINIMUM_CARD_BALANCE';
+                    //         settings_value: '100';
+                    //     },
+                    //     {
+                    //         settings_id: '31';
+                    //         counter_id: '1';
+                    //         isCounter: '1';
+                    //         display_label: 'Wallet Prepaid/Postpaid';
+                    //         settings_name: 'WALLET_TRANSACTION_TYPE';
+                    //         settings_value: '0';
+                    //     }
+                    // ];
                 } else {
                     this.tableData = [];
                 }
@@ -199,11 +200,38 @@ export class SettingsComponent implements OnInit {
 
     getOldSettings(){
         // table_data/SPECIFIC_SETTINGS
+        this.loading = true;
         this.apiService
-            .getTypeRequest(`table_data/SPECIFIC_SETTINGS`)
+            .getTypeRequest(`specific_data/COUNTER/MY_COUNTER`)
             .toPromise()
             .then((result: any) => {
                 this.loading = false;
-                if (result.result) {}})
+                if (result.result) {
+                    this.base_logo_url = result.data.logo_url
+                    // console.log(this.base_logo_url);
+                }})
+    }
+
+    async updateLogo(event: any, Url: string) {
+        // this.logoLoading = true;
+        const formData: FormData = new FormData();
+        formData.append('file', event.target.files[0]);
+        formData.append('token', this.apiService.getTocken());
+        formData.append('item_id', this.memberData?.counter_id);
+
+        await this.apiService
+            .postFileTypeRequest(`file_upload/${Url}`, formData)
+            .toPromise()
+            .then((result: any) => {
+                if (result.result) {
+                    // this.messageService.add({
+                    //     severity: 'success',
+                    //     summary: 'Success',
+                    //     detail: result.message,
+                    // });
+                    this.getUpdatedSettings();
+                    this.getOldSettings();
+                }
+            })
     }
 }

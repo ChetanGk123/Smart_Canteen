@@ -43,13 +43,10 @@ export class AppTopBarComponent implements OnInit, OnDestroy {
         //this.checked = !this.config?.dark ?? true;
         this.settingsService.settingsDate$.subscribe((newValue) => {
             // Handle updated settingsDate value
-            console.log(newValue);
-
             if (newValue == null) {
                 newValue = this.settingsService.getSettingsData();
             }
-            this.checked =
-                newValue[1].settings_value == 'light' ? true : false;
+            this.checked = newValue[1].settings_value == 'light' ? true : false;
         });
         this.counterService.counterDate$
             .pipe(takeUntil(this._unsubscribeAll))

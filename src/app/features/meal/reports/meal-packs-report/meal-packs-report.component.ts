@@ -219,9 +219,9 @@ export class MealPacksReportComponent implements OnInit {
                             },
                             {
                                 text: `${this.name}`,
-                                fontSize: 15,
                                 // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
                                 margin: [0, 5, 0, 0],
+                                fontSize: 15,
                                 bold: true,
                                 alignment: 'center',
                             },
@@ -263,7 +263,9 @@ export class MealPacksReportComponent implements OnInit {
                             ...this.config.data?.data.map((item, itemIndex) => [
                                 {
                                     stack: [
-                                        itemIndex+1+ '. ' + item.meal_pack_name,
+                                        {text:itemIndex+1+ '. ' + item.meal_pack_name,
+                                        fontSize: 15,
+                                        bold: true,},
                                         {
                                             // {
                                             table: {

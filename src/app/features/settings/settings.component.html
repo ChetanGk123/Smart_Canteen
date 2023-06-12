@@ -58,11 +58,11 @@
             <div class="card-body">
                 <div class="grid flex">
                     <div
-                        class="flex flex-nowrap align-items-start flex-wrap col-12 xl:col-6 lg:col-6 md:col-6 sm:col-12 xs:col-12 p-5"
+                        class="flex flex-nowrap align-items-start flex-wrap col-12 xl:col-6 lg:col-6 md:col-6 sm:col-12 xs:col-12 p-5" *ngIf="!loading"
                     >
                         <div class="text-2xl font-bold">Base Logo</div>
                         <img
-                            [src]="coreConfig.app.appLogoImage"
+                            [src]="this.base_logo_url"
                             alt=""
                             class="h-16rem md:h-16rem sm:h-11rem xs:h-2rem"
                             style="
@@ -83,7 +83,7 @@
                             #base_logo
                             type="file"
                             pInputText
-                            (input)="updateLogo($event, 'BASE_LOGO')"
+                            (input)="updateLogo($event, 'COUNTER_PHOTO')"
                             style="display: none"
                             id="base_logo"
                         />
