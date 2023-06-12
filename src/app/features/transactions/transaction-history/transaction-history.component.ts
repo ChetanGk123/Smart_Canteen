@@ -373,6 +373,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
                     if (result.result) {
                         this.bulkRechargeDialog = false
                         this.ngOnInit()
+                    } else{
+                        this.displayErrorMessage(result.message)
                     }
                 })
                 .finally(() => {
