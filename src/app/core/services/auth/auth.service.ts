@@ -61,6 +61,11 @@ export class AuthService {
             this.router.navigateByUrl(this.returnUrl);
             return true;
         } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: `${response.message}`,
+            });
             return false;
         }
     }

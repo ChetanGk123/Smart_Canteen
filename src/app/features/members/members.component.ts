@@ -18,6 +18,7 @@ import { ManageMemberComponent } from './manage-member/manage-member.component';
 import { MemberService } from './member.service';
 import { MembersData } from './members-details.model';
 import { MemberListReportComponent } from './reports/member-list-report/member-list-report.component';
+import { ExcelService } from 'src/app/core/services/excel/excel.service';
 
 @Component({
     selector: 'app-members',
@@ -59,7 +60,8 @@ export class MembersComponent implements OnInit, OnDestroy {
         private messageService: MessageService,
         public memberService: MemberService,
         private confirmationService: ConfirmationService,
-        public counterService: CounterService
+        public counterService: CounterService,
+        public excelService: ExcelService
     ) {}
 
     ngOnInit(): void {
@@ -323,5 +325,32 @@ export class MembersComponent implements OnInit, OnDestroy {
             header: this.title,
             styleClass: 'w-10 sm:w-10 md:w-10 lg:w-6',
         });
+    }
+
+    /**
+     * This function generates an Excel file containing data from a table of active members.
+     */
+    generateExcel() {
+        var excelData = [];
+        this.tableData.forEach((data: any) => {
+            let row = {
+                'Full Name': data['full_name'],
+                'Card Number': data['card_number'],
+                'Phone Number': data['phone_number'] ? data['phone_number'] : null,
+                'Parents PNo': data['parents_ph'] ? data['parents_ph'] : null,
+                'Gender': data['gender'],
+                'Date Of Birth': data['dob'],
+                'Email': data['email'] ? data['email'] : null,
+                "Member Type": data['member_type'],
+                'Institution Name': data['institution_name'],
+                'Hostel Name': data['hostel_name'],
+                'Balance': (parseFloat(data['balance']) / 10).toFixed(2),
+            };
+            excelData.push(row);
+        });
+        this.excelService.exportAsExcelFile(
+            excelData,
+            'Active Members'
+        );
     }
 }

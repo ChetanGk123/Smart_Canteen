@@ -291,9 +291,31 @@ export class AppMenuComponent implements OnInit {
                 ],
             },
         ];
+        var attendance = [
+            {
+                label: 'Attendance',
+                items: [
+                    {
+                        label: 'Attendance',
+                        icon: 'pi pi-fw pi-list',
+                        routerLink: ['/attendance'],
+                    },
+                    {
+                        label: 'Attendance History',
+                        icon: 'pi pi-history',
+                        routerLink: ['/attendance/attendenceHistory'],
+                    },
+                ],
+            },
+        ];
         this.User = this.memberService.getUserData().user_role;
-        this.model =
-            this.User == 'OWNER' || this.User == 'su_user' ? owner : user;
+        if (this.User == 'COUNTER') {
+            this.model = user;
+        } else if (this.User == 'ATTENDANCE') {
+            this.model = attendance;
+        } else {
+            this.model = owner;
+        }
     }
 
     onKeydown(event: KeyboardEvent) {

@@ -72,6 +72,17 @@
                         "
                         >Sign in as Counter</a
                     >
+                    ,<a
+                        class="font-medium no-underline ml-2 text-right cursor-pointer"
+                        style="color: var(--primary-color)"
+                        (click)="
+                            otherSignIn(
+                                'attendance@canteen.com',
+                                'attendance@canteen.com'
+                            )
+                        "
+                        >Sign in as Attendant</a
+                    >
                 </div>
                 <div class="w-full md:w-10 mx-auto">
                     <label
