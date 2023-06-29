@@ -77,9 +77,9 @@ export class MealPackComponent implements OnInit, OnDestroy {
 
     loadData() {
         var url = '';
-        if (this.counter_id != '') {
-            url = `/BY_COUNTER/${this.counter_id}`;
-        }
+        // if (this.counter_id != '') {
+        //     url = `/BY_COUNTER/${this.counter_id}`;
+        // }
         this.apiService
             .getTypeRequest(`${this.Url}${url}`)
             .toPromise()

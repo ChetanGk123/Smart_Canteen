@@ -20,27 +20,78 @@ export class AuthGuard implements CanActivate {
         public authService: AuthService,
         private route: ActivatedRoute
     ) {}
-    canActivate(
+    async canActivate(
         _route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
-    ):
-        | Observable<boolean | UrlTree>
-        | Promise<boolean | UrlTree>
-        | boolean
-        | UrlTree {
+    ): Promise<boolean | UrlTree> {
         const user = this.authService.getUser();
         const helper = new JwtHelperService();
-        const TokenExpired = helper.isTokenExpired(user?.token) ?? false;
+        const tokenExpired = helper.isTokenExpired(user?.token) ?? false;
+        // console.log(state.url);
+        // console.log(user);
 
-        if (!TokenExpired) {
+        if (!tokenExpired) {
             this.authService.beginsesssion();
-            return true;
+            const userRole = user.user_role;
+            const allowedRoutes = await this.getRoutesForUserRole(userRole);
+            if (userRole === 'OWNER' && state.url === '/attendance') {
+                return this.router.createUrlTree(['/counters']);
+            } else if (allowedRoutes.some((route) => route === state.url)) {
+                return true;
+            } else {
+                // pages/access
+                return this.router.createUrlTree(['/pages/notfound']);
+            }
         } else {
             localStorage.removeItem('user');
-            this.router.navigate(['/login'], {
+            return this.router.createUrlTree(['/login'], {
                 queryParams: { returnUrl: state.url },
             });
-            return false;
         }
+    }
+
+    getRoutesForUserRole(userRole: string): Promise<string[]> {
+        let routesFile: string = 'assets/routes/';
+
+        switch (userRole) {
+            case 'COUNTER':
+                routesFile += 'user-routes.json';
+                break;
+            case 'ATTENDANCE':
+                routesFile += 'attendance-routes.json';
+                break;
+            default:
+                routesFile += 'owner-routes.json';
+                break;
+        }
+
+        return this.loadRoutes(routesFile);
+    }
+
+    loadRoutes(routesFile: string): Promise<string[]> {
+        // Assuming the JSON files are located in the assets folder
+        return fetch(`${routesFile}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const routerLinks = [];
+                data.forEach((item) => {
+                    if (item.items) {
+                        item.items.forEach((subItem) => {
+                            if (subItem.routerLink) {
+                                routerLinks.push(subItem.routerLink[0]);
+                            }
+                        });
+                    }
+                });
+
+                return routerLinks;
+            })
+            .catch((error) => {
+                console.error(
+                    `Error loading routes from ${routesFile}:`,
+                    error
+                );
+                return [];
+            });
     }
 }

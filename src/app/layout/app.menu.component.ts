@@ -46,277 +46,374 @@ export class AppMenuComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        var user = [
-            {
-                label: 'Home',
-                items: [
-                    {
-                        label: 'Dashboard',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/dashboard'],
-                    },
-                ],
-            },
-            {
-                label: 'Attendance',
-                items: [
-                    {
-                        label: 'Attendance',
-                        icon: 'pi pi-fw pi-list',
-                        routerLink: ['/attendance'],
-                    },
-                    {
-                        label: 'Attendance History',
-                        icon: 'pi pi-history',
-                        routerLink: ['/attendance/attendenceHistory'],
-                    },
-                ],
-            },
-            {
-                label: 'Members',
-                items: [
-                    {
-                        label: 'All Members',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/members'],
-                    },
-                ],
-            },
-            {
-                label: 'Memberships',
-                items: [
-                    {
-                        label: 'Memberships',
-                        icon: 'pi pi-fw pi-book',
-                        routerLink: ['/memberships/allMemberships'],
-                    },
-                    {
-                        label: 'Active Leaves',
-                        icon: 'pi pi-fw pi-calendar-minus',
-                        routerLink: ['/memberships/activeLeaves'],
-                    },
-                    {
-                        label: 'Sale History',
-                        icon: 'pi pi-fw pi-history',
-                        routerLink: ['/memberships/saleHistory'],
-                    },
-                    {
-                        label: 'Leave History',
-                        icon: 'pi pi-fw pi-history',
-                        routerLink: ['/memberships/leaveHistory'],
-                    },
-                ],
-            },
-            {
-                label: 'Meal',
-                items: [
-                    {
-                        label: 'Meal Types',
-                        icon: 'pi pi-list',
-                        routerLink: ['/meal/mealType'],
-                    },
-                    {
-                        label: 'Meal Packs',
-                        icon: 'pi pi-database',
-                        routerLink: ['/meal/mealPack'],
-                    },
-                ],
-            },
-            {
-                label: 'Cards',
-                icon: 'pi pi-credit-card',
-                items: [
-                    {
-                        label: 'Card Histrory',
-                        icon: 'pi pi-credit-card',
-                        routerLink: ['/cards/cardHistory'],
-                    },
-                ],
-            },
-            {
-                label: 'Accounts',
-                items: [
-                    {
-                        label: 'Income Accounts',
-                        icon: 'pi pi-money-bill',
-                        routerLink: ['/accounts/incomeAccount'],
-                    },
-                    {
-                        label: 'Expense Accounts',
-                        icon: 'pi pi-dollar',
-                        routerLink: ['/accounts/expenseAccount'],
-                    },
-                    {
-                        label: 'Commodity Accounts',
-                        icon: 'pi pi-link',
-                        routerLink: ['/accounts/commodityAccount'],
-                    },
-                    {
-                        label: 'Account Transactions',
-                        icon: 'pi pi-history',
-                        routerLink: ['/accounts/accountTransactions'],
-                    },
-                ],
-            },
-            {
-                label: 'Transactions',
-                items: [
-                    {
-                        label: 'Transactions',
-                        icon: 'pi pi-history',
-                        routerLink: ['/transactions/history'],
-                    },
-                ],
-            },
-            {
-                label: 'Utils',
-                items: [
-                    {
-                        label: 'Misc',
-                        icon: 'pi pi-slack',
-                        routerLink: ['/utils'],
-                    },
-                ],
-            },
-            {
-                label: 'Point Of Sale(POS)',
-                items: [
-                    {
-                        label: 'Main Category',
-                        icon: 'pi pi-book',
-                        routerLink: ['/pos/mainCategory'],
-                    },
-                    {
-                        label: 'Items',
-                        icon: 'pi pi-file',
-                        routerLink: ['/pos/posItems'],
-                    },
-                    {
-                        label: 'Sale',
-                        icon: 'pi pi-money-bill',
-                        routerLink: ['posSale/posSale'],
-                    },
-                    {
-                        label: 'Sale History',
-                        icon: 'pi pi-history',
-                        routerLink: ['/pos/posHistory'],
-                    },
-                    {
-                        label: 'Item Sale History',
-                        icon: 'pi pi-history',
-                        routerLink: ['/pos/posItemHistory'],
-                    },
-                ],
-            },
-        ];
-        var owner = [
-            {
-                label: 'Home',
-                items: [
-                    {
-                        label: 'Dashboard',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/dashboard'],
-                    },
-                ],
-            },
-            {
-                label: 'Counters',
-                items: [
-                    {
-                        label: 'All Counters',
-                        icon: 'pi pi-fw pi-th-large',
-                        routerLink: ['/counters'],
-                    },
-                ],
-            },
-            {
-                label: 'Members',
-                items: [
-                    {
-                        label: 'All Members',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/members'],
-                    },
-                ],
-            },
-            {
-                label: 'Accounts',
-                items: [
-                    {
-                        label: 'Account Transactions',
-                        icon: 'pi pi-history',
-                        routerLink: ['/accounts/accountTransactions'],
-                    },
-                ],
-            },
-            {
-                label: 'Transactions',
-                items: [
-                    {
-                        label: 'Transactions',
-                        icon: 'pi pi-history',
-                        routerLink: ['/transactions/history'],
-                    },
-                ],
-            },
-            {
-                label: 'Utils',
-                items: [
-                    {
-                        label: 'Misc',
-                        icon: 'pi pi-slack',
-                        routerLink: ['/utils'],
-                    },
-                ],
-            },
-            {
-                label: 'POS',
-                items: [
-                    {
-                        label: 'Main Category',
-                        icon: 'pi pi-slack',
-                        routerLink: ['/pos/mainCategory'],
-                    },
-                    {
-                        label: 'Items',
-                        icon: 'pi pi-slack',
-                        routerLink: ['/pos/posItems'],
-                    },
-                    {
-                        label: 'Sale History',
-                        icon: 'pi pi-slack',
-                        routerLink: ['/pos/posHistory'],
-                    },
-                ],
-            },
-        ];
-        var attendance = [
-            {
-                label: 'Attendance',
-                items: [
-                    {
-                        label: 'Attendance',
-                        icon: 'pi pi-fw pi-list',
-                        routerLink: ['/attendance'],
-                    },
-                    {
-                        label: 'Attendance History',
-                        icon: 'pi pi-history',
-                        routerLink: ['/attendance/attendenceHistory'],
-                    },
-                ],
-            },
-        ];
-        this.User = this.memberService.getUserData().user_role;
-        if (this.User == 'COUNTER') {
-            this.model = user;
-        } else if (this.User == 'ATTENDANCE') {
-            this.model = attendance;
-        } else {
-            this.model = owner;
+        // var user = [
+        //     {
+        //         label: 'Home',
+        //         items: [
+        //             {
+        //                 label: 'Dashboard',
+        //                 icon: 'pi pi-fw pi-home',
+        //                 routerLink: ['/dashboard'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Attendance',
+        //         items: [
+        //             {
+        //                 label: 'Attendance',
+        //                 icon: 'pi pi-fw pi-list',
+        //                 routerLink: ['/attendance'],
+        //             },
+        //             {
+        //                 label: 'Attendance History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/attendance/attendenceHistory'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Members',
+        //         items: [
+        //             {
+        //                 label: 'All Members',
+        //                 icon: 'pi pi-fw pi-home',
+        //                 routerLink: ['/members'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Memberships',
+        //         items: [
+        //             {
+        //                 label: 'Memberships',
+        //                 icon: 'pi pi-fw pi-book',
+        //                 routerLink: ['/memberships/allMemberships'],
+        //             },
+        //             {
+        //                 label: 'Active Leaves',
+        //                 icon: 'pi pi-fw pi-calendar-minus',
+        //                 routerLink: ['/memberships/activeLeaves'],
+        //             },
+        //             {
+        //                 label: 'Sale History',
+        //                 icon: 'pi pi-fw pi-history',
+        //                 routerLink: ['/memberships/saleHistory'],
+        //             },
+        //             {
+        //                 label: 'Leave History',
+        //                 icon: 'pi pi-fw pi-history',
+        //                 routerLink: ['/memberships/leaveHistory'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Meal',
+        //         items: [
+        //             {
+        //                 label: 'Meal Types',
+        //                 icon: 'pi pi-list',
+        //                 routerLink: ['/meal/mealType'],
+        //             },
+        //             {
+        //                 label: 'Meal Packs',
+        //                 icon: 'pi pi-database',
+        //                 routerLink: ['/meal/mealPack'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Cards',
+        //         icon: 'pi pi-credit-card',
+        //         items: [
+        //             {
+        //                 label: 'Card Histrory',
+        //                 icon: 'pi pi-credit-card',
+        //                 routerLink: ['/cards/cardHistory'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Accounts',
+        //         items: [
+        //             {
+        //                 label: 'Income Accounts',
+        //                 icon: 'pi pi-money-bill',
+        //                 routerLink: ['/accounts/incomeAccount'],
+        //             },
+        //             {
+        //                 label: 'Expense Accounts',
+        //                 icon: 'pi pi-dollar',
+        //                 routerLink: ['/accounts/expenseAccount'],
+        //             },
+        //             {
+        //                 label: 'Commodity Accounts',
+        //                 icon: 'pi pi-link',
+        //                 routerLink: ['/accounts/commodityAccount'],
+        //             },
+        //             {
+        //                 label: 'Account Transactions',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/accounts/accountTransactions'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Transactions',
+        //         items: [
+        //             {
+        //                 label: 'Transactions',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/transactions/history'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Utils',
+        //         items: [
+        //             {
+        //                 label: 'Misc',
+        //                 icon: 'pi pi-slack',
+        //                 routerLink: ['/utils'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Point Of Sale(POS)',
+        //         items: [
+        //             {
+        //                 label: 'Main Category',
+        //                 icon: 'pi pi-book',
+        //                 routerLink: ['/pos/mainCategory'],
+        //             },
+        //             {
+        //                 label: 'Items',
+        //                 icon: 'pi pi-file',
+        //                 routerLink: ['/pos/posItems'],
+        //             },
+        //             {
+        //                 label: 'Sale',
+        //                 icon: 'pi pi-money-bill',
+        //                 routerLink: ['posSale/posSale'],
+        //             },
+        //             {
+        //                 label: 'Sale History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/pos/posHistory'],
+        //             },
+        //             {
+        //                 label: 'Item Sale History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/pos/posItemHistory'],
+        //             },
+        //         ],
+        //     },
+        // ];
+        // var owner = [
+        //     {
+        //         label: 'Home',
+        //         items: [
+        //             {
+        //                 label: 'Dashboard',
+        //                 icon: 'pi pi-fw pi-home',
+        //                 routerLink: ['/dashboard'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Attendance',
+        //         items: [
+        //             {
+        //                 label: 'Attendance History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/attendance/attendenceHistory'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Members',
+        //         items: [
+        //             {
+        //                 label: 'All Members',
+        //                 icon: 'pi pi-fw pi-home',
+        //                 routerLink: ['/members'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Memberships',
+        //         items: [
+        //             {
+        //                 label: 'Memberships',
+        //                 icon: 'pi pi-fw pi-book',
+        //                 routerLink: ['/memberships/allMemberships'],
+        //             },
+        //             {
+        //                 label: 'Active Leaves',
+        //                 icon: 'pi pi-fw pi-calendar-minus',
+        //                 routerLink: ['/memberships/activeLeaves'],
+        //             },
+        //             {
+        //                 label: 'Sale History',
+        //                 icon: 'pi pi-fw pi-history',
+        //                 routerLink: ['/memberships/saleHistory'],
+        //             },
+        //             {
+        //                 label: 'Leave History',
+        //                 icon: 'pi pi-fw pi-history',
+        //                 routerLink: ['/memberships/leaveHistory'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Meal',
+        //         items: [
+        //             {
+        //                 label: 'Meal Types',
+        //                 icon: 'pi pi-list',
+        //                 routerLink: ['/meal/mealType'],
+        //             },
+        //             {
+        //                 label: 'Meal Packs',
+        //                 icon: 'pi pi-database',
+        //                 routerLink: ['/meal/mealPack'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Cards',
+        //         icon: 'pi pi-credit-card',
+        //         items: [
+        //             {
+        //                 label: 'Card Histrory',
+        //                 icon: 'pi pi-credit-card',
+        //                 routerLink: ['/cards/cardHistory'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Accounts',
+        //         items: [
+        //             {
+        //                 label: 'Income Accounts',
+        //                 icon: 'pi pi-money-bill',
+        //                 routerLink: ['/accounts/incomeAccount'],
+        //             },
+        //             {
+        //                 label: 'Expense Accounts',
+        //                 icon: 'pi pi-dollar',
+        //                 routerLink: ['/accounts/expenseAccount'],
+        //             },
+        //             {
+        //                 label: 'Commodity Accounts',
+        //                 icon: 'pi pi-link',
+        //                 routerLink: ['/accounts/commodityAccount'],
+        //             },
+        //             {
+        //                 label: 'Account Transactions',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/accounts/accountTransactions'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Transactions',
+        //         items: [
+        //             {
+        //                 label: 'Transactions',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/transactions/history'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Utils',
+        //         items: [
+        //             {
+        //                 label: 'Misc',
+        //                 icon: 'pi pi-slack',
+        //                 routerLink: ['/utils'],
+        //             },
+        //         ],
+        //     },
+        //     {
+        //         label: 'Point Of Sale(POS)',
+        //         items: [
+        //             {
+        //                 label: 'Main Category',
+        //                 icon: 'pi pi-book',
+        //                 routerLink: ['/pos/mainCategory'],
+        //             },
+        //             {
+        //                 label: 'Items',
+        //                 icon: 'pi pi-file',
+        //                 routerLink: ['/pos/posItems'],
+        //             },
+        //             {
+        //                 label: 'Sale History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/pos/posHistory'],
+        //             },
+        //             {
+        //                 label: 'Item Sale History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/pos/posItemHistory'],
+        //             },
+        //         ],
+        //     },
+        // ];
+        // var attendance = [
+        //     {
+        //         label: 'Attendance',
+        //         items: [
+        //             {
+        //                 label: 'Attendance',
+        //                 icon: 'pi pi-fw pi-list',
+        //                 routerLink: ['/attendance'],
+        //             },
+        //             {
+        //                 label: 'Attendance History',
+        //                 icon: 'pi pi-history',
+        //                 routerLink: ['/attendance/attendenceHistory'],
+        //             },
+        //         ],
+        //     },
+        // ];
+        // this.User = this.memberService.getUserData().user_role;
+        // if (this.User == 'COUNTER') {
+        //     this.model = user;
+        // } else if (this.User == 'ATTENDANCE') {
+        //     this.model = attendance;
+        // } else {
+        //     this.model = owner;
+        // }
+        const userRole = this.memberService.getUserData().user_role;
+        let routesFile: string;
+
+        switch (userRole) {
+            case 'COUNTER':
+                routesFile = 'user-routes.json';
+                break;
+            case 'ATTENDANCE':
+                routesFile = 'attender-routes.json';
+                break;
+            default:
+                routesFile = 'owner-routes.json';
+                break;
         }
+this.loadRoutes(routesFile)
     }
+
+    loadRoutes(routesFile: string): void {
+        fetch('assets/routes/'+routesFile)
+          .then(response => response.json())
+          .then(data => {
+            this.model = data;
+          })
+          .catch(error => {
+            console.error(`Error loading routes from ${routesFile}:`, error);
+          });
+      }
 
     onKeydown(event: KeyboardEvent) {
         const nodeElement = <HTMLDivElement>event.target;

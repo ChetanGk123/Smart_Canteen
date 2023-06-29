@@ -143,6 +143,7 @@
                                             <img
                                                 class="rounded-circle mr-1"
                                                 [src]="product.logo_url"
+                                                (error)="product.logo_url = 'assets/logo.png'"
                                                 height="32"
                                                 width="32"
                                                 alt="datatable-avatar"

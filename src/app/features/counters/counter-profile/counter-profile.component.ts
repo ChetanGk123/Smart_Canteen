@@ -30,6 +30,8 @@ export class CounterProfileComponent implements OnInit {
         this.user_role = this.authService.getUser().user_role;
         this.counterData = this.counterService.getCounterProfileData();
         if (this.counterData) {
+            console.log(this.counterData);
+
             this.apiService
                 .getTypeRequest(
                     `specific_data/COUNTER_LICENSE/${this.counterData.id}`

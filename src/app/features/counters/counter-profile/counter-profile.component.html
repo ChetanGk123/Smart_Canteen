@@ -25,6 +25,7 @@
             <div class="" *ngIf="counterData.logo_url; else customAvatar">
                 <img
                     [src]="counterData.logo_url"
+                    (error)="counterData.logo_url = 'assets/logo.png'"
                     alt=""
                     class="h-14rem xl:h-14rem md:h-14rem sm:h-11rem xs:h-2rem"
                     style="border-radius: 50%; margin-right: -4rem"
@@ -35,7 +36,7 @@
                     <div
                         class="custom-avatar-content h-16rem md:h-16rem sm:h-16rem xs:h-2rem w-16rem md:w-16rem sm:w-16rem xs:w-2rem"
                     >
-                        {{ counterData?.full_name ?? "" | initials }}
+                        {{ counterData.counter_name ?? "" | initials }}
                     </div>
                     <button
                         (document:keydown.shift.e)="edit()"
@@ -138,7 +139,7 @@
                     <div
                         class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                     >
-                        {{ licenceData?.license_plan }}
+                        {{ licenceData?.license_plan??"-" }}
                     </div>
                 </li>
                 <li
@@ -150,7 +151,7 @@
                     <div
                         class="text-900 font-bold sm:w-6 md:w-6 md:flex-order-0 flex-order-1"
                     >
-                        {{ licenceData?.license_number }}
+                        {{ licenceData?.license_number??"-" }}
                     </div>
                 </li>
                 <li
@@ -162,7 +163,7 @@
                     <div
                         class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                     >
-                        {{ licenceData?.start_date }}
+                        {{ licenceData?.start_date??"-" }}
                     </div>
                 </li>
                 <li
@@ -172,17 +173,17 @@
                     <div
                         class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                     >
-                        {{ licenceData?.end_date }}
+                        {{ licenceData?.end_date??"-" }}
                     </div>
                 </li>
                 <li
                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                 >
-                    <div class="text-500 w-6 md:w-3 font-medium">Email</div>
+                    <div class="text-500 w-6 md:w-3 font-medium">status</div>
                     <div
                         class="text-900 sm:w-6 font-bold md:w-7 md:flex-order-0 flex-order-1"
                     >
-                        {{ licenceData?.status == "1" ? "Active" : "InActive" }}
+                        {{ licenceData?.status == "1" ? "Active" : "InActive"}}
                     </div>
                 </li>
             </ul>

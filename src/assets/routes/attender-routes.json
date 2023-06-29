@@ -1,0 +1,17 @@
+[
+    {
+        "label": "Attendance",
+        "items": [
+            {
+                "label": "Attendance",
+                "icon": "pi pi-fw pi-list",
+                "routerLink": ["/attendance"]
+            },
+            {
+                "label": "Attendance History",
+                "icon": "pi pi-history",
+                "routerLink": ["/attendance/attendenceHistory"]
+            }
+        ]
+    }
+]

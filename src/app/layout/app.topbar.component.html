@@ -33,7 +33,7 @@
         >
             <h5>{{ counterData?.counter_name }}</h5>
         </a>
-        <a routerLink="/settings" class="p-link layout-topbar-button">
+        <a *ngIf="memberService.getUserData()?.user_role != 'OWNER'" routerLink="/settings" class="p-link layout-topbar-button">
             <i class="pi pi-cog"></i>
             <span>Settings</span>
         </a>
