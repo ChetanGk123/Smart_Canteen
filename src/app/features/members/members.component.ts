@@ -40,6 +40,7 @@ export class MembersComponent implements OnInit, OnDestroy {
     Unsuccessful_registration: boolean = false;
     selectedProduct: any;
     errorMessage: any;
+    userRole: any;
     items: MenuItem[];
 
     // Private
@@ -65,6 +66,7 @@ export class MembersComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        this.userRole = this.memberService.getUserData().user_role;
         this.counterService.counterDate$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((data: any) => {
