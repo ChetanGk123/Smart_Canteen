@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MemberService } from '../core/services/MemberService/member.service';
 import { AppMainComponent } from './app.main.component';
-
+import userRoutes from 'src/assets/routes/user-routes.json'
+import ownerRoutes from 'src/assets/routes/owner-routes.json'
+import attendantRoutes from 'src/assets/routes/attender-routes.json'
 @Component({
     selector: 'app-menu',
     template: `
@@ -389,31 +391,21 @@ export class AppMenuComponent implements OnInit {
         // }
         const userRole = this.memberService.getUserData().user_role;
         let routesFile: string;
+        console.log(userRoutes);
 
         switch (userRole) {
             case 'COUNTER':
-                routesFile = 'user-routes.json';
+                this.model = userRoutes;
                 break;
             case 'ATTENDANCE':
-                routesFile = 'attender-routes.json';
+                this.model = attendantRoutes;
                 break;
             default:
-                routesFile = 'owner-routes.json';
+                this.model = ownerRoutes;
                 break;
         }
-this.loadRoutes(routesFile)
     }
 
-    loadRoutes(routesFile: string): void {
-        fetch('assets/routes/'+routesFile)
-          .then(response => response.json())
-          .then(data => {
-            this.model = data;
-          })
-          .catch(error => {
-            console.error(`Error loading routes from ${routesFile}:`, error);
-          });
-      }
 
     onKeydown(event: KeyboardEvent) {
         const nodeElement = <HTMLDivElement>event.target;
