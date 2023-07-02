@@ -8,6 +8,11 @@ import { Router } from '@angular/router';
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
+    dashboardData: any;
+    consumablesList: any;
+    Data: any;
+    loading:boolean = true
+    consumablesListLoading:boolean = true
     constructor(
         public configService: ConfigService,
         public apiService: ApiService,
@@ -15,5 +20,24 @@ export class DashboardComponent implements OnInit {
         public router: Router
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.loading = true
+        this.apiService
+            .getTypeRequest('dashboard_analytics')
+            .toPromise()
+            .then((result: any) => {
+                this.dashboardData = result.data;
+                this.loading = false
+            });
+        
+        this.consumablesListLoading = true
+        this.apiService
+            .getTypeRequest('consumables_data?meal_date=01-06-2023')
+            .toPromise()
+            .then((result: any) => {
+                this.consumablesList  = result.data.consumables_list;
+                this.consumablesListLoading = false
+            });
+
+    }
 }
