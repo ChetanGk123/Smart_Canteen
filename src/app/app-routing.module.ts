@@ -14,132 +14,152 @@ import { LandingComponent } from './features/landing/landing.component';
             [
                 {
                     path: '',
-                    component: AppMainComponent,
-                    children: [
-                        {
-                            path: '',
-                            pathMatch: 'full',
-                            redirectTo: 'attendance',
-                        },
-                        {
-                            path: 'dashboard',
-                            canActivate: [AuthGuard],
-                            component: DashboardComponent,
-                        },
-                        {
-                            path: 'attendance',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/attendance/attendance.module'
-                                ).then((m) => m.AttendanceModule),
-                        },
-                        {
-                            path: 'canteens',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/canteens/canteens.module'
-                                ).then((m) => m.CanteensModule),
-                        },
-                        {
-                            path: 'counters',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/counters/counters.module'
-                                ).then((m) => m.CountersModule),
-                        },
-                        {
-                            path: 'cards',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import('./features/cards/cards.module').then(
-                                    (m) => m.CardsModule
-                                ),
-                        },
-                        {
-                            path: 'members',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/members/members.module'
-                                ).then((m) => m.MembersModule),
-                        },
-                        {
-                            path: 'memberships',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/memberships/memberships.module'
-                                ).then((m) => m.MembershipsModule),
-                        },
-                        {
-                            path: 'accounts',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/accounts/accounts.module'
-                                ).then((m) => m.AccountsModule),
-                        },
-                        {
-                            path: 'receipt',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/receipt/receipt.module'
-                                ).then((m) => m.ReceiptModule),
-                        },
-                        {
-                            path: 'utils',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import('./features/utils/utils.module').then(
-                                    (m) => m.UtilsModule
-                                ),
-                        },
-                        {
-                            path: 'pos',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import('./features/pos/pos.module').then(
-                                    (m) => m.PosModule
-                                ),
-                        },
-                        {
-                            path: 'posSale',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/posSale/posSale.module'
-                                ).then((m) => m.PosSaleModule),
-                        },
-                        {
-                            path: 'transactions',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/transactions/transactions.module'
-                                ).then((m) => m.TransactionsModule),
-                        },
-                        {
-                            path: 'settings',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import(
-                                    './features/settings/settings.module'
-                                ).then((m) => m.SettingsModule),
-                        },
-                        {
-                            path: 'meal',
-                            canActivate: [AuthGuard],
-                            loadChildren: () =>
-                                import('./features/meal/meal.module').then(
-                                    (m) => m.MealModule
-                                ),
-                        },
-                    ],
+                    loadChildren: () => import('./parents/parents.module').then((m) => m.ParentsModule)
                 },
+                {
+                    path: 'owner',
+                    loadChildren: () => import('./owner/owner.module').then((m) => m.OwnerModule)
+                },
+                {
+                    path: 'counter',
+                    loadChildren: () => import('./counter/counter.module').then((m) => m.CounterModule)
+                },
+                {
+                    path: 'attendant',
+                    loadChildren: () => import('./attendant/attendant.module').then((m) => m.AttendantModule)
+                },
+                {
+                    path: 'su',
+                    loadChildren: () => import('./counter/counter.module').then((m) => m.CounterModule)
+                },
+                // {
+                //     path: '',
+                //     component: AppMainComponent,
+                //     children: [
+                //         {
+                //             path: '',
+                //             pathMatch: 'full',
+                //             redirectTo: 'attendance',
+                //         },
+                //         {
+                //             path: 'dashboard',
+                //             canActivate: [AuthGuard],
+                //             component: DashboardComponent,
+                //         },
+                //         {
+                //             path: 'attendance',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/attendance/attendance.module'
+                //                 ).then((m) => m.AttendanceModule),
+                //         },
+                //         {
+                //             path: 'canteens',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/canteens/canteens.module'
+                //                 ).then((m) => m.CanteensModule),
+                //         },
+                //         {
+                //             path: 'counters',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/counters/counters.module'
+                //                 ).then((m) => m.CountersModule),
+                //         },
+                //         {
+                //             path: 'cards',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import('./features/cards/cards.module').then(
+                //                     (m) => m.CardsModule
+                //                 ),
+                //         },
+                //         {
+                //             path: 'members',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/members/members.module'
+                //                 ).then((m) => m.MembersModule),
+                //         },
+                //         {
+                //             path: 'memberships',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/memberships/memberships.module'
+                //                 ).then((m) => m.MembershipsModule),
+                //         },
+                //         {
+                //             path: 'accounts',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/accounts/accounts.module'
+                //                 ).then((m) => m.AccountsModule),
+                //         },
+                //         {
+                //             path: 'receipt',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/receipt/receipt.module'
+                //                 ).then((m) => m.ReceiptModule),
+                //         },
+                //         {
+                //             path: 'utils',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import('./features/utils/utils.module').then(
+                //                     (m) => m.UtilsModule
+                //                 ),
+                //         },
+                //         {
+                //             path: 'pos',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import('./features/pos/pos.module').then(
+                //                     (m) => m.PosModule
+                //                 ),
+                //         },
+                //         {
+                //             path: 'posSale',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/posSale/posSale.module'
+                //                 ).then((m) => m.PosSaleModule),
+                //         },
+                //         {
+                //             path: 'transactions',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/transactions/transactions.module'
+                //                 ).then((m) => m.TransactionsModule),
+                //         },
+                //         {
+                //             path: 'settings',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import(
+                //                     './features/settings/settings.module'
+                //                 ).then((m) => m.SettingsModule),
+                //         },
+                //         {
+                //             path: 'meal',
+                //             canActivate: [AuthGuard],
+                //             loadChildren: () =>
+                //                 import('./features/meal/meal.module').then(
+                //                     (m) => m.MealModule
+                //                 ),
+                //         },
+                //     ],
+                // },
                 { path: 'pages/landing', component: LandingComponent },
                 { path: 'login', component: LoginComponent },
                 { path: 'pages/error', component: ErrorComponent },

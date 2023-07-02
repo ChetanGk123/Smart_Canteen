@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { OwnerRoutingModule } from './owner-routing.module';
-
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    OwnerRoutingModule
-  ]
+    declarations: [DashboardComponent],
+    imports: [CommonModule, OwnerRoutingModule],
 })
-export class OwnerModule { }
+export class OwnerModule {}
