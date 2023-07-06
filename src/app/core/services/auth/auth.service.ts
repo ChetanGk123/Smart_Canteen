@@ -37,7 +37,7 @@ export class AuthService {
 
     async login(loginData: Login): Promise<boolean> {
         var response: any;
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'app';
         await this.ApiService.postLoginTypeRequest('user_login', loginData)
             .toPromise()
             .then((result: any) => (response = result))
@@ -122,7 +122,7 @@ export class AuthService {
             if (user) {
                 return user;
             } else {
-                this.logout();
+                //this.logout();
                 return null;
             }
         } catch (error) {

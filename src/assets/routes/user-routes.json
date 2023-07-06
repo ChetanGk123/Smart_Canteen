@@ -5,7 +5,7 @@
             {
                 "label": "Dashboard",
                 "icon": "pi pi-fw pi-home",
-                "routerLink": ["/dashboard"]
+                "routerLink": ["/app/dashboard"]
             }
         ]
     },
@@ -15,12 +15,12 @@
             {
                 "label": "Attendance",
                 "icon": "pi pi-fw pi-list",
-                "routerLink": ["/attendance"]
+                "routerLink": ["/app/attendance"]
             },
             {
                 "label": "Attendance History",
                 "icon": "pi pi-history",
-                "routerLink": ["/attendance/attendenceHistory"]
+                "routerLink": ["/app/attendance/attendenceHistory"]
             }
         ]
     },
@@ -30,7 +30,7 @@
             {
                 "label": "All Members",
                 "icon": "pi pi-fw pi-home",
-                "routerLink": ["/members"]
+                "routerLink": ["/app/members"]
             }
         ]
     },
@@ -40,22 +40,22 @@
             {
                 "label": "Memberships",
                 "icon": "pi pi-fw pi-book",
-                "routerLink": ["/memberships/allMemberships"]
+                "routerLink": ["/app/memberships/allMemberships"]
             },
             {
                 "label": "Active Leaves",
                 "icon": "pi pi-fw pi-calendar-minus",
-                "routerLink": ["/memberships/activeLeaves"]
+                "routerLink": ["/app/memberships/activeLeaves"]
             },
             {
                 "label": "Sale History",
                 "icon": "pi pi-fw pi-history",
-                "routerLink": ["/memberships/saleHistory"]
+                "routerLink": ["/app/memberships/saleHistory"]
             },
             {
                 "label": "Leave History",
                 "icon": "pi pi-fw pi-history",
-                "routerLink": ["/memberships/leaveHistory"]
+                "routerLink": ["/app/memberships/leaveHistory"]
             }
         ]
     },
@@ -65,12 +65,12 @@
             {
                 "label": "Meal Types",
                 "icon": "pi pi-list",
-                "routerLink": ["/meal/mealType"]
+                "routerLink": ["/app/meal/mealType"]
             },
             {
                 "label": "Meal Packs",
                 "icon": "pi pi-database",
-                "routerLink": ["/meal/mealPack"]
+                "routerLink": ["/app/meal/mealPack"]
             }
         ]
     },
@@ -81,7 +81,7 @@
             {
                 "label": "Card Histrory",
                 "icon": "pi pi-credit-card",
-                "routerLink": ["/cards/cardHistory"]
+                "routerLink": ["/app/cards/cardHistory"]
             }
         ]
     },
@@ -91,22 +91,22 @@
             {
                 "label": "Income Accounts",
                 "icon": "pi pi-money-bill",
-                "routerLink": ["/accounts/incomeAccount"]
+                "routerLink": ["/app/accounts/incomeAccount"]
             },
             {
                 "label": "Expense Accounts",
                 "icon": "pi pi-dollar",
-                "routerLink": ["/accounts/expenseAccount"]
+                "routerLink": ["/app/accounts/expenseAccount"]
             },
             {
                 "label": "Commodity Accounts",
                 "icon": "pi pi-link",
-                "routerLink": ["/accounts/commodityAccount"]
+                "routerLink": ["/app/accounts/commodityAccount"]
             },
             {
                 "label": "Account Transactions",
                 "icon": "pi pi-history",
-                "routerLink": ["/accounts/accountTransactions"]
+                "routerLink": ["/app/accounts/accountTransactions"]
             }
         ]
     },
@@ -116,7 +116,7 @@
             {
                 "label": "Transactions",
                 "icon": "pi pi-history",
-                "routerLink": ["/transactions/history"]
+                "routerLink": ["/app/transactions/history"]
             }
         ]
     },
@@ -126,7 +126,7 @@
             {
                 "label": "Misc",
                 "icon": "pi pi-slack",
-                "routerLink": ["/utils"]
+                "routerLink": ["/app/utils"]
             }
         ]
     },
@@ -136,12 +136,12 @@
             {
                 "label": "Main Category",
                 "icon": "pi pi-book",
-                "routerLink": ["/pos/mainCategory"]
+                "routerLink": ["/app/pos/mainCategory"]
             },
             {
                 "label": "Items",
                 "icon": "pi pi-file",
-                "routerLink": ["/pos/posItems"]
+                "routerLink": ["/app/pos/posItems"]
             },
             {
                 "label": "Sale",
@@ -151,12 +151,12 @@
             {
                 "label": "Sale History",
                 "icon": "pi pi-history",
-                "routerLink": ["/pos/posHistory"]
+                "routerLink": ["/app/pos/posHistory"]
             },
             {
                 "label": "Item Sale History",
                 "icon": "pi pi-history",
-                "routerLink": ["/pos/posItemHistory"]
+                "routerLink": ["/app/pos/posItemHistory"]
             }
         ]
     }

@@ -12,8 +12,16 @@ import { LandingComponent } from './features/landing/landing.component';
     imports: [
         RouterModule.forRoot(
             [
+                { path: '', pathMatch: 'full', component: LandingComponent },
                 {
-                    path: '',
+                    path: 'parents',
+                    loadChildren: () =>
+                        import('./features/parents/parents.module').then(
+                            (m) => m.ParentsModule
+                        ),
+                },
+                {
+                    path: 'app',
                     component: AppMainComponent,
                     children: [
                         {
@@ -140,7 +148,7 @@ import { LandingComponent } from './features/landing/landing.component';
                         },
                     ],
                 },
-                { path: 'pages/landing', component: LandingComponent },
+
                 { path: 'login', component: LoginComponent },
                 { path: 'pages/error', component: ErrorComponent },
                 { path: 'pages/notfound', component: NotfoundComponent },

@@ -391,7 +391,6 @@ export class AppMenuComponent implements OnInit {
         // }
         const userRole = this.memberService.getUserData().user_role;
         let routesFile: string;
-        console.log(userRoutes);
 
         switch (userRole) {
             case 'COUNTER':

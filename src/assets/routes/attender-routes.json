@@ -5,12 +5,12 @@
             {
                 "label": "Attendance",
                 "icon": "pi pi-fw pi-list",
-                "routerLink": ["/attendance"]
+                "routerLink": ["/app/attendance"]
             },
             {
                 "label": "Attendance History",
                 "icon": "pi pi-history",
-                "routerLink": ["/attendance/attendenceHistory"]
+                "routerLink": ["/app/attendance/attendenceHistory"]
             }
         ]
     }
