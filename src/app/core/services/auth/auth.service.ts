@@ -36,51 +36,56 @@ export class AuthService {
     ) {}
 
     async login(loginData: Login, returnUrl?: any): Promise<boolean> {
-        var response: any;
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
-        await this.ApiService.postLoginTypeRequest('user_login', loginData)
-            .toPromise()
-            .then((result: any) => (response = result))
-            .catch(() => {
-                return false;
-            });
-        if (response?.result) {
-            if (this.ref) this.ref.close();
-            await this.setUser(response.data);
-            this.settingsService.updateSettingsDate(response.data.settings);
-            this.beginSession();
-            this.setTheme(response.data.settings);
-            loginData.password = '';
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Logged In',
-                detail: `Welcome back ${this.user.full_name}`,
-            });
-            if (returnUrl == 'app')  {
-                switch (response.data.user_role) {
-                    case 'COUNTER':
-                        returnUrl = 'app/dashboard';
-                        break;
-                    case 'OWNER':
-                        returnUrl = 'app/dashboard';
-                        break;
-                    case 'ATTENDANCE':
-                        returnUrl = 'app/attendance';
-                        break;
-                    default:
-                        returnUrl = 'app/attendance/attendenceHistory';
-                        break;
+        try {
+            const response: any = await this.ApiService.postLoginTypeRequest(
+                'user_login',
+                loginData
+            ).toPromise();
+            this.returnUrl =
+                returnUrl ??
+                (this.route.snapshot.queryParams['returnUrl'] || '');
+            if (response?.result) {
+                if (this.ref) this.ref.close();
+                await this.setUser(response.data);
+                this.settingsService.updateSettingsDate(response.data.settings);
+                this.beginSession();
+                this.setTheme(response.data.settings);
+                loginData.password = '';
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Logged In',
+                    detail: `Welcome back ${this.user.full_name}`,
+                });
+                if (this.returnUrl === 'app') {
+                    switch (response.data.user_role) {
+                        case 'COUNTER':
+                        case 'OWNER':
+                            this.returnUrl = 'app/dashboard';
+                            break;
+                        case 'ATTENDANCE':
+                            this.returnUrl = 'app/attendance';
+                            break;
+                        default:
+                            this.returnUrl = 'app/attendance/attendenceHistory';
+                            break;
+                    }
                 }
+                this.router.navigateByUrl(this.returnUrl);
+                return true;
+            } else {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: `${response.message}`,
+                });
+                return false;
             }
-            console.log(returnUrl);
-            this.returnUrl = returnUrl;
-            this.router.navigateByUrl(this.returnUrl);
-            return true;
-        } else {
+        } catch (error) {
+            console.error(error);
             this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
-                detail: `${response.message}`,
+                detail: `An error occurred during login.`,
             });
             return false;
         }
