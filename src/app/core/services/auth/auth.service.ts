@@ -37,7 +37,7 @@ export class AuthService {
 
     async login(loginData: Login, returnUrl?: any): Promise<boolean> {
         var response: any;
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || "";
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
         await this.ApiService.postLoginTypeRequest('user_login', loginData)
             .toPromise()
             .then((result: any) => (response = result))
@@ -47,8 +47,6 @@ export class AuthService {
         if (response?.result) {
             if (this.ref) this.ref.close();
             await this.setUser(response.data);
-            if (response.data.user_role != 'USER') {
-            }
             this.settingsService.updateSettingsDate(response.data.settings);
             this.beginSession();
             this.setTheme(response.data.settings);
@@ -58,18 +56,24 @@ export class AuthService {
                 summary: 'Logged In',
                 detail: `Welcome back ${this.user.full_name}`,
             });
-            debugger
-                    if(returnUrl){
-                        console.log(returnUrl);
-
-                    }else{
-                        switch(response.data.user_role){
-                            case "COUNTER": returnUrl == "app/attendance"; break;
-                            case "OWNER": returnUrl == "app/dashboard"; break;
-                            case "ATTENDANCE": returnUrl == "app/attendance"; break;
-                            default: returnUrl = ""; break;
-                        }
-                    }
+            if (returnUrl == 'app')  {
+                switch (response.data.user_role) {
+                    case 'COUNTER':
+                        returnUrl = 'app/dashboard';
+                        break;
+                    case 'OWNER':
+                        returnUrl = 'app/dashboard';
+                        break;
+                    case 'ATTENDANCE':
+                        returnUrl = 'app/attendance';
+                        break;
+                    default:
+                        returnUrl = 'app/attendance/attendenceHistory';
+                        break;
+                }
+            }
+            console.log(returnUrl);
+            this.returnUrl = returnUrl;
             this.router.navigateByUrl(this.returnUrl);
             return true;
         } else {
