@@ -35,9 +35,6 @@ export class MemberTransactionsComponent implements OnInit {
     ) {
         this.coreConfig = _coreEnvService.config;
     }
-    /**
-     * TODO: Correct This print
-     **/
     ngOnInit(): void {
         this.loading = true;
         this.name = this.memberService.getUserData()?.full_name;
