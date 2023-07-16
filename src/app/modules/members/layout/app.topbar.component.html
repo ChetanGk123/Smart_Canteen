@@ -1,0 +1,39 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img [src]="coreConfig.app.appLogoImage" alt="logo" />
+        <span>{{coreConfig.app.appName}}</span>
+    </a>
+
+    <div
+        class="layout-topbar-menu"
+        [ngClass]="{
+            'layout-topbar-menu-mobile-active': appMain.topMenuActive
+        }"
+    >
+        <a
+            class="" style="margin-top: 0.7rem;"
+            *ngIf="memberService.getUserData()?.user_role == 'OWNER'"
+        >
+            <h5>{{counterData?.counter_name}}</h5>
+        </a>
+        <p-overlayPanel #op [showCloseIcon]="true">
+            <ng-template pTemplate> Content </ng-template>
+        </p-overlayPanel>
+        <a class="p-link layout-topbar-button" (click)="changeTheme()">
+            <i [class]="checked ? 'pi pi-sun' : 'pi pi-moon'"></i>
+            <span>Theme</span>
+        </a>
+        <!-- <a
+            href="#"
+            class="p-link layout-topbar-button"
+            *ngIf="memberService.getMemberData().user_role == 'OWNER'"
+        >
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </a> -->
+        <a class="p-link layout-topbar-button" (click)="authService.memberLogout()">
+            <i class="pi pi-sign-in"></i>
+            <span>Log Out</span>
+        </a>
+    </div>
+</div>

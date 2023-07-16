@@ -7,7 +7,7 @@ import {
     MessageService,
 } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { LockScreenComponent } from 'src/app/features/lock-screen/lock-screen.component';
+import { LockScreenComponent } from 'src/app/pages/lock-screen/lock-screen.component';
 
 @Injectable({
     providedIn: 'root',

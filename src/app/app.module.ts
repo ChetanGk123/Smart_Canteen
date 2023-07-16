@@ -12,31 +12,23 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
-import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 import { ConfigService } from './core/services/app.config.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { PrimengModule } from './shared/primeng/primeng.module';
 import { DialogService } from 'primeng/dynamicdialog';
-import { AppConfigComponent } from './layout/app.config.component';
-import { AppFooterComponent } from './layout/app.footer.component';
-import { AppMainComponent } from './layout/app.main.component';
-import { AppMenuComponent } from './layout/app.menu.component';
-import { AppMenuitemComponent } from './layout/app.menuitem.component';
-import { AppTopBarComponent } from './layout/app.topbar.component';
 import { MenuService } from './core/services/app.menu.service';
 import { AccessComponent } from './pages/access/access.component';
 import { ErrorComponent } from './pages/error/error.component';
-import { LoginComponent } from './pages/login/login.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
-import { LandingComponent } from './features/landing/landing.component';
-import { LockScreenComponent } from './features/lock-screen/lock-screen.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { EnvServiceProvider } from './env.service.provider';
+import { LandingComponent } from './pages/landing/landing.component';
+import { LockScreenComponent } from './pages/lock-screen/lock-screen.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -58,15 +50,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ],
     declarations: [
         AppComponent,
-        AppMainComponent,
-        AppTopBarComponent,
-        AppFooterComponent,
-        AppConfigComponent,
-        AppMenuComponent,
-        AppMenuitemComponent,
-        DashboardComponent,
         LandingComponent,
-        LoginComponent,
         ErrorComponent,
         NotfoundComponent,
         AccessComponent,

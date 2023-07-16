@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate {
         // console.log(state.url);
         // console.log(user);
         if (!tokenExpired) {
-            this.authService.beginsesssion();
+            this.authService.beginSession();
             const userRole = user.user_role;
             const allowedRoutes = await this.getRoutesForUserRole(userRole);
             if (userRole === 'OWNER' && state.url === '/attendance') {
@@ -43,7 +43,7 @@ export class AuthGuard implements CanActivate {
             }
         } else {
             localStorage.removeItem('user');
-            return this.router.createUrlTree(['/login'], {
+            return this.router.createUrlTree(['/app/login'], {
                 queryParams: { returnUrl: state.url },
             });
         }
