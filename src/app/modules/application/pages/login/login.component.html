@@ -42,10 +42,6 @@
                 </div>
                 <div class="text-center" *ngIf="displayLogins">
                     <a
-                            class="font-medium no-underline hover:underline ml-2 text-right cursor-pointer"
-                            style="color: var(--primary-color)" (click)="otherSignIn('canteen_super_user','canteen_super_user')"
-                            >Sign in as SU</a
-                        >,<a
                         class="font-medium no-underline hover:underline ml-2 text-right cursor-pointer"
                         style="color: var(--primary-color)" (click)="otherSignIn('owner@canteen.com','owner@canteen.com')"
                         >Sign in as Owner</a
@@ -53,6 +49,11 @@
                     class="font-medium no-underline ml-2 text-right cursor-pointer"
                     style="color: var(--primary-color)" (click)="otherSignIn('counter@gmail.com','counter@gmail.com')"
                     >Sign in as Counter</a
+                >
+                    ,<a
+                    class="font-medium no-underline ml-2 text-right cursor-pointer"
+                    style="color: var(--primary-color)" (click)="otherSignIn('attendance@canteen.com','attendance@canteen.com')"
+                    >Sign in as Attendant</a
                 >
                 </div>
                 <div class="w-full md:w-10 mx-auto">

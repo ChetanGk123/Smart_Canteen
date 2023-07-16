@@ -13,12 +13,20 @@ const routes: Routes = [
                         {
                             path: '',
                             pathMatch: 'full',
-                            redirectTo: 'dashboard',
+                            redirectTo: 'attendance',
                         },
                         {
                             path: 'dashboard',
                             canActivate: [AuthGuard],
                             component: DashboardComponent,
+                        },
+                        {
+                            path: 'attendance',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/attendance/attendance.module'
+                                ).then((m) => m.AttendanceModule),
                         },
                         {
                             path: 'canteens',
@@ -51,6 +59,14 @@ const routes: Routes = [
                                 import(
                                     './features/members/members.module'
                                 ).then((m) => m.MembersModule),
+                        },
+                        {
+                            path: 'memberships',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import(
+                                    './features/memberships/memberships.module'
+                                ).then((m) => m.MembershipsModule),
                         },
                         {
                             path: 'accounts',
@@ -107,6 +123,14 @@ const routes: Routes = [
                                 import(
                                     './features/settings/settings.module'
                                 ).then((m) => m.SettingsModule),
+                        },
+                        {
+                            path: 'meal',
+                            canActivate: [AuthGuard],
+                            loadChildren: () =>
+                                import('./features/meal/meal.module').then(
+                                    (m) => m.MealModule
+                                ),
                         },
                     ],
                 },

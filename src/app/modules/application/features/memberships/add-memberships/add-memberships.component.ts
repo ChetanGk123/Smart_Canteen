@@ -5,7 +5,6 @@ import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
-import { NewMembershipReceiptComponent } from 'src/app/features/receipt/new-membership-receipt/new-membership-receipt.component';
 
 @Component({
     selector: 'app-add-memberships',

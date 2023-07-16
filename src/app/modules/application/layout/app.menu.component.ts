@@ -227,8 +227,44 @@ export class AppMenuComponent implements OnInit {
             },
         ];
         this.User = this.memberService.getUserData().user_role;
-        this.model =
-            this.User == 'OWNER' || this.User == 'su_user' ? owner : user;
+        this.getRoutesForUserRole(this.User).then(data => this.model = data)
+        //this.model
+            //this.User == 'OWNER' || this.User == 'su_user' ? owner : user;
+    }
+
+    async getRoutesForUserRole(userRole: string){
+        let routesFile: string = 'assets/routes/';
+
+        switch (userRole) {
+            case 'COUNTER':
+                routesFile += 'user-routes.json';
+                break;
+            case 'ATTENDANCE':
+                routesFile += 'attender-routes.json';
+                break;
+            default:
+                routesFile += 'owner-routes.json';
+                break;
+        }
+
+        return await this.loadRoutes(routesFile) as any[];
+    }
+
+    loadRoutes(routesFile: string) {
+        // Assuming the JSON files are located in the assets folder
+        return fetch(`${routesFile}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const routerLinks = data;
+                return routerLinks;
+            })
+            .catch((error) => {
+                console.error(
+                    `Error loading routes from ${routesFile}:`,
+                    error
+                );
+                return [];
+            });
     }
 
     onKeydown(event: KeyboardEvent) {

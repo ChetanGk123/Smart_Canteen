@@ -12,7 +12,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
-import { MemberService } from 'src/app/features/members/member.service';
+import { MemberService } from 'src/app/core/services/MemberService/member.service';
 
 @Component({
     selector: 'app-leave-report',

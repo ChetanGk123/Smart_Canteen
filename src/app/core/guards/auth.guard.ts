@@ -57,7 +57,7 @@ export class AuthGuard implements CanActivate {
                 routesFile += 'user-routes.json';
                 break;
             case 'ATTENDANCE':
-                routesFile += 'attendance-routes.json';
+                routesFile += 'attender-routes.json';
                 break;
             default:
                 routesFile += 'owner-routes.json';

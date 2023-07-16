@@ -5,11 +5,11 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CoreConfig } from 'src/app/core/interfaces/coreConfig';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { EnvService } from 'src/app/env.service';
-import { MemberService } from 'src/app/features/members/member.service';
 import imageToBase64 from 'image-to-base64/browser';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DatePipe } from '@angular/common';
+import { MemberService } from 'src/app/core/services/MemberService/member.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
