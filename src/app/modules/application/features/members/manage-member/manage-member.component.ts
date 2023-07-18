@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CounterService } from '../../counters/counter.service';
 import { MemberService } from 'src/app/core/services/MemberService/member.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-manage-member',
@@ -16,6 +17,8 @@ import { MemberService } from 'src/app/core/services/MemberService/member.servic
 export class ManageMemberComponent implements OnInit, OnDestroy {
     loading: boolean = false;
     member_types: any = [];
+    errorMessage: any;
+    Unsuccessful_registration: any;
     counterList: any[];
     classList: any[];
     divisionList: any[];
@@ -37,7 +40,9 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
         parents_ph: new FormControl(this.config?.data?.parents_ph ?? '', [
             Validators.required,
         ]),
-        dob: new FormControl(this.config?.data?.dob ?? '00-00-0000'),
+        dob: new FormControl(this.config?.data?.dob ?? '', [
+            Validators.required,
+        ]),
         email: new FormControl(this.config?.data?.email ?? ''),
         class_name: new FormControl(this.config?.data?.class_name ?? '', [
             Validators.required,
@@ -68,6 +73,7 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
         public apiService: ApiService,
         public authService: AuthService,
         public memberService: MemberService,
+        private messageService: MessageService,
         public counterService: CounterService,
         public config: DynamicDialogConfig
     ) {}
@@ -161,6 +167,22 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                 .toPromise()
                 .then((result: any) => {
                     if (result.result) {
+                        if (
+                            result.data.duplicate_members.length > 0 ||
+                            result.data.incomplete_data > 0 ||
+                            result.data.invalid_member_type.length > 0 ||
+                            result.data.duplicate_members.length > 0 ||
+                            result.data.duplicate_cardnumber.length > 0
+                        ) {
+                            this.errorMessage = result.data;
+                            this.Unsuccessful_registration = true;
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: 'Unsuccessful registration',
+                                detail: "Invalid member details",
+                            });
+                        }
+
                         this.ref.close(true);
                     }
                 })

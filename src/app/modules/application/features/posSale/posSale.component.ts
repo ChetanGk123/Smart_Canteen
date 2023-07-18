@@ -137,7 +137,7 @@ export class PosSaleComponent implements OnInit {
             this.UserConfigDialog = false;
         } else {
             this.appMain.showMenu();
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/app/dashboard']);
         }
     }
 

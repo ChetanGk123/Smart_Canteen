@@ -146,7 +146,7 @@
             {
                 "label": "Sale",
                 "icon": "pi pi-money-bill",
-                "routerLink": ["posSale/posSale"]
+                "routerLink": ["/app/posSale/posSale"]
             },
             {
                 "label": "Sale History",

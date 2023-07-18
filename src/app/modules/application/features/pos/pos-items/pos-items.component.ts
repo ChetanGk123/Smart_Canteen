@@ -62,11 +62,11 @@ export class PosItemsComponent implements OnInit, OnDestroy {
                 icon: 'pi pi-fw pi-eye',
                 command: () => this.view(),
             },
-            {
-                label: 'Update',
-                icon: 'pi pi-fw pi-pencil',
-                command: () => this.update(),
-            },
+            // {
+            //     label: 'Update',
+            //     icon: 'pi pi-fw pi-pencil',
+            //     command: () => this.update(),
+            // },
             {
                 label: 'Delete',
                 icon: 'pi pi-fw pi-trash',
