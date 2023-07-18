@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
@@ -34,7 +34,8 @@ export class MembershipLeaveHistoryComponent implements OnInit {
         public messageService: MessageService,
         public dialogService: DialogService,
         public router: Router,
-        public member: MemberService
+        public member: MemberService,
+        private route: ActivatedRoute
     ) {}
 
     ngOnInit(): void {
@@ -188,7 +189,7 @@ export class MembershipLeaveHistoryComponent implements OnInit {
 
     openProfile() {
         this.member.setMemberData(this.selectedProduct);
-        this.router.navigate(['members/memberProfile']);
+        this.router.navigate(['../../members/memberProfile'], { relativeTo: this.route });
     }
 
     generatePDF() {

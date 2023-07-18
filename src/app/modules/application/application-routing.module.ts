@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AppMainComponent } from './layout/app.main.component';
 import { LoginComponent } from './pages/login/login.component';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 const routes: Routes = [
     {
@@ -132,6 +133,10 @@ const routes: Routes = [
                                     (m) => m.MealModule
                                 ),
                         },
+                        {
+                            path:'notfound',
+                            component: NotfoundComponent
+                        }
                     ],
                 },
                 { path: 'login', component: LoginComponent },

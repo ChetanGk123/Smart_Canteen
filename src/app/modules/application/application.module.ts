@@ -12,6 +12,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimengModule } from 'src/app/shared/primeng/primeng.module';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
         AppConfigComponent,
         AppMenuComponent,
         AppMenuitemComponent,
-        DashboardComponent
+        DashboardComponent,
+        NotfoundComponent
   ],
   imports: [
     CommonModule,

@@ -167,6 +167,15 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                 .toPromise()
                 .then((result: any) => {
                     if (result.result) {
+
+
+                        this.ref.close(true);
+                    } else {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Unsuccessful registration',
+                            detail: "Invalid member details",
+                        });
                         if (
                             result.data.duplicate_members.length > 0 ||
                             result.data.incomplete_data > 0 ||
@@ -176,14 +185,8 @@ export class ManageMemberComponent implements OnInit, OnDestroy {
                         ) {
                             this.errorMessage = result.data;
                             this.Unsuccessful_registration = true;
-                            this.messageService.add({
-                                severity: 'error',
-                                summary: 'Unsuccessful registration',
-                                detail: "Invalid member details",
-                            });
+                            
                         }
-
-                        this.ref.close(true);
                     }
                 })
                 .finally(() => {

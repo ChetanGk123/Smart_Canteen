@@ -33,16 +33,13 @@ export class AuthGuard implements CanActivate {
             const allowedRoutes = await this.getRoutesForUserRole(userRole);
             if (userRole === 'OWNER' && state.url === '/attendance') {
                 return this.router.createUrlTree(['/counters']);
-            } else if (
-                (userRole === 'OWNER' || userRole === 'COUNTER') &&
-                state.url === '/app/settings'
-            ) {
-                return true;
-            } else if (allowedRoutes.some((route) => route === state.url)) {
+            }  else if (allowedRoutes.some((route) => route === state.url)) {
                 return true;
             } else {
+                console.log("Not Allowed");
+
                 // pages/access
-                return this.router.createUrlTree(['/pages/notfound']);
+                return this.router.createUrlTree(['/app/notfound']);
             }
         } else {
             localStorage.removeItem('user');

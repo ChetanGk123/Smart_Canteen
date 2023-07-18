@@ -259,6 +259,13 @@ export class MembersComponent implements OnInit, OnDestroy {
                         summary: 'Successfully registered',
                         detail: result.data.success + ' members',
                     });
+                    
+                } else {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Unsuccessful registration',
+                        detail: "Invalid member details",
+                    });
                     if (
                         result.data.duplicate_members.length > 0 ||
                         result.data.incomplete_data > 0 ||

@@ -233,14 +233,13 @@
                         </div>
                     </ng-template>
 
-                    <ng-template pTemplate="right">
+                    <ng-template class="align-content-center" pTemplate="right">
                         <button
                             pButton
                             pRipple
                             label="Wallet Recharge"
                             icon="pi pi-fw pi-user-plus"
-                            style="margin-bottom: -2rem"
-                            class="mr-2 inline-block p-button"
+                            class="mr-2 mt-5 inline-block p-button"
                             (click)="walletCredit()"
                         ></button>
                         <button
@@ -248,8 +247,7 @@
                             pRipple
                             label="Wallet Debit"
                             icon="pi pi-fw pi-user-minus"
-                            style="margin-bottom: -2rem"
-                            class="mr-2 inline-block p-button"
+                            class="mr-2 mt-5 inline-block p-button"
                             (click)="walletDebit()"
                         ></button>
                     </ng-template>

@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
@@ -62,7 +62,8 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
         public dialogService: DialogService,
         public memberService: MemberService,
         public router: Router,
-        public counterService: CounterService
+        public counterService: CounterService,
+        private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -243,7 +244,7 @@ export class TransactionHistoryComponent implements OnInit, OnDestroy {
 
     openProfile() {
         this.memberService.setMemberData(this.selectedProduct);
-        this.router.navigate(['members/memberProfile']);
+        this.router.navigate(['../../members/memberProfile'], { relativeTo: this.route });
     }
 
     generatePDF() {

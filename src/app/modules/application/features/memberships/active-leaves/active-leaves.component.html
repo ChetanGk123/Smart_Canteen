@@ -306,13 +306,13 @@
                                                     ? true
                                                     : false,
                                             'false-icon pi-times-circle p-error':
-                                                !product.status == 1
+                                                product.status == 0
                                                     ? true
                                                     : false
                                         }"
                                         [pTooltip]="
-                                            product.membership_data
-                                                .is_on_leave == 1
+                                            product.status
+                                                 == 1
                                                 ? 'Active'
                                                 : 'Inactive'
                                         "

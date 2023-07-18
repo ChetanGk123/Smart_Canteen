@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
@@ -48,6 +48,7 @@ export class AllMembershipsComponent implements OnInit {
         private confirmationService: ConfirmationService,
         public messageService: MessageService,
         public dialogService: DialogService,
+        public route: ActivatedRoute,
         public router: Router,
         public member: MemberService
     ) {
@@ -238,7 +239,7 @@ export class AllMembershipsComponent implements OnInit {
 
     openProfile() {
         this.member.setMemberData(this.selectedProduct);
-        this.router.navigate(['members/memberProfile']);
+        this.router.navigate(['../../members/memberProfile'], { relativeTo: this.route });
     }
 
     markLeave() {

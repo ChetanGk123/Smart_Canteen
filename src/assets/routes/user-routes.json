@@ -31,6 +31,12 @@
                 "label": "All Members",
                 "icon": "pi pi-fw pi-home",
                 "routerLink": ["/app/members"]
+            },
+            {
+                "label": "All Members",
+                "icon": "pi pi-fw pi-home",
+                "routerLink": ["/app/members/memberProfile"],
+                "visible": false
             }
         ]
     },
@@ -127,6 +133,12 @@
                 "label": "Misc",
                 "icon": "pi pi-slack",
                 "routerLink": ["/app/utils"]
+            },
+            {
+                "label": "Settings",
+                "icon": "pi pi-cog",
+                "routerLink": ["/app/settings"],
+                "visible": false
             }
         ]
     },

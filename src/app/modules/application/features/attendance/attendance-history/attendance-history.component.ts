@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ApiService } from 'src/app/core/services/api/api.service';
@@ -26,6 +26,7 @@ export class AttendanceHistoryComponent implements OnInit {
         public dialogService: DialogService,
         public messageService: MessageService,
         public memberService: MemberService,
+        public route: ActivatedRoute,
         public router: Router
     ) {}
 
@@ -92,7 +93,9 @@ export class AttendanceHistoryComponent implements OnInit {
     }
 
     openProfile() {
-        this.memberService.setMemberData(this.selectedProduct);
-        this.router.navigate(['members/memberProfile']);
+        if(this.User != "ATTENDANCE"){
+            this.memberService.setMemberData(this.selectedProduct);
+            this.router.navigate(['../../members/memberProfile'], { relativeTo: this.route });
+        }
     }
 }
