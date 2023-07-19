@@ -1,10 +1,10 @@
 (function (window) {
     window.__env = window.__env || {};
-    document.querySelector("title").innerHTML = "Smart Canteen";
+    document.querySelector("title").innerHTML = "Campus Bites";
     window.__env.config = {
         app: {
-            appName: "Smart Canteen",
-            appLogoImage: "assets/logo.png",
+            appName: "Campus Bites",
+            appLogoImage: "assets/logo.jpg",
             cardNumberLength: 14,
         },
         layout: {

@@ -221,17 +221,17 @@
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
-                                        {{ tableData[0].display_label }}
+                                        {{ tableData[1].display_label }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
                                     >
                                         <p-inputSwitch
                                             [(ngModel)]="
-                                                tableData[0].settings_value
+                                                tableData[1].settings_value
                                             "
                                             (click)="
-                                                updateSettings(tableData[0])
+                                                updateSettings(tableData[1])
                                             "
                                         ></p-inputSwitch>
                                     </div>
@@ -242,7 +242,7 @@
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
-                                        {{ tableData[1].display_label }}
+                                        {{ tableData[0].display_label }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
@@ -250,12 +250,12 @@
                                         <a
                                             class="p-link layout-topbar-button"
                                             (click)="
-                                                updateSettings(tableData[1])
+                                                updateSettings(tableData[0])
                                             "
                                         >
                                             <i
                                                 [class]="
-                                                    tableData[1]
+                                                    tableData[0]
                                                         .settings_value ==
                                                     'light'
                                                         ? 'pi pi-sun'
@@ -434,7 +434,7 @@
                                         ></button>
                                     </ng-template>
                                 </li>
-                                <li
+                                <!-- <li
                                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                                 >
                                     <div
@@ -475,14 +475,14 @@
                                             "
                                         ></p-inputSwitch>
                                     </div>
-                                </li>
-                                <li
+                                </li> -->
+                                <!-- <li
                                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                                 >
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
-                                        {{ tableData[7].display_label }}
+                                        {{ tableData[7]?.display_label??"" }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
@@ -496,7 +496,7 @@
                                             "
                                         ></p-inputSwitch>
                                     </div>
-                                </li>
+                                </li> -->
                             </ul>
                             <ng-template #loading>
                                 <p-progressSpinner
