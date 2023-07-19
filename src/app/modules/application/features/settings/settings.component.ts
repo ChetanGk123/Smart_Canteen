@@ -34,22 +34,8 @@ export class SettingsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.settingsService.settingsDate$.subscribe((newValue) => {
-            // Handle updated settingsDate value
-            if (newValue == null) {
-                newValue = this.settingsService.getSettingsData();
-            }
-            this.tableData = newValue;
-            this.tableData[0].settings_value =
-                this.tableData[0].settings_value == 1 ? true : false;
-            this.tableData[3].settings_value =
-                this.tableData[3].settings_value == 1 ? true : false;
-            this.tableData[5].settings_value =
-                this.tableData[5].settings_value == 1 ? true : false;
-            this.tableData[6].settings_value =
-                this.tableData[6]?.settings_value == 1 ? true : false;
-            this.tableData[7].settings_value =
-                this.tableData[7]?.settings_value == 1 ? true : false;
+        this.settingsService.settingsDate$.subscribe(() => {
+            //this.getUpdatedSettings()
         });
         this.editIndex = -1;
         this.memberData = this.memberService.getUserData();
@@ -81,6 +67,7 @@ export class SettingsComponent implements OnInit {
                 this.loading = false;
                 if (result.result) {
                     this.editDateRange = false;
+                    this.editIndex = -1;
                     this.getUpdatedSettings();
                 }
             });
@@ -134,66 +121,102 @@ export class SettingsComponent implements OnInit {
                 if (result.result) {
                     this.settingsService.updateSettingsDate(result.data);
                     this.tableData = result?.data;
-                    this.tableData[0].settings_value =
-                        this.tableData[0].settings_value == 1 ? true : false;
-                    this.tableData[3].settings_value =
-                        this.tableData[3].settings_value == 1 ? true : false;
-                    this.tableData[5].settings_value =
-                        this.tableData[5].settings_value == 1 ? true : false;
-                    // var data: [
-                    //     {
-                    //         settings_id: '1';
-                    //         counter_id: '1';
-                    //         isCounter: '1';
-                    //         display_label: 'Is Send SMS';
-                    //         settings_name: 'IS_SEND_SMS';
-                    //         settings_value: '1';
-                    //     },
-                    //     {
-                    //         settings_id: '2';
-                    //         counter_id: '1';
-                    //         isCounter: '1';
-                    //         display_label: 'Theme Color';
-                    //         settings_name: 'THEME_COLOR';
-                    //         settings_value: 'light';
-                    //     },
-                    //     {
-                    //         settings_id: '8';
-                    //         counter_id: '1';
-                    //         isCounter: '1';
-                    //         display_label: 'Date display range';
-                    //         settings_name: 'DATE_RANGE';
-                    //         settings_value: '10';
-                    //     },
-                    //     {
-                    //         settings_id: '27';
-                    //         counter_id: '1';
-                    //         isCounter: '1';
-                    //         display_label: 'Send SMS on every card tap';
-                    //         settings_name: 'SMS_ON_EVERY_TAP';
-                    //         settings_value: '1';
-                    //     },
-                    //     {
-                    //         settings_id: '28';
-                    //         counter_id: '1';
-                    //         isCounter: '1';
-                    //         display_label: 'Minimum Card Balance';
-                    //         settings_name: 'MINIMUM_CARD_BALANCE';
-                    //         settings_value: '100';
-                    //     },
-                    //     {
-                    //         settings_id: '31';
-                    //         counter_id: '1';
-                    //         isCounter: '1';
-                    //         display_label: 'Wallet Prepaid/Postpaid';
-                    //         settings_name: 'WALLET_TRANSACTION_TYPE';
-                    //         settings_value: '0';
-                    //     }
-                    // ];
+                    this.tableData[1].settings_value = this.getTrueFalse(1)
+                    this.tableData[2].settings_value = this.getTrueFalse(2)
+                    this.tableData[4].settings_value = this.getTrueFalse(4)
+                    this.tableData[6].settings_value = this.getTrueFalse(6)
+                    this.tableData[7].settings_value = this.getTrueFalse(7)
+                    var data: [
+                        {
+                            settings_id: '0';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Theme Color';
+                            settings_name: 'THEME_COLOR';
+                            settings_value: 'light';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '1';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Date display range';
+                            settings_name: 'DATE_RANGE';
+                            settings_value: '1';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '2';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Send SMS on every card tap';
+                            settings_name: 'SMS_ON_EVERY_TAP';
+                            settings_value: '1';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '3';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Minimum Card Balance';
+                            settings_name: 'MINIMUM_CARD_BALANCE';
+                            settings_value: '100';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '4';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Wallet Type- Prepaid/Postpaid';
+                            settings_name: 'WALLET_TRANSACTION_TYPE';
+                            settings_value: '0';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '5';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Days for Leave Encashment';
+                            settings_name: 'LEAVE_ENCASHMENT_DAYS';
+                            settings_value: '3';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '6';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Play sound on successful scan';
+                            settings_name: 'SCAN_SUCCESS_SOUND';
+                            settings_value: '0';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '7';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Play sound on failure scan';
+                            settings_name: 'SCAN_FAILURE_SOUND';
+                            settings_value: '1';
+                            isDisplay: '1';
+                        },
+                        {
+                            settings_id: '8';
+                            counter_id: '1';
+                            isCounter: '1';
+                            display_label: 'Card Number Length';
+                            settings_name: 'CARD_NUMBER_LENGTH';
+                            settings_value: '14';
+                            isDisplay: '1';
+                        }
+                    ];
                 } else {
                     this.tableData = [];
                 }
             });
+    }
+
+    getTrueFalse(id:any){
+        return this.tableData[id].settings_value == 1?true:false
     }
 
     getOldSettings() {

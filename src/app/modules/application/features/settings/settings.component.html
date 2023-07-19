@@ -140,102 +140,9 @@
                         <div class="surface-section">
                             <ul
                                 class="list-none p-0 m-0"
-                                *ngIf="tableData; else loading"
+                                *ngIf="tableData.length > 0; else loading"
                             >
-                                <!-- <li
-                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                    *ngFor="let a of tableData"
-                                >
-                                    <div
-                                        class="text-500 w-4 md:w-4 font-medium"
-                                    >
-                                        {{ a.display_label }}
-                                    </div>
-                                    <div
-                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
-                                        *ngIf="
-                                            editIndex == a.settings_id;
-                                            else updateDateRange
-                                        "
-                                    >
-                                        <input
-                                            [(ngModel)]="a.settings_value"
-                                            pInputText
-                                            type="text"
-                                        />
-                                    </div>
-                                    <ng-template #updateDateRange>
-                                        <div
-                                            class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
-                                        >
 
-                                            {{ a.settings_value }}
-                                        </div>
-                                    </ng-template>
-                                    <div
-                                        class="w-6 md:w-2 flex justify-content-end"
-                                    >
-                                        <div
-                                            class=""
-                                            *ngIf="
-                                                editIndex == a.settings_id;
-                                                else saveCancelDateRange
-                                            "
-                                        >
-                                            <button
-                                                pButton
-                                                pRipple
-                                                icon="pi pi-check"
-                                                class="p-button-text"
-                                                (click)="updateSettings(a)"
-                                            ></button>
-                                            <button
-                                                pButton
-                                                pRipple
-                                                icon="pi pi-times"
-                                                class="p-button-text"
-                                                (click)="
-                                                    editIndex = -1;
-                                                    editDateRange = false
-                                                "
-                                            ></button>
-                                        </div>
-
-                                        <ng-template #saveCancelDateRange>
-                                            <button
-                                                pButton
-                                                pRipple
-                                                icon="pi pi-pencil"
-                                                class="p-button-text"
-                                                (click)="
-                                                    editIndex = a.settings_id;
-                                                    editDateRange = true
-                                                "
-                                            ></button>
-                                        </ng-template>
-                                    </div>
-                                </li> -->
-                                <li
-                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                >
-                                    <div
-                                        class="text-500 w-4 md:w-4 font-medium"
-                                    >
-                                        {{ tableData[1].display_label }}
-                                    </div>
-                                    <div
-                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
-                                    >
-                                        <p-inputSwitch
-                                            [(ngModel)]="
-                                                tableData[1].settings_value
-                                            "
-                                            (click)="
-                                                updateSettings(tableData[1])
-                                            "
-                                        ></p-inputSwitch>
-                                    </div>
-                                </li>
                                 <li
                                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                                 >
@@ -271,19 +178,61 @@
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
+                                        {{ tableData[1].display_label }}
+                                    </div>
+                                    <div
+                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                    >
+                                        <p-inputSwitch
+                                            [(ngModel)]="
+                                                tableData[1].settings_value
+                                            "
+                                            (click)="
+                                                updateSettings(tableData[1])
+                                            "
+                                        ></p-inputSwitch>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-4 md:w-4 font-medium"
+                                    >
                                         {{ tableData[2].display_label }}
+                                    </div>
+                                    <div
+                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-2"
+                                    >
+                                        <p-inputSwitch
+                                            [(ngModel)]="
+                                                tableData[2].settings_value
+                                            "
+                                            (click)="
+                                                updateSettings(tableData[2])
+                                            "
+                                        ></p-inputSwitch>
+                                    </div>
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-4 md:w-4 font-medium"
+                                    >
+                                        {{ tableData[3].display_label }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
                                         *ngIf="
                                             editIndex ==
-                                                tableData[2].settings_id;
+                                                tableData[3].settings_id;
                                             else updateDateRange
                                         "
                                     >
                                         <input
                                             [(ngModel)]="
-                                                tableData[2].settings_value
+                                                tableData[3].settings_value
                                             "
                                             pInputText
                                             type="text"
@@ -293,14 +242,14 @@
                                         <div
                                             class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
                                         >
-                                            {{ tableData[2].settings_value }}
+                                            {{ tableData[3].settings_value }}
                                         </div>
                                     </ng-template>
                                     <div
                                         class=""
                                         *ngIf="
                                             editIndex ==
-                                                tableData[2].settings_id;
+                                                tableData[3].settings_id;
                                             else saveCancelDateRange
                                         "
                                     >
@@ -310,7 +259,7 @@
                                             icon="pi pi-check"
                                             class="p-button-text"
                                             (click)="
-                                                updateSettings(tableData[2])
+                                                updateSettings(tableData[3])
                                             "
                                         ></button>
                                         <button
@@ -333,7 +282,7 @@
                                             class="p-button-text"
                                             (click)="
                                                 editIndex =
-                                                    tableData[2].settings_id;
+                                                    tableData[3].settings_id;
                                                 editDateRange = true
                                             "
                                         ></button>
@@ -345,17 +294,17 @@
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
-                                        {{ tableData[3].display_label }}
+                                        {{ tableData[4].display_label }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
                                     >
                                         <p-inputSwitch
                                             (click)="
-                                                updateSettings(tableData[3])
+                                                updateSettings(tableData[4])
                                             "
                                             [(ngModel)]="
-                                                tableData[3].settings_value
+                                                tableData[4].settings_value
                                             "
                                         ></p-inputSwitch>
                                     </div>
@@ -366,37 +315,37 @@
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
-                                        {{ tableData[4].display_label }}
+                                        {{ tableData[5].display_label }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
                                         *ngIf="
                                             editIndex ==
-                                                tableData[4].settings_id;
-                                            else updateDateRange
+                                                tableData[5].settings_id;
+                                            else daysForLeave
                                         "
                                     >
                                         <input
                                             [(ngModel)]="
-                                                tableData[4].settings_value
+                                                tableData[5].settings_value
                                             "
                                             pInputText
                                             type="text"
                                         />
                                     </div>
-                                    <ng-template #updateCardBalance>
+                                    <ng-template #daysForLeave>
                                         <div
                                             class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
                                         >
-                                            {{ tableData[4].settings_value }}
+                                            {{ tableData[5].settings_value }}
                                         </div>
                                     </ng-template>
                                     <div
                                         class=""
                                         *ngIf="
                                             editIndex ==
-                                                tableData[4].settings_id;
-                                            else saveCancelCardBalance
+                                                tableData[5].settings_id;
+                                            else saveCancelDaysForLeave
                                         "
                                     >
                                         <button
@@ -405,7 +354,7 @@
                                             icon="pi pi-check"
                                             class="p-button-text"
                                             (click)="
-                                                updateSettings(tableData[4])
+                                                updateSettings(tableData[5])
                                             "
                                         ></button>
                                         <button
@@ -420,7 +369,7 @@
                                         ></button>
                                     </div>
 
-                                    <ng-template #saveCancelCardBalance>
+                                    <ng-template #saveCancelDaysForLeave>
                                         <button
                                             pButton
                                             pRipple
@@ -428,32 +377,11 @@
                                             class="p-button-text"
                                             (click)="
                                                 editIndex =
-                                                    tableData[4].settings_id;
+                                                    tableData[5].settings_id;
                                                 editDateRange = true
                                             "
                                         ></button>
                                     </ng-template>
-                                </li>
-                                <!-- <li
-                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
-                                >
-                                    <div
-                                        class="text-500 w-4 md:w-4 font-medium"
-                                    >
-                                        {{ tableData[5].display_label }}
-                                    </div>
-                                    <div
-                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
-                                    >
-                                        <p-inputSwitch
-                                            [(ngModel)]="
-                                                tableData[5].settings_value
-                                            "
-                                            (click)="
-                                                updateSettings(tableData[5])
-                                            "
-                                        ></p-inputSwitch>
-                                    </div>
                                 </li>
                                 <li
                                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
@@ -475,14 +403,14 @@
                                             "
                                         ></p-inputSwitch>
                                     </div>
-                                </li> -->
-                                <!-- <li
+                                </li>
+                                <li
                                     class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
                                 >
                                     <div
                                         class="text-500 w-4 md:w-4 font-medium"
                                     >
-                                        {{ tableData[7]?.display_label??"" }}
+                                        {{ tableData[7].display_label }}
                                     </div>
                                     <div
                                         class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
@@ -496,7 +424,81 @@
                                             "
                                         ></p-inputSwitch>
                                     </div>
-                                </li> -->
+                                </li>
+                                <li
+                                    class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+                                >
+                                    <div
+                                        class="text-500 w-4 md:w-4 font-medium"
+                                    >
+                                        {{ tableData[8].display_label }}
+                                    </div>
+                                    <div
+                                        class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                        *ngIf="
+                                            editIndex ==
+                                                tableData[8].settings_id;
+                                            else CardNumberLength
+                                        "
+                                    >
+                                        <input
+                                            [(ngModel)]="
+                                                tableData[8].settings_value
+                                            "
+                                            pInputText
+                                            type="text"
+                                        />
+                                    </div>
+                                    <ng-template #CardNumberLength>
+                                        <div
+                                            class="text-900 w-full md:w-6 md:flex-order-0 flex-order-1"
+                                        >
+                                            {{ tableData[8].settings_value }}
+                                        </div>
+                                    </ng-template>
+                                    <div
+                                        class=""
+                                        *ngIf="
+                                            editIndex ==
+                                                tableData[8].settings_id;
+                                            else saveCancelCardNumberLength
+                                        "
+                                    >
+                                        <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-check"
+                                            class="p-button-text"
+                                            (click)="
+                                                updateSettings(tableData[8])
+                                            "
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-times"
+                                            class="p-button-text"
+                                            (click)="
+                                                editIndex = -1;
+                                                editDateRange = false
+                                            "
+                                        ></button>
+                                    </div>
+
+                                    <ng-template #saveCancelCardNumberLength>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-pencil"
+                                            class="p-button-text"
+                                            (click)="
+                                                editIndex =
+                                                    tableData[8].settings_id;
+                                                editDateRange = true
+                                            "
+                                        ></button>
+                                    </ng-template>
+                                </li>
                             </ul>
                             <ng-template #loading>
                                 <p-progressSpinner
