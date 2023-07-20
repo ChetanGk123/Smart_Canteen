@@ -36,6 +36,7 @@ export class AuthGuard implements CanActivate {
             }  else if (allowedRoutes.some((route) => route === state.url)) {
                 return true;
             } else {
+                this.authService.logout()
                 console.log("Not Allowed");
 
                 // pages/access
