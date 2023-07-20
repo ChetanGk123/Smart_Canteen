@@ -136,7 +136,7 @@ export class MemberProfileComponent implements OnInit {
                     })
                 );
             this.fetchMemberTransactions();
-            this.fetchLeaveTransactions();
+            //this.fetchLeaveTransactions();
             this.fetchMembershipHistory();
         } else {
             this.router.navigate(['../'], { relativeTo: this.route });
