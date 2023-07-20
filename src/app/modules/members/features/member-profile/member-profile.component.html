@@ -27,14 +27,7 @@
                     class="h-14rem xl:h-14rem md:h-14rem sm:h-11rem xs:h-2rem"
                     style="border-radius: 50%; margin-right: -4rem"
                 />
-                <button
-                    pButton
-                    pRipple
-                    type="button"
-                    icon="pi pi-camera"
-                    class="absolute p-button-rounded p-action-button"
-                    (click)="cameraDialog = true"
-                ></button>
+                
             </div>
             <ng-template #customAvatar>
                 <div class="avatar mr-1 ml-0 bg-light-success ng-star-inserted">
@@ -43,15 +36,7 @@
                     >
                         {{ memberData?.full_name ?? "" | initials }}
                     </div>
-                    <button
-                        (document:keydown.shift.e)="edit()"
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-camera"
-                        class="absolute avatar-button p-button-rounded p-action-button"
-                        (click)="cameraDialog = true"
-                    ></button>
+                    
                 </div>
             </ng-template>
         </div>
