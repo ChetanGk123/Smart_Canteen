@@ -176,7 +176,6 @@ export class AuthService {
                         summary: 'Logged In',
                         detail: `Welcome back ${userData.full_name}`,
                     });
-
                     this.router.navigateByUrl(this.returnUrl);
                     return true;
                 } else {

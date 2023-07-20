@@ -28,24 +28,28 @@ export class ApiInterceptor implements HttpInterceptor {
                                 response.body.message ==
                                 'Your session has been expired, please login again!'
                             ) {
-                                this.router.navigate(['/login']);
+                                this.displayErrorMessage(response)
+                                this.router.navigate(['/member/login']);
                                 //this.toastr.error(response.body.message);
                             } else if (
                                 response.body.message ==
                                 "You're not authorised to access."
                             ) {
-                                this.router.navigate(['/login']);
+                                this.displayErrorMessage(response)
+                                this.router.navigate(['/member/login']);
                                 //this.toastr.error(response.body.message);
                             } else if (
                                 response.body.message ==
                                 "You're not authorised to access., try logging in."
                             ) {
-                                this.router.navigate(['/login']);
+                                this.displayErrorMessage(response)
+                                this.router.navigate(['/member/login']);
                                 //this.toastr.error(response.body.message);
                             } else if (
                                 response.body.message == 'INVALID_LOGIN'
                             ) {
-                                this.router.navigate(['/login']);
+                                this.displayErrorMessage(response)
+                                this.router.navigate(['/member/login']);
                                 //this.toastr.error(response.body.message);
                             }
                         } else if (response.body?.error_code == '001') {
@@ -55,7 +59,8 @@ export class ApiInterceptor implements HttpInterceptor {
                             response.body.message ==
                                 "You're not authorised to access, try logging in."
                         ) {
-                            this.router.navigate(['/login']);
+                            this.displayErrorMessage(response)
+                            this.router.navigate(['/member/login']);
                             //this.toastr.error(response.body.message);
                         } else {
                             this.messageService.add({
@@ -77,5 +82,13 @@ export class ApiInterceptor implements HttpInterceptor {
                 }
             )
         );
+    }
+
+    displayErrorMessage(error:any){
+        this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.body.message,
+        });
     }
 }
