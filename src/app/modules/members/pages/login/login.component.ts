@@ -81,8 +81,11 @@ export class LoginComponent implements OnInit, OnDestroy {
             phoneNumber: this.phoneNumber,
         };
         await this.authService.sendLoginOTP(credentials).then((result: any) => {
-            if (result) {
+            if (result.result) {
                 this.showValidateOTP = result;
+                if(this.displayLogins){
+                    this.OTP = result?.data
+                }
             }
             this.loading = false;
         });
@@ -99,7 +102,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         await this.authService.sendLoginOTP(credentials).then((result: any) => {
             console.log(result);
             this.loading = false;
-            this.showValidateOTP = result;
+            if(result.result){
+                this.showValidateOTP = result;
+                if(this.displayLogins){
+                    this.OTP = result?.data
+                }
+            }
         });
     }
 

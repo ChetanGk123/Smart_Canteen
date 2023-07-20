@@ -108,7 +108,7 @@ export class AuthService {
                 detail: `${response.message}`,
             });
         }
-        return response.result;
+        return response;
     }
 
     async validateOTP(payload: any, returnUrl?: any): Promise<any> {
