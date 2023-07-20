@@ -27,7 +27,6 @@ export class MemberGuard implements CanActivate {
         const user = this.authService.getUser();
         const helper = new JwtHelperService();
         const TokenExpired = helper.isTokenExpired(user?.token) ?? false;
-
         if (!TokenExpired && user.user_role == 'COUNTER_MEMBER_ROLE') {
             this.authService.beginSession();
             return true;

@@ -175,88 +175,87 @@ export class MemberProfileComponent implements OnInit {
             start_date: this.start_date,
             end_date: this.end_date,
         };
-        this.membershipHistory = this.apiService
-            .getTypeRequest(`membership_data?what=ALL_MEMBERSHIPS_BY_MEMBER&member_id=${this.memberData.member_id}`)
-            .pipe(
-                map((res: any) => {
-                    // res.data.sort((a,b)=>Number(a.id) - Number(b.id))
-                    this.membershipHistoryTransactions = res.data;
-
-                    // [
-                    //     {
-                    //         "member_id": "1",
-                    //         "card_number": "74475537390120",
-                    //         "counter_id": "1",
-                    //         "full_name": "Sanjeev",
-                    //         "gender": "MALE",
-                    //         "phone_number": "963254101",
-                    //         "parents_ph": "963254101",
-                    //         "dob": "00-00-0000",
-                    //         "email": null,
-                    //         "school_name": "Public School Bangalore",
-                    //         "class_name": "3",
-                    //         "division_name": null,
-                    //         "hostel_details": null,
-                    //         "photo_url": "https://thetechvaidya.com/cooksbook_new/uploads/member_docs/BH47RD79.png",
-                    //         "profile_photo": "member_docs/BH47RD79.png",
-                    //         "member_type_id": "1",
-                    //         "member_type": "Student",
-                    //         "address": "Public School Bangalore",
-                    //         "status": "1",
-                    //         "balance": "100.00",
-                    //         "membership_data": {
-                    //             "membership_id": "8",
-                    //             "member_id": "1",
-                    //             "counter_id": "1",
-                    //             "membership_number": "MT01062023000005",
-                    //             "meal_pack_id": "10",
-                    //             "meal_pack_name": "Full Membership (1-4)",
-                    //             "price_per_pack": "130.00",
-                    //             "total_meal_packs": "30",
-                    //             "total_amount": "3900.00",
-                    //             "max_days": "30",
-                    //             "start_date": "31-05-2023",
-                    //             "raw_start_date": "2023-05-31",
-                    //             "end_date": "04-07-2023",
-                    //             "raw_end_date": "2023-07-04",
-                    //             "is_active": "1",
-                    //             "is_on_leave": "0",
-                    //             "sale_date": "31-05-2023",
-                    //             "membership_particulars": [
-                    //                 {
-                    //                     "membership_particular_id": "18",
-                    //                     "meal_name": "BREAKFAST",
-                    //                     "meal_pack_item_id": "17",
-                    //                     "meal_id": "1",
-                    //                     "price": "60.00",
-                    //                     "total_meals": "30",
-                    //                     "remaining_meals": "30",
-                    //                     "meal_start_time": "08:00:00 AM",
-                    //                     "raw_meal_start_time": "08:00:00",
-                    //                     "meal_end_time": "09:00:00 AM",
-                    //                     "raw_meal_end_time": "09:00:00"
-                    //                 },
-                    //                 {
-                    //                     "membership_particular_id": "19",
-                    //                     "meal_name": "LUNCH",
-                    //                     "meal_pack_item_id": "18",
-                    //                     "meal_id": "2",
-                    //                     "price": "70.00",
-                    //                     "total_meals": "30",
-                    //                     "remaining_meals": "29",
-                    //                     "meal_start_time": "01:00:00 PM",
-                    //                     "raw_meal_start_time": "13:00:00",
-                    //                     "meal_end_time": "02:30:00 PM",
-                    //                     "raw_meal_end_time": "14:30:00"
-                    //                 }
-                    //             ]
-                    //         }
-                    //     }
-                    // ]
-                    this.membershipHistoryLoading = false;
-                    return res.data;
-                })
-            );
+        // this.membershipHistory = this.apiService
+        //     .getTypeRequest(`membership_data?what=ALL_MEMBERSHIPS_BY_MEMBER&member_id=${this.memberData.member_id}`)
+        //     .pipe(
+        //         map((res: any) => {
+        //             // res.data.sort((a,b)=>Number(a.id) - Number(b.id))
+        //             this.membershipHistoryTransactions = res.data;
+        //             // [
+        //             //     {
+        //             //         "member_id": "1",
+        //             //         "card_number": "74475537390120",
+        //             //         "counter_id": "1",
+        //             //         "full_name": "Sanjeev",
+        //             //         "gender": "MALE",
+        //             //         "phone_number": "963254101",
+        //             //         "parents_ph": "963254101",
+        //             //         "dob": "00-00-0000",
+        //             //         "email": null,
+        //             //         "school_name": "Public School Bangalore",
+        //             //         "class_name": "3",
+        //             //         "division_name": null,
+        //             //         "hostel_details": null,
+        //             //         "photo_url": "https://thetechvaidya.com/cooksbook_new/uploads/member_docs/BH47RD79.png",
+        //             //         "profile_photo": "member_docs/BH47RD79.png",
+        //             //         "member_type_id": "1",
+        //             //         "member_type": "Student",
+        //             //         "address": "Public School Bangalore",
+        //             //         "status": "1",
+        //             //         "balance": "100.00",
+        //             //         "membership_data": {
+        //             //             "membership_id": "8",
+        //             //             "member_id": "1",
+        //             //             "counter_id": "1",
+        //             //             "membership_number": "MT01062023000005",
+        //             //             "meal_pack_id": "10",
+        //             //             "meal_pack_name": "Full Membership (1-4)",
+        //             //             "price_per_pack": "130.00",
+        //             //             "total_meal_packs": "30",
+        //             //             "total_amount": "3900.00",
+        //             //             "max_days": "30",
+        //             //             "start_date": "31-05-2023",
+        //             //             "raw_start_date": "2023-05-31",
+        //             //             "end_date": "04-07-2023",
+        //             //             "raw_end_date": "2023-07-04",
+        //             //             "is_active": "1",
+        //             //             "is_on_leave": "0",
+        //             //             "sale_date": "31-05-2023",
+        //             //             "membership_particulars": [
+        //             //                 {
+        //             //                     "membership_particular_id": "18",
+        //             //                     "meal_name": "BREAKFAST",
+        //             //                     "meal_pack_item_id": "17",
+        //             //                     "meal_id": "1",
+        //             //                     "price": "60.00",
+        //             //                     "total_meals": "30",
+        //             //                     "remaining_meals": "30",
+        //             //                     "meal_start_time": "08:00:00 AM",
+        //             //                     "raw_meal_start_time": "08:00:00",
+        //             //                     "meal_end_time": "09:00:00 AM",
+        //             //                     "raw_meal_end_time": "09:00:00"
+        //             //                 },
+        //             //                 {
+        //             //                     "membership_particular_id": "19",
+        //             //                     "meal_name": "LUNCH",
+        //             //                     "meal_pack_item_id": "18",
+        //             //                     "meal_id": "2",
+        //             //                     "price": "70.00",
+        //             //                     "total_meals": "30",
+        //             //                     "remaining_meals": "29",
+        //             //                     "meal_start_time": "01:00:00 PM",
+        //             //                     "raw_meal_start_time": "13:00:00",
+        //             //                     "meal_end_time": "02:30:00 PM",
+        //             //                     "raw_meal_end_time": "14:30:00"
+        //             //                 }
+        //             //             ]
+        //             //         }
+        //             //     }
+        //             // ]
+        //             this.membershipHistoryLoading = false;
+        //             return res.data;
+        //         })
+        //     );
     }
 
     fetchLeaveTransactions() {

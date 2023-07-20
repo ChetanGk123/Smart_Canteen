@@ -54,6 +54,84 @@ export class MemberService {
         }
     }
 
+    setMemberCardData(memberData: any) {
+        try {
+            var enc = CryptoJS.AES.encrypt(
+                JSON.stringify(memberData),
+                this.encPassword
+            ).toString();
+            localStorage.setItem('memberCardData', enc);
+        } catch (error) {
+            // //
+        }
+    }
+
+    deleteMemberCardData() {
+        localStorage.removeItem('memberCardData');
+    }
+
+    getMemberCardData() {
+        try {
+            var memberData: any;
+                memberData = localStorage.getItem('memberCardData')
+                    ? JSON.parse(
+                          CryptoJS.AES.decrypt(
+                              localStorage.getItem('memberCardData'),
+                              this.encPassword.trim()
+                          ).toString(CryptoJS.enc.Utf8)
+                      )
+                    : null;
+
+
+            if (memberData) {
+                return memberData;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            this.authService.logout();
+        }
+    }
+
+    setMemberTransactionData(memberData: any) {
+        try {
+            var enc = CryptoJS.AES.encrypt(
+                JSON.stringify(memberData),
+                this.encPassword
+            ).toString();
+            localStorage.setItem('memberTransactionData', enc);
+        } catch (error) {
+            // //
+        }
+    }
+
+    deleteMemberTransactionData() {
+        localStorage.removeItem('memberTransactionData');
+    }
+
+    getMemberTransactionData() {
+        try {
+            var memberData: any;
+                memberData = localStorage.getItem('memberTransactionData')
+                    ? JSON.parse(
+                          CryptoJS.AES.decrypt(
+                              localStorage.getItem('memberTransactionData'),
+                              this.encPassword.trim()
+                          ).toString(CryptoJS.enc.Utf8)
+                      )
+                    : null;
+
+
+            if (memberData) {
+                return memberData;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            this.authService.logout();
+        }
+    }
+
     getUserData() {
         var memberData: any;
 

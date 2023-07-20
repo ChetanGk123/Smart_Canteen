@@ -32,7 +32,7 @@ export class AuthService {
         private route: ActivatedRoute,
         public router: Router,
         public configService: ConfigService,
-        public ApiService: ApiService
+        public ApiService: ApiService,
     ) {}
 
     async login(loginData: Login, returnUrl?: any): Promise<boolean> {
@@ -122,6 +122,40 @@ export class AuthService {
                 response = result;
                 console.log(response);
                 if (response.result) {
+                    var member_profile_data = {
+                        "member_data": {
+                            "member_id": "1",
+                            "card_number": "74475537390005",
+                            "counter_id": "1",
+                            "full_name": "Sanjeev",
+                            "gender": "MALE",
+                            "phone_number": "8796541230",
+                            "parents_ph": "8796541230",
+                            "dob": "00-00-0000",
+                            "email": null,
+                            "school_name": "Public School Bangalore",
+                            "class_name": "3",
+                            "division_name": null,
+                            "hostel_details": null,
+                            "photo_url": "https://thetechvaidya.com/cooksbook_new/uploads/member_docs/BH47RD79.png",
+                            "profile_photo": "member_docs/BH47RD79.png",
+                            "member_type_id": "1",
+                            "member_type": "Student",
+                            "address": "Public School Bangalore",
+                            "status": "1",
+                            "balance": "390.00"
+                        },
+                        "card_update_details": {
+                            "id": "1",
+                            "member_id": "1",
+                            "full_name": "Sanjeev",
+                            "old_card_number": "74475537390123",
+                            "new_card_number": "98765432100",
+                            "reason": "Card Lost",
+                            "updated_date": "13-02-2023"
+                        },
+                        "transaction_data": []
+                    }
                     var userData = {
                         token: response.data.token,
                         counter_id: response.data.counter_id,

@@ -1,7 +1,13 @@
 <div class="card">
     <div class="grid justify-content-between p-3">
         <div class="font-medium text-3xl text-900">Member Profile</div>
-
+        <button
+            pButton
+            pRipple
+            label="Pre Book"
+            icon="pi pi-fw pi-user-plus"
+            class="inline-block p-button"
+        ></button>
     </div>
     <div class="grid flex">
         <div
@@ -48,7 +54,6 @@
                     ></button>
                 </div>
             </ng-template>
-            
         </div>
         <div class="col-12 lg:col-8 md:col-7 sm:col-12 xs:col-12">
             <div class="surface-section">
@@ -581,9 +586,7 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>
-                            Slno
-                        </th>
+                        <th>Slno</th>
                         <th>Name</th>
                         <th>Max Days</th>
                         <th>Start Date</th>

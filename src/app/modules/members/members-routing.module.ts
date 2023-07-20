@@ -15,7 +15,12 @@ const routes: Routes = [
         component: AppMainComponent,
         children:[
             {
-                path:'',
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'profile',
+            },
+            {
+                path:'profile',
                 canActivate:[MemberGuard],
                 component:MemberProfileComponent
             }
